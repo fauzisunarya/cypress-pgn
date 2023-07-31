@@ -1,0 +1,17 @@
+uuid: 40caf6d6-c2bd-423e-8e37-22cc4c71eb95
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_net_and_sol_audit
+  module:
+    - user
+id: group_content_type_0c91fa23304d6
+label: 'VP. Net and Sol Audit: Group membership'
+description: 'Adds users to groups as members.'
+group_type: vp_net_and_sol_audit
+content_plugin: group_membership
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

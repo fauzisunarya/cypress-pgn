@@ -1,0 +1,29 @@
+uuid: ff622e90-f517-4970-aca1-2a864b005e7e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.template_whatsapp.field_tem_wa_body
+    - field.field.node.template_whatsapp.field_workflow_status
+    - node.type.template_whatsapp
+  module:
+    - user
+id: node.template_whatsapp.default
+targetEntityType: node
+bundle: template_whatsapp
+mode: default
+content:
+  field_tem_wa_body:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_workflow_status: true

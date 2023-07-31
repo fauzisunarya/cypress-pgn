@@ -1,0 +1,26 @@
+.icl-section--feature-12 .feature-grid .icl-feature {
+  width: 50%;
+  text-align: left;
+  padding: 15px;
+}
+@media screen and (max-width: 768px) {
+  .icl-section--feature-12 .feature-grid .icl-feature {
+    width: 100%;
+  }
+}
+.icl-section--feature-12 .feature-grid .icl-feature__icon {
+  margin-left: 0;
+}
+.icl-feature--style-1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.icl-feature--style-1 .icl-feature__title {
+  font-size: 20px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  color: inherit;
+}
+.icl-feature--style-1 .icl-feature__title strong {
+  color: inherit;
+}

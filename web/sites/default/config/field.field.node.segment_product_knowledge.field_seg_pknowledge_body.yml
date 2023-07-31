@@ -1,0 +1,23 @@
+uuid: 8344c65f-1066-468a-bc8b-6f274642e01d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_seg_pknowledge_body
+    - node.type.segment_product_knowledge
+  module:
+    - text
+id: node.segment_product_knowledge.field_seg_pknowledge_body
+field_name: field_seg_pknowledge_body
+entity_type: node
+bundle: segment_product_knowledge
+label: Body
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+  required_summary: false
+field_type: text_with_summary

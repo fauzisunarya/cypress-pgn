@@ -1,0 +1,346 @@
+{#
+/**
+ * @file
+ * Theme override to display a node.
+ *
+ * Available variables:
+ * - node: The node entity with limited access to object properties and methods.
+ *   Only method names starting with "get", "has", or "is" and a few common
+ *   methods such as "id", "label", and "bundle" are available. For example:
+ *   - node.getCreatedTime() will return the node creation timestamp.
+ *   - node.hasField('field_example') returns TRUE if the node bundle includes
+ *     field_example. (This does not indicate the presence of a value in this
+ *     field.)
+ *   - node.isPublished() will return whether the node is published or not.
+ *   Calling other methods, such as node.delete(), will result in an exception.
+ *   See \Drupal\node\Entity\Node for a full list of public properties and
+ *   methods for the node object.
+ * - label: (optional) The title of the node.
+ * - content: All node items. Use {{ content }} to print them all,
+ *   or print a subset such as {{ content.field_example }}. Use
+ *   {{ content|without('field_example') }} to temporarily suppress the printing
+ *   of a given child element.
+ * - author_picture: The node author user entity, rendered using the "compact"
+ *   view mode.
+ * - metadata: Metadata for this node.
+ * - date: (optional) Themed creation date field.
+ * - author_name: (optional) Themed author name field.
+ * - url: Direct URL of the current node.
+ * - display_submitted: Whether submission information should be displayed.
+ * - attributes: HTML attributes for the containing element.
+ *   The attributes.class element may contain one or more of the following
+ *   classes:
+ *   - node: The current template type (also known as a "theming hook").
+ *   - node--type-[type]: The current node type. For example, if the node is an
+ *     "Article" it would result in "node--type-article". Note that the machine
+ *     name will often be in a short form of the human readable label.
+ *   - node--view-mode-[view_mode]: The View Mode of the node; for example, a
+ *     teaser would result in: "node--view-mode-teaser", and
+ *     full: "node--view-mode-full".
+ *   The following are controlled through the node publishing options.
+ *   - node--promoted: Appears on nodes promoted to the front page.
+ *   - node--sticky: Appears on nodes ordered above other non-sticky nodes in
+ *     teaser listings.
+ *   - node--unpublished: Appears on unpublished nodes visible only to site
+ *     admins.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ * - content_attributes: Same as attributes, except applied to the main
+ *   content tag that appears in the template.
+ * - author_attributes: Same as attributes, except applied to the author of
+ *   the node tag that appears in the template.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ * - view_mode: View mode; for example, "teaser" or "full".
+ * - teaser: Flag for the teaser state. Will be true if view_mode is 'teaser'.
+ * - page: Flag for the full page state. Will be true if view_mode is 'full'.
+ * - readmore: Flag for more state. Will be true if the teaser content of the
+ *   node cannot hold the main body content.
+ * - logged_in: Flag for authenticated user status. Will be true when the
+ *   current user is a logged-in member.
+ * - is_admin: Flag for admin user status. Will be true when the current user
+ *   is an administrator.
+ *
+ * @see template_preprocess_node()
+ *
+ */
+#}
+
+{%
+  set is_approved = true
+%}
+
+{% if is_approved %}
+
+  <h6 class="bundling-title">{{data.title}}</h6>
+
+  {# Input type hidden. will be used when doing ajax #}
+  <input type='hidden' id='input_hidden_id' value="{{data.id}}" />
+  <input type='hidden' id='input_hidden_base_url' value="{{data.base_url}}" />
+  <input type='hidden' id='input_hidden_request_uri' value="{{data.request_uri}}" />
+
+  <!-- Tabs -->
+  <ul class="nav nav-pills custom nav-tabs-dropdown" id="nav-tabs-dropdown" role="tablist">
+      {# <li class="nav-item">
+          <button class="nav-link active" id='content-tab' data-bs-toggle="tab" data-bs-target=".konten" type="button">Konten</button>
+      </li>
+      <li class="nav-item">
+          <button class="nav-link" id='image-tab' data-bs-toggle="tab" data-bs-target=".image" type="button">Image</button>
+      </li>
+      <li class="nav-item">
+          <button class="nav-link" id='video-tab' data-bs-toggle="tab" data-bs-target=".video" type="button">Video</button>
+      </li> #}
+      <li class="nav-item">
+          <button class="nav-link active" id='knowledge-tab' data-bs-toggle="tab" data-bs-target=".product_knowledge" type="button">Product Knowledges</button>
+      </li>
+  </ul>
+  <div class="tab-content" id="pills-tabContent-table">
+      <!-- Table Konten -->
+      <div class="tab-pane fade konten">
+          <div class="card">
+              <div class="">
+                  <div class="p-3">
+                      <div class="row justify-content-between align-items-center border-bottom pb-3">
+                          <div class="col-lg-6">
+                              <a class="btn btn-primary" href="{{data.base_url}}/node/add/paket_content?segment_id={{data.id}}&destination={{request_uri ~ '?showed_element=content-tab'}}">
+                                  Add Konten
+                              </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              {# display the paket content block, display as table  #}
+              <div class="card-body">
+                  {{ drupal_block('views_block:block_paket_content-block_1') }}
+              </div>
+          </div>
+      </div>
+      <!-- Table Image -->
+      <div class="tab-pane fade image">
+          <div class="card">
+              <div class="row">
+                  <div class="col-md-8 py-3 section-media">
+                      <div class="row justify-content-between align-items-center border-bottom pb-3">
+                          <div class="col-lg-4 ps-3">
+                              <a class="btn btn-primary" href="{{data.base_url}}/node/add/paket_media?segment_id={{data.id}}&destination={{request_uri ~ '?showed_element=image-tab'}}">
+                                  Add Media
+                              </a>
+                          </div>
+                          <div class="col-lg-4 d-flex align-items-center mt-2 mt-lg-0 pr-0">
+                              <label class="col-form-label">Search</label>
+                              <div class="w-100 ms-3 position-relative">
+                                  <input type="text" class="form-control border" style="padding-right:30px" id='image-tab-search' />
+                                  <svg class="search-loading" xmlns="http://www.w3.org/2000/svg" id="image-tab-search-icon" xmlns:xlink="http://www.w3.org/1999/xlink" style="display:none; margin: auto; background: rgb(255, 255, 255); shape-rendering: auto;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                                      <g>
+                                      <path d="M50 15A35 35 0 1 0 74.74873734152916 25.251262658470843" fill="none" stroke="#6091f0" stroke-width="12"></path>
+                                      <path d="M49 3L49 27L61 15L49 3" fill="#6091f0"></path>
+                                      <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+                                      </g>
+                                      <!-- [ldio] generated by https://loading.io/ -->
+                                  </svg>
+                              </div>
+                          </div>
+                          <div class="col-lg-4 d-flex align-items-center mt-2 mt-lg-0 pr-0">
+                              <label class="col-form-label">Kategori</label>
+                              <div class="w-100 ms-3">
+                                  <select class="form-control border" id='image-tab-filter-category'>
+                                      <option value="">Semua Kategori</option>
+                                  </select>
+                                  <span class="dropdown-select-icon"></span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row pt-3" id="image-tab-container">
+                          {# <div class="col-lg-4 col-md-6 card-landing-page">
+                              <div class="card border">
+                                  <img src="https://source.unsplash.com/random" class="card-img-top img-landing-page" alt="...">
+                                  <div class="card-body">
+                                      <p class="card-text">Praesent iaculis eros sitera amet urna varius, et interad dum massa consequat. </p>
+                                  </div>
+                              </div>
+                          </div> #}
+                      </div>
+                  </div>
+                  <div class="col-md-4 card-landing-page-right px-3">
+                      <form class="row" id='image-tab-form'>
+                          <div class="form-group col-md-12">
+                              <label>Judul</label>
+                              <input type="text" id='image-tab-judul' class="form-control border">
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label>Dialihkan ke</label>
+                              <input type="text" id='image-tab-redirect' class="form-control border">
+                          </div>
+                          <div class="form-group col-md-12" id='image-tab-kategori'>
+                              <label>Kategori</label>
+                              {# <div class="form-check">
+                                  <input type="checkbox" class="form-check-input" id="webpage">
+                                  <label class="form-check-label" for="webpage">Web Page</label>
+                              </div>
+                              <div class="form-check">
+                                  <input type="checkbox" class="form-check-input" id="webpage-mobile">
+                                  <label class="form-check-label" for="webpage-mobile">Web Page - Mobile</label>
+                              </div>
+                              <div class="form-check">
+                                  <input type="checkbox" class="form-check-input" id="printing">
+                                  <label class="form-check-label" for="printing">Printing</label>
+                              </div> #}
+                          </div>
+                          <div class="form-group col-md-12">
+                              <div id="image-tab-link-container">
+                                  {# added with js #}
+                              </div>
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label>Deskripsi</label>
+                              <textarea id='image-tab-deskripsi' cols="30" rows="4" class="form-control border"></textarea>
+                          </div>
+                          <div class="form-group d-flex justify-content-between">
+                              <input type='hidden' id='image-tab-media-id' value='' />
+                              <span id='image-tab-edit'></span>
+                              <button id='image-tab-simpan' type='button' class="btn btn-primary">Simpan</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- Table Video -->
+      <div class="tab-pane fade video">
+          <div class="card">
+              <div class="row">
+                  <div class="col-md-8 py-3 section-media">
+                      <div class="row justify-content-between align-items-center border-bottom pb-3">
+                          <div class="col-lg-4 ps-3">
+                              <a class="btn btn-primary" href="{{data.base_url}}/node/add/paket_video?segment_id={{data.id}}&destination={{request_uri ~ '?showed_element=video-tab'}}">
+                                  Add Video
+                              </a>
+                          </div>
+                          <div class="col-lg-4 d-flex align-items-center mt-2 mt-lg-0 pr-0">
+                              <label class="col-form-label">Search</label>
+                              <div class="w-100 ms-3 position-relative">
+                                  <input type="text" class="form-control border" style="padding-right:30px" id='video-tab-search' />
+                                  <svg class="search-loading" xmlns="http://www.w3.org/2000/svg" id="video-tab-search-icon" xmlns:xlink="http://www.w3.org/1999/xlink" style="display:none; margin: auto; background: rgb(255, 255, 255); shape-rendering: auto;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                                      <g>
+                                      <path d="M50 15A35 35 0 1 0 74.74873734152916 25.251262658470843" fill="none" stroke="#6091f0" stroke-width="12"></path>
+                                      <path d="M49 3L49 27L61 15L49 3" fill="#6091f0"></path>
+                                      <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+                                      </g>
+                                      <!-- [ldio] generated by https://loading.io/ -->
+                                  </svg>
+                              </div>
+                          </div>
+                          <div class="col-lg-4 d-flex align-items-center mt-2 mt-lg-0 pr-0">
+                              <label class="col-form-label">Kategori</label>
+                              <div class="w-100 ms-3">
+                                  <select class="form-control border" id='video-tab-filter-category'>
+                                      <option value="">Semua Kategori</option>
+                                  </select>
+                                  <span class="dropdown-select-icon"></span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row pt-3" id="video-tab-container">
+                          {# <div class="col-lg-4 col-md-6 card-landing-page">
+                              <div class="card border">
+                                  <img src="https://source.unsplash.com/random" class="card-img-top img-landing-page" alt="...">
+                                  <div class="card-body">
+                                      <p class="card-text">Praesent iaculis eros sitera amet urna varius, et interad dum massa consequat. </p>
+                                  </div>
+                              </div>
+                          </div> #}
+                      </div>
+                  </div>
+                  <div class="col-md-4 card-landing-page-right px-3">
+                      <form class="row" id='video-tab-form'>
+                          <div class="form-group col-md-12">
+                              <label>Judul</label>
+                              <input type="text" id='video-tab-judul' class="form-control border">
+                          </div>
+                          <div class="form-group col-md-12" id='video-tab-kategori'>
+                              <label>Kategori</label>
+                              {# <div class="form-check">
+                                  <input type="checkbox" class="form-check-input" id="webpage">
+                                  <label class="form-check-label" for="webpage">Web Page</label>
+                              </div>
+                              <div class="form-check">
+                                  <input type="checkbox" class="form-check-input" id="webpage-mobile">
+                                  <label class="form-check-label" for="webpage-mobile">Web Page - Mobile</label>
+                              </div>
+                              <div class="form-check">
+                                  <input type="checkbox" class="form-check-input" id="printing">
+                                  <label class="form-check-label" for="printing">Printing</label>
+                              </div> #}
+                          </div>
+                          <div class="form-group col-md-12">
+                              <div id="video-tab-link-container">
+                                  {# added with js #}
+                              </div>
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label>Deskripsi</label>
+                              <textarea id='video-tab-deskripsi' cols="30" rows="4" class="form-control border"></textarea>
+                          </div>
+                          <div class="form-group d-flex justify-content-between">
+                              <input type='hidden' id='video-tab-video-id' value='' />
+                              <span id='video-tab-edit'></span>
+                              <button id='video-tab-simpan' type='button' class="btn btn-primary">Simpan</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- Table Product Knowledge -->
+      <div class="tab-pane fade product_knowledge show active">
+          <div class="card">
+              <div class="">
+                  <div class="p-3">
+                      <div class="row justify-content-between align-items-center border-bottom pb-3">
+                          <div class="col-lg-6">
+                              <a class="btn btn-primary" href="{{data.base_url}}/segment/{{data.id}}/product-knowledges/add?destination={{data.request_uri ~ '?showed_element=knowledge-tab'}}">
+                                  Add Knowledges
+                              </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              {# display the paket content block, display as table  #}
+              <div class="card-body">
+                  {{ drupal_block('views_block:block_segment_product_knowledge-block_1') }}
+              </div>
+          </div>
+          <div class="card">
+              <div class="">
+                  <div class="p-3">
+                      <div class="row justify-content-between align-items-center py-3">
+                          <div class="col-lg-6">
+                              <a class="btn btn-primary" href="{{data.base_url}}/node/add/segment_knowledge_group?segment_id={{data.id}}&destination={{data.request_uri ~ '?showed_element=knowledge-tab'}}">
+                                  Add Group
+                              </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              {# display the paket content block, display as table  #}
+              <div class="card-body">
+                  {{ drupal_block('views_block:block_segment_knowledge_group-block_1') }}
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Modal (content added with js) -->
+  <div class="modal fade" id="detailMediaPreview" style="display:none;"></div>
+
+{% else %}
+  <div>
+      <div class="w3-row messages messages--status">
+          <h2 class="visually-hidden">Status message</h2>
+          This Segment is Waiting for Approval
+      </div>
+  </div>
+{% endif %}

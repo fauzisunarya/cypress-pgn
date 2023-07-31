@@ -1,0 +1,22 @@
+uuid: 47269c41-5380-4c94-9f10-3f959b25ac7a
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.template_email
+id: node.template_email.status
+field_name: status
+entity_type: node
+bundle: template_email
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

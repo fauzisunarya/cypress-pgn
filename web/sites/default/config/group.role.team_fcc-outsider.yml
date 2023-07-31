@@ -1,0 +1,14 @@
+uuid: 869adfc0-3606-4062-b1a5-433a247c7d6c
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.team_fcc
+id: team_fcc-outsider
+label: Outsider
+weight: -101
+internal: true
+audience: outsider
+group_type: team_fcc
+permissions_ui: true
+permissions: {  }

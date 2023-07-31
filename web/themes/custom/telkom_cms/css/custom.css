@@ -1,0 +1,61 @@
+.catalog-list{
+    position: absolute;
+    background: #fff;
+    width: 45%;
+}
+.catalog-item{
+	border: 1px solid #ccc;
+	padding: 5px;
+	cursor: pointer;
+}
+.catalog-item:hover{
+	padding-left: 10px;
+	transition-timing-function: ease-out;
+	transition: 0.5s;
+}
+.otp-header{
+	color: red;
+    font-size: 20px
+}
+.otp-subheader{
+	font-size: 15px;
+    font-weight: 400;
+}
+.otp-inputs > .form-control:focus{
+	box-shadow: none !important;
+    border: 3px solid red !important;
+}
+.otp-inputs input {
+    width: 40px;
+    height: 40px
+}
+.btn-validate{
+	border-radius: 20px !important;
+    height: 40px;
+    background-color: red !important;
+    border: 1px solid red !important;
+    width: 140px
+}
+.btn-resend{
+	border-radius: 20px !important;
+    height: 40px;
+    background-color: red !important;
+    border: 1px solid red !important;
+    width: 140px
+}
+
+.btn-citem-price {
+  display: inline-block;
+  margin-left: 17px;
+  font-size: 17px;
+}
+
+form#user-pass-reset .placeholder {
+  cursor: auto;
+  background-color: transparent;
+  font-weight: bold;
+}
+
+.login-cta #edit-submit {
+  background-color: red;
+}

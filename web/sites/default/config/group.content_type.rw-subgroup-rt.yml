@@ -1,0 +1,18 @@
+uuid: 4af3d2b4-81cf-4208-9564-698c3968b632
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.rt
+    - group.type.rw
+  module:
+    - subgroup
+id: rw-subgroup-rt
+label: 'RW: Subgroup (RT)'
+description: 'Adds <em class="placeholder">RT</em> groups as subgroups.'
+group_type: rw
+content_plugin: 'subgroup:rt'
+plugin_config:
+  group_cardinality: 1
+  entity_cardinality: 1
+  use_creation_wizard: false

@@ -1,0 +1,14 @@
+uuid: c51d0565-977a-41b4-a515-c9e717541836
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.team_fcc
+id: team_fcc-anonymous
+label: Anonymous
+weight: -102
+internal: true
+audience: anonymous
+group_type: team_fcc
+permissions_ui: true
+permissions: {  }

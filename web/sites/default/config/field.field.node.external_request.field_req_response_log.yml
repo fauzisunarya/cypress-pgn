@@ -1,0 +1,19 @@
+uuid: 4e6a1856-0ac1-40f6-a105-b3b91e68a02f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_req_response_log
+    - node.type.external_request
+id: node.external_request.field_req_response_log
+field_name: field_req_response_log
+entity_type: node
+bundle: external_request
+label: 'Response Log'
+description: 'JSON log response'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

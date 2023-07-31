@@ -1,0 +1,28 @@
+uuid: f3ab6ba8-6272-4363-8f48-a1edd27c4812
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.product_catalogue_template_email.field_pct_tem_email_body
+    - field.field.node.product_catalogue_template_email.field_pct_tem_email_file
+    - field.field.node.product_catalogue_template_email.field_pct_tem_email_parent
+    - field.field.node.product_catalogue_template_email.field_workflow_status
+    - node.type.product_catalogue_template_email
+  module:
+    - user
+id: node.product_catalogue_template_email.teaser
+targetEntityType: node
+bundle: product_catalogue_template_email
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_pct_tem_email_body: true
+  field_pct_tem_email_file: true
+  field_pct_tem_email_parent: true
+  field_workflow_status: true

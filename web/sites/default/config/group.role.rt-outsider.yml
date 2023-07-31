@@ -1,0 +1,14 @@
+uuid: b75e4a74-9bb7-4d88-85f4-81ca7181faf6
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.rt
+id: rt-outsider
+label: Outsider
+weight: -101
+internal: true
+audience: outsider
+group_type: rt
+permissions_ui: true
+permissions: {  }

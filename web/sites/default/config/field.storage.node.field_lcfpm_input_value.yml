@@ -1,0 +1,19 @@
+uuid: 7669fca4-db46-489d-aac0-25d2ae4a39e9
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_lcfpm_input_value
+field_name: field_lcfpm_input_value
+entity_type: node
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,17 @@
+uuid: e525db88-e77e-4e30-b30e-0e3e3a448405
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.divisi_marketing
+  enforced:
+    config:
+      - user.role.content_editor
+id: divisi_marketing-111523d41
+label: 'Content editor'
+weight: 2
+internal: true
+audience: outsider
+group_type: divisi_marketing
+permissions_ui: false
+permissions: {  }

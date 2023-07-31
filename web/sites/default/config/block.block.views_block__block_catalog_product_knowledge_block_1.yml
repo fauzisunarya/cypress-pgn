@@ -1,0 +1,35 @@
+uuid: 6f7872cc-d2cc-4698-9e55-5eda540106fd
+langcode: en
+status: false
+dependencies:
+  config:
+    - views.view.block_catalog_product_knowledge
+  module:
+    - user
+    - views
+  theme:
+    - telkom_cms
+id: views_block__block_catalog_product_knowledge_block_1
+theme: telkom_cms
+region: sidebar_logo
+weight: 0
+provider: null
+plugin: 'views_block:block_catalog_product_knowledge-block_1'
+settings:
+  id: 'views_block:block_catalog_product_knowledge-block_1'
+  label: ''
+  label_display: visible
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      administrator: administrator
+      admin_content: admin_content
+      approval: approval

@@ -1,0 +1,29 @@
+uuid: 0b0e5058-836e-434c-ab77-027f7bdec81c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_tipe_paket
+    - node.type.citem
+    - taxonomy.vocabulary.tipe_paket
+id: node.citem.field_pkt_tipe_paket
+field_name: field_pkt_tipe_paket
+entity_type: node
+bundle: citem
+label: 'Tipe Paket'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tipe_paket: tipe_paket
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

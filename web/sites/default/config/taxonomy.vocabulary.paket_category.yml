@@ -1,0 +1,8 @@
+uuid: dbe2ea13-6abb-4104-8cef-d6db7d8cd6b8
+langcode: en
+status: true
+dependencies: {  }
+name: 'Paket Category'
+vid: paket_category
+description: ''
+weight: -8

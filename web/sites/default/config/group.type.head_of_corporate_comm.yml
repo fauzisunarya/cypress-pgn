@@ -1,0 +1,19 @@
+uuid: 3d6ef842-753f-49ef-ac42-a512ddcdc928
+langcode: en
+status: true
+dependencies:
+  module:
+    - subgroup
+third_party_settings:
+  subgroup:
+    depth: 1
+    left: 2
+    right: 9
+    tree: direktur_utama
+id: head_of_corporate_comm
+label: 'Head of Corporate Communication'
+description: 'Efektivitas penyelenggaraan aktivitas Shareholder Relation, Board & Shared/Securities Management, Corporate Communication & Image Management,dan Community Relation Management.'
+new_revision: true
+creator_membership: true
+creator_wizard: true
+creator_roles: {  }

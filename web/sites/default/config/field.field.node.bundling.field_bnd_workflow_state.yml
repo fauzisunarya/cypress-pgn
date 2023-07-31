@@ -1,0 +1,22 @@
+uuid: 030f9521-3568-4933-8650-4c0734af33fe
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_bnd_workflow_state
+    - node.type.bundling
+  module:
+    - workflow
+id: node.bundling.field_bnd_workflow_state
+field_name: field_bnd_workflow_state
+entity_type: node
+bundle: bundling
+label: 'Workflow State'
+description: ''
+required: true
+translatable: false
+default_value:
+  - {  }
+default_value_callback: ''
+settings: {  }
+field_type: workflow

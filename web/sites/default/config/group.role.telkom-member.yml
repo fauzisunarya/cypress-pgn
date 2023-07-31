@@ -1,0 +1,15 @@
+uuid: 0b2daf16-d21c-49de-b546-77aa12ec0e42
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.telkom
+id: telkom-member
+label: Member
+weight: -100
+internal: true
+audience: member
+group_type: telkom
+permissions_ui: true
+permissions:
+  - 'leave group'

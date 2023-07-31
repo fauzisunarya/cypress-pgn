@@ -1,0 +1,21 @@
+uuid: 0ef8e92c-49d0-4146-8b47-df4594c132be
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_media_description
+    - node.type.paket_media
+  module:
+    - text
+id: node.paket_media.field_media_description
+field_name: field_media_description
+entity_type: node
+bundle: paket_media
+label: Description
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

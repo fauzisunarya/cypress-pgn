@@ -1,0 +1,23 @@
+uuid: 2340f288-ffa2-4d76-ba50-907ef20b2e1c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_is_customized
+    - node.type.paket
+id: node.paket.field_pkt_is_customized
+field_name: field_pkt_is_customized
+entity_type: node
+bundle: paket
+label: 'Is Customized'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

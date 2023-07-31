@@ -1,0 +1,17 @@
+uuid: 6d33f77b-1cfe-487c-bf6f-ec9828017b60
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Landing Custom Form Post Meta'
+type: landing_custom_form_post_meta
+description: 'Post data (key & value) from landing page'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: false

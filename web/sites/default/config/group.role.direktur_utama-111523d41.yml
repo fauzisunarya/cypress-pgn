@@ -1,0 +1,17 @@
+uuid: 8e426fce-10cf-4f9c-bc58-d308c4674a8b
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.direktur_utama
+  enforced:
+    config:
+      - user.role.content_editor
+id: direktur_utama-111523d41
+label: 'Content editor'
+weight: 2
+internal: true
+audience: outsider
+group_type: direktur_utama
+permissions_ui: false
+permissions: {  }

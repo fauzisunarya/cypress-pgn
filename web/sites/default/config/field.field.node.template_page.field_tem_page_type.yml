@@ -1,0 +1,25 @@
+uuid: fade15a2-bd43-47cf-af05-119b9fb71baa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tem_page_type
+    - node.type.template_page
+id: node.template_page.field_tem_page_type
+field_name: field_tem_page_type
+entity_type: node
+bundle: template_page
+label: 'Page Type'
+description: '0 = Normal Page || 1 = home page || 2 = landing page || 3 = post index || 4 = post single || 5 = catalog index || 6 = catalog single'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  min: 0
+  max: 6
+  prefix: ''
+  suffix: ''
+field_type: integer

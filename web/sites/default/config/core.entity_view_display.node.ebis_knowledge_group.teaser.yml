@@ -1,0 +1,28 @@
+uuid: d7db14d4-6d0b-4294-8a23-9ac0d5104f67
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.ebis_knowledge_group.field_pkt_knowledge_non_priority
+    - field.field.node.ebis_knowledge_group.field_pkt_knowledge_order
+    - field.field.node.ebis_knowledge_group.field_pkt_knowledge_paket_ref
+    - field.field.node.ebis_knowledge_group.field_pkt_knowledge_priority
+    - node.type.ebis_knowledge_group
+  module:
+    - user
+id: node.ebis_knowledge_group.teaser
+targetEntityType: node
+bundle: ebis_knowledge_group
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_pkt_knowledge_non_priority: true
+  field_pkt_knowledge_order: true
+  field_pkt_knowledge_paket_ref: true
+  field_pkt_knowledge_priority: true

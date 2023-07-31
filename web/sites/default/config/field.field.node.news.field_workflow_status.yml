@@ -1,0 +1,21 @@
+uuid: 19912100-084e-4c6f-9eea-2bc0352f7d3e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_workflow_status
+    - node.type.news
+  module:
+    - workflow
+id: node.news.field_workflow_status
+field_name: field_workflow_status
+entity_type: node
+bundle: news
+label: 'Workflow Status'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: workflow

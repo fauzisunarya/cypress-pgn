@@ -1,0 +1,38 @@
+uuid: 4e922708-bcb7-4bf8-b8dc-df83f097b1cd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.group_content.rt-group_membership.group_roles
+    - group.content_type.rt-group_membership
+  module:
+    - path
+id: group_content.rt-group_membership.default
+targetEntityType: group_content
+bundle: rt-group_membership
+mode: default
+content:
+  entity_id:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  group_roles:
+    type: options_buttons
+    weight: 31
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  uid: true

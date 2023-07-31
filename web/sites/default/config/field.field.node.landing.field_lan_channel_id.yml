@@ -1,0 +1,19 @@
+uuid: 9b13cf7d-52a6-4450-b118-1dcf2fd6d9f4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lan_channel_id
+    - node.type.landing
+id: node.landing.field_lan_channel_id
+field_name: field_lan_channel_id
+entity_type: node
+bundle: landing
+label: 'channel id'
+description: 'channel id to identify owner of this landing'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

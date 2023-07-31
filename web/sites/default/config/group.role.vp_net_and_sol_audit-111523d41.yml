@@ -1,0 +1,17 @@
+uuid: 29aad7e7-dfe0-4c11-a051-390ca152b794
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_net_and_sol_audit
+  enforced:
+    config:
+      - user.role.content_editor
+id: vp_net_and_sol_audit-111523d41
+label: 'Content editor'
+weight: 2
+internal: true
+audience: outsider
+group_type: vp_net_and_sol_audit
+permissions_ui: false
+permissions: {  }

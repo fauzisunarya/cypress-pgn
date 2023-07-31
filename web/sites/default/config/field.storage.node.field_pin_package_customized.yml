@@ -1,0 +1,21 @@
+uuid: 6690675a-86bb-48a4-9ce6-389b8ad557e9
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_pin_package_customized
+field_name: field_pin_package_customized
+entity_type: node
+type: string
+settings:
+  max_length: 30
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

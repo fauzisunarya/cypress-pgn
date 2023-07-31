@@ -1,0 +1,18 @@
+uuid: 71b65fdd-5ad4-4859-9c23-a44aae049c31
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.paket_video
+id: node.paket_video.title
+field_name: title
+entity_type: node
+bundle: paket_video
+label: 'Paket Video'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

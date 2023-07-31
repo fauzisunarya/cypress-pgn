@@ -1,0 +1,25 @@
+uuid: a430c91b-52a7-4e2a-870b-628a67450303
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_req_assigned_user
+    - node.type.external_request
+id: node.external_request.field_req_assigned_user
+field_name: field_req_assigned_user
+entity_type: node
+bundle: external_request
+label: 'Assigned User'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: reference_user_po
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

@@ -1,0 +1,29 @@
+uuid: 6cb63a5a-9c70-4b60-b864-5edbe5fe236a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pct_type
+    - node.type.product_catalog
+    - taxonomy.vocabulary.product_catalog_type
+id: node.product_catalog.field_pct_type
+field_name: field_pct_type
+entity_type: node
+bundle: product_catalog
+label: 'Catalog Type'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      product_catalog_type: product_catalog_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

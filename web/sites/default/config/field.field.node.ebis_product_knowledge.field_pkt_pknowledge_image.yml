@@ -1,0 +1,38 @@
+uuid: 6eaccda1-11e6-41a1-96f6-01025ad006bb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_pknowledge_image
+    - node.type.ebis_product_knowledge
+  module:
+    - image
+id: node.ebis_product_knowledge.field_pkt_pknowledge_image
+field_name: field_pkt_pknowledge_image
+entity_type: node
+bundle: ebis_product_knowledge
+label: Image
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: true
+  alt_field_required: false
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+field_type: image

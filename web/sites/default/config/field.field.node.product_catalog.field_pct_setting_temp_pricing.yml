@@ -1,0 +1,19 @@
+uuid: c339d1ae-58f7-4b45-904d-94e3bf79f495
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pct_setting_temp_pricing
+    - node.type.product_catalog
+id: node.product_catalog.field_pct_setting_temp_pricing
+field_name: field_pct_setting_temp_pricing
+entity_type: node
+bundle: product_catalog
+label: 'Setting Template Pricing'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

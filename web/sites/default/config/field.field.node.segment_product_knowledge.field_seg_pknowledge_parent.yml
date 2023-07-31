@@ -1,0 +1,29 @@
+uuid: 307ae113-2346-4324-bb9b-b5469ed8fcb2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_seg_pknowledge_parent
+    - node.type.segment
+    - node.type.segment_product_knowledge
+id: node.segment_product_knowledge.field_seg_pknowledge_parent
+field_name: field_seg_pknowledge_parent
+entity_type: node
+bundle: segment_product_knowledge
+label: Parent
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node_by_field'
+  handler_settings:
+    target_bundles:
+      segment: segment
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,19 @@
+uuid: 05424823-d8cf-4100-86d0-e8b16e5ff740
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_master_data_edited
+    - node.type.wibs
+id: node.wibs.field_pkt_master_data_edited
+field_name: field_pkt_master_data_edited
+entity_type: node
+bundle: wibs
+label: 'Master Data Edited'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

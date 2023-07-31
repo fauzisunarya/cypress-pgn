@@ -1,0 +1,22 @@
+uuid: e926e7bd-31fa-4bf8-8b3b-f2dc6e052f20
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.template_facebook
+id: node.template_facebook.promote
+field_name: promote
+entity_type: node
+bundle: template_facebook
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

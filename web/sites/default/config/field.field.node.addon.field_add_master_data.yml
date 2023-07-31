@@ -1,0 +1,19 @@
+uuid: 8eccb5c5-659b-4ee5-b52d-1bfec4c08ffe
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_add_master_data
+    - node.type.addon
+id: node.addon.field_add_master_data
+field_name: field_add_master_data
+entity_type: node
+bundle: addon
+label: 'Master Data'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

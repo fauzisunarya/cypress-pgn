@@ -1,0 +1,19 @@
+uuid: b7094a80-c36b-43b0-b251-49c990bb40c6
+langcode: en
+status: true
+dependencies:
+  module:
+    - subgroup
+third_party_settings:
+  subgroup:
+    depth: 1
+    left: 10
+    right: 15
+    tree: direktur_utama
+id: head_of_internal_audit
+label: 'Head of Internal Audit'
+description: 'Audit internal telkom'
+new_revision: true
+creator_membership: true
+creator_wizard: true
+creator_roles: {  }

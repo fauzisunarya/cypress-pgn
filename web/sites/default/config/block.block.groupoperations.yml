@@ -1,0 +1,27 @@
+uuid: 02648e90-fe52-4062-bfd2-f96999aafa13
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - system
+  theme:
+    - telkom_cms
+id: groupoperations
+theme: telkom_cms
+region: content
+weight: -11
+provider: null
+plugin: group_operations
+settings:
+  id: group_operations
+  label: 'List Member'
+  label_display: '0'
+  provider: group
+  context_mapping:
+    group: '@group.group_route_context:group'
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '/group/*'

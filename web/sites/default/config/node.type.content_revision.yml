@@ -1,0 +1,17 @@
+uuid: 320aa576-277c-4dca-b6d1-08fa1c283721
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Content Revision'
+type: content_revision
+description: ''
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: false

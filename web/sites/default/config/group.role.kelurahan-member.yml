@@ -1,0 +1,14 @@
+uuid: de025927-e1ba-4b0d-9cff-00704719e65f
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.kelurahan
+id: kelurahan-member
+label: Member
+weight: -100
+internal: true
+audience: member
+group_type: kelurahan
+permissions_ui: true
+permissions: {  }

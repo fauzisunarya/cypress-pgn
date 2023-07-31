@@ -1,0 +1,22 @@
+uuid: cbadc1bd-0deb-493c-8753-17ba3e23cdef
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflow.state.workflow_status_pending
+    - workflow.state.workflow_status_reject
+id: workflow_status_pending_reject
+label: null
+module: workflow
+from_sid: workflow_status_pending
+to_sid: workflow_status_reject
+roles:
+  administrator: administrator
+  approval: approval
+  workflow_author: '0'
+  anonymous: '0'
+  authenticated: '0'
+  content_editor: '0'
+  admin_content: '0'
+  admin: '0'
+  end_user_visitor: '0'

@@ -1,0 +1,28 @@
+uuid: f675ff91-7c30-4e44-9341-ad7b16597fd7
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.paket_template_email.field_pkt_tem_email_body
+    - field.field.node.paket_template_email.field_pkt_tem_email_file
+    - field.field.node.paket_template_email.field_pkt_tem_email_parent
+    - field.field.node.paket_template_email.field_workflow_status
+    - node.type.paket_template_email
+  module:
+    - user
+id: node.paket_template_email.teaser
+targetEntityType: node
+bundle: paket_template_email
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_pkt_tem_email_body: true
+  field_pkt_tem_email_file: true
+  field_pkt_tem_email_parent: true
+  field_workflow_status: true

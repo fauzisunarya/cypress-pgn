@@ -1,0 +1,19 @@
+uuid: 8b9a8160-9d0d-4f95-a3aa-1ebf8e1ae1a8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_temp_cat_html
+    - node.type.template_pricing_catalog
+id: node.template_pricing_catalog.field_temp_cat_html
+field_name: field_temp_cat_html
+entity_type: node
+bundle: template_pricing_catalog
+label: 'Template HTML'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

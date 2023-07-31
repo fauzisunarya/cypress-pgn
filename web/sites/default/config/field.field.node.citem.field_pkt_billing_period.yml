@@ -1,0 +1,19 @@
+uuid: da71e207-6512-4259-86c5-fbd2f0d90a9c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_billing_period
+    - node.type.citem
+id: node.citem.field_pkt_billing_period
+field_name: field_pkt_billing_period
+entity_type: node
+bundle: citem
+label: 'Billing Period'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

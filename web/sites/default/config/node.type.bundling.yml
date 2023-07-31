@@ -1,0 +1,17 @@
+uuid: a93a91b8-a9b6-418d-815e-84f5b8fe04dd
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Bundling
+type: bundling
+description: 'Combine item-item from PPT Internet/IPTV/Telp or others with additional information like price'
+help: ''
+new_revision: false
+preview_mode: 0
+display_submitted: false

@@ -1,0 +1,98 @@
+uuid: b8150f9e-6d8a-47e0-a025-51ec904096f1
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.citem.field_ctm_end_date
+    - field.field.node.citem.field_ctm_product_code
+    - field.field.node.citem.field_ctm_product_id
+    - field.field.node.citem.field_ctm_product_name
+    - field.field.node.citem.field_ctm_product_rel
+    - field.field.node.citem.field_ctm_product_rel_id
+    - field.field.node.citem.field_ctm_product_type
+    - field.field.node.citem.field_ctm_start_date
+    - field.field.node.citem.field_ctm_status
+    - field.field.node.citem.field_pkt_billing_period
+    - field.field.node.citem.field_pkt_category
+    - field.field.node.citem.field_pkt_created_dtm
+    - field.field.node.citem.field_pkt_description
+    - field.field.node.citem.field_pkt_detail_inet
+    - field.field.node.citem.field_pkt_detail_voice
+    - field.field.node.citem.field_pkt_flag
+    - field.field.node.citem.field_pkt_flag_json
+    - field.field.node.citem.field_pkt_indihome_indicator
+    - field.field.node.citem.field_pkt_is_customized
+    - field.field.node.citem.field_pkt_kuota
+    - field.field.node.citem.field_pkt_master_data
+    - field.field.node.citem.field_pkt_master_data_edited
+    - field.field.node.citem.field_pkt_md5_xml_paket
+    - field.field.node.citem.field_pkt_package_detail
+    - field.field.node.citem.field_pkt_package_id
+    - field.field.node.citem.field_pkt_price_internet
+    - field.field.node.citem.field_pkt_price_total
+    - field.field.node.citem.field_pkt_price_voice
+    - field.field.node.citem.field_pkt_promo_text
+    - field.field.node.citem.field_pkt_service
+    - field.field.node.citem.field_pkt_setting_temp_pricing
+    - field.field.node.citem.field_pkt_speed
+    - field.field.node.citem.field_pkt_sub_title
+    - field.field.node.citem.field_pkt_tags
+    - field.field.node.citem.field_pkt_tipe_paket
+    - field.field.node.citem.field_pkt_trans_type
+    - field.field.node.citem.field_pkt_updated_dtm
+    - field.field.node.citem.field_pkt_xml_paket
+    - field.field.node.citem.field_workflow_status
+    - node.type.citem
+  module:
+    - user
+id: node.citem.teaser
+targetEntityType: node
+bundle: citem
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_ctm_end_date: true
+  field_ctm_product_code: true
+  field_ctm_product_id: true
+  field_ctm_product_name: true
+  field_ctm_product_rel: true
+  field_ctm_product_rel_id: true
+  field_ctm_product_type: true
+  field_ctm_start_date: true
+  field_ctm_status: true
+  field_pkt_billing_period: true
+  field_pkt_category: true
+  field_pkt_created_dtm: true
+  field_pkt_description: true
+  field_pkt_detail_inet: true
+  field_pkt_detail_voice: true
+  field_pkt_flag: true
+  field_pkt_flag_json: true
+  field_pkt_indihome_indicator: true
+  field_pkt_is_customized: true
+  field_pkt_kuota: true
+  field_pkt_master_data: true
+  field_pkt_master_data_edited: true
+  field_pkt_md5_xml_paket: true
+  field_pkt_package_detail: true
+  field_pkt_package_id: true
+  field_pkt_price_internet: true
+  field_pkt_price_total: true
+  field_pkt_price_voice: true
+  field_pkt_promo_text: true
+  field_pkt_service: true
+  field_pkt_setting_temp_pricing: true
+  field_pkt_speed: true
+  field_pkt_sub_title: true
+  field_pkt_tags: true
+  field_pkt_tipe_paket: true
+  field_pkt_trans_type: true
+  field_pkt_updated_dtm: true
+  field_pkt_xml_paket: true
+  field_workflow_status: true

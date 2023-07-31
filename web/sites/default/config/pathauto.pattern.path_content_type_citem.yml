@@ -1,0 +1,22 @@
+uuid: 2dd2a515-651e-4843-acd0-56729389e123
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: path_content_type_citem
+label: 'Path Content Type Citem'
+type: 'canonical_entities:node'
+pattern: 'citem/[node:title]'
+selection_criteria:
+  2889d48b-6f8d-4c8c-9ea7-70bc7744cccf:
+    id: node_type
+    negate: false
+    uuid: 2889d48b-6f8d-4c8c-9ea7-70bc7744cccf
+    context_mapping:
+      node: node
+    bundles:
+      citem: citem
+selection_logic: and
+weight: -5
+relationships: {  }

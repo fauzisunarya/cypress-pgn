@@ -1,0 +1,19 @@
+uuid: 460e6296-a3d8-4dac-90da-bb0e81606e1f
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_lcfp_form_id
+field_name: field_lcfp_form_id
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,23 @@
+uuid: 2452e365-fbda-4269-9c8d-b4b8f7e62f96
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_left
+    - group.type.telkom
+id: group.telkom.subgroup_left
+field_name: subgroup_left
+entity_type: group
+bundle: telkom
+label: Left
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

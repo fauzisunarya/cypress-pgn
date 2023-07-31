@@ -1,0 +1,24 @@
+uuid: 9eb53f51-05c4-406d-9785-c1fe57562cdf
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.content_revision.field_cr_approved_content_id
+    - field.field.node.content_revision.field_cr_revision_content_id
+    - node.type.content_revision
+  module:
+    - user
+id: node.content_revision.teaser
+targetEntityType: node
+bundle: content_revision
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_cr_approved_content_id: true
+  field_cr_revision_content_id: true

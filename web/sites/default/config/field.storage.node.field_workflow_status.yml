@@ -1,0 +1,22 @@
+uuid: 0d3ea675-09e7-46b4-b3f6-92b874ee41c2
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - workflow
+id: node.field_workflow_status
+field_name: field_workflow_status
+entity_type: node
+type: workflow
+settings:
+  workflow_type: workflow_status
+  allowed_values: {  }
+  allowed_values_function: ''
+module: workflow
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

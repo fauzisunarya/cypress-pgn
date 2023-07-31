@@ -1,0 +1,17 @@
+uuid: 52442cc0-cb63-45d5-b696-147433183e01
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_net_and_sol_audit
+  enforced:
+    config:
+      - user.role.administrator
+id: vp_net_and_sol_audit-a416e6833
+label: 'Super Admin'
+weight: 3
+internal: true
+audience: outsider
+group_type: vp_net_and_sol_audit
+permissions_ui: false
+permissions: {  }

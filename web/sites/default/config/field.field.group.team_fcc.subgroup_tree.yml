@@ -1,0 +1,23 @@
+uuid: ec810684-1b10-4264-9fe1-b416ca66a35d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_tree
+    - group.type.team_fcc
+id: group.team_fcc.subgroup_tree
+field_name: subgroup_tree
+entity_type: group
+bundle: team_fcc
+label: Tree
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

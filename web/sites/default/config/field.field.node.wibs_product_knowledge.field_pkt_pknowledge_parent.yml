@@ -1,0 +1,29 @@
+uuid: 8362effc-87a3-46b3-91c9-25f505c9d646
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_pknowledge_parent
+    - node.type.wibs
+    - node.type.wibs_product_knowledge
+id: node.wibs_product_knowledge.field_pkt_pknowledge_parent
+field_name: field_pkt_pknowledge_parent
+entity_type: node
+bundle: wibs_product_knowledge
+label: Parent
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node_by_field'
+  handler_settings:
+    target_bundles:
+      wibs: wibs
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

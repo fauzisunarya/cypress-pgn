@@ -1,0 +1,20 @@
+uuid: 7ee2e568-cca1-49cf-9cfb-6ccc1042789f
+langcode: en
+status: true
+dependencies:
+  module:
+    - basic_auth
+    - media_upload
+    - serialization
+    - user
+id: custom_rest_project_image_asset
+plugin_id: custom_rest_project_image_asset
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - basic_auth
+    - cookie

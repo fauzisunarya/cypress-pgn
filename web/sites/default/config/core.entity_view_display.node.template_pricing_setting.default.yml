@@ -1,0 +1,32 @@
+uuid: 3e3a915d-a8d3-467d-9d00-4e0f545a52ee
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.template_pricing_setting.field_temp_set_logo
+    - node.type.template_pricing_setting
+  module:
+    - image
+    - user
+id: node.template_pricing_setting.default
+targetEntityType: node
+bundle: template_pricing_setting
+mode: default
+content:
+  field_temp_set_logo:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

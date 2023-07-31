@@ -1,0 +1,33 @@
+.icl-testimonial.icl-testimonial--style-3 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.icl-testimonial.icl-testimonial--style-3 .icl-testimonial__card {
+  background-color: white;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  padding: 30px 20px;
+  color: #333;
+}
+.icl-testimonial.icl-testimonial--style-3 .icl-testimonial__avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 15px;
+}
+.icl-testimonial.icl-testimonial--style-3 .icl-testimonial__author {
+  font-weight: 700;
+  margin-bottom: 15px;
+  display: block;
+}
+.icl-testimonial.icl-testimonial--style-3 .icl-testimonial__content {
+  font-weight: 400;
+  font-size: 1em;
+  margin-bottom: 30px;
+}
+
+.icl-section--testimonial-3 .tns-outer .tns-nav button {
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+}

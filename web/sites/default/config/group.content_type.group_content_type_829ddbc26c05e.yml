@@ -1,0 +1,18 @@
+uuid: 63df5247-4ae4-4b54-a462-05ca2bb56cc4
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.head_of_corporate_comm
+    - group.type.vp_regulatory_mgt
+  module:
+    - subgroup
+id: group_content_type_829ddbc26c05e
+label: 'Head of Corporate Communication: Subgroup (VP. Regulatory Mgt)'
+description: 'Adds <em class="placeholder">VP. Regulatory Mgt</em> groups as subgroups.'
+group_type: head_of_corporate_comm
+content_plugin: 'subgroup:vp_regulatory_mgt'
+plugin_config:
+  group_cardinality: 1
+  entity_cardinality: 1
+  use_creation_wizard: false

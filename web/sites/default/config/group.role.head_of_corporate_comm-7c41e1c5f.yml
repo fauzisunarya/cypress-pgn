@@ -1,0 +1,17 @@
+uuid: 032f572d-15d6-4d61-aa09-1443c9b3c49d
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.head_of_corporate_comm
+  enforced:
+    config:
+      - user.role.landing_owner
+id: head_of_corporate_comm-7c41e1c5f
+label: 'Landing Owner'
+weight: 8
+internal: true
+audience: outsider
+group_type: head_of_corporate_comm
+permissions_ui: false
+permissions: {  }

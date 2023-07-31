@@ -1,0 +1,22 @@
+uuid: ac485a4f-0f61-4149-9db6-5a3b8278f93f
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.paket_template_email
+id: node.paket_template_email.status
+field_name: status
+entity_type: node
+bundle: paket_template_email
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

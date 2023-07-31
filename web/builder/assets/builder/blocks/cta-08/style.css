@@ -1,0 +1,33 @@
+.icl-section--cta-8 .content-spacer .column {
+  padding: 0 30px;
+}
+.icl-section--cta-8 {
+  overflow: hidden;
+}
+.icl-section--cta-8 .column-content {
+  position: relative;
+}
+.icl-section--cta-8 .column-content:before,
+.icl-section--cta-8 .column-content:after {
+  content: " ";
+  width: 1px;
+  background-color: black;
+  height: 100%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  position: absolute;
+  opacity: 0.3;
+}
+.icl-section--cta-8 .column-content:before {
+  bottom: 100%;
+  margin-bottom: 60px;
+}
+.icl-section--cta-8 .column-content:after {
+  top: 100%;
+  margin-top: 60px;
+}
+.icl-section--cta-8.content-light .column-content:before,
+.icl-section--cta-8.content-light .column-content:after {
+  background-color: white;
+}

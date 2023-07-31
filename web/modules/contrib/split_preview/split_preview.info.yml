@@ -1,0 +1,11 @@
+name: 'Split Preview'
+type: module
+description: 'Provides Content Split Priview Feature on add/edit content page on IFrame, Also provide device specific preview feature like mobile, Tablet and Desktop view Priview.'
+core: 8.x
+package: 'SplitPreview'
+core_version_requirement: ^8 || ^9
+
+# Information added by Drupal.org packaging script on 2020-09-19
+version: '1.0.0'
+project: 'split_preview'
+datestamp: 1600502798

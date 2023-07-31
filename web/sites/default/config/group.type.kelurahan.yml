@@ -1,0 +1,19 @@
+uuid: 6b3c9168-ab92-48a7-9a69-8b6d314187b1
+langcode: en
+status: true
+dependencies:
+  module:
+    - subgroup
+third_party_settings:
+  subgroup:
+    depth: 0
+    left: 1
+    right: 6
+    tree: kelurahan
+id: kelurahan
+label: Kelurahan
+description: ''
+new_revision: true
+creator_membership: true
+creator_wizard: true
+creator_roles: {  }

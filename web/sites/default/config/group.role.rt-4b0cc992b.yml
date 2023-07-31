@@ -1,0 +1,17 @@
+uuid: 75b3c8bc-ea1e-4455-bfbb-2e953baada0e
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.rt
+  enforced:
+    config:
+      - user.role.end_user_visitor
+id: rt-4b0cc992b
+label: 'End User/Visitor'
+weight: 7
+internal: true
+audience: outsider
+group_type: rt
+permissions_ui: false
+permissions: {  }

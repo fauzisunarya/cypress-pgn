@@ -1,0 +1,19 @@
+uuid: 94255145-1919-4535-a807-63a57a26896e
+langcode: en
+status: true
+dependencies:
+  module:
+    - subgroup
+third_party_settings:
+  subgroup:
+    depth: 2
+    left: 13
+    right: 14
+    tree: direktur_utama
+id: vp_net_and_sol_audit
+label: 'VP. Net and Sol Audit'
+description: 'Team internal audit'
+new_revision: true
+creator_membership: true
+creator_wizard: true
+creator_roles: {  }

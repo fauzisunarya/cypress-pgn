@@ -1,0 +1,17 @@
+uuid: fefe5e1c-c156-4702-ab7e-29ebcd41a105
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.head_of_internal_audit
+  enforced:
+    config:
+      - user.role.content_editor
+id: head_of_internal_audit-111523d41
+label: 'Content editor'
+weight: 2
+internal: true
+audience: outsider
+group_type: head_of_internal_audit
+permissions_ui: false
+permissions: {  }

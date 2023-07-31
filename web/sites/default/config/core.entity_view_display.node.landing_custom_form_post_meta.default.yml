@@ -1,0 +1,45 @@
+uuid: c9179001-8eb5-4b68-b706-60e404684639
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.landing_custom_form_post_meta.field_lcfpm_form_post_id
+    - field.field.node.landing_custom_form_post_meta.field_lcfpm_input_name
+    - field.field.node.landing_custom_form_post_meta.field_lcfpm_input_value
+    - node.type.landing_custom_form_post_meta
+  module:
+    - user
+id: node.landing_custom_form_post_meta.default
+targetEntityType: node
+bundle: landing_custom_form_post_meta
+mode: default
+content:
+  field_lcfpm_form_post_id:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_lcfpm_input_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_lcfpm_input_value:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

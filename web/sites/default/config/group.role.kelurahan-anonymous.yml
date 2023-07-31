@@ -1,0 +1,14 @@
+uuid: b19f66c1-d012-46ec-8129-cb660c34f096
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.kelurahan
+id: kelurahan-anonymous
+label: Anonymous
+weight: -102
+internal: true
+audience: anonymous
+group_type: kelurahan
+permissions_ui: true
+permissions: {  }

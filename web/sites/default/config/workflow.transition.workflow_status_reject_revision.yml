@@ -1,0 +1,22 @@
+uuid: 32fd25bd-1dfc-4d0e-854c-c36cc36c1597
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflow.state.workflow_status_reject
+    - workflow.state.workflow_status_revision
+id: workflow_status_reject_revision
+label: null
+module: workflow
+from_sid: workflow_status_reject
+to_sid: workflow_status_revision
+roles:
+  administrator: administrator
+  admin_content: admin_content
+  approval: approval
+  workflow_author: '0'
+  anonymous: '0'
+  authenticated: '0'
+  content_editor: '0'
+  admin: '0'
+  end_user_visitor: '0'

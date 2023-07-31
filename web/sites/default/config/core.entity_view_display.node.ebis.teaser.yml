@@ -1,0 +1,42 @@
+uuid: 4159b6fb-a011-4580-80e9-1f0a730113e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.ebis.field_non_ret_prod_code
+    - field.field.node.ebis.field_non_ret_prod_desc
+    - field.field.node.ebis.field_non_ret_prod_id
+    - field.field.node.ebis.field_non_ret_prod_name
+    - field.field.node.ebis.field_non_ret_prod_type
+    - field.field.node.ebis.field_pkt_category
+    - field.field.node.ebis.field_pkt_is_customized
+    - field.field.node.ebis.field_pkt_master_data
+    - field.field.node.ebis.field_pkt_master_data_edited
+    - field.field.node.ebis.field_pkt_tags
+    - field.field.node.ebis.field_workflow_status
+    - node.type.ebis
+  module:
+    - user
+id: node.ebis.teaser
+targetEntityType: node
+bundle: ebis
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_non_ret_prod_code: true
+  field_non_ret_prod_desc: true
+  field_non_ret_prod_id: true
+  field_non_ret_prod_name: true
+  field_non_ret_prod_type: true
+  field_pkt_category: true
+  field_pkt_is_customized: true
+  field_pkt_master_data: true
+  field_pkt_master_data_edited: true
+  field_pkt_tags: true
+  field_workflow_status: true

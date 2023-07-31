@@ -1,0 +1,22 @@
+uuid: aa67f74b-3154-4261-b4b4-51b83b46f1ea
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: path_content_type_wibs
+label: 'Path Content Type WIBS'
+type: 'canonical_entities:node'
+pattern: 'wibs/[node:title]'
+selection_criteria:
+  ea4fa299-819d-4ff8-a0bb-03e9263e43d2:
+    id: node_type
+    negate: false
+    uuid: ea4fa299-819d-4ff8-a0bb-03e9263e43d2
+    context_mapping:
+      node: node
+    bundles:
+      wibs: wibs
+selection_logic: and
+weight: -5
+relationships: {  }

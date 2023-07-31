@@ -1,0 +1,17 @@
+uuid: ad1025ea-3e95-4383-afe6-a1db236441c2
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.rw
+  enforced:
+    config:
+      - user.role.approval
+id: rw-d6b2e7af3
+label: Approval
+weight: 6
+internal: true
+audience: outsider
+group_type: rw
+permissions_ui: false
+permissions: {  }

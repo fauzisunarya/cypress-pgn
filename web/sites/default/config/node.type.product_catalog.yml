@@ -1,0 +1,17 @@
+uuid: 6d1beef3-a038-43b6-8605-582effd93782
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Product Catalog'
+type: product_catalog
+description: ''
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: false

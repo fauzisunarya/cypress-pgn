@@ -1,0 +1,19 @@
+uuid: 46a1b0c0-ee19-4b84-a87c-a1c38c776981
+langcode: en
+status: true
+dependencies:
+  module:
+    - subgroup
+third_party_settings:
+  subgroup:
+    depth: 1
+    left: 2
+    right: 3
+    tree: team_manage
+id: team_fcc
+label: 'Team FCC'
+description: 'Team FCC 2022'
+new_revision: true
+creator_membership: true
+creator_wizard: true
+creator_roles: {  }

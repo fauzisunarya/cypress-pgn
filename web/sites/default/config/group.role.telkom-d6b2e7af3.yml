@@ -1,0 +1,17 @@
+uuid: d95ea37b-309c-4a33-8750-1093a419de82
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.telkom
+  enforced:
+    config:
+      - user.role.approval
+id: telkom-d6b2e7af3
+label: Approval
+weight: 6
+internal: true
+audience: outsider
+group_type: telkom
+permissions_ui: false
+permissions: {  }

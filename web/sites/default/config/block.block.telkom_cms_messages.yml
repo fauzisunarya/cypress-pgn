@@ -1,0 +1,22 @@
+uuid: f227b90c-58ca-497d-8b57-44edf3cb433f
+langcode: en
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - telkom_cms
+_core:
+  default_config_hash: KC12e0aosUnBBs5bd374JVcQjJaFNOSIHzu0dUGf22o
+id: telkom_cms_messages
+theme: telkom_cms
+region: sidebar_menu
+weight: 0
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: '0'
+  provider: system
+visibility: {  }

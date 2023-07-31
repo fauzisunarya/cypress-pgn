@@ -1,0 +1,23 @@
+uuid: 91799a3c-7992-4526-8984-4ca3f4bd5c00
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_depth
+    - group.type.direktur_utama
+id: group.direktur_utama.subgroup_depth
+field_name: subgroup_depth
+entity_type: group
+bundle: direktur_utama
+label: Depth
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

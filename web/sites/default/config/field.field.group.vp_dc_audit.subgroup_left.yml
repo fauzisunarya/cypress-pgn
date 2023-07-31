@@ -1,0 +1,23 @@
+uuid: 1382c8c6-009a-437a-a72f-8cec08a48bed
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_left
+    - group.type.vp_dc_audit
+id: group.vp_dc_audit.subgroup_left
+field_name: subgroup_left
+entity_type: group
+bundle: vp_dc_audit
+label: Left
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

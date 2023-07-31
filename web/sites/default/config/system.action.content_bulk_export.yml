@@ -1,0 +1,13 @@
+uuid: ebca4544-dfe9-4d9a-ab61-8356a7edfbac
+langcode: en
+status: true
+dependencies:
+  module:
+    - single_content_sync
+_core:
+  default_config_hash: XNBdyWXkMnHystHsCrasKlWezjzj8byxnSiol0mwN6c
+id: content_bulk_export
+label: 'Export content'
+type: node
+plugin: content_bulk_export
+configuration: {  }

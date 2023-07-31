@@ -1,0 +1,26 @@
+services:
+  restapi_telkom.app_helper:
+    class: Drupal\restapi_telkom\Helper\Project_helper
+  restapi_telkom.html_helper:
+    class: Drupal\restapi_telkom\Helper\Html_helper
+  restapi_telkom.form_template_helper:
+    class: Drupal\restapi_telkom\Helper\FormTemplate_helper
+  restapi_telkom.minio_helper:
+    class: Drupal\restapi_telkom\Helper\Minio_helper
+  restapi_telkom.product_helper:
+    class: Drupal\restapi_telkom\Helper\Product_helper
+  restapi_telkom.landing_helper:
+    class: Drupal\restapi_telkom\Helper\Landing_Helper
+  restapi_telkom.request_middleware:
+    class: Drupal\restapi_telkom\Middleware\RequestMiddleware
+    tags:
+      - { name: http_middleware, priority: 100 }
+  restapi_telkom.custom_middleware:
+    class: Drupal\restapi_telkom\Middleware\AuthMiddleware
+    tags:
+      - { name: http_middleware, priority: 150 }
+  restapi_telkom.cors_middleware:
+     class: Drupal\restapi_telkom\Middleware\CorsMiddleware
+     arguments: ['%cors.config%']
+     tags:
+       - { name: http_middleware, priority: 500 }

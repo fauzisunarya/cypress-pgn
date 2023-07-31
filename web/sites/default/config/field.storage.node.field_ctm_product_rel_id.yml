@@ -1,0 +1,21 @@
+uuid: 9ad4be72-4e0c-4d32-91a7-e8e9fdf10898
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_ctm_product_rel_id
+field_name: field_ctm_product_rel_id
+entity_type: node
+type: string
+settings:
+  max_length: 50
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

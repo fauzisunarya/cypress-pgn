@@ -1,0 +1,19 @@
+uuid: b1a6f38c-49b9-4991-b74b-800004ed11f8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_non_ret_prod_id
+    - node.type.wibs
+id: node.wibs.field_non_ret_prod_id
+field_name: field_non_ret_prod_id
+entity_type: node
+bundle: wibs
+label: 'Product Id'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

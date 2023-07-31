@@ -1,0 +1,36 @@
+uuid: 48c1fefd-bd29-4294-9eb1-1c909ef5d632
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_notif_user
+    - node.type.notification
+id: node.notification.field_notif_user
+field_name: field_notif_user
+entity_type: node
+bundle: notification
+label: User
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: role
+      role:
+        administrator: administrator
+        admin_content: admin_content
+        approval: approval
+        content_editor: '0'
+        admin: '0'
+        end_user_visitor: '0'
+    include_anonymous: false
+field_type: entity_reference

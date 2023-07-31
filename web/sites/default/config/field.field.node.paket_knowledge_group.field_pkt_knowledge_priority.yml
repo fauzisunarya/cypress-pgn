@@ -1,0 +1,25 @@
+uuid: f7c22231-d7ae-42f0-846e-1246c8a83cbc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_knowledge_priority
+    - node.type.paket_knowledge_group
+id: node.paket_knowledge_group.field_pkt_knowledge_priority
+field_name: field_pkt_knowledge_priority
+entity_type: node
+bundle: paket_knowledge_group
+label: 'Knowledge Priority'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: ref_paket_product_knowledge
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

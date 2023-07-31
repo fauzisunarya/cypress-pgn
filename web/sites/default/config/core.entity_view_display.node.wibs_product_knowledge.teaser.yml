@@ -1,0 +1,30 @@
+uuid: 7dcc2b63-6e01-43c8-b47c-31a0633cf60c
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.wibs_product_knowledge.field_pkt_pknowledge_body
+    - field.field.node.wibs_product_knowledge.field_pkt_pknowledge_file
+    - field.field.node.wibs_product_knowledge.field_pkt_pknowledge_image
+    - field.field.node.wibs_product_knowledge.field_pkt_pknowledge_parent
+    - field.field.node.wibs_product_knowledge.field_workflow_status
+    - node.type.wibs_product_knowledge
+  module:
+    - user
+id: node.wibs_product_knowledge.teaser
+targetEntityType: node
+bundle: wibs_product_knowledge
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_pkt_pknowledge_body: true
+  field_pkt_pknowledge_file: true
+  field_pkt_pknowledge_image: true
+  field_pkt_pknowledge_parent: true
+  field_workflow_status: true

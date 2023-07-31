@@ -1,0 +1,51 @@
+uuid: b3bb31bd-d904-49c7-b7f5-116daa79b651
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.product_catalog_template_fb.field_pct_tem_fb_body
+    - field.field.node.product_catalog_template_fb.field_pct_tem_fb_media
+    - field.field.node.product_catalog_template_fb.field_pct_tem_fb_parent
+    - field.field.node.product_catalog_template_fb.field_workflow_status
+    - node.type.product_catalog_template_fb
+  module:
+    - image
+    - user
+id: node.product_catalog_template_fb.default
+targetEntityType: node
+bundle: product_catalog_template_fb
+mode: default
+content:
+  field_pct_tem_fb_body:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_pct_tem_fb_media:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_pct_tem_fb_parent:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_workflow_status: true

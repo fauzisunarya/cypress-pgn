@@ -1,0 +1,19 @@
+uuid: 85b69e36-02e7-4f0d-9b26-257f3d04267a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tem_twitter_body
+    - node.type.template_twitter
+id: node.template_twitter.field_tem_twitter_body
+field_name: field_tem_twitter_body
+entity_type: node
+bundle: template_twitter
+label: Body
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

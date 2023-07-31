@@ -1,0 +1,62 @@
+uuid: 8377a7b5-545d-43d6-a5a0-ea0707790ffc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.paket_product_knowledge.field_pkt_pknowledge_body
+    - field.field.node.paket_product_knowledge.field_pkt_pknowledge_file
+    - field.field.node.paket_product_knowledge.field_pkt_pknowledge_image
+    - field.field.node.paket_product_knowledge.field_pkt_pknowledge_parent
+    - field.field.node.paket_product_knowledge.field_workflow_status
+    - node.type.paket_product_knowledge
+  module:
+    - file
+    - image
+    - text
+    - user
+id: node.paket_product_knowledge.default
+targetEntityType: node
+bundle: paket_product_knowledge
+mode: default
+content:
+  field_pkt_pknowledge_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_pkt_pknowledge_file:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_pkt_pknowledge_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_pkt_pknowledge_parent:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_workflow_status: true

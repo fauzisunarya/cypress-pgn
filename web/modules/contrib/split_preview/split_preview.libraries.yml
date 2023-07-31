@@ -1,0 +1,10 @@
+split_preview-library:
+  js:
+    js/live_preview.js: {}
+  css:
+    theme:
+      css/live_preview.css: {}
+  dependencies:
+    - core/drupal.ajax
+    - core/drupal
+    - core/jquery

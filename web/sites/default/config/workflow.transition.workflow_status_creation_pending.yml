@@ -1,0 +1,22 @@
+uuid: 1babcb64-5304-45a0-b20d-2330b5a9526d
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflow.state.workflow_status_creation
+    - workflow.state.workflow_status_pending
+id: workflow_status_creation_pending
+label: null
+module: workflow
+from_sid: workflow_status_creation
+to_sid: workflow_status_pending
+roles:
+  workflow_author: workflow_author
+  administrator: administrator
+  admin_content: admin_content
+  approval: approval
+  anonymous: '0'
+  authenticated: '0'
+  content_editor: '0'
+  admin: '0'
+  end_user_visitor: '0'

@@ -1,0 +1,25 @@
+uuid: 328478f6-dea0-4180-a4e2-7a62baf13b4b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_knowledge_priority
+    - node.type.citem_knowledge_group
+id: node.citem_knowledge_group.field_pkt_knowledge_priority
+field_name: field_pkt_knowledge_priority
+entity_type: node
+bundle: citem_knowledge_group
+label: 'Knowledge Priority'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: ref_citem_product_knowledge
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

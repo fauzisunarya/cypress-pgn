@@ -1,0 +1,23 @@
+uuid: 7357c661-c8e8-4a4a-a07c-29be401c4a39
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_depth
+    - group.type.vp_investor_relation_c
+id: group.vp_investor_relation_c.subgroup_depth
+field_name: subgroup_depth
+entity_type: group
+bundle: vp_investor_relation_c
+label: Depth
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

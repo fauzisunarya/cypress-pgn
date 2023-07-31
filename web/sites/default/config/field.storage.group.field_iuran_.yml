@@ -1,0 +1,20 @@
+uuid: 27994632-6924-41c9-982b-d0b3e2a960f9
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+id: group.field_iuran_
+field_name: field_iuran_
+entity_type: group
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

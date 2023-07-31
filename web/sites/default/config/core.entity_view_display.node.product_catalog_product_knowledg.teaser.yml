@@ -1,0 +1,30 @@
+uuid: 38cea98a-04fa-4c03-a790-c8bb90902a35
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.product_catalog_product_knowledg.field_pct_pknowledge_body
+    - field.field.node.product_catalog_product_knowledg.field_pct_pknowledge_file
+    - field.field.node.product_catalog_product_knowledg.field_pct_pknowledge_image
+    - field.field.node.product_catalog_product_knowledg.field_pct_pknowledge_parent
+    - field.field.node.product_catalog_product_knowledg.field_workflow_status
+    - node.type.product_catalog_product_knowledg
+  module:
+    - user
+id: node.product_catalog_product_knowledg.teaser
+targetEntityType: node
+bundle: product_catalog_product_knowledg
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_pct_pknowledge_body: true
+  field_pct_pknowledge_file: true
+  field_pct_pknowledge_image: true
+  field_pct_pknowledge_parent: true
+  field_workflow_status: true

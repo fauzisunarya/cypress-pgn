@@ -1,0 +1,17 @@
+uuid: 55a066fa-a65e-454c-bce9-7fac35690d60
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.divisi_marketing
+  enforced:
+    config:
+      - user.role.end_user_visitor
+id: divisi_marketing-4b0cc992b
+label: 'End User/Visitor'
+weight: 7
+internal: true
+audience: outsider
+group_type: divisi_marketing
+permissions_ui: false
+permissions: {  }

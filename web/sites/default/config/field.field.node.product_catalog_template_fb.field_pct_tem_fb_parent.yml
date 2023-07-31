@@ -1,0 +1,29 @@
+uuid: 1e82e87d-19e2-4207-98cd-d363e5e9419a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pct_tem_fb_parent
+    - node.type.product_catalog
+    - node.type.product_catalog_template_fb
+id: node.product_catalog_template_fb.field_pct_tem_fb_parent
+field_name: field_pct_tem_fb_parent
+entity_type: node
+bundle: product_catalog_template_fb
+label: 'Product Catalog'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node_by_field'
+  handler_settings:
+    target_bundles:
+      product_catalog: product_catalog
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

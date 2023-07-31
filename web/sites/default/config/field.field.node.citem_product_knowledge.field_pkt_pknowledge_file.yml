@@ -1,0 +1,27 @@
+uuid: 2ade1b84-dbcb-4703-a0fb-5152cc65cdac
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_pknowledge_file
+    - node.type.citem_product_knowledge
+  module:
+    - file
+id: node.citem_product_knowledge.field_pkt_pknowledge_file
+field_name: field_pkt_pknowledge_file
+entity_type: node
+bundle: citem_product_knowledge
+label: File
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'pdf docx doc jpg png jpeg svg gif'
+  max_filesize: '2 MB'
+  description_field: false
+field_type: file

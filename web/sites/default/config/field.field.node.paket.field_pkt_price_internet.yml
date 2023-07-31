@@ -1,0 +1,19 @@
+uuid: 19b5d726-1e2c-474c-88a8-8dd454e1a363
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_price_internet
+    - node.type.paket
+id: node.paket.field_pkt_price_internet
+field_name: field_pkt_price_internet
+entity_type: node
+bundle: paket
+label: 'Price Internet'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

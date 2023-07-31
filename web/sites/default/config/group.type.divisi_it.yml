@@ -1,0 +1,19 @@
+uuid: 3cb9b5e6-3ff6-41ee-9c0e-e0bc9e52db16
+langcode: en
+status: true
+dependencies:
+  module:
+    - subgroup
+third_party_settings:
+  subgroup:
+    depth: 1
+    left: 2
+    right: 3
+    tree: telkom
+id: divisi_it
+label: 'Divisi IT'
+description: 'IT Description'
+new_revision: true
+creator_membership: true
+creator_wizard: true
+creator_roles: {  }

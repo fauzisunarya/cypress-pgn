@@ -1,0 +1,466 @@
+media_upload.auth_login:
+  path: '/ajax/auth/login'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\AuthController::login'
+    _title: 'Login ajax user'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+media_upload.auth_otp:
+  path: '/ajax/auth/otp'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\AuthController::validateLogin'
+    _title: 'Validation of OTP ajax login user'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+media_upload.auth_resend:
+  path: '/ajax/auth/resendotp'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\AuthController::resendLogin'
+    _title: 'Resend of OTP Code for ajax login user'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+media_upload.add_template:
+  path: '/add/template'
+  defaults:
+    _form: 'Drupal\media_upload\Form\AddTemplateForm'
+    _title: 'Add Template'
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'
+
+media_upload.add_landing:
+  path: '/add/landing-page'
+  defaults:
+    _form: 'Drupal\media_upload\Form\AddLandingPageForm'
+    _title: 'Add Landing Page'
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'
+
+media_upload.edit_landing:
+  path: '/edit/landing-page/{landing_id}'
+  defaults:
+    _form: 'Drupal\media_upload\Form\EditLandingPageForm'
+    _title: 'Edit Landing Page'
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+media_upload.upload_image_landing:
+  path: '/api/v1/project/upload'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\FileUploadController::create'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+media_upload.add_page_landing_page:
+  path: '/api/v1/project/page'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\PageController::create'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+media_upload.delete_page_landing_page:
+  path: '/api/v1/project/page/{page_id}'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\PageController::delete'
+  methods:  [DELETE]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+media_upload.update_homepage_landing_page:
+  path: '/api/v1/project/page/home'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\PageController::updateHomepage'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+media_upload.update_menu_landing_page:
+  path: '/api/v1/project/site-menu'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\MenuController::update'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+media_upload.add_saved_templates_landing_page:
+  path: '/api/v1/project/templates/user'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\SavedTemplatesController::save'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+media_upload.get_saved_templates_landing_page:
+  path: '/api/v1/project/templates/user'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\SavedTemplatesController::get'
+  methods:  [GET]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+media_upload.delete_saved_templates_landing_page:
+  path: '/api/v1/project/templates/user/{template_id}'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\SavedTemplatesController::delete'
+  methods:  [DELETE]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+media_upload.add_saved_blocks_landing_page:
+  path: '/api/v1/project/blocks/user'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\SavedBlocksController::save'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+media_upload.get_saved_blocks_landing_page:
+  path: '/api/v1/project/blocks/user'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\SavedBlocksController::get'
+  methods:  [GET]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+media_upload.delete_saved_blocks_landing_page:
+  path: '/api/v1/project/blocks/user/{block_id}'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\SavedBlocksController::delete'
+  methods:  [DELETE]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+media_upload.add_dummy_paket:
+  path: '/add-dummy-paket'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\PaketController::store_dummy_data'
+  methods:  [GET]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator'
+    _user_is_logged_in: 'true'
+
+media_upload.update_dummy_paket:
+  path: '/update-dummy-paket'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\PaketController::update_dummy_data'
+  methods:  [GET]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator'
+    _user_is_logged_in: 'true'
+
+media_upload.delete_custom_form:
+  path: 'api/v1/project/custom-form/{form_id}'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\LandingPageController::delete_custom_form'
+  methods:  [delete]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'
+
+media_upload.landing_custom_form_submit_data:
+  path: 'api/project/form_post/ajax'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\LandingPageController::form_post'
+  methods:  [POST]
+  requirements:
+    _access: 'TRUE'
+
+media_upload.landingpage_subdomain:
+  path: 'landingpage'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\LandingPageController::show_landing_page'
+  methods:  [GET]
+  requirements:
+    _access: 'TRUE'
+
+media_upload.show_landing_page:
+  path: 'landingpage/{landing_home_slug}'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\LandingPageController::show_landing_page'
+  methods:  [GET]
+  requirements:
+    _access: 'TRUE'
+
+media_upload.show_landing_page_pages:
+  path: 'landingpage/{landing_home_slug}/{landing_page_slug}'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\LandingPageController::show_landing_page'
+  methods:  [GET]
+  requirements:
+    _access: 'TRUE'
+
+media_upload.preview_landing_page:
+  path: 'preview/landingpage/{landing_home_slug}'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\LandingPageController::show_landing_page'
+  methods:  [GET]
+  requirements:
+    _permission: 'access content'
+    # _role: 'administrator+approval'
+    # _user_is_logged_in: 'true'
+
+media_upload.preview_landing_page_pages:
+  path: 'preview/landingpage/{landing_home_slug}/{landing_page_slug}'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\LandingPageController::show_landing_page'
+  methods:  [GET]
+  requirements:
+    _permission: 'access content'
+    # _role: 'administrator+approval'
+    # _user_is_logged_in: 'true'
+
+media_upload.preview_template_page:
+  path: 'preview/templatepage/{node_id}'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\TemplatePageController::show'
+  methods:  [GET]
+  requirements:
+    _permission: 'access content'
+
+# routing for ajax in page detail paket (image tab)
+media_upload.ajax_paket_get_image:
+  path: '/ajax/paket/get_image'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\PaketController::get_image'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+approval'
+    _user_is_logged_in: 'true'
+
+media_upload.ajax_paket_save_image:
+  path: '/ajax/paket/save_image'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\PaketController::save_image'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'
+
+# routing for ajax in page detail paket (video tab)
+media_upload.ajax_paket_get_video:
+  path: '/ajax/paket/get_video'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\PaketController::get_video'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+approval'
+    _user_is_logged_in: 'true'
+
+media_upload.ajax_paket_save_video:
+  path: '/ajax/paket/save_video'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\PaketController::save_video'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'
+
+# routing for ajax in page detail product catalog (image tab)
+media_upload.ajax_catalog_get_image:
+  path: '/ajax/catalog/get_image'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\ProductCatalogController::get_image'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+approval'
+    _user_is_logged_in: 'true'
+
+# routing for ajax in page detail product catalog (video tab)
+media_upload.ajax_catalog_get_video:
+  path: '/ajax/catalog/get_video'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\ProductCatalogController::get_video'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+approval'
+    _user_is_logged_in: 'true'
+
+media_upload.ajax_get_image_bundle:
+  path: '/ajax/get_image_bundle'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\PaketController::get_image_bundle'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+approval'
+    _user_is_logged_in: 'true'
+
+# routing for ajax in page detail paket (template tab)
+media_upload.ajax_template_get_template:
+  path: '/ajax/template/get_template'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\TemplateController::get_template'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+approval'
+    _user_is_logged_in: 'true'
+
+# routing for ajax in page detail paket (save setting template pricing)
+media_upload.ajax_paket_save_setting_template_pricing:
+  path: '/ajax/template_pricing_paket/save_setting'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\PaketController::save_setting_template_pricing'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'
+
+# routing for ajax landing check subdomain
+media_upload.ajax_landing_subdomain:
+  path: '/ajax/landing-master/checksubdomain'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\LandingMasterController::checkSubdomain'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+# routing for ajax landing check domain
+media_upload.ajax_landing_domain:
+  path: '/ajax/landing-master/checkdomain'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\LandingMasterController::checkDomain'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+# routing for ajax landing page master form
+media_upload.ajax_landing_master_add:
+  path: '/ajax/landing-master/add'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\LandingMasterController::record'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'
+
+media_upload.ajax_landing_master_edit:
+  path: '/ajax/landing-master/edit/{landing_id}'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\LandingMasterController::edit'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content+landing_owner'
+    _user_is_logged_in: 'true'
+
+media_upload.ajax_landing_master_screenshot:
+  path: '/ajax/landing-master/screenshot'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\LandingMasterController::screenshotWeb'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+# routing for Approval
+media_upload.approval_approve:
+  path: '/approval/{id}/approve'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\ApprovalController::Approve'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+approval'
+    _user_is_logged_in: 'true'
+
+media_upload.approval_reject:
+  path: '/approval/{id}/reject'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\ApprovalController::reject'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+approval'
+    _user_is_logged_in: 'true'
+
+media_upload.approval_approve_all:
+  path: '/approval/approve/all'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\ApprovalController::approve_all'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator'
+    _user_is_logged_in: 'true'
+
+# routing for Approval external request
+# process, update, and done is handle in function media_upload_node_presave
+media_upload.external_reject:
+  path: '/external_request/{id}/reject'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\ApprovalController::rejectRequest'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+approval'
+    _user_is_logged_in: 'true'
+
+# shortlink
+media_upload.get_shortlink:
+  path: '/ajax/get/shortlink'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\ShortlinkController::get_shortlink'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+    _user_is_logged_in: 'true'
+
+media_upload.request_compare_product:
+  path: '/landing-page/compare-product'
+  defaults:
+    _controller: '\Drupal\media_upload\Controller\CompareProductController::compareProduct'
+    _title: 'Request content'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+    _access: 'TRUE'

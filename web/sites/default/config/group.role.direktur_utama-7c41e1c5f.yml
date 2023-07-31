@@ -1,0 +1,17 @@
+uuid: 7da879ed-b8ef-48d3-a1a6-643de90247cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.direktur_utama
+  enforced:
+    config:
+      - user.role.landing_owner
+id: direktur_utama-7c41e1c5f
+label: 'Landing Owner'
+weight: 8
+internal: true
+audience: outsider
+group_type: direktur_utama
+permissions_ui: false
+permissions: {  }

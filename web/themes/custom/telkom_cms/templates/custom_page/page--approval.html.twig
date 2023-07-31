@@ -1,0 +1,291 @@
+{#
+/**
+ * @file
+ * Theme override to display a single page.
+ *
+ * The doctype, html, head and body tags are not in this template. Instead they
+ * can be found in the html.html.twig template in this directory.
+ *
+ * Available variables:
+ *
+ * General utility variables:
+ * - base_path: The base URL path of the Drupal installation. Will usually be
+ *   "/" unless you have installed Drupal in a sub-directory.
+ * - is_front: A flag indicating if the current page is the front page.
+ * - logged_in: A flag indicating if the user is registered and signed in.
+ * - is_admin: A flag indicating if the user has permission to access
+ *   administration pages.
+ *
+ * Site identity:
+ * - front_page: The URL of the front page. Use this instead of base_path when
+ *   linking to the front page. This includes the language domain or prefix.
+ *
+ * Page content (in order of occurrence in the default page.html.twig):
+ * - node: Fully loaded node, if there is an automatically-loaded node
+ *   associated with the page and the node ID is the second argument in the
+ *   page's path (e.g. node/12345 and node/12345/revisions, but not
+ *   comment/reply/12345).
+ *
+ * Regions:
+ * - page.primary_menu_vertical: Items for the Side Navigation region.
+ * - page.header: Items for the header region.
+ * - page.primary_menu: Items for the Navigation region.
+ * - page.welcome_text: Items for welcome message.
+ * - page.top_first: Items for top first region.
+ * - page.top_second: Items for top second region.
+ * - page.top_third: Items for top third region.
+ * - page.highlighted: Items for the highlighted region.
+ * - page.page_title: Used by Current page Title.
+ * - page.breadcrumb: Item for the Breadcrumb region.
+ * - page.content: The main content of the current page.
+ * - page.sidebar_first: Items for the first sidebar.
+ * - page.sidebar_second: Items for the second sidebar.
+ * - page.bottom_first: Items for the bottom first region.
+ * - page.bottom_second: Items for the bottom Second region.
+ * - page.bottom_third: Items for the bottom third region.
+ * - page.bottom_forth: Items for the bottom forth region.
+ * - page.footer_first: Items for the footer first region.
+ * - page.footer_second: Items for the footer Second region.
+ * - page.footer_third: Items for the footer third region.
+ * - page.footer_menu: Items for the footer bottom region.
+ * - page.auto_hidden_block: Hide items in this region.
+ *
+ * @see template_preprocess_page()
+ * @see html.html.twig
+ */
+#}
+
+{% macro generateDetailPaket(data) %}
+    <div class="card card-bundling">
+        <div class="card-body p-0">
+            <div class="row my-3 my-md-0">
+                <div class="col-lg-9 py-3 ps-4">
+                    <div class="tab-content" id="pills-tabContent">
+                        <!-- Tab Detail Paket -->
+                        <div class="tab-pane fade show active" id="detail-paket">
+                            {% for each in data.detail %}
+                                {% set mt = loop.first ? 'mt-5' : 'mt-2' %}
+                                <div class="row {{mt}}">
+                                    <h6 class="col-lg-3 card-bundling-title">{{each.title|title}}</h6>
+                                    <span class="d-none d-lg-block">:</span>
+                                    <h6 class="col-lg-8 card-bundling-text">{{each.value}}</h6>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+<!-- Sidebar-->
+{{page.sidebar_menu}}
+
+<!-- Page content wrapper-->
+<div class="content-wrapper">
+
+    <!-- topbar start -->
+    <header class="navbar navbar-light navbar-expand-md bg-white sticky-top shadow-sm px-4">
+        <!-- button toggled sidenav start -->
+        <button class="navbar-toggler border-0" type="button" id="sidebarToggle">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- button toggled sidenav end -->
+        <!-- navbar brand start -->
+        {{page.title}}
+        <!-- navbar brand start -->
+        <ul class="navbar-nav ms-auto">
+            {% if logged_in %}
+            <li class="nav-item dropdown dropdown-notification">
+                <a href="#" class="nav-link pe-3" id="notification" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="nav-notification">
+                        <img src="{{ url('<front>')|render }}themes/custom/telkom_cms/assets/icons/ic-bell-new.svg" alt="">
+                    </div>
+                    <span class="badge badge-danger rounded-circle noti-icon-badge">{{unread_notification}}</span>
+                </a>
+                <div class="dropdown-menu notification-menu dropdown-menu-end animate slideIn" aria-labelledby="navbarDropdown">
+                    {% for notif in notification %}
+                        <a class="dropdown-item" href="{{notif.url}}">
+                            {% if notif.is_read %}
+                                {{notif.title}}
+                            {% else %}
+                                <b>{{notif.title}}</b>
+                            {% endif %}
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        {% if loop.last %}
+                            <a class="dropdown-item text-center text-primary" href="{{base_url}}/notification">Lihat Semua</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if notification is empty %}
+                        <a class="dropdown-item text-center" href="#">There is no notification</a>
+                    {% endif %}
+                </div>
+            </li>
+            {% endif %}
+
+            {{page.user_navigation}}          
+            
+        </ul>
+    </header>
+    <!-- topbar end -->
+
+    <!-- breadcrumb start -->
+    {{page.breadcrumb}}
+    <!-- breadcrumb end -->
+
+    <!-- content start -->
+    <div class="container-fluid px-4 mb-5">
+        <div class="card px-4 py-3">
+            {% if approval['is_detail_approval'] %}
+                <div class="approval-detail">
+                    <div>
+                        <div style="width:50%;display:inline-block;">
+                            <div class="approval-landing-detail">
+                                <h6 class="card-bundling-title">Title</h6>
+                                <h6 class="card-bundling-text">{{approval['title']}}</h6>
+                            </div>
+                            <div class="approval-landing-detail">
+                                <h6 class="card-bundling-title">Authored on</h6>
+                                <h6 class="card-bundling-text">{{approval['created_at']}}</h6>
+                            </div>
+                            <div class="approval-landing-detail">
+                                <h6 class="card-bundling-title">Requester</h6>
+                                <h6 class="card-bundling-text"><a href="{{approval['author_url']}}">{{approval['author']}}</a></h6>
+                            </div>
+                            {% if approval.approved_content.url %}
+                                <div class="approval-landing-detail">
+                                    <h6 class="card-bundling-title">Published content <span class="card-bundling-text">(approve this content will be replace the published content)</span></h6>
+                                    <h6 class="card-bundling-text"><a href="{{approval['approved_content']['url']}}" target="_blank">{{approval['approved_content']['title']}}</a></h6>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="approval-form">
+                          {% if approval.action_form.show %}
+                            <h6 class="card-bundling-title">Message</h6>
+                            <p id="approval-error-message" class="text-danger"></p>
+                            <input type="hidden" id="approval-current-url" value="{{approval['current_url']}}" />
+                            <input type="hidden" id="approval-content-title" value="{{approval['title']}}" />
+                            <div style="width:100%">
+                                <textarea id="approval-message-form"></textarea>
+                                <div style="display:inline-block;">
+                                    <div style="display:flex;flex-direction:column;float:right">
+                                        <button type="button" onclick="approve()" class="swal2-confirm swal2-styled swal2-default-outline" style="display: inline-block; background-color: rgb(0, 128, 0);">Approve</button>
+                                        <button type="button" onclick="reject()" class="swal2-confirm swal2-styled swal2-default-outline" style="display: inline-block; background-color: rgb(220, 55, 65);">Reject</button>
+                                    </div>
+                                </div>
+                            </div>
+                          {% else %}
+                            {% if 'Approved' in approval.action_form.message%}
+                                <div class="approved">
+                                    <h6>{{approval.action_form.message}}</h6>
+                                </div>
+                            {% else %}
+                                <div class="rejected">
+                                    <h6>{{approval.action_form.message}}</h6>
+                                </div>
+                            {% endif %}
+                          {% endif %}
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    {% if (approval['content_type'] == 'landing') %}
+                        <div>
+                            <h6 class="card-bundling-title">Description</h6>
+                            <h6 class="card-bundling-text">{{approval['description']}}</h6>
+                        </div>
+                        <div>
+                            <h6 class="card-bundling-title">Landing Page Url</h6>
+                            <h6 class="card-bundling-text"><a href="{{approval['landingpage_url']}}" target="_blank">{{approval['landingpage_url']}}</a></h6>
+                        </div>
+                        <div>
+                            <h6 class="card-bundling-title">Preview Url</h6>
+                            <h6 class="card-bundling-text"><a href="{{approval['preview_url']}}" target="_blank">{{approval['preview_url']}}</a></h6>
+                        </div>
+                        <div style="border:1px solid black; padding: 5px;"><iframe src="{{approval['preview_url']}}" width="100%" height="500px"></iframe></div>
+                    {% elseif (approval['content_type'] == 'product_catalog') %}
+                        <div style="position: relative; left:-13.5px;" class="card-bundling">
+                            <div class="row mt-3">
+                                <h6 class="col-lg-3 card-bundling-title">Product Catalog</h6>
+                                <span class="d-none d-lg-block">:</span>
+                                <h6 class="col-lg-8 card-bundling-text">{{data.title}}</h6>
+                            </div>
+                            <div class="row mt-3">
+                                <h6 class="col-lg-3 card-bundling-title">Catalog Type</h6>
+                                <span class="d-none d-lg-block">:</span>
+                                <h6 class="col-lg-8 card-bundling-text">{{data.catalog_type}}</h6>
+                            </div>
+                            <div class="row mt-3">
+                                <h6 class="col-lg-3 card-bundling-title">Category</h6>
+                                <span class="d-none d-lg-block">:</span>
+                                <h6 class="col-lg-8 card-bundling-text">{{data.category}}</h6>
+                            </div>
+                            <div class="row mt-3">
+                                <h6 class="col-lg-3 card-bundling-title">Tags</h6>
+                                <span class="d-none d-lg-block">:</span>
+                                <h6 class="col-lg-8 card-bundling-text">{{data.tags}}</h6>
+                            </div>
+                            <div class="row mt-3">
+                                <h6 class="col-lg-3 card-bundling-title">Description</h6>
+                                <span class="d-none d-lg-block">:</span>
+                                <h6 class="col-lg-8 card-bundling-text">{{data.description|raw}}</h6>
+                            </div>
+                            {# <div class="row mt-3">
+                                <h6 class="col-lg-3 card-bundling-title">Product Knowledge</h6>
+                                <span class="d-none d-lg-block">:</span>
+                                <h6 class="col-lg-8 card-bundling-text">{{data.product_knowledge|raw}}</h6>
+                            </div> #}
+
+                            <br>
+                            <div class="row mt-3">
+                                <h6 class="col-lg-3 card-bundling-title">Data</h6>
+                            </div>
+
+                            <br>
+
+                            <div class="row" style="position:relative;justify-content: end;">
+                                <div class="col-lg-3">
+                                </div>
+                                <div class="col-lg-9">
+                                    <div class="catalog-table-container">
+                                        <table class="table catalog-table">
+                                            {% for key, data_arr_paket in data.paket %}
+                                                <tr>
+                                                    {% for data_paket in data_arr_paket %}
+                                                        {% if loop.first %}
+                                                            <td class="catalog-headcol no-border bg-white">
+                                                                <h6 class="card-bundling-title" style="padding-right:20px;">{{data_paket}}</h6>
+                                                            </td>
+                                                        {% else %}
+                                                            <td>
+                                                                <p class="wrap-text" style="width:230px">{{key == 'title' ? data_paket|raw : data_paket}}</p>
+                                                            </td>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% elseif approval['content_type'] == 'citem'  %}
+                        {{_self.generateDetailPaket(data_citem)}}
+                    {% elseif approval['content_type'] == 'ebis'  %}
+                        {{_self.generateDetailPaket(data)}}
+                    {% elseif approval['content_type'] == 'wibs'  %}
+                        {{_self.generateDetailPaket(data)}}
+                    {% elseif approval['content_type'] == 'paket'  %}
+                        {{_self.generateDetailPaket(data_paket)}}
+                    {% else %}
+                        {{node}}
+                    {% endif %}
+                </div>
+            {% else %}
+                {{page.content}}
+            {% endif %}
+        </div>
+    </div>
+</div> 

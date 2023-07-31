@@ -1,0 +1,28 @@
+uuid: a9f567a4-86e7-46ae-aa6e-e1968a6029f6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.product_category.field_procat_list_specification
+    - node.type.product_category
+  module:
+    - user
+id: node.product_category.default
+targetEntityType: node
+bundle: product_category
+mode: default
+content:
+  field_procat_list_specification:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

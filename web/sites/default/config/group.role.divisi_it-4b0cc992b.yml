@@ -1,0 +1,17 @@
+uuid: dc1c436a-d0dd-4478-b74a-ab1300330a8a
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.divisi_it
+  enforced:
+    config:
+      - user.role.end_user_visitor
+id: divisi_it-4b0cc992b
+label: 'End User/Visitor'
+weight: 7
+internal: true
+audience: outsider
+group_type: divisi_it
+permissions_ui: false
+permissions: {  }

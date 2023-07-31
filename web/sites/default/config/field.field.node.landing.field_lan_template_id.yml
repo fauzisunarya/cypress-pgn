@@ -1,0 +1,21 @@
+uuid: 9c6f5397-771d-4f5a-b84d-c2604351d636
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lan_template_id
+    - node.type.landing
+id: node.landing.field_lan_template_id
+field_name: field_lan_template_id
+entity_type: node
+bundle: landing
+label: 'Template id'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: '0'
+default_value_callback: ''
+settings: {  }
+field_type: string_long

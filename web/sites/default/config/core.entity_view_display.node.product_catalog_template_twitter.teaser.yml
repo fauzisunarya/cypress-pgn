@@ -1,0 +1,28 @@
+uuid: 7337f10c-77cd-4416-8743-b32fd66cd8ab
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.product_catalog_template_twitter.field_pct_tem_twitter_body
+    - field.field.node.product_catalog_template_twitter.field_pct_tem_twitter_media
+    - field.field.node.product_catalog_template_twitter.field_pct_tem_twitter_parent
+    - field.field.node.product_catalog_template_twitter.field_workflow_status
+    - node.type.product_catalog_template_twitter
+  module:
+    - user
+id: node.product_catalog_template_twitter.teaser
+targetEntityType: node
+bundle: product_catalog_template_twitter
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_pct_tem_twitter_body: true
+  field_pct_tem_twitter_media: true
+  field_pct_tem_twitter_parent: true
+  field_workflow_status: true

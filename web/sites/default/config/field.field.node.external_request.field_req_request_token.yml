@@ -1,0 +1,19 @@
+uuid: 1f756e1a-8e04-4b75-b88b-ba8a63cd5200
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_req_request_token
+    - node.type.external_request
+id: node.external_request.field_req_request_token
+field_name: field_req_request_token
+entity_type: node
+bundle: external_request
+label: 'Request Token'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,23 @@
+uuid: e35785a0-949c-4fbf-a46b-24df6a2cc68b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pin_finished
+    - node.type.paket_inbox
+id: node.paket_inbox.field_pin_finished
+field_name: field_pin_finished
+entity_type: node
+bundle: paket_inbox
+label: Finished
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

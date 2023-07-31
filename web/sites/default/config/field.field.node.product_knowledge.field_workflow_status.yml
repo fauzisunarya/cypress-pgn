@@ -1,0 +1,21 @@
+uuid: 539428c5-30a5-430e-8fcf-e54ed18eb459
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_workflow_status
+    - node.type.product_knowledge
+  module:
+    - workflow
+id: node.product_knowledge.field_workflow_status
+field_name: field_workflow_status
+entity_type: node
+bundle: product_knowledge
+label: 'Workflow Status'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: workflow

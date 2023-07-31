@@ -1,0 +1,18 @@
+uuid: 8ed46051-3046-441a-a61f-d042ae33bbaa
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.kelurahan
+id: group.kelurahan.label
+field_name: label
+entity_type: group
+bundle: kelurahan
+label: Nama
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,20 @@
+uuid: b291c61b-b550-4c8f-85e2-1d6407b3329b
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_pkt_source
+field_name: field_pkt_source
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

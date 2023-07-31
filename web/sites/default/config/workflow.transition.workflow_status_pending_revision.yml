@@ -1,0 +1,22 @@
+uuid: 28475b0e-41b0-4f12-96a9-150f5350fb24
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflow.state.workflow_status_pending
+    - workflow.state.workflow_status_revision
+id: workflow_status_pending_revision
+label: null
+module: workflow
+from_sid: workflow_status_pending
+to_sid: workflow_status_revision
+roles:
+  workflow_author: '0'
+  anonymous: '0'
+  authenticated: '0'
+  content_editor: '0'
+  administrator: '0'
+  admin_content: '0'
+  admin: '0'
+  approval: '0'
+  end_user_visitor: '0'

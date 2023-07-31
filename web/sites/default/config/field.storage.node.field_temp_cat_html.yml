@@ -1,0 +1,21 @@
+uuid: 8a45eba0-65bd-41f1-8519-e61adb5b7c72
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_temp_cat_html
+field_name: field_temp_cat_html
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

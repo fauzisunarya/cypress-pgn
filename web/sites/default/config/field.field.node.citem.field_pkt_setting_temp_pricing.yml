@@ -1,0 +1,19 @@
+uuid: 6224b725-1993-425e-bca3-e8ffee376a3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_setting_temp_pricing
+    - node.type.citem
+id: node.citem.field_pkt_setting_temp_pricing
+field_name: field_pkt_setting_temp_pricing
+entity_type: node
+bundle: citem
+label: 'Setting Template Pricing'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

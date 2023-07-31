@@ -1,0 +1,47 @@
+{# 
+  copy from field.html.twig
+  used specific for show preview iframe youtube
+#}
+{%
+  set classes = [
+    'w3-row',
+    'field',
+    'text-justify',
+    'article-bodycustom',
+    is_front == false and field_type == 'text_with_summary' ? 'col-md-9' : '',
+    'field--name-' ~ field_name|clean_class,
+    'field--type-' ~ field_type|clean_class,
+    'field--label-' ~ label_display,
+    label_display == 'inline' ? 'clearfix',
+  ]
+%}
+{%
+  set title_classes = [
+    'field__label',
+    label_display == 'visually_hidden' ? 'visually-hidden',
+  ]
+%}
+{% if label_hidden %}
+    {% for item in items %}
+      <div{{ attributes.addClass(classes, 'w3-bar-item field__item') }}>
+        {% if youtube_video and youtube_video.type == 'iframe' %}
+          <iframe width="560" height="315" src="{{youtube_video.link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        {% else %}
+          {{ item.content }}
+        {% endif %}
+      </div>
+    {% endfor %}
+{% else %}
+  <div{{ attributes.addClass(classes) }}>
+    <label{{ title_attributes.addClass(title_classes) }}>{{ label }}</label>
+    {% for item in items %}
+      <div{{ item.attributes.addClass('w3-bar-item field__item') }}>
+        {% if youtube_video and youtube_video.type == 'iframe' %}
+          <iframe width="560" height="315" src="{{youtube_video.link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        {% else %}
+          {{ item.content }}
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

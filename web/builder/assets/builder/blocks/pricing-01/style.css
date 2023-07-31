@@ -1,0 +1,17 @@
+.icl-pricing--style-1.is-featured {
+  border: 2px solid #e3e3e3;
+  padding: 40px 20px;
+}
+.icl-pricing--style-1 .icl-pricing__header {
+  display: flex;
+}
+.icl-pricing--style-1 .icl-pricing__header-detail {
+  flex: 1;
+  padding-left: 15px;
+}
+.icl-pricing--style-1 .icl-pricing__title {
+  font-size: 30px;
+}
+.icl-pricing--style-1 .icl-pricing__content {
+  margin-bottom: 30px;
+}

@@ -1,0 +1,14 @@
+uuid: 44786212-4a1a-44d3-b45d-9d3c06a36f5d
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.telkom
+id: telkom-anonymous
+label: Anonymous
+weight: -102
+internal: true
+audience: anonymous
+group_type: telkom
+permissions_ui: true
+permissions: {  }

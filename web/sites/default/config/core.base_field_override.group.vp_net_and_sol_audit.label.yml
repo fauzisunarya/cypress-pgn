@@ -1,0 +1,18 @@
+uuid: 4e232098-5b46-43f9-9784-36246e01ff9e
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_net_and_sol_audit
+id: group.vp_net_and_sol_audit.label
+field_name: label
+entity_type: group
+bundle: vp_net_and_sol_audit
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

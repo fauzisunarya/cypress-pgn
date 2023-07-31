@@ -1,0 +1,17 @@
+uuid: 3a28e612-517b-4d75-928e-e5d85cd9157b
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.team_mycx
+  enforced:
+    config:
+      - user.role.landing_owner
+id: team_mycx-7c41e1c5f
+label: 'Landing Owner'
+weight: 8
+internal: true
+audience: outsider
+group_type: team_mycx
+permissions_ui: false
+permissions: {  }

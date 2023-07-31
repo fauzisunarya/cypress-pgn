@@ -1,0 +1,17 @@
+uuid: 6344a5f1-b3eb-4894-939f-28c4621ba911
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.rt
+  enforced:
+    config:
+      - user.role.admin_content
+id: rt-7061ed53d
+label: 'Product Owner'
+weight: 4
+internal: true
+audience: outsider
+group_type: rt
+permissions_ui: false
+permissions: {  }

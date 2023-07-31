@@ -1,0 +1,24 @@
+uuid: 2ce75481-ef98-40c8-8c9b-7495a2307ae3
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.template_twitter.field_tem_twitter_body
+    - field.field.node.template_twitter.field_workflow_status
+    - node.type.template_twitter
+  module:
+    - user
+id: node.template_twitter.teaser
+targetEntityType: node
+bundle: template_twitter
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_tem_twitter_body: true
+  field_workflow_status: true

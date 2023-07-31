@@ -1,0 +1,18 @@
+uuid: b825951d-80eb-4489-a90e-1a594ebc9f0c
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.template_pricing_paket
+id: node.template_pricing_paket.title
+field_name: title
+entity_type: node
+bundle: template_pricing_paket
+label: 'Template Pricing'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

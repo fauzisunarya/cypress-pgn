@@ -1,0 +1,19 @@
+uuid: 7f55c8a2-8da3-443b-954d-2046633b7df1
+langcode: en
+status: true
+dependencies:
+  module:
+    - subgroup
+third_party_settings:
+  subgroup:
+    depth: 2
+    left: 7
+    right: 8
+    tree: direktur_utama
+id: vp_regulatory_mgt
+label: 'VP. Regulatory Mgt'
+description: 'Member corporate communication'
+new_revision: true
+creator_membership: true
+creator_wizard: true
+creator_roles: {  }

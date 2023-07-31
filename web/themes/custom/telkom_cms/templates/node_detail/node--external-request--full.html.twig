@@ -1,0 +1,122 @@
+<div class="card px-4 py-3">
+    <div class="approval-detail">
+        <div>
+            <div style="width:50%;display:inline-block;">
+                {% for data in detail_request %}
+                <div class="approval-landing-detail">
+                    <h6 class="card-bundling-title">{{data.heading}}</h6>
+                    <h6 class="card-bundling-text {{data.heading == 'Status' ? 'font-status-' ~ data.text|lower }}">{{data.text}}</h6>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="approval-form"> 
+                {% if show_form %}
+                    {% if request_status == 'pending' %}
+
+                        <h6 class="card-bundling-title">Message</h6>
+                        <p id="ex-request-error-message" class="text-danger"></p>
+                        <input type="hidden" id="ex-request-id" value="{{request_id}}" />
+                        <input type="hidden" id="ex-request-title" value="{{request_title}}" />
+                        <div style="width:100%">
+                            <textarea id="ex-request-message-form"></textarea>
+                            <div style="display:inline-block;">
+                                <div style="display:flex;flex-direction:column;float:right">
+                                    <button type="button" onclick="processRequest()" class="swal2-confirm swal2-styled swal2-default-outline" style="display: inline-block; background-color: rgb(0, 128, 0);">Process</button>
+                                    <button type="button" onclick="rejectRequest()" class="swal2-confirm swal2-styled swal2-default-outline" style="display: inline-block; background-color: rgb(220, 55, 65);">Reject</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% elseif (request_status == 'process') %}
+
+                        <h6 class="card-bundling-title">Message</h6>
+                        <p id="ex-request-error-message" class="text-danger"></p>
+                        <input type="hidden" id="ex-request-id" value="{{request_id}}" />
+                        <input type="hidden" id="ex-request-title" value="{{request_title}}" />
+                        <div style="width:100%">
+                            <textarea id="ex-request-message-form"></textarea>
+                            <div style="display:inline-block;">
+                                <div style="display:flex;flex-direction:column;float:right">
+                                    <button type="button" onclick="doneRequest()" class="swal2-confirm swal2-styled swal2-default-outline" style="display: inline-block; background-color: rgb(0, 113, 184);">Done</button>
+                                    <button type="button" onclick="updateRequest()" class="swal2-confirm swal2-styled swal2-default-outline" style="display: inline-block; background-color: rgb(0, 128, 0);">Update</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% elseif (request_status == 'reject') %}
+
+                        <div class="rejected">
+                            <h6>This request has been rejected</h6>
+                        </div>
+
+                    {% elseif (request_status == 'done') %}
+
+                        <div class="approved">
+                            <h6>This request has been done</h6>
+                        </div>
+
+                    {% endif %}
+                {% endif %}
+                <div style="clear:both;"></div>
+                <div class="ex-request-attached" style="{{show_form ? '' : 'margin-top:0px'}}">
+                    <div class="approval-landing-detail">
+                        <h6 class="card-bundling-title">Assigned user</h6>
+                        <h6 class="card-bundling-text">
+                            <ul>
+                                {% for user in assigned_user %}
+                                    <li class="ex-request-list-attached"><a href="{{user.url}}">{{user.username}}</a></li>
+                                {% endfor %}
+
+                                {% if assigned_user is empty  %}
+                                    <li class="ex-request-list-attached"> - </li>
+                                {% endif %}
+                            </ul>    
+                        </h6>
+                    </div>
+                </div>
+                <div class="ex-request-attached">
+                    <div class="approval-landing-detail">
+                        <h6 class="card-bundling-title">Attached content</h6>
+                        <h6 class="card-bundling-text">
+                            <ul>
+                                {% for content in attached_content %}
+                                    <li class="ex-request-list-attached"><a href="{{content.url}}">{{content.title}}</a></li>
+                                {% endfor %}
+
+                                {% if attached_content is empty  %}
+                                    <li class="ex-request-list-attached"> - </li>
+                                {% endif %}
+                            </ul>    
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div style="clear:both;"></div>
+
+            <div class="card-body table-responsive">
+                <h6 class="card-bundling-title">Log History</h6>
+                <table class="table">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th scope="col">No.</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in log_status %}
+                            <tr>
+                                <td class="views-field views-field-no">{{loop.index}}</td>
+                                <td class="views-field views-field-title">{{log.date}}</td>
+                                <td class="views-field views-field-response">{{log.status}}</td>
+                                <td class="views-field views-field-title">{{log.message}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+</div>

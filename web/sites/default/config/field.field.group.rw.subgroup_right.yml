@@ -1,0 +1,23 @@
+uuid: 1cea23d4-8fe0-4a9f-ab1d-7962f3a9b057
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_right
+    - group.type.rw
+id: group.rw.subgroup_right
+field_name: subgroup_right
+entity_type: group
+bundle: rw
+label: Right
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

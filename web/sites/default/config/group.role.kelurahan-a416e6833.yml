@@ -1,0 +1,17 @@
+uuid: 9b7540ee-35f9-4196-ba69-ecf8d6158272
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.kelurahan
+  enforced:
+    config:
+      - user.role.administrator
+id: kelurahan-a416e6833
+label: 'Super Admin'
+weight: 3
+internal: true
+audience: outsider
+group_type: kelurahan
+permissions_ui: false
+permissions: {  }

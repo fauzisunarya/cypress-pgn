@@ -1,0 +1,23 @@
+uuid: f23040c0-7f6c-4f84-ba4f-ce2773395ade
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_left
+    - group.type.vp_regulatory_mgt
+id: group.vp_regulatory_mgt.subgroup_left
+field_name: subgroup_left
+entity_type: group
+bundle: vp_regulatory_mgt
+label: Left
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

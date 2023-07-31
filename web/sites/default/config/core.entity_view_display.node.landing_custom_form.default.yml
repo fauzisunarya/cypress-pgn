@@ -1,0 +1,36 @@
+uuid: 3623a362-516c-4a74-8f01-b341a01fd1f2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.landing_custom_form.field_lcf_form_scheme
+    - field.field.node.landing_custom_form.field_lcf_landing_ref
+    - node.type.landing_custom_form
+  module:
+    - user
+id: node.landing_custom_form.default
+targetEntityType: node
+bundle: landing_custom_form
+mode: default
+content:
+  field_lcf_form_scheme:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_lcf_landing_ref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

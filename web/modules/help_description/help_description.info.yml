@@ -1,0 +1,5 @@
+name: 'Help Description'
+type: module
+description: 'Menu description in Telkom CMS (AMI)'
+core_version_requirement: ^8.8 || ^9
+package: 'Custom'

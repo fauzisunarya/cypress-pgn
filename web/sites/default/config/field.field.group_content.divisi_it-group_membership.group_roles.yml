@@ -1,0 +1,22 @@
+uuid: ddc126ba-e54a-45c5-b0de-2eb0dcbe8a98
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group_content.group_roles
+    - group.content_type.divisi_it-group_membership
+id: group_content.divisi_it-group_membership.group_roles
+field_name: group_roles
+entity_type: group_content
+bundle: divisi_it-group_membership
+label: Roles
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'group_type:group_role'
+  handler_settings:
+    group_type_id: divisi_it
+field_type: entity_reference

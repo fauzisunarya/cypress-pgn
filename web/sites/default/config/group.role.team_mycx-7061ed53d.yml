@@ -1,0 +1,17 @@
+uuid: 8a2eecbe-3e79-4825-99a2-abd01e54228c
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.team_mycx
+  enforced:
+    config:
+      - user.role.admin_content
+id: team_mycx-7061ed53d
+label: 'Product Owner'
+weight: 4
+internal: true
+audience: outsider
+group_type: team_mycx
+permissions_ui: false
+permissions: {  }

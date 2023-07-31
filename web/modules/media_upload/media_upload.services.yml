@@ -1,0 +1,31 @@
+services:
+  media_upload.setting_x_frame_options:
+    class: Drupal\media_upload\EventSubscriber\SettingXFrameOptions
+    tags:
+      - { name: event_subscriber }
+  media_upload.redirect_landing_content_type:
+    class: Drupal\media_upload\EventSubscriber\MyModuleRedirectLanding
+    tags:
+      - { name: event_subscriber }
+  media_upload.workflow_helper:
+    class: Drupal\media_upload\Helper\Workflow
+  media_upload.page_helper:
+    class: Drupal\media_upload\Helper\Page
+  media_upload.auth_helper:
+    class: Drupal\media_upload\Helper\Auth
+  media_upload.shortlink_helper:
+    class: Drupal\media_upload\Helper\Shortlink
+  media_upload.landing_helper:
+    class: Drupal\media_upload\Helper\Landing
+  media_upload.landingform_helper:
+    class: Drupal\media_upload\Helper\LandingForm
+  media_upload.landing_analytic:
+    class: Drupal\media_upload\Helper\LandingAnalytic
+  media_upload.landing_personalization:
+    class: Drupal\media_upload\Helper\LandingPersonalization
+  media_upload.slug_helper:
+    class: Drupal\media_upload\Helper\Slug
+  media_upload.landing_middleware:
+     class: Drupal\media_upload\Middleware\LandingMiddleware
+     tags:
+       - { name: http_middleware, priority: 500 }

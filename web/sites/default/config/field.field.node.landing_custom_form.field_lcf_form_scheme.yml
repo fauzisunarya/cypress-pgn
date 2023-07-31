@@ -1,0 +1,19 @@
+uuid: c5c0e8fe-398b-4b84-bb0c-db87f074e091
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lcf_form_scheme
+    - node.type.landing_custom_form
+id: node.landing_custom_form.field_lcf_form_scheme
+field_name: field_lcf_form_scheme
+entity_type: node
+bundle: landing_custom_form
+label: 'Form Scheme'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

@@ -1,0 +1,22 @@
+uuid: 60137281-2a14-4d78-9aad-37b489b8f13a
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.template_sms
+id: node.template_sms.promote
+field_name: promote
+entity_type: node
+bundle: template_sms
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

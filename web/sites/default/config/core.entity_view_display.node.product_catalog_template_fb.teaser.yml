@@ -1,0 +1,28 @@
+uuid: 6a9e1f87-d7ef-4162-8e9a-d16dd431d77d
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.product_catalog_template_fb.field_pct_tem_fb_body
+    - field.field.node.product_catalog_template_fb.field_pct_tem_fb_media
+    - field.field.node.product_catalog_template_fb.field_pct_tem_fb_parent
+    - field.field.node.product_catalog_template_fb.field_workflow_status
+    - node.type.product_catalog_template_fb
+  module:
+    - user
+id: node.product_catalog_template_fb.teaser
+targetEntityType: node
+bundle: product_catalog_template_fb
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_pct_tem_fb_body: true
+  field_pct_tem_fb_media: true
+  field_pct_tem_fb_parent: true
+  field_workflow_status: true

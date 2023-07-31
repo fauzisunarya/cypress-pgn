@@ -1,0 +1,29 @@
+uuid: 20106a10-8857-4cfb-ba05-27dc445fcfc7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_st_paket_ref
+    - node.type.landing_saved_templates
+    - node.type.paket
+id: node.landing_saved_templates.field_st_paket_ref
+field_name: field_st_paket_ref
+entity_type: node
+bundle: landing_saved_templates
+label: 'Paket Ref'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      paket: paket
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

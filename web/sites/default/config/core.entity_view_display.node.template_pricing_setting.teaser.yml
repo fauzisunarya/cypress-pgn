@@ -1,0 +1,22 @@
+uuid: ef61db2c-1c03-4dc4-bd6a-741fe9cdb691
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.template_pricing_setting.field_temp_set_logo
+    - node.type.template_pricing_setting
+  module:
+    - user
+id: node.template_pricing_setting.teaser
+targetEntityType: node
+bundle: template_pricing_setting
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_temp_set_logo: true

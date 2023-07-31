@@ -1,0 +1,17 @@
+uuid: e6f54034-39a3-4dfa-9e31-e34346cbc695
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_net_and_sol_audit
+  enforced:
+    config:
+      - user.role.landing_owner
+id: vp_net_and_sol_audit-7c41e1c5f
+label: 'Landing Owner'
+weight: 8
+internal: true
+audience: outsider
+group_type: vp_net_and_sol_audit
+permissions_ui: false
+permissions: {  }

@@ -1,0 +1,162 @@
+.icl-section--pricing-9 .card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border-radius: 0.25rem;
+  border: 0;
+}
+
+.icl-section--pricing-9 .card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  padding: 1rem 1rem;
+}
+
+.icl-section--pricing-9 .py-4 {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+.icl-section--pricing-9  .card-title {
+  margin-bottom: 0.5rem;
+}
+
+.icl-section--pricing-9 .text-center {
+  text-align: center !important;
+}
+
+.icl-section--pricing-9 .position-relative {
+  position: relative !important;
+}
+
+.icl-section--pricing-9 .mb-5 {
+  margin-bottom: 3rem !important;
+}
+
+.icl-section--pricing-9 .pricing-type-1 .price {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  margin-bottom: 16px;
+  margin-top: 82px;
+}
+
+.icl-section--pricing-9 .btn.block {
+  display: block;
+  width: 100%;
+}
+
+.icl-section--pricing-9 .btn-danger {
+  color: #fff !important;
+  background-color: #dc3545 !important;
+  border-color: #dc3545 !important;
+}
+
+.icl-section--pricing-9 .button {
+  display: block;
+  font-weight: 400;
+  line-height: 1.5;
+  /* padding-top: 10px; */
+  /* padding-bottom: 10px; */
+  /* color: #212529; */
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* background-color: transparent; */
+  border: 1px solid transparent;
+  /* padding: 0.575rem 0.75rem; */
+  /* font-size: 13px; */
+  /* border-radius: 0.25rem; */
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.icl-section--pricing-9 .rounded-pill {
+  border-radius: 50rem !important;
+}
+
+.icl-section--pricing-9 .badge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}
+
+.icl-section--pricing-9 .bg-success {
+  opacity: 1;
+  background-color: green !important;
+}
+
+/* pricing-type-1 */
+.icl-section--pricing-9 .pricing-type-1 .speed {
+  position: absolute;
+  color: black;
+}
+
+.icl-section--pricing-9 .pricing-type-1 .speed span {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.icl-section--pricing-9 .pricing-type-1 .speed h2 {
+  font-weight: bold;
+  margin-bottom: 0;
+  font-size: 2.5em;
+}
+
+.icl-section--pricing-9 .pricing-type-1 small {
+  font-size: 10px;
+}
+
+.icl-section--pricing-9 .pricing-type-1 .position-relative {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icl-section--pricing-9 .pricing-type-1 .description h6 {
+  font-size: 14px;
+}
+
+.icl-section--pricing-9 .pricing-type-1 .price {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  margin-bottom: 16px;
+  margin-top: 82px;
+}
+
+.icl-section--pricing-9 .pricing-type-1 .price span {
+  font-size: 12px;
+}
+.icl-section--pricing-9 .pricing-type-1 .price h2 {
+  margin-bottom: 0;
+  line-height: .9;
+}
+
+.icl-section--pricing-9 .pricing-type-1 .button.is-danger {
+  background-color: #bb2d3b !important;
+}
+
+.icl-section--pricing-9 .pricing-type-1 .price-cta {
+  margin-top: auto;
+}
+
+.icl-section--pricing-9 .pricing-09 .column {
+  display: grid !important;
+}

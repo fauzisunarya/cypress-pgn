@@ -1,0 +1,17 @@
+uuid: fbea69dd-7034-4a97-813a-7c38ad2748d4
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.telkom
+  enforced:
+    config:
+      - user.role.admin_content
+id: telkom-7061ed53d
+label: 'Product Owner'
+weight: 4
+internal: true
+audience: outsider
+group_type: telkom
+permissions_ui: false
+permissions: {  }

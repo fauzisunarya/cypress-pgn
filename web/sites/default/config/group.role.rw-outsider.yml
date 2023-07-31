@@ -1,0 +1,14 @@
+uuid: 9d24aa5b-9ed2-4ea7-94fd-bcdc390f1217
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.rw
+id: rw-outsider
+label: Outsider
+weight: -101
+internal: true
+audience: outsider
+group_type: rw
+permissions_ui: true
+permissions: {  }

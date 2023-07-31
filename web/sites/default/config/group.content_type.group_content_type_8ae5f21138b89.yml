@@ -1,0 +1,18 @@
+uuid: e4a56e7b-aa93-40fd-85ce-feabc3d809a6
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.direktur_utama
+    - group.type.head_of_internal_audit
+  module:
+    - subgroup
+id: group_content_type_8ae5f21138b89
+label: 'Direktur Utama: Subgroup (Head of Internal Audit)'
+description: 'Adds <em class="placeholder">Head of Internal Audit</em> groups as subgroups.'
+group_type: direktur_utama
+content_plugin: 'subgroup:head_of_internal_audit'
+plugin_config:
+  group_cardinality: 1
+  entity_cardinality: 1
+  use_creation_wizard: false

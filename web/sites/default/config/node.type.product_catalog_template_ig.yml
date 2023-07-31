@@ -1,0 +1,18 @@
+uuid: b1a3daff-d930-4687-b3ff-4515236e9a14
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: 'Product Catalog Template Instagram'
+type: product_catalog_template_ig
+description: ''
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true

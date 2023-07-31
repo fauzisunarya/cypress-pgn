@@ -1,0 +1,22 @@
+uuid: d4ef0d41-77da-4289-a30d-9d0a5cf5716b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group_content.group_roles
+    - group.content_type.direktur_utama-group_membership
+id: group_content.direktur_utama-group_membership.group_roles
+field_name: group_roles
+entity_type: group_content
+bundle: direktur_utama-group_membership
+label: Roles
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'group_type:group_role'
+  handler_settings:
+    group_type_id: direktur_utama
+field_type: entity_reference

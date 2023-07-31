@@ -1,0 +1,19 @@
+uuid: 51bf3600-6bd4-4229-8dd1-ff007374133c
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_seg_knowledge_priority
+field_name: field_seg_knowledge_priority
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

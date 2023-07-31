@@ -1,0 +1,19 @@
+uuid: fc6ab998-91f4-418e-bf58-0524d0f7d021
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_tem_wa_body
+    - node.type.paket_template_whatsapp
+id: node.paket_template_whatsapp.field_pkt_tem_wa_body
+field_name: field_pkt_tem_wa_body
+entity_type: node
+bundle: paket_template_whatsapp
+label: Body
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

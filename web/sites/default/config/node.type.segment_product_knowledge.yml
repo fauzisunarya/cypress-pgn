@@ -1,0 +1,17 @@
+uuid: d9898df0-c53b-46c3-8649-1c054a59f7c6
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Segment Product Knowledge'
+type: segment_product_knowledge
+description: ''
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: false

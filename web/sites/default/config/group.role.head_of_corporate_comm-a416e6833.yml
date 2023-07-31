@@ -1,0 +1,17 @@
+uuid: e83d3967-8cb7-48ea-ba3c-d20972182d69
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.head_of_corporate_comm
+  enforced:
+    config:
+      - user.role.administrator
+id: head_of_corporate_comm-a416e6833
+label: 'Super Admin'
+weight: 3
+internal: true
+audience: outsider
+group_type: head_of_corporate_comm
+permissions_ui: false
+permissions: {  }

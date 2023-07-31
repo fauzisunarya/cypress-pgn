@@ -1,0 +1,22 @@
+.qa-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+.qa-grid .qa-item {
+  width: 50%;
+  padding: 15px;
+}
+@media screen and (max-width: 640px) {
+  .qa-grid .qa-item {
+    width: 100%;
+  }
+}
+.qa-grid .qa-q {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+.qa-grid .qa-a {
+  font-size: 16px;
+}

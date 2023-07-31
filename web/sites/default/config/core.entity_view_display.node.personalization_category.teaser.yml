@@ -1,0 +1,22 @@
+uuid: da57c7db-0721-42e2-8787-7f6e125fd94b
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.personalization_category.field_pec_list
+    - node.type.personalization_category
+  module:
+    - user
+id: node.personalization_category.teaser
+targetEntityType: node
+bundle: personalization_category
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_pec_list: true

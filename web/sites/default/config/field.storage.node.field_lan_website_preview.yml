@@ -1,0 +1,19 @@
+uuid: c29857ef-789a-4063-953d-6a26a4da48b0
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_lan_website_preview
+field_name: field_lan_website_preview
+entity_type: node
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,22 @@
+uuid: a5aa4671-aea6-4580-8fd4-b216e44ebe04
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.product_category.field_procat_list_specification
+    - node.type.product_category
+  module:
+    - user
+id: node.product_category.teaser
+targetEntityType: node
+bundle: product_category
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_procat_list_specification: true

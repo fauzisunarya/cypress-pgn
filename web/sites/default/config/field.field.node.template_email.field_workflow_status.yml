@@ -1,0 +1,22 @@
+uuid: 5c13c939-4b0d-4fdb-b7cd-e408a7ebdd18
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_workflow_status
+    - node.type.template_email
+  module:
+    - workflow
+id: node.template_email.field_workflow_status
+field_name: field_workflow_status
+entity_type: node
+bundle: template_email
+label: 'Workflow Status'
+description: ''
+required: true
+translatable: true
+default_value:
+  - {  }
+default_value_callback: ''
+settings: {  }
+field_type: workflow

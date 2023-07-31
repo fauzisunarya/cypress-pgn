@@ -1,0 +1,17 @@
+uuid: 3cbfdaec-f08c-420e-ac3e-ff492ec59748
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Paket Content'
+type: paket_content
+description: ''
+help: ''
+new_revision: false
+preview_mode: 0
+display_submitted: false

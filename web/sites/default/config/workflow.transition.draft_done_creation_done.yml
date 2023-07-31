@@ -1,0 +1,19 @@
+uuid: 0742c7f9-9a1e-4151-a965-2d56a3063e91
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflow.state.draft_done_creation
+    - workflow.state.draft_done_done
+id: draft_done_creation_done
+label: null
+module: workflow
+from_sid: draft_done_creation
+to_sid: draft_done_done
+roles:
+  administrator: administrator
+  workflow_author: '0'
+  anonymous: '0'
+  authenticated: '0'
+  content_editor: '0'
+  admin_content: '0'

@@ -1,0 +1,29 @@
+uuid: f3cf2517-0571-4d67-aa49-d2bf443a5158
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_knowledge_paket_ref
+    - node.type.wibs
+    - node.type.wibs_knowledge_group
+id: node.wibs_knowledge_group.field_pkt_knowledge_paket_ref
+field_name: field_pkt_knowledge_paket_ref
+entity_type: node
+bundle: wibs_knowledge_group
+label: Reference
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node_by_field'
+  handler_settings:
+    target_bundles:
+      wibs: wibs
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

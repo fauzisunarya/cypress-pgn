@@ -1,0 +1,19 @@
+uuid: 02ee0f43-bc88-4d6c-b5f0-6fbf7788d5ee
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pro_specification
+    - node.type.product
+id: node.product.field_pro_specification
+field_name: field_pro_specification
+entity_type: node
+bundle: product
+label: Specification
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

@@ -1,0 +1,22 @@
+uuid: 9260f33b-c5d2-454c-a7a1-6452d2b97242
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.landing_custom_form
+id: node.landing_custom_form.promote
+field_name: promote
+entity_type: node
+bundle: landing_custom_form
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

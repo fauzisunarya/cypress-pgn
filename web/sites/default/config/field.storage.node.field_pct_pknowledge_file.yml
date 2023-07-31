@@ -1,0 +1,23 @@
+uuid: 3067e7ea-590d-47d9-b7a3-a291d4bd9446
+langcode: en
+status: true
+dependencies:
+  module:
+    - file
+    - node
+id: node.field_pct_pknowledge_file
+field_name: field_pct_pknowledge_file
+entity_type: node
+type: file
+settings:
+  target_type: file
+  display_field: false
+  display_default: false
+  uri_scheme: s3
+module: file
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

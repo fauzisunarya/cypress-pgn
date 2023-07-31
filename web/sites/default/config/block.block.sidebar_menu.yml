@@ -1,0 +1,25 @@
+uuid: 083ef217-4b5a-41c3-b836-d018bdc08496
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - telkom_cms
+id: sidebar_menu
+theme: telkom_cms
+region: sidebar_menu
+weight: 0
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  label_display: visible
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

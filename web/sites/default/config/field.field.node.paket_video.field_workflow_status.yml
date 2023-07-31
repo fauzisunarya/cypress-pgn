@@ -1,0 +1,21 @@
+uuid: 7e958691-b55b-4ca9-8a41-4748e1cac488
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_workflow_status
+    - node.type.paket_video
+  module:
+    - workflow
+id: node.paket_video.field_workflow_status
+field_name: field_workflow_status
+entity_type: node
+bundle: paket_video
+label: 'Workflow Status'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: workflow

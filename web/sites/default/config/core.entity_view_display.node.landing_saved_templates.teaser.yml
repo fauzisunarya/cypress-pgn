@@ -1,0 +1,28 @@
+uuid: b7a4336c-b898-4dcf-b365-b9d20ef83482
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.landing_saved_templates.field_st_blocks
+    - field.field.node.landing_saved_templates.field_st_owner
+    - field.field.node.landing_saved_templates.field_st_paket_ref
+    - field.field.node.landing_saved_templates.field_st_thumbnail
+    - node.type.landing_saved_templates
+  module:
+    - user
+id: node.landing_saved_templates.teaser
+targetEntityType: node
+bundle: landing_saved_templates
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_st_blocks: true
+  field_st_owner: true
+  field_st_paket_ref: true
+  field_st_thumbnail: true

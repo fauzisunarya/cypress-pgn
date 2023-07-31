@@ -1,0 +1,35 @@
+.icl-section--testimonial-6 h2 {
+  font-size: var(--font-size);
+  margin-bottom: 30px;
+}
+.icl-section--testimonial-6 blockquote {
+  font-size: var(--font-size);
+  margin-bottom: 30px;
+  position: relative;
+  padding: 20px 0;
+}
+.icl-section--testimonial-6 blockquote:before,
+.icl-section--testimonial-6 blockquote:after {
+  font-family: "Material icons";
+  font-weight: 700;
+  position: absolute;
+  font-size: 48px;
+  opacity: 0.4;
+}
+.icl-section--testimonial-6 blockquote:before {
+  content: "format_quote";
+  left: -15px;
+  top: -15px;
+}
+.icl-section--testimonial-6 blockquote:after {
+  content: "format_quote";
+  right: -15px;
+  bottom: -15px;
+}
+.icl-section--testimonial-6 .author {
+  font-size: 16px;
+  font-weight: 700;
+}
+.icl-section--testimonial-6 .author-title {
+  font-style: italic;
+}

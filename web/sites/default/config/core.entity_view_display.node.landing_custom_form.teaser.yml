@@ -1,0 +1,24 @@
+uuid: 503c2934-1121-411e-adaa-8d14ffb3ac07
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.landing_custom_form.field_lcf_form_scheme
+    - field.field.node.landing_custom_form.field_lcf_landing_ref
+    - node.type.landing_custom_form
+  module:
+    - user
+id: node.landing_custom_form.teaser
+targetEntityType: node
+bundle: landing_custom_form
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_lcf_form_scheme: true
+  field_lcf_landing_ref: true

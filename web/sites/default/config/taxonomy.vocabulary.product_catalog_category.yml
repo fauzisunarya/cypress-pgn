@@ -1,0 +1,8 @@
+uuid: 9f367b11-5c71-430b-a43f-949154366014
+langcode: en
+status: true
+dependencies: {  }
+name: 'Product Catalog Category'
+vid: product_catalog_category
+description: ''
+weight: -3

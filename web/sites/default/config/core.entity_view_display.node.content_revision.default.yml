@@ -1,0 +1,37 @@
+uuid: 54868dc8-af3c-487d-938f-097115d55de9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.content_revision.field_cr_approved_content_id
+    - field.field.node.content_revision.field_cr_revision_content_id
+    - node.type.content_revision
+  module:
+    - user
+id: node.content_revision.default
+targetEntityType: node
+bundle: content_revision
+mode: default
+content:
+  field_cr_approved_content_id:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_cr_revision_content_id:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

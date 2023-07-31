@@ -1,0 +1,19 @@
+uuid: fc764ad9-1cad-4544-92a6-d47bb70982ae
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_package_id
+    - node.type.citem
+id: node.citem.field_pkt_package_id
+field_name: field_pkt_package_id
+entity_type: node
+bundle: citem
+label: 'Package id'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

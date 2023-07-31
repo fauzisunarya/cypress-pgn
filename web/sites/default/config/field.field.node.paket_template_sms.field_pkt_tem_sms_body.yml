@@ -1,0 +1,19 @@
+uuid: 301dd652-2366-499a-a28b-2feb14832055
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_tem_sms_body
+    - node.type.paket_template_sms
+id: node.paket_template_sms.field_pkt_tem_sms_body
+field_name: field_pkt_tem_sms_body
+entity_type: node
+bundle: paket_template_sms
+label: Body
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

@@ -1,0 +1,17 @@
+uuid: afdb837d-81da-4f53-b7c5-7337e37d644a
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Addon
+type: addon
+description: 'Addon for paket'
+help: ''
+new_revision: false
+preview_mode: 0
+display_submitted: false

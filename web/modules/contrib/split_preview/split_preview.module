@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * @file
+ * Contains split_preview.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\ContentEntityForm;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\split_preview\Ajax\PreviewContentCommand;
+use Drupal\Core\Url;
+use Drupal\Core\Ajax\HtmlCommand;
+
+/**
+ * Implements hook_help().
+ */
+function split_preview_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the split_preview module.
+    case 'help.page.split_preview':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Provides Content Split Priview Feature on add/edit content page on IFrame,
+      Also provide device specific preview feature like mobile, Tablet and Desktop view Priview.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function split_preview_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  // Attached library at form levels.
+  $form_object = $form_state->getFormObject();
+  if ($form_object instanceof ContentEntityForm) {
+    if ($form_object->getEntity()->getEntityTypeId() == 'node') {
+      $form['#attached']['library'][] = 'split_preview/split_preview-library';
+      $form['actions']['preview']['#type'] = 'hidden';
+      $form['actions']['preview'] = [
+        '#type' => 'submit',
+        '#access' => 1,
+        '#value' => t('Live Preview'),
+        '#weight' => 20,
+        '#ajax' => [
+          'callback' => '_submit_ajax_form',
+        ],
+      ];
+    }
+  }
+}
+
+/**
+ * Ajax submit ajax handler form.
+ *
+ * @param array $form
+ *   From array Object.
+ * @param Drupal\Core\Form\FormStateInterface $form_state
+ *   Form State object.
+ *
+ * @return bool
+ *   Returns ajax response.
+ */
+function _submit_ajax_form(array &$form, FormStateInterface $form_state) {
+  // Early return if error found.
+  $response = new AjaxResponse();
+  if (!empty($form_state->getErrors())) {
+    $message = [
+      '#theme' => 'status_messages',
+      '#message_list' => \Drupal::messenger()->all(),
+    ];
+    $messages = \Drupal::service('renderer')->render($message);
+    $response->addCommand(new HtmlCommand('.region-highlighted', $messages));
+
+    return $response;
+  }
+
+  $form_id = $form_state->getFormObject()->getFormId();
+  $form_object = $form_state->getFormObject();
+  if ($form_object instanceof ContentEntityForm) {
+    $entity = $form_object->getEntity();
+    // Service used to store uuid and respective form object in memory.
+    $temp_store = \Drupal::service('tempstore.private');
+    $store = $temp_store->get('node_preview');
+    $entity->in_preview = TRUE;
+    $uuid = $entity->uuid();
+    // Setting storage for preview.
+    $store->set($uuid, $form_state);
+    $uuid = $entity->uuid();
+    $route_parameters = [
+      'node_preview' => $uuid,
+      'view_mode_id' => 'full',
+    ];
+
+    // Setting preview node url.
+    $url = Url::fromRoute('entity.node.preview', $route_parameters)->toString();
+    // Here HtmlCommand to empty the current page notification
+    // Or error message of current page before preview page load.
+    $response->addCommand(new HtmlCommand('.region-highlighted', '', NULL));
+    $response->addCommand(new PreviewContentCommand($form_id, NULL, [
+      'url' => $url,
+    ]));
+  }
+
+  return $response;
+}

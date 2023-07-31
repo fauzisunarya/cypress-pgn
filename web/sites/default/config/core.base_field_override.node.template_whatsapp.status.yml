@@ -1,0 +1,22 @@
+uuid: 4ac62f83-b475-497d-a2b5-fc2a129e8a73
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.template_whatsapp
+id: node.template_whatsapp.status
+field_name: status
+entity_type: node
+bundle: template_whatsapp
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

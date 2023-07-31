@@ -1,0 +1,5 @@
+description: 'Flush expired token'
+options: {}
+arguments: {}
+messages:
+    success: 'Expired token successfully deleted'

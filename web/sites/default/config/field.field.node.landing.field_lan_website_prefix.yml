@@ -1,0 +1,19 @@
+uuid: fbb468f3-9f7e-48d5-9278-d9d7e567bbd6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lan_website_prefix
+    - node.type.landing
+id: node.landing.field_lan_website_prefix
+field_name: field_lan_website_prefix
+entity_type: node
+bundle: landing
+label: 'Website Prefix'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

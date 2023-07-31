@@ -1,0 +1,19 @@
+uuid: 4b666fc6-1921-46cd-ac40-f5a34e22854a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lan_website_meta
+    - node.type.landing
+id: node.landing.field_lan_website_meta
+field_name: field_lan_website_meta
+entity_type: node
+bundle: landing
+label: 'Website Meta'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

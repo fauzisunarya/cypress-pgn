@@ -1,0 +1,19 @@
+uuid: ba2e0332-07a0-4dd8-9ea4-2c23d03824ae
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_add_price_total
+    - node.type.addon
+id: node.addon.field_add_price_total
+field_name: field_add_price_total
+entity_type: node
+bundle: addon
+label: 'Price Total'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

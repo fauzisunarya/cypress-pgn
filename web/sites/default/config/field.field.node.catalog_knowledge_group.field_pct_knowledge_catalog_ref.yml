@@ -1,0 +1,29 @@
+uuid: a0062bc4-a60e-4949-977e-de5dd35396f4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pct_knowledge_catalog_ref
+    - node.type.catalog_knowledge_group
+    - node.type.product_catalog
+id: node.catalog_knowledge_group.field_pct_knowledge_catalog_ref
+field_name: field_pct_knowledge_catalog_ref
+entity_type: node
+bundle: catalog_knowledge_group
+label: 'Catalog Reference'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node_by_field'
+  handler_settings:
+    target_bundles:
+      product_catalog: product_catalog
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

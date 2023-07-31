@@ -1,0 +1,23 @@
+uuid: 579cf8e9-b379-4c1a-9545-9bf4ef7ee7bc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_left
+    - group.type.divisi_it
+id: group.divisi_it.subgroup_left
+field_name: subgroup_left
+entity_type: group
+bundle: divisi_it
+label: Left
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

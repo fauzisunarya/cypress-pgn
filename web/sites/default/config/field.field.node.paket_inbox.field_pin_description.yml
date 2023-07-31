@@ -1,0 +1,19 @@
+uuid: d0817978-2dc7-4a36-848e-e3b2d8911e05
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pin_description
+    - node.type.paket_inbox
+id: node.paket_inbox.field_pin_description
+field_name: field_pin_description
+entity_type: node
+bundle: paket_inbox
+label: Description
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

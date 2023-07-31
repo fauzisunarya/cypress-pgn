@@ -1,0 +1,23 @@
+uuid: 5e8adbd4-9eeb-49dc-b271-803156efc729
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tem_email_body
+    - node.type.template_email
+  module:
+    - text
+id: node.template_email.field_tem_email_body
+field_name: field_tem_email_body
+entity_type: node
+bundle: template_email
+label: Body
+description: '<span>Variabel yang bisa digunakan di template email</span><ul><li>%pct_name% = Parameter nama katalog produk</li></ul>'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

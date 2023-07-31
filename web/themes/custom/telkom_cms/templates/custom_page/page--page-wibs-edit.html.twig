@@ -1,0 +1,154 @@
+
+<!-- Sidebar-->
+{{page.sidebar_menu}}
+
+<!-- Page content wrapper-->
+<div class="content-wrapper">
+
+    <!-- topbar start -->
+      <header class="navbar navbar-light navbar-expand-md bg-white sticky-top shadow-sm px-4">
+        <!-- button toggled sidenav start -->
+        <button class="navbar-toggler border-0" type="button" id="sidebarToggle">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- button toggled sidenav end -->
+        <!-- navbar brand start -->
+        {{page.title}}
+        <!-- navbar brand start -->
+        <ul class="navbar-nav ms-auto">
+          {% if logged_in %}
+            <li class="nav-item dropdown dropdown-notification">
+                <a href="#" class="nav-link pe-3" id="notification" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="nav-notification">
+                    <img src="{{ url('<front>')|render }}themes/custom/telkom_cms/assets/icons/ic-bell-new.svg" alt="">
+                </div>
+                <span class="badge badge-danger rounded-circle noti-icon-badge">{{unread_notification}}</span>
+                </a>
+                <div class="dropdown-menu notification-menu dropdown-menu-end animate slideIn"
+                aria-labelledby="navbarDropdown">
+                    {% for notif in notification %}
+                        <a class="dropdown-item" href="{{notif.url}}">
+                            {% if notif.is_read %}
+                                {{notif.title}}
+                            {% else %}
+                                <b>{{notif.title}}</b>
+                            {% endif %}
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        {% if loop.last %}
+                            <a class="dropdown-item text-center text-primary" href="{{base_url}}/notification">Lihat Semua</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if notification is empty %}
+                        <a class="dropdown-item text-center" href="#">There is no notification</a>
+                    {% endif %}
+                </div>
+            </li>
+          {% endif %}
+
+          {{page.user_navigation}}          
+          
+        </ul>
+      </header>
+      <!-- topbar end -->
+
+      <!-- breadcrumb start -->
+      {{page.breadcrumb}}
+      <!-- breadcrumb end -->
+
+      {{page.content.messages}}
+
+      <!-- content start -->
+      <div class="container-fluid px-4 mb-5">
+            {% if wibs is null %}
+                wibs Not Found
+            {% else %}
+                {# {{dump(wibs)}} #}
+                <form method="POST" class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="fw-bold">Master Data</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="fw-bold">Edit Data</h6>
+                            </div>
+                        </div>
+                        {% for key, item in wibs.master_data %}
+                            {% 
+                                set default_title = key|replace({'_': ' '})|title 
+                            %}
+                            {% if wibs.data[key].hidden == true %}
+                                {% set checked = "checked" %}
+                            {% else %}
+                                {% set checked = "" %}
+                            {% endif %}
+                            <div class="row align-items-end">
+                                <div class="form-group col-md-6">
+                                    <label class="mt-4 pb-2">{{default_title}}</label>
+                                    <textarea class="form-control border mt-2" cols="30" rows="4" disabled>{{item}}</textarea>
+                                </div>
+                                {% if wibs.data[key].disabled %}
+                                    <div class="form-group col-md-6">
+                                        <div class="form-check d-flex align-items-center my-3 ps-0">
+                                            <input type="checkbox" name="{{key}}_hidden" id="{{key}}_hidden" disabled>
+                                            <label class="form-check-label ms-2" for="{{key}}_hidden">
+                                                Hidden
+                                            </label>
+                                            <input disabled type="text" class="form-control border ms-4" name="{{key}}_title" value="{{wibs.data[key].showname}}">
+                                        </div>
+                                        <textarea disabled class="form-control border" name="{{key}}_value" cols="30" rows="4">{{wibs.data[key].value}}</textarea>
+                                    </div>
+                                {% else %}
+                                    <div class="form-group col-md-6">
+                                        <div class="form-check d-flex align-items-center my-3 ps-0">
+                                            {% if key == 'title' %}
+                                                {# title can't be hidden #}
+                                                <input name="{{key}}_hidden" id="{{key}}_hidden" disabled type="checkbox">
+                                            {% else %}
+                                                <input name="{{key}}_hidden" id="{{key}}_hidden" {{checked}} type="checkbox">
+                                            {% endif %}
+                                            <label class="form-check-label ms-2" for="{{key}}_hidden">
+                                                Hidden
+                                            </label>
+                                            <input type="text" class="form-control border ms-4" name="{{key}}_title" value="{{wibs.data[key].showname}}">
+                                        </div>
+                                        <textarea class="form-control border" name="{{key}}_value" cols="30" rows="4">{{wibs.data[key].value}}</textarea>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <div class="row mt-4">
+                            <div class="form-group col-md-6">
+                                <label class="pb-2">Tags</label>
+                                <input type="text" class="form-control border" name="tags" value="{{wibs.tags['value']}}" />
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="form-group col-md-6">
+                                <label class="pb-2">Category</label>
+                                {% for keyname, value in wibs.category.option %}
+                                    {# {% if wibs.category.selected[keyname] %} #}
+                                        {% set checked = wibs.category.selected[keyname] ? "checked" : "" %}
+                                    {# {% endif %} #}
+                                    <div class="form-check">
+                                        <input type="checkbox" name="category[{{value.id}}]" id="category_{{value.id}}" value="{{value.id}}" {{checked}} /> 
+                                        <label for="category_{{value.id}}" class="form-check-label" style="cursor:pointer;">{{keyname}}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <input type="submit" name="edit-wibs" value="Update" class="btn btn-primary float-end" />
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>

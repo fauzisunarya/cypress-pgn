@@ -1,0 +1,67 @@
+uuid: b16f2ad4-b2fa-4685-b693-8406d8322397
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.log_mydita_paperless.field_lmp_callback_request
+    - field.field.node.log_mydita_paperless.field_lmp_callback_response
+    - field.field.node.log_mydita_paperless.field_lmp_create_order_request
+    - field.field.node.log_mydita_paperless.field_lmp_create_order_response
+    - field.field.node.log_mydita_paperless.field_lmp_paperless_request
+    - field.field.node.log_mydita_paperless.field_lmp_paperless_response
+    - node.type.log_mydita_paperless
+  module:
+    - user
+id: node.log_mydita_paperless.default
+targetEntityType: node
+bundle: log_mydita_paperless
+mode: default
+content:
+  field_lmp_callback_request:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_lmp_callback_response:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_lmp_create_order_request:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_lmp_create_order_response:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_lmp_paperless_request:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_lmp_paperless_response:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

@@ -1,0 +1,437 @@
+/* Navbar Account */
+.account_img.rounded-circle {
+  width: 35px !important;
+  height: 35px !important;
+  border-radius: 50rem !important;
+  object-fit: cover;
+}
+
+.text-justify{
+  text-align: justify;
+}
+
+.article-bodycustom{
+  text-indent: 20px;
+  line-height: 25px;
+}
+
+.article-bodycustom br {
+  display: none;
+}
+
+.ck-editor__editable[role="textbox"] {
+  /* editing area */
+  min-height: 200px;
+}
+
+/* Custom CSS for telkom CMS theme */
+
+#page-content-wrapper {
+  position: relative !important;
+}
+
+#page-content-wrapper .top-navigation {
+  /* position: absolute !important; */
+  /* z-index: 1; */
+}
+
+.accordion-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 0.7rem;
+  font-family: "poppins-bold";
+  color: #212529;
+  text-align: left;
+  background-color: #fff;
+  border: 0;
+  border-radius: 0;
+  overflow-anchor: none;
+  color: var(--bs-color-primary);
+  font-weight: bold;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    border-radius 0.15s ease;
+}
+
+.accordion-button-no-child {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 0.7rem;
+  font-family: "poppins-bold";
+  color: #212529;
+  text-align: left;
+  background-color: #fff;
+  border: 0;
+  border-radius: 0;
+  overflow-anchor: none;
+  color: var(--bs-color-primary);
+  font-weight: bold;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    border-radius 0.15s ease;
+}
+
+a.accordion-button-no-child:hover {
+  color: var(--bs-color-primary);
+}
+
+.table-responsive a {
+  color: inherit;
+}
+
+.table-responsive a:hover {
+  color: inherit;
+}
+
+.layout-region-node-main {
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+.layout-region-node-secondary,
+.layout-region-node-footer,
+.layout-region-node-main {
+  border-radius: 8px !important;
+}
+
+.w3-row.field {
+  margin-bottom: 20px;
+}
+
+.w3-row.field.field--type-string-long {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.w3-row.field label {
+  font-weight: 600;
+}
+
+.w3-row.field article header h3 {
+  font-size: inherit;
+}
+
+.login-logo {
+  content: url("../assets/logo/telkom-logo-only.svg");
+  vertical-align: middle;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.views-element-container.contextual-region.container-fluid {
+  margin-top: 2rem !important;
+}
+
+.views-element-container.container-fluid {
+  margin-top: 2rem !important;
+}
+
+.node__title span {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.node__author-image img {
+  width: 32px !important;
+  height: 32px !important;
+  object-fit: cover;
+  object-position: center;
+}
+
+.node__author-image .w3-row.field {
+  margin-bottom: 0 !important;
+}
+
+.w3-row.node__header {
+  margin-bottom: 20px !important;
+}
+
+.w3-row.field.field--name-body.field--type-text-with-summary.field--label-hidden.w3-bar-item.field__item {
+  font-size: 14px !important;
+}
+
+.w3-row.field.field--name-field-image.field--type-image.field--label-hidden.field__item
+  img {
+  margin-right: 16px;
+}
+
+.toolbar-bar {
+  position: fixed !important;
+}
+
+/* list article */
+.views-element-container.contextual-region.container-fluid,
+.contextual-region.w3-row.node.node--type-article.node--promoted.node--view-mode-full {
+  flex: 1 1 auto;
+  padding: 1rem 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border-radius: 0.25rem;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.view .node--view-mode-teaser .node__content .field--name-field-image {
+  margin-left: 24px;
+  margin: 0 16px;
+}
+
+.w3-row.field.field--name-field-image.field--type-image.field--label-hidden.field__item
+  img {
+  margin-right: 0;
+}
+
+.node .field--name-field-image {
+  float: right;
+}
+
+a.d8-has-image > img.w3-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.w3-row.field.field--name-body.field--type-text-with-summary.field--label-hidden.w3-bar-item.field__item
+  p:nth-child(1) {
+  margin-bottom: 0.5rem;
+}
+
+.w3-row.field.field--name-body.field--type-text-with-summary.field--label-hidden.w3-bar-item.field__item
+  p:nth-child(2) {
+  color: #757575;
+}
+
+.node__meta .node__author-info {
+  font-size: 13px;
+}
+
+.node__content ul.links {
+  float: left;
+}
+
+.w3-ul li {
+  padding: 0;
+}
+
+input,
+textarea,
+.region-title__action a,
+.admin-context form .form-actions > a,
+.admin-context .action-links li > a,
+.view-filters details.form-wrapper {
+  box-shadow: none;
+}
+
+.form-select {
+  font-size: 14px !important;
+}
+
+label {
+  font-size: 14px;
+}
+
+.form-control {
+  border: 1px solid #bdbdbd !important;
+  border-radius: 3px !important;
+}
+.form-control:focus {
+  border-color: #86b7fe !important;
+}
+
+th[id^="view-nothing"],
+td[class^="views-field views-field-nothing"] {
+  text-align: center !important;
+}
+
+.btn-warning {
+  padding: 10px 30px 10px 30px !important;
+  color: white;
+  border-radius: 50rem !;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+.cursor-default {
+  cursor: text;
+}
+
+.section-media {
+  position: relative;
+  overflow: hidden;
+  max-height: 100%;
+  min-height: 100%;
+}
+
+/* accordion paket */
+
+#accordion-paket .nav-item-link,
+#accordion-paket .accordion-button {
+  padding: 1rem 0;
+}
+
+#accordion-paket .accordion-button {
+  padding-left: 1rem;
+}
+
+#node-product-catalog-form .label,
+#node-product-catalog-edit-form .label,
+#node-paket-video-form .label,
+#node-product-catalog-form .fieldset-legend,
+#node-product-catalog-edit-form .fieldset-legend,
+#node-article-form .fieldset-legend,
+#node-paket-media-form .fieldset-legend {
+  font-size: 15px;
+}
+
+#node-product-catalog-form #edit-field-pct-category-wrapper,
+#node-product-catalog-edit-form #edit-field-pct-category-wrapper,
+#node-product-catalog-form #edit-meta,
+#node-product-catalog-edit-form #edit-meta,
+#node-article-form #edit-meta,
+#node-paket-media-form #edit-field-pct-category-wrapper,
+#node-paket-media-form #edit-meta {
+  padding-left: 8px !important;
+}
+
+#node-product-catalog-form #edit-field-pct-description-0-format,
+#node-product-catalog-edit-form #edit-field-pct-description-0-format,
+#node-paket-media-form #edit-field-pct-description-0-format {
+  padding-left: 5px !important;
+}
+
+#node-product-catalog-form #edit-field-pct-description-0-format-help,
+#node-template-email-form #edit-field-tem-email-body-0-format,
+#node-product-catalog-edit-form #edit-field-pct-description-0-format-help,
+#node-paket-media-form #edit-field-pct-description-0-format-help {
+  margin-left: -25px !important;
+  margin-bottom: 5px;
+}
+
+#node-product-catalog-form #edit-status-wrapper,
+#node-template-whatsapp-form #edit-status-wrapper,
+#node-template-sms-form #edit-status-wrapper,
+#node-template-email-form #edit-status-wrapper,
+#node-product-catalog-edit-form #edit-status-wrapper,
+#node-paket-video-form #edit-status-wrapper,
+#node-article-form #edit-status-wrapper,
+#node-product-knowledge-form #edit-status-wrapper,
+#node-news-form #edit-status-wrapper,
+#node-paket-media-form #edit-status-wrapper {
+  padding-left: 0;
+  margin-left: -8px;
+}
+
+#node-product-catalog-form #edit-actions,
+#node-template-whatsapp-form #edit-actions,
+#node-template-sms-form #edit-actions,
+#node-template-email-form #edit-actions,
+#node-product-knowledge-form #edit-actions,
+#node-product-catalog-edit-form #edit-actions,
+#node-article-form #edit-actions--2,
+#node-news-form #edit-actions--2,
+#node-paket-media-form #edit-actions {
+  margin-left: 20px;
+}
+
+#node-product-catalog-form #edit-actions input,
+#node-template-whatsapp-form #edit-actions input,
+#add-template-form #edit-actions input,
+#node-template-email-form #edit-actions input,
+#node-template-sms-form #edit-actions input,
+#contact-message-feedback-form #edit-actions input,
+#node-product-knowledge-form #edit-actions input,
+#node-product-catalog-edit-form #edit-actions input,
+#node-paket-video-form #edit-actions input,
+#node-news-form #edit-actions--2 input,
+#node-article-form #edit-actions--2 input,
+#taxonomy-term-product-knowledge-form #edit-submit,
+#node-paket-media-form #edit-actions input {
+  border-radius: 9999px;
+  color: white;
+  font-weight: bold;
+  border: none !important;
+}
+
+#node-product-catalog-form #edit-actions #edit-submit,
+#node-product-knowledge-form #edit-actions #edit-submit,
+#node-product-catalog-edit-form #edit-actions #edit-submit,
+#node-paket-video-form #edit-actions #edit-submit,
+#node-template-email-form #edit-actions #edit-preview,
+#node-template-whatsapp-form #edit-actions #edit-preview,
+#node-template-sms-form #edit-actions #edit-preview,
+#node-article-form #edit-actions--2 #edit-submit,
+#node-news-form #edit-actions--2 #edit-submit,
+#contact-message-feedback-form #edit-actions #edit-preview,
+#node-paket-media-form #edit-actions #edit-submit {
+  background-color: red;
+}
+
+#node-product-catalog-form #edit-actions #edit-preview,
+#node-product-catalog-edit-form #edit-actions #edit-preview,
+#node-paket-video-form #edit-actions #edit-preview,
+#taxonomy-term-product-knowledge-form #edit-actions #edit-preview,
+#node-article-form #edit-actions--2 #edit-preview,
+#node-news-form #edit-actions--2 #edit-preview,
+#node-product-knowledge-form #edit-actions #edit-preview,
+#taxonomy-term-product-knowledge-form #edit-submit,
+#node-template-email-form #edit-submit,
+#contact-message-feedback-form #edit-submit,
+#node-template-whatsapp-form #edit-submit,
+#node-template-sms-form #edit-submit,
+#add-template-form #edit-save,
+#node-paket-media-form #edit-actions #edit-preview {
+  background-color: green;
+}
+
+#node-paket-media-form #edit-field-media-category--wrapper,
+#node-article-form #edit-field-date-0,
+#node-article-form #edit-revision-information,
+#node-article-form #edit-body-0-format,
+#node-news-form #edit-body-0-format,
+#node-product-knowledge-form #edit-body-0-format,
+#node-product-knowledge-form #edit-field-pknowledge-upload-media-ajax-wrapper,
+#node-news-form #edit-field-news-date-0,
+#node-news-form #edit-description-0-format,
+#taxonomy-term-product-knowledge-form #edit-description-0-format,
+#node-article-form #edit-revision-log-wrapper {
+  padding-left: 0;
+}
+
+#node-article-form #edit-body-0-format #edit-body-0-format-help a,
+#node-template-email-form
+  #edit-field-tem-email-body-0-format
+  #edit-field-tem-email-body-0-format-help
+  a,
+#node-product-knowledge-form #edit-body-0-format #edit-body-0-format-help a,
+#taxonomy-term-product-knowledge-form #edit-description-0-format-help {
+  margin-left: -28px;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+#taxonomy-term-product-knowledge-form,
+#add-landing-page-form,
+#add-template-form,
+#contact-message-feedback-form {
+  background-color: white;
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
