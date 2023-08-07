@@ -1,0 +1,23 @@
+uuid: f3c53493-9ac9-4a44-b59d-2ade37d1156f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_left
+    - group.type.head_of_corporate_comm
+id: group.head_of_corporate_comm.subgroup_left
+field_name: subgroup_left
+entity_type: group
+bundle: head_of_corporate_comm
+label: Left
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

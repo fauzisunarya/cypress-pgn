@@ -1,0 +1,17 @@
+uuid: 0db97bab-f436-4780-9328-66721c23d98c
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_regulatory_mgt
+  enforced:
+    config:
+      - user.role.approval
+id: vp_regulatory_mgt-d6b2e7af3
+label: Approval
+weight: 6
+internal: true
+audience: outsider
+group_type: vp_regulatory_mgt
+permissions_ui: false
+permissions: {  }

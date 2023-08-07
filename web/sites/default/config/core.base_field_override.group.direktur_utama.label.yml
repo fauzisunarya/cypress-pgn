@@ -1,0 +1,18 @@
+uuid: b6255adc-f5f7-4384-87ae-e5b05b064b30
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.direktur_utama
+id: group.direktur_utama.label
+field_name: label
+entity_type: group
+bundle: direktur_utama
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

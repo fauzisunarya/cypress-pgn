@@ -1,0 +1,22 @@
+uuid: 45f23231-3bf3-4270-9dcc-1e9af5c3eba5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group_content.group_roles
+    - group.content_type.telkom-group_membership
+id: group_content.telkom-group_membership.group_roles
+field_name: group_roles
+entity_type: group_content
+bundle: telkom-group_membership
+label: Roles
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'group_type:group_role'
+  handler_settings:
+    group_type_id: telkom
+field_type: entity_reference

@@ -1,0 +1,28 @@
+uuid: 828cd986-a257-4f9f-9bcd-4048f0c12f04
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.product_catalog_template_ig.field_pct_tem_ig_body
+    - field.field.node.product_catalog_template_ig.field_pct_tem_ig_media
+    - field.field.node.product_catalog_template_ig.field_pct_tem_ig_parent
+    - field.field.node.product_catalog_template_ig.field_workflow_status
+    - node.type.product_catalog_template_ig
+  module:
+    - user
+id: node.product_catalog_template_ig.teaser
+targetEntityType: node
+bundle: product_catalog_template_ig
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_pct_tem_ig_body: true
+  field_pct_tem_ig_media: true
+  field_pct_tem_ig_parent: true
+  field_workflow_status: true

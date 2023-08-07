@@ -1,0 +1,18 @@
+.icl-pricing--style-2 {
+  text-align: center;
+  border: 2px solid #e3e3e3;
+  padding: 60px 20px;
+}
+
+.icl-pricing--style-2.is-featured {
+  border-color: var(--primaryColor);
+}
+
+.icl-pricing--style-2 .icl-pricing__title {
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.icl-pricing--style-2 .icl-pricing__content {
+  margin-bottom: 30px;
+}

@@ -1,0 +1,29 @@
+uuid: 806ca5d4-238b-4146-a77b-4a88f6534813
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lcfp_landing_id
+    - node.type.landing
+    - node.type.landing_custom_form_post
+id: node.landing_custom_form_post.field_lcfp_landing_id
+field_name: field_lcfp_landing_id
+entity_type: node
+bundle: landing_custom_form_post
+label: 'Landing ID'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node_by_field'
+  handler_settings:
+    target_bundles:
+      landing: landing
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

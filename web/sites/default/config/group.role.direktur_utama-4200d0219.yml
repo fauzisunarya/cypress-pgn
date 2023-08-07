@@ -1,0 +1,17 @@
+uuid: ffa9f3f4-d122-4d75-9e7f-4207cad79742
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.direktur_utama
+  enforced:
+    config:
+      - user.role.admin
+id: direktur_utama-4200d0219
+label: Admin
+weight: 5
+internal: true
+audience: outsider
+group_type: direktur_utama
+permissions_ui: false
+permissions: {  }

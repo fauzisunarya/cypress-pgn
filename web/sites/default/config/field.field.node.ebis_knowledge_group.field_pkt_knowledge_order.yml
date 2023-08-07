@@ -1,0 +1,25 @@
+uuid: 939c3e33-d376-47a4-aca1-e6d40ccd7fa2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_knowledge_order
+    - node.type.ebis_knowledge_group
+id: node.ebis_knowledge_group.field_pkt_knowledge_order
+field_name: field_pkt_knowledge_order
+entity_type: node
+bundle: ebis_knowledge_group
+label: 'Knowledge Order'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: ref_ebis_product_knowledge
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

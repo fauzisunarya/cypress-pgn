@@ -1,0 +1,25 @@
+uuid: b405995a-4bd8-45ab-b2f0-d53c08bca61f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_seg_knowledge_priority
+    - node.type.segment_knowledge_group
+id: node.segment_knowledge_group.field_seg_knowledge_priority
+field_name: field_seg_knowledge_priority
+entity_type: node
+bundle: segment_knowledge_group
+label: 'Knowledge Priority'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: ref_segment_product_knowledge
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

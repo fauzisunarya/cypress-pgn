@@ -1,0 +1,22 @@
+uuid: 7e2916a6-8881-44bb-aab6-d06aabb3d9f1
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: path_content_type_landing
+label: 'Path Content Type Landing'
+type: 'canonical_entities:node'
+pattern: 'landing/[node:title]'
+selection_criteria:
+  251bad92-7fa8-4938-a215-1913327626d7:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 251bad92-7fa8-4938-a215-1913327626d7
+    context_mapping:
+      node: node
+    bundles:
+      landing: landing
+selection_logic: and
+weight: -5
+relationships: {  }

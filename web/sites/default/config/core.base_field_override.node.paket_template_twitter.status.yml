@@ -1,0 +1,22 @@
+uuid: 48a59586-a125-479c-a3bb-0c2eb3e5fcd3
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.paket_template_twitter
+id: node.paket_template_twitter.status
+field_name: status
+entity_type: node
+bundle: paket_template_twitter
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

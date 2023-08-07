@@ -1,0 +1,98 @@
+uuid: 8f014d3b-8063-4fcf-aa4b-7f3792ff372c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_notif_content
+    - node.type.article
+    - node.type.external_request
+    - node.type.landing
+    - node.type.news
+    - node.type.notification
+    - node.type.paket
+    - node.type.paket_content
+    - node.type.paket_media
+    - node.type.paket_product_knowledge
+    - node.type.paket_template_email
+    - node.type.paket_template_facebook
+    - node.type.paket_template_instagram
+    - node.type.paket_template_sms
+    - node.type.paket_template_twitter
+    - node.type.paket_template_whatsapp
+    - node.type.paket_video
+    - node.type.product_catalog
+    - node.type.product_catalog_product_knowledg
+    - node.type.product_catalog_template_fb
+    - node.type.product_catalog_template_ig
+    - node.type.product_catalog_template_twitter
+    - node.type.product_catalogue_template_email
+    - node.type.product_catalogue_template_sms
+    - node.type.product_catalogue_template_wa
+    - node.type.product_knowledge
+    - node.type.template
+    - node.type.template_email
+    - node.type.template_facebook
+    - node.type.template_instagram
+    - node.type.template_page
+    - node.type.template_pricing_catalog
+    - node.type.template_pricing_paket
+    - node.type.template_pricing_setting
+    - node.type.template_sms
+    - node.type.template_twitter
+    - node.type.template_whatsapp
+id: node.notification.field_notif_content
+field_name: field_notif_content
+entity_type: node
+bundle: notification
+label: Content
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node_by_field'
+  handler_settings:
+    target_bundles:
+      article: article
+      external_request: external_request
+      landing: landing
+      news: news
+      paket: paket
+      paket_content: paket_content
+      paket_media: paket_media
+      paket_product_knowledge: paket_product_knowledge
+      paket_template_email: paket_template_email
+      paket_template_facebook: paket_template_facebook
+      paket_template_instagram: paket_template_instagram
+      paket_template_sms: paket_template_sms
+      paket_template_twitter: paket_template_twitter
+      paket_template_whatsapp: paket_template_whatsapp
+      paket_video: paket_video
+      product_catalog: product_catalog
+      product_catalog_product_knowledg: product_catalog_product_knowledg
+      product_catalog_template_fb: product_catalog_template_fb
+      product_catalog_template_ig: product_catalog_template_ig
+      product_catalog_template_twitter: product_catalog_template_twitter
+      product_catalogue_template_email: product_catalogue_template_email
+      product_catalogue_template_sms: product_catalogue_template_sms
+      product_catalogue_template_wa: product_catalogue_template_wa
+      product_knowledge: product_knowledge
+      template: template
+      template_email: template_email
+      template_facebook: template_facebook
+      template_instagram: template_instagram
+      template_page: template_page
+      template_pricing_catalog: template_pricing_catalog
+      template_pricing_paket: template_pricing_paket
+      template_pricing_setting: template_pricing_setting
+      template_sms: template_sms
+      template_twitter: template_twitter
+      template_whatsapp: template_whatsapp
+      notification: notification
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: article
+field_type: entity_reference

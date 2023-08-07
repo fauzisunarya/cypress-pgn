@@ -1,0 +1,19 @@
+uuid: f1af9cf4-043c-41da-917b-6edc004487d7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pct_tem_wa_body
+    - node.type.product_catalogue_template_wa
+id: node.product_catalogue_template_wa.field_pct_tem_wa_body
+field_name: field_pct_tem_wa_body
+entity_type: node
+bundle: product_catalogue_template_wa
+label: Body
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

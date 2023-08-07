@@ -1,0 +1,24 @@
+uuid: b28e2f41-644d-409a-84c4-8d4df6070c54
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.template_sms.field_tem_sms_body
+    - field.field.node.template_sms.field_workflow_status
+    - node.type.template_sms
+  module:
+    - user
+id: node.template_sms.teaser
+targetEntityType: node
+bundle: template_sms
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_tem_sms_body: true
+  field_workflow_status: true

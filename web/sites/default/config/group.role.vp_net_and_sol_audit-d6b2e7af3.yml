@@ -1,0 +1,17 @@
+uuid: 2404cbb5-52a4-40f1-a789-37ed7374199a
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_net_and_sol_audit
+  enforced:
+    config:
+      - user.role.approval
+id: vp_net_and_sol_audit-d6b2e7af3
+label: Approval
+weight: 6
+internal: true
+audience: outsider
+group_type: vp_net_and_sol_audit
+permissions_ui: false
+permissions: {  }

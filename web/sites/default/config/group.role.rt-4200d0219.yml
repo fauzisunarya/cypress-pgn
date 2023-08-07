@@ -1,0 +1,17 @@
+uuid: 54988854-1d40-40dd-a4a6-80323bbb3d9b
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.rt
+  enforced:
+    config:
+      - user.role.admin
+id: rt-4200d0219
+label: Admin
+weight: 5
+internal: true
+audience: outsider
+group_type: rt
+permissions_ui: false
+permissions: {  }

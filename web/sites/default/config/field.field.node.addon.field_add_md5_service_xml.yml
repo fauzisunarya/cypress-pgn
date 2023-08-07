@@ -1,0 +1,19 @@
+uuid: 6dde286a-3dea-4c25-a1fc-5135903694ee
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_add_md5_service_xml
+    - node.type.addon
+id: node.addon.field_add_md5_service_xml
+field_name: field_add_md5_service_xml
+entity_type: node
+bundle: addon
+label: 'Md5 Service XML'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

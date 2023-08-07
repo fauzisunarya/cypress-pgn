@@ -1,0 +1,65 @@
+uuid: 1aa87aca-775e-4248-8c58-9871f7a41879
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.paket_inbox.field_pin_attachment
+    - field.field.node.paket_inbox.field_pin_description
+    - field.field.node.paket_inbox.field_pin_finished
+    - field.field.node.paket_inbox.field_pin_package
+    - field.field.node.paket_inbox.field_pin_package_customized
+    - node.type.paket_inbox
+  module:
+    - user
+id: node.paket_inbox.default
+targetEntityType: node
+bundle: paket_inbox
+mode: default
+content:
+  field_pin_attachment:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_pin_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_pin_finished:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_pin_package:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_pin_package_customized:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

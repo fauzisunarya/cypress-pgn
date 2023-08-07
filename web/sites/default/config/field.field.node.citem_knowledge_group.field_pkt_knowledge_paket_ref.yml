@@ -1,0 +1,29 @@
+uuid: 78663a01-cc2f-496a-a9f5-8f7272a64333
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_knowledge_paket_ref
+    - node.type.citem
+    - node.type.citem_knowledge_group
+id: node.citem_knowledge_group.field_pkt_knowledge_paket_ref
+field_name: field_pkt_knowledge_paket_ref
+entity_type: node
+bundle: citem_knowledge_group
+label: 'Citem Reference'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node_by_field'
+  handler_settings:
+    target_bundles:
+      citem: citem
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

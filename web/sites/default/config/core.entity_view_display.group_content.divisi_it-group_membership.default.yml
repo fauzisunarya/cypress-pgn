@@ -1,0 +1,23 @@
+uuid: 143704f0-8377-473f-a5dd-09729a7637fc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.group_content.divisi_it-group_membership.group_roles
+    - group.content_type.divisi_it-group_membership
+id: group_content.divisi_it-group_membership.default
+targetEntityType: group_content
+bundle: divisi_it-group_membership
+mode: default
+content:
+  group_roles:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: -4
+    region: content
+hidden:
+  entity_id: true
+  uid: true

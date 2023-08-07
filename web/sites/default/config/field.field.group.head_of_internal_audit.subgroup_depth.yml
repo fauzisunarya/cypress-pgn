@@ -1,0 +1,23 @@
+uuid: 8b701f73-7077-4667-998c-54e708910b44
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_depth
+    - group.type.head_of_internal_audit
+id: group.head_of_internal_audit.subgroup_depth
+field_name: subgroup_depth
+entity_type: group
+bundle: head_of_internal_audit
+label: Depth
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,14 @@
+uuid: 9195312a-f827-4e87-8f65-f5ea918eb960
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_public_marketing_co
+id: vp_public_marketing_co-member
+label: Member
+weight: -100
+internal: true
+audience: member
+group_type: vp_public_marketing_co
+permissions_ui: true
+permissions: {  }

@@ -1,0 +1,71 @@
+<div class="row custom-form wizard-landing">
+  <div class="all-steps" id="all-steps">
+    <button type="button" class="step button">Landing Detail</button>
+    <button type="button" class="step button">First Page</button>
+  </div>
+  <div class="col-md-12">
+    <br>
+      <div class="tab">
+          {{ form.landing_form_type }}
+          {{ form.landing_id }}
+          {{ form.landing_page_type }}
+          {{ form.landing_page_name }}
+          {{ form.landing_page_description }}
+          <div class="form-group col-md-12">
+            <label for="edit-landing-page-name" class="form-required form-label">Landing page logo</label>
+            <div class="row">
+                <div class="col-md-4 px-0 hidden">
+                  <img class="img-fluid img-thumbnail" id="output"/>
+                </div>
+                <div class="col-md-12 px-0">
+                  {{ form.landing_logo_url }}
+                  <input type="file" class="form-file form-control" name="files[landing_page_logo]" accept="image/png, image/jpeg">
+                </div>
+            </div>
+          </div>
+
+          <div class="catalog-container">
+            {{ form.landing_product }}
+            <div class="col-md-12 py-2">
+              <button class="btn btn-primary btn-add-row">Add Row</button>
+            </div>
+          </div>
+
+          {# domain #}
+          <div class="form-group col-md-12 mt-3" id="container-domain">
+              <label for="" class="form-label">Custom domain</label>
+              <div class="" style="width: 600px;display:flex;">
+                <p style="width: 75px;text-align: center;margin: 0;border: 1px solid black;padding: 5px 10px;background: lightgray;font-weight: bold;">https://</p>
+                <input type="text" id="input-domain" value="" style="width: 295px; border: 1px solid black; padding: 5px;">
+                <div class="messages messages--status" style="margin-left: 24px; padding: 5px 10px; font-weight: bold; display:none">Available</div>
+              </div>
+          </div>
+
+          {# subdomain #}
+          <div class="form-group col-md-12 mt-3" id="container-subdomain">
+              <label for="" class="form-label">Subdomain</label>
+              <div class="" style="width: 600px;display:flex;">
+                <input type="text" id="input-subdomain" value="{{form.landing_subdomain['#custom_value']}}" style="width: 200px; border: 1px solid black; padding: 5px;" class="">
+                <p style="width: 170px;text-align: center;margin: 0;border: 1px solid black;padding: 5px 10px;background: lightgray;font-weight: bold;">{{form.landing_subdomain['#custom_domain']}}</p>
+                <div class="messages messages--status" style="margin-left: 24px; padding: 5px 10px; font-weight: bold; display:none">Available</div>
+              </div>
+          </div>
+         
+      </div>
+      <div class="tab">
+          {{ form.page_label }}
+          {{ form.page_title }}
+          {{ form.page_description }}
+      </div>
+      <div class="thanks-message text-center" id="text-message"> <img src="https://i.imgur.com/O18mJ1K.png" width="100" class="mb-4">
+        <h3>Success!</h3>
+      </div>
+      <div style="overflow:auto;" id="nextprevious">
+          <div style="float:right;">
+            <button type="button" id="prevBtn" onclick="nextPrevLanding(-1)" class="button">Previous</button>
+            <button type="button" id="nextBtn" onclick="nextPrevLanding(1)" class="button">Next</button>
+            <button style="display:none ; margin-left:15px" class="button float-end btn-submit-landing">Submit</button>
+          </div>
+      </div>
+  </div>
+</div>

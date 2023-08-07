@@ -1,0 +1,23 @@
+uuid: 4d0dab9f-e28b-4c31-9948-8ce9b6801822
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.group_content.kelurahan-group_membership.group_roles
+    - group.content_type.kelurahan-group_membership
+id: group_content.kelurahan-group_membership.default
+targetEntityType: group_content
+bundle: kelurahan-group_membership
+mode: default
+content:
+  group_roles:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: -4
+    region: content
+hidden:
+  entity_id: true
+  uid: true

@@ -1,0 +1,12 @@
+uuid: 7c2ffdcb-058e-47d6-8b1d-c813aa7bdfb4
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflow.workflow.workflow_status
+id: workflow_status_pending
+label: Pending
+module: workflow
+wid: workflow_status
+weight: -9
+sysid: 0

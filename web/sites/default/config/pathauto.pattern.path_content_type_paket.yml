@@ -1,0 +1,22 @@
+uuid: 803f009f-b94b-4479-8f89-697fd4bcbc31
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: path_content_type_paket
+label: 'Path Content Type Paket'
+type: 'canonical_entities:node'
+pattern: 'paket/[node:title]'
+selection_criteria:
+  1881d69c-05d5-436e-b414-f1cf0d6b14bb:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 1881d69c-05d5-436e-b414-f1cf0d6b14bb
+    context_mapping:
+      node: node
+    bundles:
+      paket: paket
+selection_logic: and
+weight: -5
+relationships: {  }

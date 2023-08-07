@@ -1,0 +1,21 @@
+uuid: 44e4c3fd-3189-4269-b474-885c3a97d776
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_workflow_status
+    - node.type.paket_template_whatsapp
+  module:
+    - workflow
+id: node.paket_template_whatsapp.field_workflow_status
+field_name: field_workflow_status
+entity_type: node
+bundle: paket_template_whatsapp
+label: 'Workflow Status'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: workflow

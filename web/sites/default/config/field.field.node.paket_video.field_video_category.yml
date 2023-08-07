@@ -1,0 +1,29 @@
+uuid: 23304611-b0bb-4c18-88f3-4d618e2185cb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_video_category
+    - node.type.paket_video
+    - taxonomy.vocabulary.paket_video
+id: node.paket_video.field_video_category
+field_name: field_video_category
+entity_type: node
+bundle: paket_video
+label: Category
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      paket_video: paket_video
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

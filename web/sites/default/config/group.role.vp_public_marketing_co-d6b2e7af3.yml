@@ -1,0 +1,17 @@
+uuid: 87e649e3-a679-46ca-b2ea-d7728a30eb62
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_public_marketing_co
+  enforced:
+    config:
+      - user.role.approval
+id: vp_public_marketing_co-d6b2e7af3
+label: Approval
+weight: 6
+internal: true
+audience: outsider
+group_type: vp_public_marketing_co
+permissions_ui: false
+permissions: {  }

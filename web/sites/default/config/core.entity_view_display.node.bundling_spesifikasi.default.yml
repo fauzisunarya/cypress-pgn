@@ -1,0 +1,46 @@
+uuid: b31b40d2-221c-4414-a55a-2bc281d4a48d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.bundling_spesifikasi.field_spec_category
+    - field.field.node.bundling_spesifikasi.field_spec_code_ppt
+    - field.field.node.bundling_spesifikasi.field_spec_workflow_state
+    - node.type.bundling_spesifikasi
+  module:
+    - options
+    - user
+id: node.bundling_spesifikasi.default
+targetEntityType: node
+bundle: bundling_spesifikasi
+mode: default
+content:
+  field_spec_category:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_spec_code_ppt:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_spec_workflow_state:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

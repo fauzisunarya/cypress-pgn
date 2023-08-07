@@ -1,0 +1,18 @@
+uuid: 2c5a558f-db85-43aa-a88d-e3963f040bd9
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: 'Product Catalogue Template Whatsapp'
+type: product_catalogue_template_wa
+description: ''
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true

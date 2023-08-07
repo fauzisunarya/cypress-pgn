@@ -1,0 +1,23 @@
+uuid: 65313de7-65b1-4407-945a-7c7488be1cfd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_depth
+    - group.type.vp_public_marketing_co
+id: group.vp_public_marketing_co.subgroup_depth
+field_name: subgroup_depth
+entity_type: group
+bundle: vp_public_marketing_co
+label: Depth
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

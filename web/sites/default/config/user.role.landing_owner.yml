@@ -1,0 +1,31 @@
+uuid: d536b47f-9c53-4128-9985-ea22aadeaf9f
+langcode: en
+status: true
+dependencies:
+  config:
+    - rest.resource.custom_rest_project
+    - rest.resource.custom_rest_project_block_styles
+    - rest.resource.custom_rest_project_block_templates
+    - rest.resource.custom_rest_project_blocks
+    - rest.resource.custom_rest_project_image_asset
+    - rest.resource.custom_rest_project_media
+    - rest.resource.custom_rest_project_page_builder
+    - rest.resource.custom_rest_project_templates
+    - rest.resource.rest_project_custom_form
+  module:
+    - rest
+id: landing_owner
+label: 'Landing Owner'
+weight: 8
+is_admin: null
+permissions:
+  - 'restful get custom_rest_project'
+  - 'restful get custom_rest_project_block_styles'
+  - 'restful get custom_rest_project_block_templates'
+  - 'restful get custom_rest_project_blocks'
+  - 'restful get custom_rest_project_image_asset'
+  - 'restful get custom_rest_project_media'
+  - 'restful get custom_rest_project_page_builder'
+  - 'restful get custom_rest_project_templates'
+  - 'restful post custom_rest_project'
+  - 'restful post rest_project_custom_form'

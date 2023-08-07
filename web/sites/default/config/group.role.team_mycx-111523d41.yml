@@ -1,0 +1,17 @@
+uuid: 70928391-7b6c-49bb-a5ac-d68cb4f7ab47
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.team_mycx
+  enforced:
+    config:
+      - user.role.content_editor
+id: team_mycx-111523d41
+label: 'Content editor'
+weight: 2
+internal: true
+audience: outsider
+group_type: team_mycx
+permissions_ui: false
+permissions: {  }

@@ -1,0 +1,23 @@
+uuid: f6e00fc0-a448-47b9-8430-3f9252b2cec7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_left
+    - group.type.kelurahan
+id: group.kelurahan.subgroup_left
+field_name: subgroup_left
+entity_type: group
+bundle: kelurahan
+label: Left
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,8 @@
+uuid: ce50ca1a-65a9-4eb9-9575-a2712136a23b
+langcode: en
+status: true
+dependencies: {  }
+name: 'Product Catalog Type'
+vid: product_catalog_type
+description: 'Tipe catalog. Ex: Citem, Addon, Paket, Wibs, etc'
+weight: -2

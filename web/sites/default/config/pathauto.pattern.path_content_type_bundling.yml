@@ -1,0 +1,22 @@
+uuid: 5dc060ea-1184-44c5-ab34-b518ec808bf3
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: path_content_type_bundling
+label: 'Path Content Type Bundling'
+type: 'canonical_entities:node'
+pattern: 'bundling/[node:title]'
+selection_criteria:
+  70418957-eb19-412f-9e9f-487fd884b3fa:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 70418957-eb19-412f-9e9f-487fd884b3fa
+    context_mapping:
+      node: node
+    bundles:
+      bundling: bundling
+selection_logic: and
+weight: -5
+relationships: {  }

@@ -1,0 +1,17 @@
+uuid: 3a76c86e-8fe4-4cb4-aff4-15c1b67b6c6b
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.team_manage
+  enforced:
+    config:
+      - user.role.landing_owner
+id: team_manage-7c41e1c5f
+label: 'Landing Owner'
+weight: 8
+internal: true
+audience: outsider
+group_type: team_manage
+permissions_ui: false
+permissions: {  }

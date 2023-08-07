@@ -1,0 +1,51 @@
+uuid: 4156588a-6546-4cf9-a03e-17bb91e934e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.product_catalog_template_ig.field_pct_tem_ig_body
+    - field.field.node.product_catalog_template_ig.field_pct_tem_ig_media
+    - field.field.node.product_catalog_template_ig.field_pct_tem_ig_parent
+    - field.field.node.product_catalog_template_ig.field_workflow_status
+    - node.type.product_catalog_template_ig
+  module:
+    - image
+    - user
+id: node.product_catalog_template_ig.default
+targetEntityType: node
+bundle: product_catalog_template_ig
+mode: default
+content:
+  field_pct_tem_ig_body:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_pct_tem_ig_media:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_pct_tem_ig_parent:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_workflow_status: true

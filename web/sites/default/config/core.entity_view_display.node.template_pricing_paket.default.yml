@@ -1,0 +1,36 @@
+uuid: a4adf15e-ad5f-40ea-988f-2560f5aa99ca
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.template_pricing_paket.field_tem_pkt_type
+    - field.field.node.template_pricing_paket.field_temp_pkt_html
+    - node.type.template_pricing_paket
+  module:
+    - user
+id: node.template_pricing_paket.default
+targetEntityType: node
+bundle: template_pricing_paket
+mode: default
+content:
+  field_tem_pkt_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_temp_pkt_html:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

@@ -1,0 +1,28 @@
+uuid: 966f1dcf-1b61-4038-a81a-f3719f5c077a
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.paket_knowledge_group.field_pkt_knowledge_non_priority
+    - field.field.node.paket_knowledge_group.field_pkt_knowledge_order
+    - field.field.node.paket_knowledge_group.field_pkt_knowledge_paket_ref
+    - field.field.node.paket_knowledge_group.field_pkt_knowledge_priority
+    - node.type.paket_knowledge_group
+  module:
+    - user
+id: node.paket_knowledge_group.teaser
+targetEntityType: node
+bundle: paket_knowledge_group
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_pkt_knowledge_non_priority: true
+  field_pkt_knowledge_order: true
+  field_pkt_knowledge_paket_ref: true
+  field_pkt_knowledge_priority: true

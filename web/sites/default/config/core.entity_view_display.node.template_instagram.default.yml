@@ -1,0 +1,29 @@
+uuid: f87cabe8-fac6-41a2-b241-da16c11bbeaa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.template_instagram.field_tem_ig_body
+    - field.field.node.template_instagram.field_workflow_status
+    - node.type.template_instagram
+  module:
+    - user
+id: node.template_instagram.default
+targetEntityType: node
+bundle: template_instagram
+mode: default
+content:
+  field_tem_ig_body:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_workflow_status: true

@@ -1,0 +1,29 @@
+uuid: 30ebdee7-7c7e-4ea8-9f93-f64d87e701f9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_category
+    - node.type.wibs
+    - taxonomy.vocabulary.paket_category
+id: node.wibs.field_pkt_category
+field_name: field_pkt_category
+entity_type: node
+bundle: wibs
+label: Category
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      paket_category: paket_category
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

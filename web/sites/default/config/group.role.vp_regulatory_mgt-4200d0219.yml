@@ -1,0 +1,17 @@
+uuid: 678948c3-6282-42b4-adff-075558a08972
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_regulatory_mgt
+  enforced:
+    config:
+      - user.role.admin
+id: vp_regulatory_mgt-4200d0219
+label: Admin
+weight: 5
+internal: true
+audience: outsider
+group_type: vp_regulatory_mgt
+permissions_ui: false
+permissions: {  }

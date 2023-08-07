@@ -1,0 +1,23 @@
+uuid: a70fd5d3-9cf2-4539-8f60-f74a549ea18b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_tree
+    - group.type.vp_dc_audit
+id: group.vp_dc_audit.subgroup_tree
+field_name: subgroup_tree
+entity_type: group
+bundle: vp_dc_audit
+label: Tree
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

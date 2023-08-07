@@ -1,0 +1,22 @@
+uuid: 3ef68641-f747-4e97-bdce-7d7869eac306
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.paket_product_knowledge
+id: node.paket_product_knowledge.promote
+field_name: promote
+entity_type: node
+bundle: paket_product_knowledge
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

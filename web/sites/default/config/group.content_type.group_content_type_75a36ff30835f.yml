@@ -1,0 +1,18 @@
+uuid: c07bed97-db88-419d-80d6-666b86070e7f
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.head_of_internal_audit
+    - group.type.vp_net_and_sol_audit
+  module:
+    - subgroup
+id: group_content_type_75a36ff30835f
+label: 'Head of Internal Audit: Subgroup (VP. Net and Sol Audit)'
+description: 'Adds <em class="placeholder">VP. Net and Sol Audit</em> groups as subgroups.'
+group_type: head_of_internal_audit
+content_plugin: 'subgroup:vp_net_and_sol_audit'
+plugin_config:
+  group_cardinality: 1
+  entity_cardinality: 1
+  use_creation_wizard: false

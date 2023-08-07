@@ -1,0 +1,22 @@
+uuid: 19f7b250-e0b4-41b6-812a-d230bfda77f8
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: path_content_type_bundling_spesifikasi
+label: 'Path Content Type Bundling spesifikasi'
+type: 'canonical_entities:node'
+pattern: 'bundling-spesifikasi/[node:title]'
+selection_criteria:
+  6b24c691-a953-4b87-a5f5-a510a56e9014:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 6b24c691-a953-4b87-a5f5-a510a56e9014
+    context_mapping:
+      node: node
+    bundles:
+      bundling_spesifikasi: bundling_spesifikasi
+selection_logic: and
+weight: -5
+relationships: {  }

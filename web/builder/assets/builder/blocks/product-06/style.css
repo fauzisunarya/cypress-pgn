@@ -1,0 +1,11 @@
+.icl-section--product-6 ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+.icl-section--product-6 .price {
+  margin-bottom: 30px;
+}
+.icl-section--product-6 .price-amount {
+  font-size: 24px;
+  color: inherit;
+}

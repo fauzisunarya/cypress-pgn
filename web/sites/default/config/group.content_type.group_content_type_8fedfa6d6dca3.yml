@@ -1,0 +1,18 @@
+uuid: 6768d79c-2ef5-44a6-8842-405a9b0b42fe
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.direktur_utama
+    - group.type.head_of_corporate_comm
+  module:
+    - subgroup
+id: group_content_type_8fedfa6d6dca3
+label: 'Direktur Utama: Subgroup (Head of Corporate Communication)'
+description: 'Adds <em class="placeholder">Head of Corporate Communication</em> groups as subgroups.'
+group_type: direktur_utama
+content_plugin: 'subgroup:head_of_corporate_comm'
+plugin_config:
+  group_cardinality: 1
+  entity_cardinality: 1
+  use_creation_wizard: false

@@ -1,0 +1,22 @@
+uuid: 43466230-e33c-47b8-9f72-856c4352afae
+langcode: en
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - telkom_cms
+_core:
+  default_config_hash: I6Esh8cDlPdl2POZg4MOSRUrQNYA1UNCJCxL2yqT_wc
+id: telkom_cms_powered
+theme: telkom_cms
+region: sidebar_menu
+weight: 10
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

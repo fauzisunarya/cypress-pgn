@@ -1,0 +1,19 @@
+uuid: 33561203-ba45-4bca-bc68-7cb62465c91d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_non_ret_prod_desc
+    - node.type.ebis
+id: node.ebis.field_non_ret_prod_desc
+field_name: field_non_ret_prod_desc
+entity_type: node
+bundle: ebis
+label: 'Product Description'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

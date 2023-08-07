@@ -1,0 +1,8 @@
+uuid: 7defb59b-7a02-4527-bbb9-3895af6cbcf7
+langcode: en
+status: true
+dependencies: {  }
+name: 'Template Category'
+vid: template_category
+description: ''
+weight: 2

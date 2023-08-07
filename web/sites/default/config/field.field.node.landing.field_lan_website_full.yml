@@ -1,0 +1,19 @@
+uuid: e0cf3825-1587-4abb-8c1f-22c557d2f79c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lan_website_full
+    - node.type.landing
+id: node.landing.field_lan_website_full
+field_name: field_lan_website_full
+entity_type: node
+bundle: landing
+label: 'Website Full'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

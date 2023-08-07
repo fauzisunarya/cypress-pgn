@@ -1,0 +1,14 @@
+uuid: 144136db-49cf-4681-a418-0fbd4be6686c
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.team_fcc
+id: team_fcc-member
+label: Member
+weight: -100
+internal: true
+audience: member
+group_type: team_fcc
+permissions_ui: true
+permissions: {  }

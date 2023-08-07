@@ -1,0 +1,21 @@
+uuid: bb893c28-4fd5-4e70-9fba-0fbdcb4b9284
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.field_visi_misi
+    - group.type.kelurahan
+  module:
+    - text
+id: group.kelurahan.field_visi_misi
+field_name: field_visi_misi
+entity_type: group
+bundle: kelurahan
+label: 'Visi Misi'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

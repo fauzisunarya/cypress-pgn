@@ -1,0 +1,56 @@
+<?php
+
+use Drupal\Core\Database\Database;
+
+function custom_cron_node_presave(Drupal\Core\Entity\EntityInterface $node) {
+  
+  // insert to queue table, waiting to send notification
+  if ($node->bundle()=='paket' && !$node->isNew()) {
+    $prev = $node->original;
+    $prev_state = $prev->field_workflow_status->getString();
+
+    // applied only for approved paket. the node revision have different node_id and the status is "revision"
+    // when approval manager approve the "revision", it will replace the approved content (& delete node revision)
+    // so, only see the approved content
+    if ( $prev_state == 'workflow_status_approve' ) {
+      if ((int) $prev->field_pkt_is_customized->getString()) {
+        // modified package
+        Drupal::service('custom_cron.app_helper')->store_queue_notif_package($node->id(), 1);
+      }
+      else{
+        // new package
+        Drupal::service('custom_cron.app_helper')->store_queue_notif_package($node->id(), 0);
+      }
+
+      // update progress, send to kafka, consumed by amanda
+      Drupal::service('custom_cron.app_helper')->update_paket_inbox_progress($node);
+    }
+
+    unset($prev, $prev_state);
+
+  }
+  else if ($node->bundle() == 'landing' && !$node->isNew()) {
+    // insert to queue, to extract pages data and store to kibana
+    $con = Database::getConnection();
+
+    $query = $con->select('custom_cron_extract_pages_to_kibana', 'e')
+      ->condition('e.status', 0, '=')
+      ->condition('e.tried', 0, '=')
+      ->condition('e.node_id', $node->id(), '=')
+      ->fields('e', ['id', 'node_id']);
+
+    // insert if not exist
+    if(count($query->execute()->fetchAll()) === 0){
+      $con->insert('custom_cron_extract_pages_to_kibana')
+        ->fields([
+          'status' => 0,
+          'tried' => 0,
+          'node_id' => $node->id(),
+          'created_at' => date("Y-m-d H:i:s"),
+          'updated_at' => date("Y-m-d H:i:s"),
+        ])
+        ->execute();
+    }
+
+  }
+}

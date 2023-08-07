@@ -1,0 +1,17 @@
+uuid: b5608988-afbe-405d-9ce2-f4935c113297
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.divisi_it
+  enforced:
+    config:
+      - user.role.administrator
+id: divisi_it-a416e6833
+label: 'Super Admin'
+weight: 3
+internal: true
+audience: outsider
+group_type: divisi_it
+permissions_ui: false
+permissions: {  }

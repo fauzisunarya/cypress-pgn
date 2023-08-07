@@ -1,0 +1,22 @@
+uuid: 05e07685-74ae-4e3e-bc22-84d4f3dfc520
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.ebis_knowledge_group
+id: node.ebis_knowledge_group.promote
+field_name: promote
+entity_type: node
+bundle: ebis_knowledge_group
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

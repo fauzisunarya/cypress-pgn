@@ -1,0 +1,22 @@
+uuid: b58dee28-a215-47bb-b545-0cff8901b742
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: path_content_type_ebis
+label: 'Path Content Type EBIS'
+type: 'canonical_entities:node'
+pattern: 'ebis/[node:title]'
+selection_criteria:
+  60d0f2a1-ab66-451a-861e-6cec0c470343:
+    id: node_type
+    negate: false
+    uuid: 60d0f2a1-ab66-451a-861e-6cec0c470343
+    context_mapping:
+      node: node
+    bundles:
+      ebis: ebis
+selection_logic: and
+weight: -5
+relationships: {  }

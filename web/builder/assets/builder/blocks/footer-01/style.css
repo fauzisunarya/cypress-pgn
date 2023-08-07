@@ -1,0 +1,22 @@
+.icl-footer--style-1 .container,
+.icl-footer--style-1 .container-fluid {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.icl-footer--style-1 .flex {
+  flex-wrap: wrap;
+}
+@media screen and (max-width: 640px) {
+  .icl-footer--style-1 {
+    text-align: center;
+    padding: 30px 0;
+  }
+  .icl-footer--style-1 .brand,
+  .icl-footer--style-1 div {
+    width: 100%;
+    max-width: 100%;
+  }
+  .icl-footer--style-1 .brand {
+    padding: 0;
+  }
+}

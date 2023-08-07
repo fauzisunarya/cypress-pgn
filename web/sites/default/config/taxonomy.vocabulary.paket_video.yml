@@ -1,0 +1,8 @@
+uuid: c3a00da5-e210-4822-9c8a-bb751b36cce2
+langcode: en
+status: true
+dependencies: {  }
+name: 'Paket Video'
+vid: paket_video
+description: ''
+weight: -4

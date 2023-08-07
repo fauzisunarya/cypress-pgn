@@ -1,0 +1,17 @@
+uuid: 0b518938-d163-4a1b-b6e1-16bf195ecb69
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_regulatory_mgt
+  enforced:
+    config:
+      - user.role.content_editor
+id: vp_regulatory_mgt-111523d41
+label: 'Content editor'
+weight: 2
+internal: true
+audience: outsider
+group_type: vp_regulatory_mgt
+permissions_ui: false
+permissions: {  }

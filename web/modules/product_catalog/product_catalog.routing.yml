@@ -1,0 +1,32 @@
+# routing for ajax in page detail product catalog (save setting template pricing)
+product_catalog.ajax_catalog_save_setting_template_pricing:
+  path: '/ajax/template_pricing_catalog/save_setting'
+  defaults:
+    _controller: '\Drupal\product_catalog\Controller\ProductCatalogController::save_setting_template_pricing'
+  methods:  [POST]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'
+
+# routing for ajax product catalog
+product_catalog.ajax_product_catalog_search:
+  path: '/ajax/product/product-catalog/search'
+  defaults:
+    _controller: '\Drupal\product_catalog\Controller\ProductCatalogController::search'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'
+
+# Dummy controller
+product_catalog.dummy_fill_product_catalog_type:
+  path: '/dummy/product-catalog/fill-field-type'
+  defaults: 
+    _controller: '\Drupal\product_catalog\Controller\DummyController::fill_product_catalog_type' 
+  methods: [get]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator'
+    _user_is_logged_in: 'true'

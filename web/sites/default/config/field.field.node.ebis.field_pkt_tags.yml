@@ -1,0 +1,19 @@
+uuid: 322f4cff-e35c-48a4-8323-fd34b9f3ade4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_tags
+    - node.type.ebis
+id: node.ebis.field_pkt_tags
+field_name: field_pkt_tags
+entity_type: node
+bundle: ebis
+label: Tags
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

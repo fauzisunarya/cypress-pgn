@@ -1,0 +1,20 @@
+.angga-img-slide {
+  width: 200px;
+  margin: 0 25px;
+}
+
+.angga-slide-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.angga-slide-container2 {
+  width: 250px;
+}
+
+.angga-slide-container3 {
+  display: flex;
+  align-items: center;
+  transition: 1s;
+  width: 100vw;
+}

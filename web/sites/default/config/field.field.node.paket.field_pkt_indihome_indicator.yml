@@ -1,0 +1,19 @@
+uuid: 7780e612-9391-4f43-8237-473042f5c771
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_indihome_indicator
+    - node.type.paket
+id: node.paket.field_pkt_indihome_indicator
+field_name: field_pkt_indihome_indicator
+entity_type: node
+bundle: paket
+label: 'Indihome Indicator'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

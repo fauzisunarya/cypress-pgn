@@ -1,0 +1,18 @@
+uuid: fec29c37-e6fc-4b30-9322-cee489b91bb6
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: 'Paket Template Email'
+type: paket_template_email
+description: ''
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true

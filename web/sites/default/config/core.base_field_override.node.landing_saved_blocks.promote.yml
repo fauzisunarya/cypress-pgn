@@ -1,0 +1,22 @@
+uuid: e3da8b82-2ad1-4bc6-82db-57dfd44bac1b
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.landing_saved_blocks
+id: node.landing_saved_blocks.promote
+field_name: promote
+entity_type: node
+bundle: landing_saved_blocks
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

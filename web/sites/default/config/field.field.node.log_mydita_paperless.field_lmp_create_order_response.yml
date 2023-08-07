@@ -1,0 +1,19 @@
+uuid: 4b3c8959-9fe6-48ed-8d2a-d1252c8a4f64
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lmp_create_order_response
+    - node.type.log_mydita_paperless
+id: node.log_mydita_paperless.field_lmp_create_order_response
+field_name: field_lmp_create_order_response
+entity_type: node
+bundle: log_mydita_paperless
+label: 'Create Order Response'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

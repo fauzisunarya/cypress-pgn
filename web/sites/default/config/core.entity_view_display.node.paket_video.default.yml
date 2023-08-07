@@ -1,0 +1,80 @@
+uuid: def031e2-bf50-47bc-91e2-50d8010e16f3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.paket_video.field_tags
+    - field.field.node.paket_video.field_video_category
+    - field.field.node.paket_video.field_video_description
+    - field.field.node.paket_video.field_video_file_video
+    - field.field.node.paket_video.field_video_paket_ref
+    - field.field.node.paket_video.field_video_youtube_video
+    - field.field.node.paket_video.field_workflow_status
+    - node.type.paket_video
+  module:
+    - file
+    - user
+id: node.paket_video.default
+targetEntityType: node
+bundle: paket_video
+mode: default
+content:
+  field_tags:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_video_category:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_video_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_video_file_video:
+    type: file_video
+    label: above
+    settings:
+      controls: true
+      autoplay: false
+      loop: false
+      multiple_file_display_type: tags
+      muted: false
+      width: 640
+      height: 480
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_video_paket_ref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_video_youtube_video:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_workflow_status: true

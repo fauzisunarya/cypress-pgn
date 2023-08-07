@@ -1,0 +1,22 @@
+uuid: b893bffa-d8aa-42b5-acb9-066a75e68cb1
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: path_content_type_paket_media_bundle
+label: 'Path Content Type Paket Media Bundle'
+type: 'canonical_entities:node'
+pattern: 'media-bundle/[node:title]'
+selection_criteria:
+  82d923a3-c817-44d9-84a3-c7bd326b3a37:
+    id: node_type
+    negate: false
+    uuid: 82d923a3-c817-44d9-84a3-c7bd326b3a37
+    context_mapping:
+      node: node
+    bundles:
+      paket_media_bundle: paket_media_bundle
+selection_logic: and
+weight: -5
+relationships: {  }

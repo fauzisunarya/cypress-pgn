@@ -1,0 +1,8 @@
+uuid: 0ed13adf-7357-4bba-8f0f-e9b14bce94ab
+langcode: en
+status: true
+dependencies: {  }
+name: 'Paket Media'
+vid: paket_media
+description: ''
+weight: -5

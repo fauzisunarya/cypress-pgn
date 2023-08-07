@@ -1,0 +1,32 @@
+uuid: 0645c3af-1a5b-45d8-9d46-202f6c5a3f57
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.notification.field_notif_approval
+    - field.field.node.notification.field_notif_content
+    - field.field.node.notification.field_notif_message
+    - field.field.node.notification.field_notif_read_by
+    - field.field.node.notification.field_notif_status
+    - field.field.node.notification.field_notif_user
+    - node.type.notification
+  module:
+    - user
+id: node.notification.teaser
+targetEntityType: node
+bundle: notification
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_notif_approval: true
+  field_notif_content: true
+  field_notif_message: true
+  field_notif_read_by: true
+  field_notif_status: true
+  field_notif_user: true

@@ -1,0 +1,17 @@
+uuid: b2ea8023-8f1e-42a8-b593-7a7d5babd36a
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.team_manage
+  enforced:
+    config:
+      - user.role.end_user_visitor
+id: team_manage-4b0cc992b
+label: 'End User/Visitor'
+weight: 7
+internal: true
+audience: outsider
+group_type: team_manage
+permissions_ui: false
+permissions: {  }

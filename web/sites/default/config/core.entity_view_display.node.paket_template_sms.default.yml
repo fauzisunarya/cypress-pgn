@@ -1,0 +1,38 @@
+uuid: 59f0f2c6-0dec-4bd2-9896-e74cc36cd893
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.paket_template_sms.field_pkt_tem_sms_body
+    - field.field.node.paket_template_sms.field_pkt_tem_sms_parent
+    - field.field.node.paket_template_sms.field_workflow_status
+    - node.type.paket_template_sms
+  module:
+    - user
+id: node.paket_template_sms.default
+targetEntityType: node
+bundle: paket_template_sms
+mode: default
+content:
+  field_pkt_tem_sms_body:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_pkt_tem_sms_parent:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_workflow_status: true

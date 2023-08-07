@@ -1,0 +1,19 @@
+uuid: ed6f3303-0879-4b05-94cd-b8b73d70e2ad
+langcode: en
+status: true
+dependencies:
+  module:
+    - subgroup
+third_party_settings:
+  subgroup:
+    depth: 0
+    left: 1
+    right: 16
+    tree: direktur_utama
+id: direktur_utama
+label: 'Direktur Utama'
+description: 'Mengendalikan direktur yang memimpin Direktorat pada operating business'
+new_revision: true
+creator_membership: true
+creator_wizard: true
+creator_roles: {  }

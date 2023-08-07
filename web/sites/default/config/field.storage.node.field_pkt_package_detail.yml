@@ -1,0 +1,19 @@
+uuid: 3970480a-c324-4b35-a237-51028716527f
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_pkt_package_detail
+field_name: field_pkt_package_detail
+entity_type: node
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

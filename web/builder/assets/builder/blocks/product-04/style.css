@@ -1,0 +1,30 @@
+.icl-section--product-4 .top-title {
+  color: var(--primaryColor);
+  font-weight: 700;
+  font-size: 18px;
+}
+.icl-section--product-4 ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 30px;
+}
+.icl-section--product-4 ul li {
+  padding-left: 50px;
+  position: relative;
+  margin-bottom: 15px;
+}
+.icl-section--product-4 ul li:before {
+  content: "check";
+  font-family: "Material Icons";
+  position: absolute;
+  left: 0;
+  top: -3px;
+  background-color: var(--primaryColor);
+  color: white;
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

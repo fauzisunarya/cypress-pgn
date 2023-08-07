@@ -1,0 +1,23 @@
+uuid: b06c610f-e110-43fd-8af4-753d127dfa53
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.segment.field_seg_description
+    - field.field.node.segment.field_workflow_status
+    - node.type.segment
+  module:
+    - user
+id: node.segment.default
+targetEntityType: node
+bundle: segment
+mode: default
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_seg_description: true
+  field_workflow_status: true

@@ -1,0 +1,14 @@
+uuid: cd97b076-2ea9-49ba-98c4-7523547c0cdb
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.divisi_marketing
+id: divisi_marketing-member
+label: Member
+weight: -100
+internal: true
+audience: member
+group_type: divisi_marketing
+permissions_ui: true
+permissions: {  }

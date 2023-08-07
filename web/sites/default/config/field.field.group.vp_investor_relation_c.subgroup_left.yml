@@ -1,0 +1,23 @@
+uuid: 3eec77f4-1d7e-4145-a350-c507e6db6bac
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_left
+    - group.type.vp_investor_relation_c
+id: group.vp_investor_relation_c.subgroup_left
+field_name: subgroup_left
+entity_type: group
+bundle: vp_investor_relation_c
+label: Left
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,18 @@
+uuid: 3bb62154-e631-4185-b4a2-f9b7c7bb5ee2
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:views_view:views.page_template_twitter.page_1'
+name: 'Template Twitter'
+type: template_twitter
+description: ''
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true

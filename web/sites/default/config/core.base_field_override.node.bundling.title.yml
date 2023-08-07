@@ -1,0 +1,18 @@
+uuid: 836e7cd8-aa58-4931-a41b-dbcabd239d3b
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.bundling
+id: node.bundling.title
+field_name: title
+entity_type: node
+bundle: bundling
+label: Bundling
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

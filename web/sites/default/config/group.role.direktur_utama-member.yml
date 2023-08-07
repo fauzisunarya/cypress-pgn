@@ -1,0 +1,14 @@
+uuid: 93a0cc50-6a35-48d9-86a3-bb3ff7c276e5
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.direktur_utama
+id: direktur_utama-member
+label: Member
+weight: -100
+internal: true
+audience: member
+group_type: direktur_utama
+permissions_ui: true
+permissions: {  }

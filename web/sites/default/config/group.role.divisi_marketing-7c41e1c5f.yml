@@ -1,0 +1,17 @@
+uuid: e2454570-11e8-448a-9ffd-11eeb1b5e9cd
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.divisi_marketing
+  enforced:
+    config:
+      - user.role.landing_owner
+id: divisi_marketing-7c41e1c5f
+label: 'Landing Owner'
+weight: 8
+internal: true
+audience: outsider
+group_type: divisi_marketing
+permissions_ui: false
+permissions: {  }

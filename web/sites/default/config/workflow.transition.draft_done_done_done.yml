@@ -1,0 +1,12 @@
+uuid: 40a40192-7883-47c6-ac81-5c15e1396071
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflow.state.draft_done_done
+id: draft_done_done_done
+label: null
+module: workflow
+from_sid: draft_done_done
+to_sid: draft_done_done
+roles: {  }

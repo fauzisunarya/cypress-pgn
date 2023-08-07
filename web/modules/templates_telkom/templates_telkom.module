@@ -1,0 +1,285 @@
+<?php
+
+use Drupal\Core\Entity\ContentEntityForm;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\Node;
+
+function templates_telkom_form_node_product_catalogue_template_sms_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if (isset($_GET['pct_id']) && isset($_GET['tem_sms_id'])) {
+        $template = Node::load($_GET['tem_sms_id'])->toArray();
+        $pct = Node::load($_GET['pct_id']);
+        $body = $template['field_tem_sms_body'][0]['value'];
+        if (str_contains($body, '%pct_name%')) {
+            $body = str_replace('%pct_name%', $pct->toArray()['title'][0]['value'], $body);
+        }
+
+        $form['title']['widget'][0]['value']['#default_value'] = $template['title'][0]['value'];
+        $form['field_pct_tem_sms_body']['widget'][0]['value']['#default_value'] = $body;
+        $form['field_pct_tem_sms_parent']['widget'][0]['target_id']['#default_value'] = $pct;
+        $form['field_pct_tem_sms_parent']['#access'] = false;
+    }
+}
+
+function templates_telkom_form_node_product_catalogue_template_sms_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    $form['field_pct_tem_sms_parent']['#access'] = false;
+}
+
+function templates_telkom_form_node_product_catalogue_template_wa_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if (isset($_GET['pct_id']) && isset($_GET['tem_wa_id'])) {
+        $template = Node::load($_GET['tem_wa_id'])->toArray();
+        $pct = Node::load($_GET['pct_id']);
+        $body = $template['field_tem_wa_body'][0]['value'];
+        if (str_contains($body, '%pct_name%')) {
+            $body = str_replace('%pct_name%', $pct->toArray()['title'][0]['value'], $body);
+        }
+        $form['title']['widget'][0]['value']['#default_value'] = $template['title'][0]['value'];
+        $form['field_pct_tem_wa_body']['widget'][0]['value']['#default_value'] = $body;
+        $form['field_pct_tem_wa_parent']['widget'][0]['target_id']['#default_value'] = $pct;
+        $form['field_pct_tem_wa_parent']['#access'] = false;
+    }
+}
+
+function templates_telkom_form_node_product_catalogue_template_wa_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    $form['field_pct_tem_wa_parent']['#access'] = false;
+}
+
+function templates_telkom_form_node_product_catalogue_template_email_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if (isset($_GET['pct_id']) && isset($_GET['tem_email_id'])) {
+        $template = Node::load($_GET['tem_email_id'])->toArray();
+        $pct = Node::load($_GET['pct_id']);
+        $body = $template['field_tem_email_body'][0]['value'];
+        if (str_contains($body, '%pct_name%')) {
+            $body = str_replace('%pct_name%', $pct->toArray()['title'][0]['value'], $body);
+        }
+
+        $form['title']['widget'][0]['value']['#default_value'] = $template['title'][0]['value'];
+        $form['field_pct_tem_email_body']['widget'][0]['#default_value'] = $body;
+        $form['field_pct_tem_email_parent']['widget'][0]['target_id']['#default_value'] = $pct;
+        $form['field_pct_tem_email_parent']['#access'] = false;
+    }
+}
+
+function templates_telkom_form_node_product_catalogue_template_email_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    $form['field_pct_tem_email_parent']['#access'] = false;
+}
+
+function templates_telkom_form_node_product_catalog_template_twitter_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if (isset($_GET['pct_id']) && isset($_GET['tem_twitter_id'])) {
+        $template = Node::load($_GET['tem_twitter_id'])->toArray();
+        $pct = Node::load($_GET['pct_id']);
+        $body = $template['field_tem_twitter_body'][0]['value'];
+        if (str_contains($body, '%pct_name%')) {
+            $body = str_replace('%pct_name%', $pct->toArray()['title'][0]['value'], $body);
+        }
+        $form['title']['widget'][0]['value']['#default_value'] = $template['title'][0]['value'];
+        $form['field_pct_tem_twitter_body']['widget'][0]['value']['#default_value'] = $body;
+        $form['field_pct_tem_twitter_parent']['widget'][0]['target_id']['#default_value'] = $pct;
+        $form['field_pct_tem_twitter_parent']['#access'] = false;
+    }
+}
+
+function templates_telkom_form_node_product_catalog_template_twitter_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    $form['field_pct_tem_twitter_parent']['#access'] = false;
+}
+
+function templates_telkom_form_node_product_catalog_template_ig_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if (isset($_GET['pct_id']) && isset($_GET['tem_ig_id'])) {
+        $template = Node::load($_GET['tem_ig_id'])->toArray();
+        $pct = Node::load($_GET['pct_id']);
+        $body = $template['field_tem_ig_body'][0]['value'];
+        if (str_contains($body, '%pct_name%')) {
+            $body = str_replace('%pct_name%', $pct->toArray()['title'][0]['value'], $body);
+        }
+        $form['title']['widget'][0]['value']['#default_value'] = $template['title'][0]['value'];
+        $form['field_pct_tem_ig_body']['widget'][0]['value']['#default_value'] = $body;
+        $form['field_pct_tem_ig_parent']['widget'][0]['target_id']['#default_value'] = $pct;
+        $form['field_pct_tem_ig_parent']['#access'] = false;
+    }
+}
+
+function templates_telkom_form_node_product_catalog_template_ig_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    $form['field_pct_tem_ig_parent']['#access'] = false;
+}
+
+function templates_telkom_form_node_product_catalog_template_fb_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if (isset($_GET['pct_id']) && isset($_GET['tem_fb_id'])) {
+        $template = Node::load($_GET['tem_fb_id'])->toArray();
+        $pct = Node::load($_GET['pct_id']);
+        $body = $template['field_tem_fb_body'][0]['value'];
+        if (str_contains($body, '%pct_name%')) {
+            $body = str_replace('%pct_name%', $pct->toArray()['title'][0]['value'], $body);
+        }
+        $form['title']['widget'][0]['value']['#default_value'] = $template['title'][0]['value'];
+        $form['field_pct_tem_fb_body']['widget'][0]['value']['#default_value'] = $body;
+        $form['field_pct_tem_fb_parent']['widget'][0]['target_id']['#default_value'] = $pct;
+        $form['field_pct_tem_fb_parent']['#access'] = false;
+    }
+}
+
+function templates_telkom_form_node_product_catalog_template_fb_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    $form['field_pct_tem_fb_parent']['#access'] = false;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function templates_telkom_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+    // Attached library at form levels.
+    $form_object = $form_state->getFormObject();
+    if ($form_object instanceof ContentEntityForm) {
+        if ($form_object->getEntity()->getEntityTypeId() == 'node') {
+            if (in_array('split_preview/split_preview-library', $form['#attached']['library'])) {
+                $form['#attached']['library'][array_search('split_preview/split_preview-library', $form['#attached']['library'])] = 'templates_telkom/split_preview-library';
+            }
+            $form['actions']['preview']['#type'] = 'hidden';
+            $form['actions']['preview'] = [
+                '#type' => 'submit',
+                '#access' => 1,
+                '#value' => t('Live Preview'),
+                '#weight' => 20,
+                '#ajax' => [
+                    'callback' => '_submit_ajax_form',
+                ],
+            ];
+        }
+    }
+}
+
+function templates_telkom_form_node_paket_template_sms_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if (isset($_GET['pkt_id']) && isset($_GET['tem_sms_id'])) {
+        $template = Node::load($_GET['tem_sms_id'])->toArray();
+        $pkt = Node::load($_GET['pkt_id']);
+        $body = $template['field_tem_sms_body'][0]['value'];
+        if (str_contains($body, '%pkt_name%')) {
+            $body = str_replace('%pkt_name%', $pkt->toArray()['title'][0]['value'], $body);
+        }
+
+        $form['title']['widget'][0]['value']['#default_value'] = $template['title'][0]['value'];
+        $form['field_pkt_tem_sms_body']['widget'][0]['value']['#default_value'] = $body;
+        $form['field_pkt_tem_sms_parent']['widget'][0]['target_id']['#default_value'] = $pkt;
+        $form['field_pkt_tem_sms_parent']['#access'] = false;
+    }
+}
+
+function templates_telkom_form_node_paket_template_sms_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    $form['field_pkt_tem_sms_parent']['#access'] = false;
+}
+
+function templates_telkom_form_node_paket_template_whatsapp_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if (isset($_GET['pkt_id']) && isset($_GET['tem_wa_id'])) {
+        $template = Node::load($_GET['tem_wa_id'])->toArray();
+        $pkt = Node::load($_GET['pkt_id']);
+        $body = $template['field_tem_wa_body'][0]['value'];
+        if (str_contains($body, '%pkt_name%')) {
+            $body = str_replace('%pkt_name%', $pkt->toArray()['title'][0]['value'], $body);
+        }
+        $form['title']['widget'][0]['value']['#default_value'] = $template['title'][0]['value'];
+        $form['field_pkt_tem_wa_body']['widget'][0]['value']['#default_value'] = $body;
+        $form['field_pkt_tem_wa_parent']['widget'][0]['target_id']['#default_value'] = $pkt;
+        $form['field_pkt_tem_wa_parent']['#access'] = false;
+    }
+}
+
+function templates_telkom_form_node_paket_template_whatsapp_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    $form['field_pkt_tem_wa_parent']['#access'] = false;
+}
+
+function templates_telkom_form_node_paket_template_email_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if (isset($_GET['pkt_id']) && isset($_GET['tem_email_id'])) {
+        $template = Node::load($_GET['tem_email_id'])->toArray();
+        $pkt = Node::load($_GET['pkt_id']);
+        $body = $template['field_tem_email_body'][0]['value'];
+        if (str_contains($body, '%pkt_name%')) {
+            $body = str_replace('%pkt_name%', $pkt->toArray()['title'][0]['value'], $body);
+        }
+        $form['title']['widget'][0]['value']['#default_value'] = $template['title'][0]['value'];
+        $form['field_pkt_tem_email_body']['widget'][0]['#default_value'] = $body;
+        $form['field_pkt_tem_email_parent']['widget'][0]['target_id']['#default_value'] = $pkt;
+        $form['field_pkt_tem_email_parent']['#access'] = false;
+    }
+}
+
+function templates_telkom_form_node_paket_template_email_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    $form['field_pkt_tem_email_parent']['#access'] = false;
+}
+
+function templates_telkom_form_node_paket_template_facebook_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if (isset($_GET['pkt_id']) && isset($_GET['tem_fb_id'])) {
+        $template = Node::load($_GET['tem_fb_id'])->toArray();
+        $pkt = Node::load($_GET['pkt_id']);
+        $body = $template['field_tem_fb_body'][0]['value'];
+        if (str_contains($body, '%pkt_name%')) {
+            $body = str_replace('%pkt_name%', $pkt->toArray()['title'][0]['value'], $body);
+        }
+        $form['title']['widget'][0]['value']['#default_value'] = $template['title'][0]['value'];
+        $form['field_pkt_tem_fb_body']['widget'][0]['value']['#default_value'] = $body;
+        $form['field_pkt_tem_fb_parent']['widget'][0]['target_id']['#default_value'] = $pkt;
+        $form['field_pkt_tem_fb_parent']['#access'] = false;
+    }
+}
+
+function templates_telkom_form_node_paket_template_facebook_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    $form['field_pkt_tem_fb_parent']['#access'] = false;
+}
+
+function templates_telkom_form_node_paket_template_instagram_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if (isset($_GET['pkt_id']) && isset($_GET['tem_ig_id'])) {
+        $template = Node::load($_GET['tem_ig_id'])->toArray();
+        $pkt = Node::load($_GET['pkt_id']);
+        $body = $template['field_tem_ig_body'][0]['value'];
+        if (str_contains($body, '%pkt_name%')) {
+            $body = str_replace('%pkt_name%', $pkt->toArray()['title'][0]['value'], $body);
+        }
+        $form['title']['widget'][0]['value']['#default_value'] = $template['title'][0]['value'];
+        $form['field_pkt_tem_ig_body']['widget'][0]['value']['#default_value'] = $body;
+        $form['field_pkt_tem_ig_parent']['widget'][0]['target_id']['#default_value'] = $pkt;
+        $form['field_pkt_tem_ig_parent']['#access'] = false;
+    }
+}
+
+function templates_telkom_form_node_paket_template_instagram_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    $form['field_pkt_tem_ig_parent']['#access'] = false;
+}
+
+function templates_telkom_form_node_paket_template_twitter_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if (isset($_GET['pkt_id']) && isset($_GET['tem_twitter_id'])) {
+        $template = Node::load($_GET['tem_twitter_id'])->toArray();
+        $pkt = Node::load($_GET['pkt_id']);
+        $body = $template['field_tem_twitter_body'][0]['value'];
+        if (str_contains($body, '%pkt_name%')) {
+            $body = str_replace('%pkt_name%', $pkt->toArray()['title'][0]['value'], $body);
+        }
+        $form['title']['widget'][0]['value']['#default_value'] = $template['title'][0]['value'];
+        $form['field_pkt_tem_twitter_body']['widget'][0]['value']['#default_value'] = $body;
+        $form['field_pkt_tem_twitter_parent']['widget'][0]['target_id']['#default_value'] = $pkt;
+        $form['field_pkt_tem_twitter_parent']['#access'] = false;
+    }
+}
+
+function templates_telkom_form_node_paket_template_twitter_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    $form['field_pkt_tem_twitter_parent']['#access'] = false;
+}

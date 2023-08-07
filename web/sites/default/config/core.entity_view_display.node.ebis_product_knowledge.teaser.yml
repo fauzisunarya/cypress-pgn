@@ -1,0 +1,30 @@
+uuid: ad057da6-3200-4dc5-93c8-aad54e9df896
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.ebis_product_knowledge.field_pkt_pknowledge_body
+    - field.field.node.ebis_product_knowledge.field_pkt_pknowledge_file
+    - field.field.node.ebis_product_knowledge.field_pkt_pknowledge_image
+    - field.field.node.ebis_product_knowledge.field_pkt_pknowledge_parent
+    - field.field.node.ebis_product_knowledge.field_workflow_status
+    - node.type.ebis_product_knowledge
+  module:
+    - user
+id: node.ebis_product_knowledge.teaser
+targetEntityType: node
+bundle: ebis_product_knowledge
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_pkt_pknowledge_body: true
+  field_pkt_pknowledge_file: true
+  field_pkt_pknowledge_image: true
+  field_pkt_pknowledge_parent: true
+  field_workflow_status: true

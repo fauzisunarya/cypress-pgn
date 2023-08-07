@@ -1,0 +1,341 @@
+restapi.test:
+  path: '/restapi/v1/testing'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\TestingController::testing'
+    _title: 'Testing API'
+  requirements:
+    _permission: 'access content'
+
+restapi.auth_login:
+  path: '/restapi/v1/auth/login'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\AuthController::login'
+    _title: 'Login Based on user available user'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+restapi.auth_logout:
+  path: '/restapi/v1/auth/logout'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\AuthController::logout'
+    _title: 'Logout user'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+# Syncron Package from Feasibility platform
+restapi.sync_package_now:
+  path: '/restapi/v1/package/sync'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\PackageController::sync_now' 
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'
+
+restapi.paket_list:
+  path: '/restapi/v1/paket'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\PaketController::paket_list'
+    _title: 'Get List of packages'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.paket_detail:
+  path: '/restapi/v1/paket/{paket_id}'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\PaketController::paket_detail'
+    _title: 'Get Detail of package'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.ebis_list:
+  path: '/restapi/v1/ebis'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\EbisController::list'
+    _title: 'Get List of ebis'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.ebis_detail:
+  path: '/restapi/v1/ebis/{id}'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\EbisController::detail'
+    _title: 'Get Detail of ebis'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.paket_media:
+  path: '/restapi/v1/paket_media'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\MediaController::paket_media'
+    _title: 'Get List of package medias'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.media_bundle:
+  path: '/restapi/v1/media_bundle'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\MediaController::media_bundle'
+    _title: 'Get List of grouped medias'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.media_render:
+  path: '/restapi/v1/media_render/{file_id}'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\MediaController::media_render'
+    _title: 'Render media as base64 encode'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.paket_search:
+  path: '/restapi/v1/paket_search'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\PaketController::paket_search'
+    _title: 'Get List of package based on selected method'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'    
+
+restapi.product_list:
+  path: '/restapi/v1/product'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ProductCatalogController::list'
+    _title: 'Get List of product catalogue'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.product_detail:
+  path: '/restapi/v1/product/{catalog_id}'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ProductCatalogController::detail'
+    _title: 'Get List of product catalogue'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.product_package:
+  path: '/restapi/v1/product-package'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ProductCatalogController::packageList'
+    _title: 'Get List of product catalogue'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.product_html:
+  path: '/restapi/v1/product-html'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ProductCatalogController::packageHtml'
+    _title: 'Get List of product catalogue with HTML data'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.product_knowledge_bundle:
+  path: '/restapi/v1/product-knowledge/bundle'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ProductKnowledgeController::searchListV2'
+    _title: 'Get List of product knowledge with grouping data'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.product_catalogue_exist:
+  path: '/restapi/v1/product-catalogue/searchExist'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ProductCatalogController::catalogByProduct'
+    _title: 'Get List of product knowledge with based on package id'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.product_catalogue_create:
+  path: '/restapi/v1/product-catalogue/create'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ProductCatalogController::createCatalog'
+    _title: 'Make new product catalogue data'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+restapi.product_catalogue_categories:
+  path: '/restapi/v1/product-catalogue/categories'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ProductCatalogController::catalogCategory'
+    _title: 'Get list of available catalogue categories'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.landing_list:
+  path: '/restapi/v1/landing'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\LandingPageController::list'
+    _title: 'Get List of landing page'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.landing_detail:
+  path: '/restapi/v1/landing/{landing_page_id}'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\LandingPageController::detail'
+    _title: 'Get Detail of landing page'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.landing_create:
+  path: '/restapi/v1/landing/create'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\LandingPageController::createLanding'
+    _title: 'Make new landing data'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+restapi.landing_update:
+  path: '/restapi/v1/landing/update'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\LandingPageController::updateLanding'
+    _title: 'update landing data'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+restapi.form_list:
+  path: '/restapi/v1/form'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\FormController::list'
+    _title: 'List Available Form'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.form_detail:
+  path: '/restapi/v1/form/{id}'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\FormController::detail'
+    _title: 'Show Detail Form'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.product_spec_category_list:
+  path: '/restapi/v1/product-specification/category'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ProductController::listCategory'
+    _title: 'Get List of Product Category'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.product_spec_category_store:
+  path: '/restapi/v1/product-specification/category'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ProductController::storeCategory'
+    _title: 'Store Product Category'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+restapi.product_spec_category_update:
+  path: '/restapi/v1/product-specification/category/update'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ProductController::editCategory'
+    _title: 'Update Product Category'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+restapi.product_spec_list:
+  path: '/restapi/v1/product-specification'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ProductController::listProduct'
+    _title: 'Get List of Product Specification'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.product_spec_store:
+  path: '/restapi/v1/product-specification'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ProductController::storeProduct'
+    _title: 'Store Product Specification'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+restapi.product_spec_update:
+  path: '/restapi/v1/product-specification/update'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ProductController::editProduct'
+    _title: 'Update Product Specification'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+restapi.content_list:
+  path: '/restapi/v1/contents'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ContentController::list'
+    _title: 'Get list of content post'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.content_detail:
+  path: '/restapi/v1/contents/{content_id}'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\ContentController::detail'
+    _title: 'Get Detail of content post'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.template_list:
+  path: '/restapi/v1/templates'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\TemplateController::list'
+    _title: 'Get list of template data'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+restapi.request_content:
+  path: '/restapi/v1/contents/request'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\RequestContentController::request'
+    _title: 'Request content'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+restapi.request_content_get_data:
+  path: '/restapi/v1/contents/request/{request_token}'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\RequestContentController::get'
+    _title: 'Request content'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+
+restapi.analytic_get_landing_log:
+  path: '/restapi/v1/analytic/landing'
+  defaults:
+    _controller: '\Drupal\restapi_telkom\Controller\AnalyticController::landing'
+    _title: 'Request content'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'

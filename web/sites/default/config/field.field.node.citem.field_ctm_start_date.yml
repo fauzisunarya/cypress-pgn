@@ -1,0 +1,19 @@
+uuid: c7264284-7d5b-43fe-ba42-4e5ada55f8e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ctm_start_date
+    - node.type.citem
+id: node.citem.field_ctm_start_date
+field_name: field_ctm_start_date
+entity_type: node
+bundle: citem
+label: 'Citem Start Date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,17 @@
+uuid: 123af7eb-91f7-479c-9957-e48822f083e8
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Wibs  Product Knowledge'
+type: wibs_product_knowledge
+description: 'Wibs knowledge, Fields are using same field as paket knowledge'
+help: ''
+new_revision: false
+preview_mode: 0
+display_submitted: false

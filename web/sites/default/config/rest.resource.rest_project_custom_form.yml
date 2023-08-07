@@ -1,0 +1,20 @@
+uuid: 34b8b2b9-15cd-4d50-bb6e-24f2530065b0
+langcode: en
+status: true
+dependencies:
+  module:
+    - basic_auth
+    - media_upload
+    - serialization
+    - user
+id: rest_project_custom_form
+plugin_id: rest_project_custom_form
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - basic_auth
+    - cookie

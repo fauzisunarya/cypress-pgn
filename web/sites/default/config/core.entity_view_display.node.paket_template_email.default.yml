@@ -1,0 +1,49 @@
+uuid: 012e10e9-412a-49aa-8fa6-1cd180ed8dc8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.paket_template_email.field_pkt_tem_email_body
+    - field.field.node.paket_template_email.field_pkt_tem_email_file
+    - field.field.node.paket_template_email.field_pkt_tem_email_parent
+    - field.field.node.paket_template_email.field_workflow_status
+    - node.type.paket_template_email
+  module:
+    - file
+    - text
+    - user
+id: node.paket_template_email.default
+targetEntityType: node
+bundle: paket_template_email
+mode: default
+content:
+  field_pkt_tem_email_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_pkt_tem_email_file:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_pkt_tem_email_parent:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_workflow_status: true

@@ -1,0 +1,51 @@
+uuid: e17fb5d6-8d3d-4474-95cd-d8e5103ce8e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.paket_template_facebook.field_pkt_tem_fb_body
+    - field.field.node.paket_template_facebook.field_pkt_tem_fb_media
+    - field.field.node.paket_template_facebook.field_pkt_tem_fb_parent
+    - field.field.node.paket_template_facebook.field_workflow_status
+    - node.type.paket_template_facebook
+  module:
+    - image
+    - user
+id: node.paket_template_facebook.default
+targetEntityType: node
+bundle: paket_template_facebook
+mode: default
+content:
+  field_pkt_tem_fb_body:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_pkt_tem_fb_media:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_pkt_tem_fb_parent:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_workflow_status: true

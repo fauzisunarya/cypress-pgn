@@ -1,0 +1,17 @@
+uuid: ee42d004-bab1-4ac9-8b32-9ecc2c8536b4
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_public_marketing_co
+  enforced:
+    config:
+      - user.role.admin
+id: vp_public_marketing_co-4200d0219
+label: Admin
+weight: 5
+internal: true
+audience: outsider
+group_type: vp_public_marketing_co
+permissions_ui: false
+permissions: {  }

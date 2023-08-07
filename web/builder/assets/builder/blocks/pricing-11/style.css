@@ -1,0 +1,202 @@
+.icl-section--pricing-11 .card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border-radius: 0.25rem;
+  border: 0;
+}
+
+.icl-section--pricing-11 .card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  padding: 1rem 1rem;
+}
+
+.icl-section--pricing-11 .py-4 {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+.icl-section--pricing-11 .card-title {
+  margin-bottom: 0.5rem;
+}
+
+.icl-section--pricing-11 .text-center {
+  text-align: center !important;
+}
+
+.icl-section--pricing-11 .position-relative {
+  position: relative !important;
+}
+
+.icl-section--pricing-11 .mb-5 {
+  margin-bottom: 3rem !important;
+}
+
+.icl-section--pricing-11 .pricing-type-1 .price {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  margin-bottom: 16px;
+  margin-top: 82px;
+}
+
+.icl-section--pricing-11 .btn.block {
+  display: block;
+  width: 100%;
+}
+
+.icl-section--pricing-11 .btn-danger {
+  color: #fff !important;
+  background-color: #dc3545 !important;
+  border-color: #dc3545 !important;
+}
+
+.icl-section--pricing-11 .btn {
+  display: inline-block;
+  font-weight: 400;
+  margin-top: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  line-height: 1.5;
+  color: #212529;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.575rem 0.75rem;
+  font-size: 13px;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  color: white;
+}
+
+.icl-section--pricing-11 .button {
+  height: auto !important;
+}
+
+.icl-section--pricing-11 .rounded-pill {
+  border-radius: 50rem !important;
+}
+
+.icl-section--pricing-11 .badge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}
+
+.icl-section--pricing-11 .bg-success {
+  opacity: 1;
+  background-color: green !important;
+}
+
+/* .pricing-type-5 */
+.icl-section--pricing-11 .card.pricing-type-5 .card-header {
+  position: relative;
+  display: flex;
+  text-align: center;
+  background-color: #27AE60;
+  color: white;
+  height: 130px;
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 49% 100%, 0 70%);
+}
+
+.icl-section--pricing-11 .card.blue.pricing-type-5 .card-header {
+  background-color: #2D9CDB;
+}
+
+.icl-section--pricing-11 .card.blue.pricing-type-5 .btn {
+  background-color: #2D9CDB;
+  color: white;
+}
+
+.icl-section--pricing-11 .pricing-type-5 .card-header .speed {
+  margin: auto;
+}
+
+.icl-section--pricing-11 .pricing-type-5 .card-header .speed h1 {
+  font-weight: bold;
+  font-size: 54px !important;
+  margin-bottom: 0;
+  line-height: 1;
+  color: white;
+}
+
+.icl-section--pricing-11 .pricing-type-5 .card-header .speed span {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.icl-section--pricing-11 .pricing-type-5 .price {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  margin-top: 20px;
+  margin-bottom: 24px;
+  font-weight: bold;
+}
+
+.icl-section--pricing-11 .pricing-type-5 .price h1 {
+  margin-bottom: 0;
+  line-height: 1;
+  font-size: 36px !important;
+  font-weight: bold;
+}
+
+.icl-section--pricing-11 .pricing-type-5 .price span {
+  color: #828282;
+}
+
+.icl-section--pricing-11 .pricing-type-5 .description {
+  text-align: center;
+}
+
+.icl-section--pricing-11 .pricing-type-5 .description h6 {
+  font-size: 14px;
+}
+
+.icl-section--pricing-11 .pricing-type-5 .description small {
+  font-size: 10px;
+}
+
+.icl-section--pricing-11 .pricing-type-5 .benefit-list {
+  margin-top: 10px;
+}
+
+.icl-section--pricing-11 .pricing-type-5 .benefit-list ul {
+  list-style: square;
+  color: #4F4F4F;
+  padding-left: 16px;
+  margin-bottom: 1rem;
+}
+
+.icl-section--pricing-11 .pricing-type-5 .benefit-list ul li {
+  font-size: 12px;
+}
+
+.icl-section--pricing-11 .pricing-type-5 .btn-success {
+  background-color: #27AE60;
+  color: white;
+}
+
+.icl-section--pricing-11 .pricing-11 .column {
+  display: grid !important;
+}

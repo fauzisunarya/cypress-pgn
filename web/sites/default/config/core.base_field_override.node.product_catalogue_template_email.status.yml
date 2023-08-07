@@ -1,0 +1,22 @@
+uuid: 473df811-9983-4d7b-8d62-a075366b53e7
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.product_catalogue_template_email
+id: node.product_catalogue_template_email.status
+field_name: status
+entity_type: node
+bundle: product_catalogue_template_email
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

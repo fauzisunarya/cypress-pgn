@@ -1,0 +1,37 @@
+uuid: 9cf3cfea-267c-481e-9b14-5f69c2621504
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_video_paket_ref
+    - node.type.citem
+    - node.type.ebis
+    - node.type.paket
+    - node.type.paket_video
+    - node.type.product_catalog
+    - node.type.wibs
+id: node.paket_video.field_video_paket_ref
+field_name: field_video_paket_ref
+entity_type: node
+bundle: paket_video
+label: Reference
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node_by_field'
+  handler_settings:
+    target_bundles:
+      citem: citem
+      ebis: ebis
+      paket: paket
+      product_catalog: product_catalog
+      wibs: wibs
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: paket
+field_type: entity_reference

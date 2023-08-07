@@ -1,0 +1,19 @@
+uuid: 9a7f3ad1-e6fc-427e-8dad-f87a0b35913d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_tem_fb_body
+    - node.type.paket_template_facebook
+id: node.paket_template_facebook.field_pkt_tem_fb_body
+field_name: field_pkt_tem_fb_body
+entity_type: node
+bundle: paket_template_facebook
+label: Body
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

@@ -1,0 +1,17 @@
+uuid: 6589294f-ca1f-4dbf-a58f-2d40e8dbc8e2
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.direktur_utama
+  enforced:
+    config:
+      - user.role.end_user_visitor
+id: direktur_utama-4b0cc992b
+label: 'End User/Visitor'
+weight: 7
+internal: true
+audience: outsider
+group_type: direktur_utama
+permissions_ui: false
+permissions: {  }

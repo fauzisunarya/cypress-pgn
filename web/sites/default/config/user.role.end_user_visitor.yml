@@ -1,0 +1,12 @@
+uuid: bd628cb1-774b-45ec-bd0e-bff44f14f24c
+langcode: en
+status: true
+dependencies:
+  module:
+    - workflow
+id: end_user_visitor
+label: 'End User/Visitor'
+weight: 7
+is_admin: null
+permissions:
+  - 'create workflow_status workflow_transition'

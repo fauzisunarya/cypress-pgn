@@ -1,0 +1,53 @@
+.icl-pricing--style-5 {
+  width: 33.33%;
+  padding: 30px;
+}
+@media screen and (max-width: 640px) {
+  .icl-pricing--style-5 {
+    width: 100%;
+  }
+}
+.icl-pricing--style-5.is-featured {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+.icl-pricing--style-5 .icl-pricing__title {
+  color: inherit;
+}
+.icl-pricing--style-5 .icl-pricing__price {
+  display: block;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+.icl-pricing--style-5 .icl-pricing__detail {
+  margin-bottom: 30px;
+}
+.icl-pricing--style-5 .icl-pricing__detail-title {
+  font-size: 1em;
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+  padding: 15px 0;
+  color: inherit;
+}
+.icl-pricing--style-5 .icl-pricing__detail-title:after {
+  content: "add_circle";
+  font-family: "Material Icons";
+  position: absolute;
+  right: 0;
+  height: 20px;
+  font-size: 20px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  line-height: 1;
+  color: inherit;
+  opacity: 0.6;
+}
+.icl-pricing--style-5 .icl-pricing__detail-title.is-active:after {
+  content: "remove_circle";
+}
+.icl-pricing--style-5 .icl-pricing__detail-content {
+  display: none;
+}

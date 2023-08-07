@@ -1,0 +1,37 @@
+uuid: affe4f68-44db-4123-ac53-5f0980b5376f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.landing_custom_form_post.field_lcfp_form_id
+    - field.field.node.landing_custom_form_post.field_lcfp_landing_id
+    - node.type.landing_custom_form_post
+  module:
+    - user
+id: node.landing_custom_form_post.default
+targetEntityType: node
+bundle: landing_custom_form_post
+mode: default
+content:
+  field_lcfp_form_id:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_lcfp_landing_id:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

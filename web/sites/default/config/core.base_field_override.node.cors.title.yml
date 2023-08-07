@@ -1,0 +1,18 @@
+uuid: aca2080b-199e-4012-ac40-bef923010a30
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.cors
+id: node.cors.title
+field_name: title
+entity_type: node
+bundle: cors
+label: Origin
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

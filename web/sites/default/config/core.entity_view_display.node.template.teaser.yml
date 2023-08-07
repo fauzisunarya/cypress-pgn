@@ -1,0 +1,32 @@
+uuid: 1d0835b8-b425-4c31-ae21-389b47827549
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.template.field_tem_category
+    - field.field.node.template.field_tem_image
+    - field.field.node.template.field_tem_image_link
+    - field.field.node.template.field_tem_website_menu
+    - field.field.node.template.field_tem_website_meta
+    - field.field.node.template.field_tem_website_style
+    - node.type.template
+  module:
+    - user
+id: node.template.teaser
+targetEntityType: node
+bundle: template
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_tem_category: true
+  field_tem_image: true
+  field_tem_image_link: true
+  field_tem_website_menu: true
+  field_tem_website_meta: true
+  field_tem_website_style: true

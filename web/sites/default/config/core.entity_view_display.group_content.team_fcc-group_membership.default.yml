@@ -1,0 +1,23 @@
+uuid: aa72880e-217e-412d-9549-5894e70b9cea
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.group_content.team_fcc-group_membership.group_roles
+    - group.content_type.team_fcc-group_membership
+id: group_content.team_fcc-group_membership.default
+targetEntityType: group_content
+bundle: team_fcc-group_membership
+mode: default
+content:
+  group_roles:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: -4
+    region: content
+hidden:
+  entity_id: true
+  uid: true

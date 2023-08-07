@@ -1,0 +1,29 @@
+uuid: a83a731e-7f43-4783-b55e-6b8c9102ad12
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_tem_ig_parent
+    - node.type.paket
+    - node.type.paket_template_instagram
+id: node.paket_template_instagram.field_pkt_tem_ig_parent
+field_name: field_pkt_tem_ig_parent
+entity_type: node
+bundle: paket_template_instagram
+label: Paket
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node_by_field'
+  handler_settings:
+    target_bundles:
+      paket: paket
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

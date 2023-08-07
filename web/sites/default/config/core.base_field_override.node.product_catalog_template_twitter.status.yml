@@ -1,0 +1,22 @@
+uuid: 4579ca8a-3d15-40ef-af73-a5bd969bed77
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.product_catalog_template_twitter
+id: node.product_catalog_template_twitter.status
+field_name: status
+entity_type: node
+bundle: product_catalog_template_twitter
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

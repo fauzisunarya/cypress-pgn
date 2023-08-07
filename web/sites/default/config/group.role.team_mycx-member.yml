@@ -1,0 +1,14 @@
+uuid: 9f2fc57f-faf7-4372-a997-378e53dd7b3b
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.team_mycx
+id: team_mycx-member
+label: Member
+weight: -100
+internal: true
+audience: member
+group_type: team_mycx
+permissions_ui: true
+permissions: {  }

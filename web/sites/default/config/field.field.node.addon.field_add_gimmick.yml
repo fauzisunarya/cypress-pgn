@@ -1,0 +1,19 @@
+uuid: 29ca77bc-5eea-4696-85d0-699309aa1dc5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_add_gimmick
+    - node.type.addon
+id: node.addon.field_add_gimmick
+field_name: field_add_gimmick
+entity_type: node
+bundle: addon
+label: gimmick
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

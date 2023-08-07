@@ -1,0 +1,237 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\node\Entity\Node;
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
+
+/**
+ * Alter query views to search citem/paket/addon
+ */
+function product_catalog_views_query_alter($view, $query) {
+
+  if ($view->id() === 'ref_for_product_catalog') {
+
+    $referer = parse_url(urldecode($_SERVER['HTTP_REFERER']));
+
+    if(!empty($referer['query'])){
+
+      $allowed_type = Drupal::service('product_catalog.catalog_helper')->getAllowedType();
+      $type = null;
+
+      foreach (explode('&', $referer['query']) as $key_value) {
+        $query_string = explode('=',$key_value, 2);
+        if ( $query_string[0]==='type' && count($query_string)===2 && in_array(strtolower($query_string[1]), $allowed_type) ) {
+          $type = strtolower($query_string[1]);
+        }
+      }
+
+      if (!empty($type)) {
+
+        $custom_condition = [];
+
+        switch ($type) {
+
+          case 'paket':
+            $custom_condition['node_field_data.type'] = 'paket';
+            break;
+
+          case 'citem':
+            $custom_condition['node_field_data.type'] = 'citem';
+            break;
+
+          case 'ebis ncx':
+            $custom_condition['node_field_data.type'] = 'ebis';
+            break;
+          
+          case 'wibs ncx':
+            $custom_condition['node_field_data.type'] = 'wibs';
+            break;
+
+          case 'retail+ebis':
+            $custom_condition['node_field_data.type'] = 'paket';
+
+            $terms_source = Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['vid' => 'source_paket', 'name'=> 'retail+ebis']);
+            $source_term_id = current(array_keys($terms_source));
+
+            // join with table source paket
+            $definition = [
+              'type' => 'INNER',
+              'table' => 'node__field_pkt_source',
+              'field' => 'entity_id ',
+              'left_table' => 'node_field_data',
+              'left_field' => 'nid',
+              'operator' => '=',
+              'extra' => array(
+                0 => array(
+                  'field' => 'deleted',
+                  'value' => '0',
+                ),
+                1 => array(
+                  'field' => 'bundle',
+                  'value' => 'paket',
+                )
+              ),
+            ];
+            $join = Drupal::service('plugin.manager.views.join')->createInstance('standard', $definition);
+            $query->addRelationship('node__field_pkt_source', $join, 'node__field_pkt_source'); 
+
+            // select source
+            $id_source = !empty($source_term_id) ? $source_term_id : 1;
+            $query->addWhere(0,'node__field_pkt_source.field_pkt_source_target_id', [$id_source], 'in');
+            unset($terms_source, $source_term_id, $definition, $join, $id_source);
+
+            break;
+
+          case 'addon':
+            $custom_condition['node_field_data.type'] = 'paket';
+
+            $terms_addon = Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['vid' => 'tipe_paket', 'name'=> 'addon']);
+            $addon_term_id = current(array_keys($terms_addon));
+
+            // join with table tipe_paket
+            $definition = [
+              'type' => 'INNER',
+              'table' => 'node__field_pkt_tipe_paket',
+              'field' => 'entity_id ',
+              'left_table' => 'node_field_data',
+              'left_field' => 'nid',
+              'operator' => '=',
+              'extra' => array(
+                0 => array(
+                  'field' => 'deleted',
+                  'value' => '0',
+                ),
+                1 => array(
+                  'field' => 'bundle',
+                  'value' => 'paket',
+                )
+              ),
+            ];
+            $join = Drupal::service('plugin.manager.views.join')->createInstance('standard', $definition);
+            $query->addRelationship('node__field_pkt_tipe_paket', $join, 'node__field_pkt_tipe_paket'); 
+
+            // select tipe_paket "addon"
+            $id_addon = !empty($addon_term_id) ? $addon_term_id : 1;
+            $query->addWhere(0,'node__field_pkt_tipe_paket.field_pkt_tipe_paket_target_id', [$id_addon], 'in');
+            unset($terms_addon, $addon_term_id, $definition, $join, $id_addon);
+
+            break;
+          
+          default:
+            # code...
+            break;
+        }
+
+        foreach ($query->where as $i => &$condition_group) {
+          foreach ($condition_group['conditions'] as $j => &$condition) {
+
+            if ($condition['field'] === 'node_field_data.type') {
+              $condition['value'] = [ $custom_condition['node_field_data.type'] ]; // only one type, based on query string "type"
+            }
+
+          }
+        }
+        
+      }
+    }
+
+  }
+
+} 
+
+function product_catalog_form_node_product_catalog_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+
+  $referer = parse_url(urldecode($_SERVER['REQUEST_URI']));
+
+  // check catalog type in query string ( ?type=...)
+  $type = null;
+  $type_id = null;
+  $list_type = Drupal::service('product_catalog.catalog_helper')->setQueryStringType($referer, $type, $type_id);
+
+  if (empty($type)) {
+    // redirect to use correct type
+    $query = $_GET;
+    $query['type'] = array_values($list_type)[0];
+    $query = http_build_query($query);
+    \Drupal::service('product_catalog.catalog_helper')->redirect($_ENV['APP_URL']. $referer['path'] ."?$query");
+  }
+
+  $form['#attached']['library'][] = 'product_catalog/catalog-form';
+
+  // fill type based on query string
+  $form['field_pct_type']['widget']['#default_value'] = $type_id;
+
+  if ($type != 'citem' || ( $type==='citem' && !in_array('administrator',\Drupal::currentUser()->getRoles()) ) ) {
+    $form['field_pct_citem_price']['#access'] = false;
+  }
+
+}
+
+function product_catalog_form_node_product_catalog_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+
+  $referer = parse_url(urldecode($_SERVER['REQUEST_URI']));
+
+  // check catalog type in query string ( ?type=...)
+  $type = null;
+  $type_id = null;
+  $list_type = Drupal::service('product_catalog.catalog_helper')->setQueryStringType($referer, $type, $type_id); // array contains : id => label
+
+  // catalog type (from DB)
+  $current_type_id = $form['field_pct_type']['widget']['#default_value'];
+  $current_type_id = !empty($current_type_id) ? $current_type_id[0] : null;
+  $current_type = !empty($current_type_id) ? $list_type[$current_type_id] : null;
+
+  if (empty($type)) {
+    // redirect to use current type
+    $query = $_GET;
+    $query['type'] = $current_type ?? array_values($list_type)[0];
+    $query = http_build_query($query);
+    \Drupal::service('product_catalog.catalog_helper')->redirect($_ENV['APP_URL']. $referer['path'] ."?$query");
+  }
+
+  // fill type based on query string
+  $form['field_pct_type']['widget']['#default_value'] = $type_id;
+  $form['#attached']['library'][] = 'product_catalog/catalog-form';
+
+  if ($type !== $current_type) {
+    // remove all data in list item, but keep last item, move to index "0"
+    foreach ($form['field_pct_list_paket']['widget'] as $key => $value) {
+      if (!is_numeric($key)) {
+        continue;
+      }
+      $form['field_pct_list_paket']['widget'][$key]['target_id']['#default_value'] = null;
+    }
+  }
+  
+  if ($type != 'citem' || ( $type==='citem' && !in_array('administrator',\Drupal::currentUser()->getRoles()) ) ) {
+    $form['field_pct_citem_price']['#access'] = false;
+  }
+  
+  // redirect to detail catalog, if citem
+  // in detail citem, it will redirect to select price, if there is citem which have multiple price & not selected
+  if ($type==='citem') {
+    $form['actions']['submit']['#submit'][] = 'product_catalog_node_citem_form_submit';
+  }
+
+}
+
+function product_catalog_node_citem_form_submit($form, FormStateInterface $form_state) {
+  $node_id = null;
+  try {
+    $node_id = explode('/edit', explode("node/",$_SERVER['REQUEST_URI'])[1])[0];
+  } catch (\Exception $e) {
+    //throw $e;
+  }
+
+  // redirect to detail page
+  if (!empty($node_id)) {
+    $alias = \Drupal::service('path_alias.manager')->getAliasByPath("/node/".$node_id); // output: /citem/slug
+    $response = new RedirectResponse($_ENV['APP_URL'] . $alias);
+    $response->send();
+  }
+}
+

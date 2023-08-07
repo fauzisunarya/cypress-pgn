@@ -1,0 +1,29 @@
+uuid: 93783636-2cc4-45c5-8775-32af7e1b32c4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.template_sms.field_tem_sms_body
+    - field.field.node.template_sms.field_workflow_status
+    - node.type.template_sms
+  module:
+    - user
+id: node.template_sms.default
+targetEntityType: node
+bundle: template_sms
+mode: default
+content:
+  field_tem_sms_body:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_workflow_status: true

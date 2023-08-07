@@ -1,0 +1,18 @@
+uuid: 64a02daf-05f9-43e6-af0b-d9f5ee44c5b6
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.team_manage
+id: group.team_manage.label
+field_name: label
+entity_type: group
+bundle: team_manage
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

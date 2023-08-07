@@ -1,0 +1,28 @@
+uuid: 82ed138b-352b-4151-b9c0-a19bf37b4691
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.segment_knowledge_group.field_seg_knowledge_non_priority
+    - field.field.node.segment_knowledge_group.field_seg_knowledge_order
+    - field.field.node.segment_knowledge_group.field_seg_knowledge_priority
+    - field.field.node.segment_knowledge_group.field_seg_knowledge_segment_ref
+    - node.type.segment_knowledge_group
+  module:
+    - user
+id: node.segment_knowledge_group.teaser
+targetEntityType: node
+bundle: segment_knowledge_group
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_seg_knowledge_non_priority: true
+  field_seg_knowledge_order: true
+  field_seg_knowledge_priority: true
+  field_seg_knowledge_segment_ref: true

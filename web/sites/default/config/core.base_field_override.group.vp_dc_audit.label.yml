@@ -1,0 +1,18 @@
+uuid: 1c07d5a4-db7f-4f15-b5ca-70be4ec628e5
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_dc_audit
+id: group.vp_dc_audit.label
+field_name: label
+entity_type: group
+bundle: vp_dc_audit
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

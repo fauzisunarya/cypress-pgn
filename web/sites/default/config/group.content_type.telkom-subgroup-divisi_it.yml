@@ -1,0 +1,18 @@
+uuid: 732ec186-c31b-4b35-98c6-1f799f830d60
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.divisi_it
+    - group.type.telkom
+  module:
+    - subgroup
+id: telkom-subgroup-divisi_it
+label: 'Telkom: Subgroup (Divisi IT)'
+description: 'Adds <em class="placeholder">Divisi IT</em> groups as subgroups.'
+group_type: telkom
+content_plugin: 'subgroup:divisi_it'
+plugin_config:
+  group_cardinality: 1
+  entity_cardinality: 1
+  use_creation_wizard: false

@@ -1,0 +1,27 @@
+uuid: ccc7ed39-7b48-4e2c-b5c4-118212f8f118
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_tem_email_file
+    - node.type.paket_template_email
+  module:
+    - file
+id: node.paket_template_email.field_pkt_tem_email_file
+field_name: field_pkt_tem_email_file
+entity_type: node
+bundle: paket_template_email
+label: File
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'pdf docx doc jpg png jpeg svg gif'
+  max_filesize: '2 MB'
+  description_field: false
+field_type: file

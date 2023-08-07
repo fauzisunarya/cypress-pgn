@@ -1,0 +1,14 @@
+uuid: d330e0fc-6533-426c-ae0a-27c6eaa297c2
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.rw
+id: rw-member
+label: Member
+weight: -100
+internal: true
+audience: member
+group_type: rw
+permissions_ui: true
+permissions: {  }

@@ -1,0 +1,17 @@
+uuid: 279a32f7-7beb-4d50-a6b7-2aabf883fd41
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_dc_audit
+  enforced:
+    config:
+      - user.role.admin
+id: vp_dc_audit-4200d0219
+label: Admin
+weight: 5
+internal: true
+audience: outsider
+group_type: vp_dc_audit
+permissions_ui: false
+permissions: {  }

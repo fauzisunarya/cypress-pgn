@@ -1,0 +1,17 @@
+uuid: 9c0da5be-f97a-4a5c-9b79-3c7e0d2c20a9
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Template Pricing Setting'
+type: template_pricing_setting
+description: 'list available benefit for paket. Benefit data for each paket is stored in "paket" content type'
+help: ''
+new_revision: false
+preview_mode: 0
+display_submitted: false

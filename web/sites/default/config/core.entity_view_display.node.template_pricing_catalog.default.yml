@@ -1,0 +1,37 @@
+uuid: e33b81da-ac84-42f0-b07e-befaee790cb8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.template_pricing_catalog.field_tem_pct_type
+    - field.field.node.template_pricing_catalog.field_temp_cat_html
+    - node.type.template_pricing_catalog
+  module:
+    - user
+id: node.template_pricing_catalog.default
+targetEntityType: node
+bundle: template_pricing_catalog
+mode: default
+content:
+  field_tem_pct_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_temp_cat_html:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

@@ -1,0 +1,18 @@
+uuid: 53725209-aa00-4f30-b969-0105e85e5a07
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_public_marketing_co
+id: group.vp_public_marketing_co.label
+field_name: label
+entity_type: group
+bundle: vp_public_marketing_co
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

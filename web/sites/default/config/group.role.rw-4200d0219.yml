@@ -1,0 +1,17 @@
+uuid: c0cf0605-6e56-4574-87e8-efc733c8b2c2
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.rw
+  enforced:
+    config:
+      - user.role.admin
+id: rw-4200d0219
+label: Admin
+weight: 5
+internal: true
+audience: outsider
+group_type: rw
+permissions_ui: false
+permissions: {  }

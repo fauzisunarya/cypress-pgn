@@ -1,0 +1,17 @@
+uuid: 0cf4f32e-9dca-40d2-b932-44d7b4141215
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.head_of_internal_audit
+  enforced:
+    config:
+      - user.role.approval
+id: head_of_internal_audit-d6b2e7af3
+label: Approval
+weight: 6
+internal: true
+audience: outsider
+group_type: head_of_internal_audit
+permissions_ui: false
+permissions: {  }

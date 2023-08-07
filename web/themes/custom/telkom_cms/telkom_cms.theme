@@ -1,0 +1,1427 @@
+<?php
+
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Drupal\node\Entity\Node;
+use Drupal\user\Entity\User;
+use Drupal\image\Entity\ImageStyle;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\file\Entity\File;
+
+function include_custom_functions($directory = '/', $filename ) {
+  $filename = sprintf(
+    '%s/functions%s%s.php',
+    __DIR__,
+    $directory,
+    str_replace(' ', '', $filename)
+  );
+
+  include_once $filename;
+}
+
+include_custom_functions('/', 'helper');
+include_custom_functions('/citem/', 'helper');
+include_custom_functions('/ebis/', 'helper');
+include_custom_functions('/wibs/', 'helper');
+include_custom_functions('/product_catalog/', 'helper');
+
+
+/**
+ * Implements hook_theme().
+ */
+function telkom_cms_theme($existing, $type, $theme, $path) {
+  return [
+    'landing_add_form' => [
+      'render element' => 'form',
+    ],
+    'landing_edit_form' => [
+      'render element' => 'form',
+    ],
+  ];
+}
+
+function telkom_cms_page_attachments_alter(&$page){
+    $current_path = \Drupal::service('path.current')->getPath();
+
+    // add custom ckeditor script in all pages (except in form page)
+    if (
+        !preg_match("/^\/node\/add\/.+/", $current_path) && 
+        !preg_match("/^\/node\/\d+\/edit.*/", $current_path) &&
+        !preg_match("/.+\/taxonomy\/manage.+\/add.*/", $current_path) &&
+        !preg_match("/^\/taxonomy.+\/\d+\/edit.*/", $current_path)
+    ) {
+        $i = array_search('telkom_cms/global-scripts-head', $page['#attached']['library']);
+        array_splice($page['#attached']['library'], $i, 0, 'telkom_cms/ckeditor-scripts');
+    }
+  }
+
+/**
+ * Custom function to check is in detail node
+ * 
+ * @return boolean
+ */
+function check_is_in_detail_node($prefix, $content_type){
+  // make sure the path is baseurl/prefix/slug
+
+  $is_in_detail_node = false;
+
+  $arr_slug = explode("$prefix/", $_SERVER['REQUEST_URI']); 
+  if (count($arr_slug)>1) {
+      $arr_slug[1] = explode('?',$arr_slug[1])[0]; //ignore or remove the query string
+      $arr_slug = explode('/', $arr_slug[1]);
+      if (count($arr_slug)===1) {
+          $slug = $arr_slug[0];
+
+          // get the node id, then get the type (is "$content_type" content type?)
+          $alias = \Drupal::service('path_alias.manager')->getPathByAlias("/$prefix/$slug"); // output /node/id
+          
+          if (strpos($alias, 'node/')!==false) {
+              $node_id = explode('node/', $alias)[1];
+  
+              // get the node object
+              $node = \Drupal::entityTypeManager()->getStorage('node')->load($node_id);
+  
+              if ($node!==null && $node->type->entity->get('type')===$content_type) {
+                  $is_in_detail_node = true;
+              }
+          }
+      }
+  }
+
+  return $is_in_detail_node;
+}
+
+function is_using_card_class(){
+    if (check_is_in_detail_node('citem', 'citem')) {
+        return false;
+    }
+    else if (check_is_in_detail_node('ebis', 'ebis')) {
+        return false;
+    }
+    else if (check_is_in_detail_node('wibs', 'wibs')) {
+        return false;
+    }
+    else if (check_is_in_detail_node('paket', 'paket')) {
+        return false;
+    }
+    elseif (check_is_in_detail_node('product-catalog', 'product_catalog')){
+        return false;
+    }
+    elseif (check_is_in_detail_node('segment', 'segment')){
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for HTML document templates.
+ */
+function telkom_cms_preprocess_html(&$variables){
+    
+    $variables['register_url'] = getenv('APP_URL').'/user/register';
+    $variables['recaptcha_sitekey'] = getenv('RECAPTCHA_SITEKEY');
+    $variables['forgot_password_url'] = getenv('APP_URL').'/forgot-password';
+    $variables['head_title']['name'] = "Telkom CMS";
+    $variables['disabled_login_otp'] = $_ENV['DISABLED_LOGIN_OTP'] === 'true' ? true : false;
+
+    $variables['#cache']['max-age'] = 0;
+
+    $current_path = \Drupal::service('path.current')->getPath();
+
+    if (!$variables['logged_in']) {
+        ini_set('session.cookie_samesite', 'none');
+        if (strpos($current_path, 'login') === false && strpos($current_path, 'forgot-password') === false && strpos($current_path, 'user/reset') === false) {
+            $redirect_url = getenv('APP_URL') . "/user/login";
+            $response = new RedirectResponse($redirect_url, 301);
+            $response->send();exit;
+        }
+    }
+
+    // ami "landing page" can be accessed by halaman.telkom.co.id, but disabled access to login
+    if (! empty($_SERVER["HTTP_PAGE"]) && str_contains($_ENV["PUBLIC_URL"], $_SERVER["HTTP_PAGE"])) {
+      if (strpos($current_path, 'login') != false || strpos($current_path, 'forgot-password') != false || strpos($current_path, 'user/reset') != false) {
+        throw new NotFoundHttpException();
+      }
+    }
+
+    if (preg_match("/\/user\/[0-9]+/", $current_path) && !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'login')) 
+    {
+        $redirect_url = getenv('APP_URL');
+        $response = new RedirectResponse($redirect_url, 301);
+        $response->send();exit;
+    }
+
+    if (preg_match("/\/node\/add$/", $current_path) && !in_array('administrator',\Drupal::currentUser()->getRoles())) {
+        $redirect_url = getenv('APP_URL');
+        $response = new RedirectResponse($redirect_url, 301);
+        $response->send();exit;
+    }
+}
+
+function telkom_cms_preprocess_views_view_unformatted(&$variables){
+    $variables['is_front'] = \Drupal::service('path.matcher')->isFrontPage();
+}
+
+function telkom_cms_preprocess_breadcrumb(&$variables){
+    if (!empty($variables['breadcrumb'])) {
+        foreach ($variables['breadcrumb'] as $key => $breadcrumb) {
+            if (!empty($breadcrumb['url']) && $breadcrumb['url']==='/node/add') { unset($variables['breadcrumb'][$key]); }
+            elseif (!empty($breadcrumb['url']) && ($breadcrumb['url']==='/landing-master/analytic' || preg_match("/^\/landing-master\/\d+$/", $breadcrumb['url']))) { unset($variables['breadcrumb'][$key]); }
+        }
+    };
+}
+
+function telkom_cms_preprocess_status_messages(&$variables){
+    $path = $_SERVER['REQUEST_URI'];
+    $current_path = \Drupal::service('path.current')->getPath(); // url /paket/slug is /node/id
+    
+    if (!preg_match("/node\/add/", $path) && !preg_match("/node\/\d+\/edit/", $path) && !empty($variables['message_list']) && !empty($variables['message_list']['status'])) {
+
+        if (count($variables['message_list']['status'])>1 && str_contains($variables['message_list']['status'][0], 'requires approval')) {
+            $variables['message_list']['status'] = [$variables['message_list']['status'][1]];
+        }
+        // remove messages requires approval in another page
+        else if(
+            (preg_match("/^\/node\/\d+$/i", $current_path) && (preg_match("/citem/", $path) || preg_match("/paket/", $path) || preg_match("/ebis/", $path) ) || preg_match("/wibs/", $path) ) ||
+            str_contains($path, 'waiting-approval')
+        ){
+            $unset = [];
+            foreach ($variables['message_list']['status'] as $key => $value) {
+                if (str_contains($value, 'This content requires approval')) {
+                    $unset[] = $key;
+                }
+            }
+            foreach ($unset as $key) {
+                unset($variables['message_list']['status'][$key]);
+            }
+        }
+
+        if (count($variables['message_list']['status'])===0) {
+            unset($variables['message_list']['status']);
+        }
+        
+    }
+}
+
+function telkom_cms_preprocess_container(&$variables) {
+    $current_path = \Drupal::service('path.current')->getPath();
+
+    // custom variable
+    $variables['is_authpage'] = strpos($current_path, 'login') !== false || strpos($current_path, 'forgot-password') !== false;
+    $variables['is_front']    = \Drupal::service('path.matcher')->isFrontPage();
+    $variables['is_formview'] = preg_match("/(node.*add)|(node.*edit)/is",$current_path) ? true : false;
+
+    $variables['#cache']['max-age'] = 0;
+    
+    $variables['is_detail_paket_page'] = check_is_in_detail_node('paket','paket');
+}
+
+function telkom_cms_preprocess_form_element(&$variables){
+    $current_path = \Drupal::service('path.current')->getPath();
+
+    $variables['is_landingform'] = strpos($current_path, 'landing-page') !== false;
+}
+
+function telkom_cms_preprocess_links(&$variables){
+    $variables['is_front'] = \Drupal::service('path.matcher')->isFrontPage();
+}
+
+function telkom_cms_preprocess_field(&$variables){
+    $variables['is_front'] = \Drupal::service('path.matcher')->isFrontPage();
+
+    switch ($variables['field_name']) {
+        case 'field_video_youtube_video':
+            $value = $variables['items'][0]['content']['#context']['value'];
+            $is_iframe = preg_match("/<iframe.+iframe>/", $value);
+            if ($is_iframe) {
+                $link = explode('" ', explode('https://www.youtube.com/embed/',$value)[1] )[0];
+                $link = strlen($link)>0 ? "https://www.youtube.com/embed/$link" : '';
+
+                $variables['youtube_video'] = [
+                    'type' => 'iframe',
+                    'link' => $link
+                ];
+            }
+            else{
+                $variables['youtube_video'] = [
+                    'type' => 'default',
+                    'link' => $value
+                ];
+            }
+
+            break;
+        
+        case 'field_pmb_media_ref':
+
+            $variables['node_media'] = array_map(function($value){
+
+                $nid = $value['content']['#options']['entity']->nid[0]->value;
+                return \Drupal::entityTypeManager()->getViewBuilder('node')->view(Node::load($nid), 'full');
+
+            },$variables['items'] );
+
+            break;
+
+        case 'field_pro_specification': //product specicification
+
+          // load list property "specification" from referenced category
+          $entity = $variables['element']['#object'];
+          $category = $entity->field_pro_product_category->referencedEntities()[0];
+
+          $data_specification = json_decode($variables['items'][0]['content']['#context']['value'], true);
+
+          // mappting value with product specification, empty if data doesn't exist
+          $specification = [];
+          foreach ($category->field_procat_list_specification->getValue() as $val) {
+
+            $key = trim(strtolower(preg_replace( "/\s/",'_',$val['value'] )));
+            $specification[] = [
+              'label' => $val['value'],
+              'value' => !empty($data_specification[$key]) ? $data_specification[$key] : ''
+            ];
+
+          }
+
+          // dd(array_keys($variables));
+          $variables['specification'] = $specification;
+          unset($entity, $category, $data_specification, $specification);
+
+        break;
+  
+
+        default:
+            # code...
+            break;
+    }
+}
+
+function telkom_cms_preprocess_views_view_fields(&$variables){
+    $current_path = \Drupal::service('path.current')->getPath();
+
+    if (!empty($variables['fields']['view_node'])) {
+        $variables['fields']['view_node']->content = str_replace('hreflang="en"', 'hreflang="en" class="btn btn-secondary"', $variables['fields']['view_node']->content);
+    };
+    
+    if (!empty($variables['fields']['delete_node'])) {
+        $variables['fields']['delete_node']->content = str_replace('hreflang="en"', 'hreflang="en" class="btn btn-primary"', $variables['fields']['delete_node']->content);
+    };
+
+    if (!empty($variables['fields']['edit_node'])) {
+        $variables['fields']['edit_node']->content = str_replace('hreflang="en"', 'hreflang="en" class="btn btn-info"', $variables['fields']['edit_node']->content);
+    };
+
+    $variables['is_cardview']  = preg_match("/(article)|(news)/is", $current_path) ? true : false;
+    $variables['current_path'] = str_replace('/', '', $current_path);
+}
+
+function telkom_cms_preprocess_input(&$variables) {
+    $current_path = \Drupal::service('path.current')->getPath();
+
+    // custom variable
+    $variables['is_authpage'] = strpos($current_path, 'login') !== false || strpos($current_path, 'forgot-password') !== false;
+}
+
+function telkom_cms_preprocess_image(&$variables) {
+    $current_path = \Drupal::service('path.current')->getPath();
+
+    $variables['is_contentlist'] = preg_match("/(\/article)|(\/news)/is",$current_path) ? true : false;
+
+    if (str_contains($variables['uri'], 's3')) {
+        $findS3 = \Drupal::service('restapi_telkom.minio_helper')->getFileByURI($variables['uri'], 'original');
+
+        $variables['attributes']['src'] = $findS3['status'] ? $findS3['data'] : $variables['attributes']['src'];
+    };
+}
+
+function telkom_cms_preprocess_file_video(&$variables) {
+
+    foreach ($variables['files'] as $key => $file) {
+        $video_uri = $file['file']->uri[0]->value;
+
+        if (str_contains($video_uri, 's3')) {
+            $findS3 = \Drupal::service('restapi_telkom.minio_helper')->getFileByURI($video_uri, '', 'video');
+
+            $video_url = $findS3['status'] ? $findS3['data'] : $video_uri;
+        }
+        else{
+            $video_url = \Drupal::request()->getSchemeAndHttpHost() . \Drupal::service('file_url_generator')->generateString($video_uri);
+        };
+
+        $variables['files'][$key]['source_attributes']['src'] = $video_url;
+    }
+}
+
+function telkom_cms_preprocess_image_widget(&$variables) {
+    $element = $variables['element'];
+
+    $variables['attributes'] = array('class' => array('image-widget', 'js-form-managed-file', 'form-managed-file', 'clearfix'));
+
+    if (!empty($element['fids']['#value'])) {
+      $file = reset($element['#files']);
+      $element['file_' . $file->id()]['filename']['#suffix'] = ' <span class="file-size">(' . format_size($file->getSize()) . ')</span> ';
+      $file_variables = array(
+        'style_name' => $element['#preview_image_style'],
+        'uri' => $file->getFileUri(),
+      );
+
+      // Determine image dimensions.
+      if (isset($element['width']['#value']) && isset($element['height']['#value'])) {
+        $file_variables['width'] = $element['width']['#value'];
+        $file_variables['height'] = $element['height']['#value'];
+      } else {
+        $image = \Drupal::service('image.factory')->get($file->getFileUri());
+        
+        if ($image->isValid()) {
+          $file_variables['width'] = $image->getWidth();
+          $file_variables['height'] = $image->getHeight();
+          $style = ImageStyle::load($file_variables['style_name']);
+          $image_uri = $file->getFileUri();
+          $destination = $style->buildUri($image_uri);
+          $style->createDerivative($image_uri, $destination);
+        }
+        else {
+          $file_variables['width'] = $file_variables['height'] = NULL;
+        }
+      }
+
+      $element['preview'] = array(
+        '#weight' => -10,
+        '#theme' => 'image_style',
+        '#width' => $file_variables['width'],
+        '#height' => $file_variables['height'],
+        '#style_name' => $file_variables['style_name'],
+        '#uri' => $file_variables['uri'],
+      );
+
+      // Store the dimensions in the form so the file doesn't have to be
+      // accessed again. This is important for remote files.
+      $element['width'] = array(
+        '#type' => 'hidden',
+        '#value' => $file_variables['width'],
+      );
+      $element['height'] = array(
+        '#type' => 'hidden',
+        '#value' => $file_variables['height'],
+      );
+    }
+
+    $variables['data'] = array();
+    foreach (\Drupal\Core\Render\Element::children($element) as $child) {
+      $variables['data'][$child] = $element[$child];
+    }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for HTML document templates.
+ */
+function telkom_cms_preprocess_menu__main(&$variables){
+    
+    // hide menu :  admin/approval => menu approval, PO => menu waiting approval
+    $roles = \Drupal::currentUser()->getRoles();
+    $is_approval = in_array('administrator',$roles) || in_array('approval',$roles) ? true : false;
+
+    // menu_0 is the menu level 0 (the first parent)
+    // only for one level depth
+    $counter = 1;
+    foreach ($variables['items'] as $key => $menu_0) {
+        if (count($menu_0['below'])===0) {
+            // remove, there no menu or user doesn't has permission
+            unset($variables['items'][$key]);
+            continue;
+        }
+        else if ($is_approval && strtolower($menu_0['title'])==='waiting approval'){
+            unset($variables['items'][$key]);
+            continue;
+        }
+        else if(!$is_approval && strtolower($menu_0['title'])==='approval'){
+            unset($variables['items'][$key]);
+            continue;
+        }
+
+        $themes_path = '/themes'. explode('themes', __DIR__)[1];
+
+        $variables['items'][$key]['icon_url'] = $_ENV['APP_URL']. $themes_path ."/assets/icons/" .str_replace(' ', '-', trim( strtolower($menu_0['title']) ) ) . '-icon.png';
+        $variables['items'][$key]['menu_id'] = "nav-id-$counter" ;
+        $variables['items'][$key]['mobile_menu_id'] = "mobile-nav-id-$counter" ;
+        $counter++;
+    }
+
+    // $variables['#cache']['max-age'] = 0;
+
+    // for debug the result
+    // $myfile = fopen("debug_hooks_menu.json", "w") or die("Unable to open file!");
+    // fwrite($myfile, json_encode($variables['items']));
+    // fclose($myfile);
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for HTML document templates.
+ */
+function telkom_cms_preprocess_menu__account(&$variables){
+    if ($variables['logged_in']) {
+        $user = User::load(Drupal::currentUser()->id());
+        $user_image = !$user->user_picture->isEmpty() ? $user->user_picture->entity->getFileUri() : '';
+
+        $variables['edit_user_url'] = $_ENV['APP_URL'] . "/user/{$user->id()}/edit";
+        $variables['user_detail'] = [
+            'username' => $user->getDisplayName(),
+            'email'    => $user->getEmail(),
+            'profile_picture' => !empty($user_image) ? \Drupal::request()->getSchemeAndHttpHost() . \Drupal::service('file_url_generator')->generateString($user->user_picture->entity->getFileUri()) : $user_image
+        ];
+
+        if (str_contains($user_image, 's3')) {
+            $findS3 = \Drupal::service('restapi_telkom.minio_helper')->getFileByURI($user_image, 'original');
+
+            $variables['user_detail']['profile_picture'] = $findS3['status'] ? $findS3['data'] : $variables['user_detail']['profile_picture'];
+        };
+    }
+
+    $variables['#cache']['max-age'] = 0;
+
+    $variables['login_url'] = getenv('APP_URL').'/user/login';
+}
+
+function telkom_cms_preprocess_views_view(&$variables){
+    
+    $variables['#cache']['max-age'] = 0;
+    $variables['is_detail_paket_page'] = check_is_in_detail_node('paket','paket') || check_is_in_detail_node('product-catalog', 'product_catalog');
+    $variables['empty_rows'] = !empty($variables['rows']) ? false : true;
+
+    $variables['show_header'] = true;
+    if (strpos($_SERVER['REQUEST_URI'], 'landing-master') !== false) {
+        $access = Drupal::service('media_upload.landing_helper')->checkListlandingAccess();
+
+        $variables['show_header'] = $access['access'] && $access['access_all']; // header = button "add". Can add only if supeeradmin/PO
+    }
+    return;
+    
+    $paket_data = [
+        'tab' => '', //define request the tab
+        // 'product_knowledge' => true, //states for empty data "true" meaning this is empty
+        'konten' => true,
+    ];
+
+    // if (!empty($variables['view']->result[0]->_entity->field_pkt_product_knowledge)) {
+    //     $paket_data['tab'] = 'product_knowledge';
+    //     if (!empty($variables['rows'][0]['#rows'][0]->_entity->field_pkt_product_knowledge)) {
+    //         $paket_data['tab'] = 'product_knowledge';
+    //         foreach ($variables['rows'][0]['#rows'][0]->_entity->field_pkt_product_knowledge as $key => $value) {
+    //             if ($value->target_id!=='0') {
+    //                 $paket_data['product_knowledge'] = false;
+    //             }
+    //         }
+    //     }
+    // }
+    // else{
+        $paket_data['tab'] = 'konten';
+        if (!empty($variables['rows'])) {
+            $paket_data['konten'] = false;
+        }
+    // }
+
+    $variables['paket_data'] = $paket_data;
+}
+
+function telkom_cms_preprocess_views_view_table(&$variables, $hook, $info){
+    $variables['#cache']['max-age'] = 0;
+    $variables['is_detail_paket_page'] = check_is_in_detail_node('paket','paket');
+}
+
+function telkom_cms_preprocess_views_exposed_form(&$variables){
+    $variables['q_title'] = !empty($_GET['title']) ? $_GET['title'] : '';
+    $current_path = \Drupal::service('path.current')->getPath();
+    if (str_contains($current_path, 'admin/people') && ! str_contains($current_path, 'create')) {
+        $variables['is_people_page'] = true;
+    }
+    else if (
+      str_contains($current_path, 'paket') ||
+      str_contains($current_path, 'citem') ||
+      str_contains($current_path, 'ebis') ||
+      str_contains($current_path, 'wibs') ||
+      str_contains($current_path, 'product-catalog') ||
+      str_contains($current_path, 'revision-history') || 
+      str_contains($current_path, 'approval')
+    ) {
+        $variables['show_default_form'] = true;
+    }
+}
+
+function telkom_cms_preprocess_region(&$variables) {
+    $current_path = \Drupal::service('path.current')->getPath();
+    if (str_contains($current_path, 'admin/people') && ! str_contains($current_path, 'create')) {
+        $variables['is_people_page'] = true;
+        $variables['create_user_url'] = $_ENV['APP_URL'] . '/admin/people/create';
+    }
+}
+
+function telkom_cms_preprocess_page_title(&$variables){
+    // for landing page custom form response
+    $variables['redirect'] = $_ENV['APP_URL'];
+    if (preg_match("/.*landing-master\/\d+\/form.*/", $_SERVER['REQUEST_URI'])) {
+        $node_id = preg_replace("/\/form.*$/", '',explode('landing-master/',$_SERVER['REQUEST_URI'])[1] );
+        $node = \Drupal\node\Entity\Node::load($node_id);
+
+        if ($node && $node->type->entity->get('type')==="landing") {
+            $variables['title']['#markup'] = ucwords($node->title->getString());
+            $variables['title']['#markup'] .= preg_match("/.*form\/\d+/", $_SERVER['REQUEST_URI']) ? " (Form Response)" : " (Form)"; 
+        }
+    }
+}
+
+/**
+ * Custom function to process approval landing
+ */
+function approval_landing(&$variables, &$node){
+    $variables['approval']['description'] = $node->field_lan_website_description->getString();
+
+    $alias = \Drupal::service('path_alias.manager')->getAliasByPath("/node/".$node->id()); // output /landing/slug
+    $variables['approval']['landingpage_url'] = $_ENV['APP_URL'] . str_replace('/landing/','/landingpage/',$alias);
+    $variables['approval']['preview_url'] = $_ENV['APP_URL']."/preview". str_replace('/landing/','/landingpage/',$alias);
+}
+
+/**
+ * Custom function to process approval detail
+ */
+function telkom_cms_preprocess_approval_detail(&$variables){
+    $node = \Drupal\node\Entity\Node::load(explode('approval/',$_SERVER['REQUEST_URI'])[1]);
+
+    if ($node===null || !$node->hasField('field_workflow_status')) {
+      return \Drupal::service('media_upload.page_helper')->redirect($_ENV['APP_URL']);
+    }
+    $status = str_replace('workflow_status_','',$node->field_workflow_status->getString());
+    $status .= $status==='reject' ? 'ed' : 'd';
+    $content_type = $node->getType();
+
+    $variables['approval'] = [
+        'is_detail_approval' => true,
+        'action_form' => [
+            'show' => $status!=='rejected' && $status!=='approved',
+            'message' => $status!=='rejected' && $status!=='approved' ? "" : "This content has been ".ucfirst($status)
+        ],
+        'title' => $node->title->getString(),
+        'current_url' => $_ENV['APP_URL'] . explode('?',$_SERVER['REQUEST_URI'])[0],
+        'content_type'=>$content_type, 
+        'content_id'=> $node->id(),
+        'author' => $node->getOwner()->getDisplayName(),
+        'author_url' => $_ENV['APP_URL'].'/user/'.$node->getOwnerId(),
+        'approved_content' => ['title' => '', 'url' => ''],
+        'created_at' => \Drupal::service('date.formatter')->format($node->getCreatedTime(), 'medium')
+    ];
+
+    // get the approved content. approve the revision content will be replaced the previous approved content
+    $approved_id = \Drupal::service('media_upload.workflow_helper')->get_approved_id_by_revision_id($node->id());
+    if ($approved_id) {
+        $approved_content = \Drupal\node\Entity\Node::load($approved_id);
+        if ($approved_content) {
+            $variables['approval']['approved_content']['title'] = ucwords($approved_content->title->getString());
+            $variables['approval']['approved_content']['url'] = \Drupal::service('media_upload.workflow_helper')->get_url_alias($approved_id);
+        }
+    }
+
+
+    if ($content_type==='landing') {
+        approval_landing($variables, $node);
+    }
+    else if($content_type==='product_catalog'){
+        (new CatalogHelper)->detail_catalog($variables, $node);
+    }
+    else if($content_type==='citem'){
+        CitemHelper::detail_citem($variables, $node);
+    }
+    else if($content_type==='ebis'){
+        EbisHelper::detail($variables, $node);
+    }
+    else if($content_type==='wibs'){
+        WibsHelper::detail($variables, $node);
+    }
+    else if($content_type==='paket'){
+        include_custom_functions('/paket/', 'helper');
+        (new PaketHelper)->detail($variables, $node);
+    }
+    else{
+        // render node view
+        $variables['node'] = \Drupal::entityTypeManager()->getViewBuilder('node')->view($node, 'full');
+    }
+
+}
+
+/**
+ * Custom function to get data notification
+ */
+function telkom_cms_preprocess_notification(&$variables){
+    $entity = \Drupal::entityTypeManager()->getStorage('node');
+    $query = $entity->getQuery()
+                  ->condition('type', 'notification') #type = bundle id (machine name)
+                  ->condition('field_notif_user.entity.uid', Drupal::currentUser()->id(), 'IN');
+                  
+    $count_query = clone $query;
+    $or_condition = $count_query->orConditionGroup()
+                    ->condition('field_notif_read_by', "%,".Drupal::currentUser()->id().",%" , 'NOT LIKE')
+                    ->notExists('field_notif_read_by'); //if empty field
+    $unread_notif = $count_query
+                    ->condition($or_condition)
+                    ->count()
+                    ->execute();
+
+    $ids = $query
+            ->sort('created' , 'DESC')
+            ->range(0, 5)
+            ->execute();
+    $notification = $entity->loadMultiple($ids);
+
+    $user_id = Drupal::currentUser()->id();
+    $variables['notification'] = [];
+    foreach ($notification as $value) {
+        $arr_user_read = explode(',',$value->field_notif_read_by->getString());
+        
+        $variables['notification'][] = [
+            'title' => $value->title->getString(),
+            'is_read' => in_array($user_id, $arr_user_read),
+            'url' => $_ENV['APP_URL'] . \Drupal::service('path_alias.manager')->getAliasByPath("/node/".$value->id())
+        ];
+    }
+
+    if ($unread_notif==0) {
+        $variables['unread_notification'] = '';
+    }
+    else if($unread_notif>99){
+        $variables['unread_notification'] = '99+';
+    }
+    else{
+        $variables['unread_notification'] = $unread_notif;
+    }
+
+    $variables['base_url'] = $_ENV['APP_URL'];
+}
+
+function get_array_pagination(int $page=1,int $total_page=1){
+    if ($total_page<1) {
+        $total_page = 1;
+    }
+    if ($page<1) {
+        $page = 1;
+    }
+    else if($page>$total_page){
+        $page = $total_page;
+    }
+    
+    $arr_pagination = [
+        'page' => $page,
+        'total_page' => $total_page,
+        'prev' => $page===1 ? false : true,
+        'next' => $page===$total_page ? false : true,
+        'available_pages' => [],
+    ];
+
+    $start_page = ($page%10 === 0) ? ($page - 9) : $page-($page%10-1); // ex: page 13 => available pages 11-20
+    $end_page = $start_page + 9; // perpage = 10
+    for ($i=$start_page; $i <=$end_page ; $i++) { 
+        if ($i>$total_page) {
+            break;
+        }
+        $arr_pagination['available_pages'][] = $i;
+    }
+    return $arr_pagination;
+}
+
+/**
+ * Return product category with list specification
+ */
+function get_formatted_product_category(){
+  $entity = \Drupal::entityTypeManager()->getStorage('node');
+  $ids = $entity->getQuery()
+                ->condition('status', 1)
+                ->condition('type', 'product_category')
+                ->execute();
+  
+  $product_category = []; 
+  foreach ($entity->loadMultiple($ids) as $id => $value) {
+    $title = $value->title->getString();
+
+    $specification = array_map(fn($val)=>$val['value'], $value->field_procat_list_specification->getValue());
+
+    $product_category[$id] = [
+      'title' => $title,
+      'specification' => $specification,
+      'specification_formatted' => array_map( fn($val)=> trim(strtolower(preg_replace("/\s/",'_',$val))), $specification )
+    ];
+  }
+
+  return $product_category;
+}
+
+/**
+ * Custom function for page product add
+ */
+function telkom_cms_preprocess_product_add(&$variables){
+
+  // process submit product
+  if (!empty($_POST['title']) && !empty($_POST['category']) && isset($_POST['specification'])) {
+    
+    // validate category
+    $category = Node::load($_POST['category']);
+    if (!$category) {
+      \Drupal::messenger()->addError('Invalid category');
+      $response = new RedirectResponse($_SERVER['REQUEST_URI'], 301);
+      $response->send();exit;
+    }
+
+    $specification = [];
+    foreach ($category->field_procat_list_specification->getValue() as $val) {
+
+      $key = trim(strtolower(preg_replace( "/\s/",'_',$val['value'] )));
+      $specification[$key] = !empty($_POST['specification'][$key]) ? $_POST['specification'][$key] : '';
+
+    }
+
+    // save product
+    $product = Node::create([
+      'type'        => 'product',
+      'title'       => $_POST['title'],
+      'field_pro_product_category' => $_POST['category'],
+      'field_pro_specification' => json_encode($specification),
+    ]);
+    $product->save();
+    
+    // redirect
+    \Drupal::messenger()->addStatus('Success added new product');
+    $response = new RedirectResponse($_ENV['APP_URL']."/product", 301);
+    $response->send();exit;
+  }
+
+  $variables['product_category'] = get_formatted_product_category();
+
+}
+
+/**
+ * Custom function for page product add
+ */
+function telkom_cms_preprocess_product_edit(&$variables, $id){
+
+  $node = Node::load($id);
+  if (!$node) {
+    \Drupal::messenger()->addError('Invalid id');
+    $response = new RedirectResponse($_ENV['APP_URL']."/product", 301);
+    $response->send();exit;
+  }
+
+  // process submit product
+  if (!empty($_POST['title']) && !empty($_POST['category']) && isset($_POST['specification'])) {
+    
+    // validate category
+    $category = Node::load($_POST['category']);
+    if (!$category) {
+      \Drupal::messenger()->addError('Invalid category');
+      $response = new RedirectResponse($_SERVER['REQUEST_URI'], 301);
+      $response->send();exit;
+    }
+
+    $specification = [];
+    foreach ($category->field_procat_list_specification->getValue() as $val) {
+
+      $key = trim(strtolower(preg_replace( "/\s/",'_',$val['value'] )));
+      $specification[$key] = !empty($_POST['specification'][$key]) ? $_POST['specification'][$key] : '';
+
+    }
+
+    // save product
+    $node->title                      = $_POST['title'];
+    $node->field_pro_product_category = $_POST['category'];
+    $node->field_pro_specification    = json_encode($specification);
+    $node->save();
+    
+    // redirect
+    \Drupal::messenger()->addStatus('Success update product');
+    $response = new RedirectResponse($_ENV['APP_URL']."/product", 301);
+    $response->send();exit;
+  }
+
+  $variables['product'] = [
+    'product_category' => get_formatted_product_category(),
+    'data' => [
+      'title' => $node->title->getString(),
+      'category_id' => (int) $node->field_pro_product_category->getString(),
+      'specification' => json_decode($node->field_pro_specification->getString(), true)
+    ]
+  ];
+
+}
+
+/**
+ * Custom function to process variable for landing custom form with response
+ * 
+ * landing_custom_form = form scheme,
+ * landing_custom_form_post = submitted form (form response),
+ * landing_custon_form_post_meta = field response for submitted form
+ */
+function telkom_cms_preprocess_landing_form_page(&$variables){
+    // for landing page custom form response
+    $landing_id = preg_replace("/\/form.*$/", '',explode('landing-master/',$_SERVER['REQUEST_URI'])[1] );
+    $landing = \Drupal\node\Entity\Node::load($landing_id);
+
+    if ($landing && $landing->type->entity->get('type')==="landing") {
+        unset($landing);
+
+        // list landing custom form
+        if (preg_match("/.*\/form$/", $_SERVER['REQUEST_URI'])) {
+
+            // Get form list
+            $entity = \Drupal::entityTypeManager()->getStorage('node');
+            $query = $entity->getQuery();
+            $query = $query->condition('status', 1)
+                        ->condition('type', 'landing_custom_form') #type = bundle id (machine name)
+                        ->condition('field_lcf_landing_ref', $landing_id);
+            // $query = $query->orderBy('created', 'ASC');
+            $ids = $query->execute();
+
+            $variables['landing_form'] = [];
+
+            $custom_forms = $entity->loadMultiple($ids);
+            foreach ($custom_forms as $custom_form) {
+                $form_id = $custom_form->id();
+
+                // get list response
+                $entity = \Drupal::entityTypeManager()->getStorage('node');
+                $query = $entity->getQuery();
+                $query = $query->condition('status', 1)
+                            ->condition('type', 'landing_custom_form_post') #type = bundle id (machine name)
+                            ->condition('field_lcfp_form_id', $form_id)
+                            ->condition('field_lcfp_landing_id', $landing_id);
+                // $query = $query->orderBy('created', 'ASC');
+                $ids = $query->execute();
+
+                $variables['landing_form'][] = [
+                    'form_title' => $custom_form->title->getString(),
+                    'form_response' => count($ids),
+                    'form_response_url' => $_ENV['APP_URL'] . "/landing-master/$landing_id/form/$form_id"
+                ];
+            }
+
+            // get list response for default form
+            $entity = \Drupal::entityTypeManager()->getStorage('node');
+            $query = $entity->getQuery();
+            $query = $query->condition('status', 1)
+                        ->condition('type', 'landing_custom_form_post') #type = bundle id (machine name)
+                        ->condition('field_lcfp_form_id', '')
+                        ->condition('field_lcfp_landing_id', $landing_id);
+            // $query = $query->orderBy('created', 'ASC');
+            $ids = $query->execute();
+
+            array_unshift($variables['landing_form'], [
+                'form_title' => "Default",
+                'form_response' => count($ids),
+                'form_response_url' => $_ENV['APP_URL'] . "/landing-master/$landing_id/form/0"
+            ]);
+
+        }
+        // form response
+        else{ 
+            $json_default_form = '{"fields":[{"label":"Name","field":"input","type":"text","placeholder":"Nama lengkap anda","required":true,"options":[],"size":"full","name":"nama"},{"label":"Email","field":"input","type":"email","placeholder":"Email anda","required":true,"options":[],"size":"full","name":"email"},{"label":"No. Telepon","field":"input","type":"text","placeholder":"No. Telepon anda","required":true,"options":[],"size":"full","name":"telepon"},{"name":"message","label":"Message","field":"textarea","type":"text","placeholder":"Masukkan pesan anda disini","required":true,"options":[],"size":"full"}],"submit":{"label":"Kirim Pesan","position":"right"},"actions":{"position":"top","message":"Halo, terima kasih telah menghubungi kami, kami akan mengontak anda kembali"}}';
+            $default_fields = json_decode($json_default_form, true)['fields'];
+            $form_id = (int) explode('?', explode('form/', $_SERVER['REQUEST_URI'])[1])[0];
+
+            $page = empty($_GET['page']) ? 1 : abs((int) $_GET['page']);
+            $total_page = 1;
+
+            // get response for default form
+            if ($form_id===0) {
+
+                // get list response for default form
+                $entity = \Drupal::entityTypeManager()->getStorage('node');
+                $query = $entity->getQuery();
+                $query = $query->condition('status', 1)
+                            ->condition('type', 'landing_custom_form_post') #type = bundle id (machine name)
+                            ->condition('field_lcfp_form_id', '')
+                            ->condition('field_lcfp_landing_id', $landing_id)
+                            ->sort('created' , 'DESC');
+
+                // get total data
+                $count_query = clone $query;
+                $total_page = ceil($count_query->count()->execute()/10); unset($count_query);
+
+                $ids = $query->range((($page-1)*10),10)->execute();
+
+                $form_responses = $entity->loadMultiple($ids);
+            }
+            // get response for custom form
+            else{
+
+                $form_node = \Drupal\node\Entity\Node::load($form_id);
+                if ($form_node && $form_node->type->entity->get('type')==="landing_custom_form") {
+                    $form_fields = json_decode($form_node->field_lcf_form_scheme->getString(), true)['fields'];
+                    unset($form_node);
+
+                    // get list response for custom form
+                    $entity = \Drupal::entityTypeManager()->getStorage('node');
+                    $query = $entity->getQuery();
+                    $query = $query->condition('status', 1)
+                                ->condition('type', 'landing_custom_form_post') #type = bundle id (machine name)
+                                ->condition('field_lcfp_form_id', $form_id)
+                                ->condition('field_lcfp_landing_id', $landing_id)
+                                ->sort('created' , 'DESC');
+                    
+                    // get total data
+                    $count_query = clone $query;
+                    $total_page = ceil($count_query->count()->execute()/10); unset($count_query);
+
+                    $ids = $query->range((($page-1)*10),10)->execute();
+
+                    $form_responses = $entity->loadMultiple($ids);
+                }
+                else{
+                    // for invalid form id
+                    $form_responses = [];
+                }
+            }
+
+            // get form scheme (field name & label)
+            $fields = $form_id===0 ? $default_fields : $form_fields;
+
+            $name = []; $label = []; $key_value = [];
+            foreach ($fields as $field) {
+                $field_name = str_replace(' ', '_', strtolower(trim($field['name'])));
+
+                $name[] = $field_name; // ['name','email']
+                $label[] = $field['label']; // ['Name','Email']
+                $key_value[$field_name] = ''; // ['name'=>'','email'=>''] will be filled by form response
+            }
+            $variables['form_responses']['column'] = $label;
+            $variables['form_responses']['row'] = [];
+
+            // get form data
+            foreach ($form_responses as $form_response) {
+
+                $entity = \Drupal::entityTypeManager()->getStorage('node');
+                $query = $entity->getQuery();
+                $query = $query->condition('status', 1)
+                            ->condition('type', 'landing_custom_form_post_meta') #type = bundle id (machine name)
+                            ->condition('field_lcfpm_form_post_id', $form_response->id())
+                            ->condition('field_lcfpm_input_name', $name, 'IN');
+                // $query = $query->orderBy('created', 'ASC');
+                $ids = $query->execute();
+                $form_data = $entity->loadMultiple($ids);
+
+                $data = $key_value;
+                // replace with value from database
+                foreach ($form_data as $value) {
+                    $data[strtolower($value->field_lcfpm_input_name->getString())] = $value->field_lcfpm_input_value->getString();
+                }
+
+                $variables['form_responses']['row'][] = array_values($data);
+            }
+
+            $variables['form_response']['pagination'] = get_array_pagination($page, $total_page);
+
+            // echo "<pre>";print_r($variables['form_response']['pagination']);echo "</pre>";exit;
+        }
+    }
+}
+
+function telkom_cms_preprocess_page(&$variables){
+
+    // for notification
+    $variables['#cache']['max-age'] = 0;
+    telkom_cms_preprocess_notification($variables);
+
+    // edit citem
+    if (preg_match("/citem\/\d+\/edit/i", $_SERVER['REQUEST_URI'])) {
+
+      // redirect to revision, if this paket has been approved
+      \Drupal::service('media_upload.workflow_helper')->check_edit_revision();
+
+      \Drupal::messenger()->addStatus("This content requires approval before appearing in the list");
+      
+      $citem_id = preg_replace("/\D/", "", $_SERVER['REQUEST_URI']);
+      
+      $citem = \Drupal::entityTypeManager()->getStorage('node')->load($citem_id);
+
+      if ($citem!==null && $citem->type->entity->get('type')==="citem") {
+
+        if (isset($_POST['edit-citem'])) {
+          // $_POST['citem_id'] = $citem_id;
+          CitemHelper::edit_citem($citem);
+          return;
+        }
+
+        CitemHelper::page_edit_citem($variables, $citem);
+
+      }
+    }
+
+    // edit ebis
+    else if (preg_match("/ebis\/\d+\/edit/i", $_SERVER['REQUEST_URI'])) {
+      // redirect to revision, if this paket has been approved
+      \Drupal::service('media_upload.workflow_helper')->check_edit_revision();
+
+      \Drupal::messenger()->addStatus("This content requires approval before appearing in the list");
+      
+      $ebis_id = preg_replace("/\D/", "", $_SERVER['REQUEST_URI']);
+      $ebis = \Drupal::entityTypeManager()->getStorage('node')->load($ebis_id);
+
+      if ($ebis!==null && $ebis->type->entity->get('type')==="ebis") {
+        if (isset($_POST['edit-ebis'])) {
+          EbisHelper::edit($ebis);
+          return;
+        }
+        EbisHelper::page_edit($variables, $ebis);
+      }
+    }
+
+    // edit wibs
+    else if (preg_match("/wibs\/\d+\/edit/i", $_SERVER['REQUEST_URI'])) {
+      // redirect to revision, if this paket has been approved
+      \Drupal::service('media_upload.workflow_helper')->check_edit_revision();
+
+      \Drupal::messenger()->addStatus("This content requires approval before appearing in the list");
+      
+      $wibs_id = preg_replace("/\D/", "", $_SERVER['REQUEST_URI']);
+      $wibs = \Drupal::entityTypeManager()->getStorage('node')->load($wibs_id);
+
+      if ($wibs!==null && $wibs->type->entity->get('type')==="wibs") {
+        if (isset($_POST['edit-wibs'])) {
+          WibsHelper::edit($wibs);
+          return;
+        }
+        WibsHelper::page_edit($variables, $wibs);
+      }
+    }
+
+    // edit paket
+    else if (preg_match("/paket\/\d+\/edit/i", $_SERVER['REQUEST_URI'])) {
+
+        // redirect to revision, if this paket has been approved
+        \Drupal::service('media_upload.workflow_helper')->check_edit_revision();
+
+        \Drupal::messenger()->addStatus("This content requires approval before appearing in the list");
+        
+        $paket_id = preg_replace("/\D/", "", $_SERVER['REQUEST_URI']);
+        
+        $paket = \Drupal::entityTypeManager()->getStorage('node')->load($paket_id);
+        // echo "<pre>";print_r($paket->field_pkt_category->getValue()); echo "</pre>";
+
+        if ($paket!==null && $paket->type->entity->get('type')==="paket") {
+            
+            include_custom_functions('/paket/', 'helper');
+
+            if (isset($_POST['edit-paket'])) {
+                (new PaketHelper)->edit($paket);
+                return;
+            }
+            (new PaketHelper)->page_edit($variables, $paket);
+        }
+    }
+
+    // edit product catalog citem price
+    else if (preg_match("/product-catalog\/\d+\/citem-price/i", $_SERVER['REQUEST_URI'])) {
+      $node_id = preg_replace("/\D/", "", $_SERVER['REQUEST_URI']);
+
+      $node = Node::load($node_id);
+      if ($node && $node->bundle()==='product_catalog') {
+        (new CatalogHelper)->page_catalog_citem_price($variables, $node);
+      }
+      else{
+        \Drupal::service('media_upload.page_helper')->redirect($_ENV['APP_URL']."/product-catalog");
+      }
+    }
+
+    else if (preg_match("/product-catalog\/\d+\/sync-citem-price/i", $_SERVER['REQUEST_URI'])) {
+      $node_id = preg_replace("/\D/", "", $_SERVER['REQUEST_URI']);
+
+      $node = Node::load($node_id);
+      if ($node && $node->bundle()==='product_catalog') {
+        (new CatalogHelper)->sync_catalog_citem_price($node);
+      }
+      else{
+        \Drupal::service('media_upload.page_helper')->redirect($_ENV['APP_URL']."/product-catalog");
+      }
+    }
+
+    // if this is media page (the list of media image and video)
+    // route: /media & /paket/id/media
+    $req_uri = rtrim($_SERVER['REQUEST_URI'],'/');
+    $req_uri = explode('?',$req_uri)[0];
+    if (preg_match("/\/media$/i", $req_uri)) {
+
+        $id = preg_replace("/\D/", "", $req_uri);
+        $paket = \Drupal::entityTypeManager()->getStorage('node')->load($id);
+
+        if ($paket!==null) {
+            if ($paket->type->entity->get('type')==='paket') {
+              $variables['paket_id'] = $id;
+              $variables['paket_name'] = " for " . ucwords(strtolower($paket->title->getString())); 
+            }
+        }
+
+        $variables['base_url'] = $_ENV['APP_URL']; // will be created as input type hidden, the value is used when doing ajax request
+        $variables['request_uri'] = $req_uri;
+    }
+    elseif (preg_match("/\/media-bundle$/i", $req_uri)) {
+        $variables['base_url'] = $_ENV['APP_URL'];
+        $variables['request_uri'] = $req_uri;
+    }
+
+    // for product page
+    if (preg_match("/product\/add.*/", $_SERVER['REQUEST_URI'])) {
+      telkom_cms_preprocess_product_add($variables);
+    }
+    elseif (preg_match("/product\/\d+\/edit.*/", $_SERVER['REQUEST_URI'])) {
+      $paket_id = preg_replace("/\/edit.*$/", "", $_SERVER['REQUEST_URI']);
+      $paket_id = preg_replace("/\D/", "", $paket_id);
+      telkom_cms_preprocess_product_edit($variables, $paket_id);
+    }
+
+    // for detail approval page
+    else if (preg_match("/approval\/\d+$/i", $_SERVER['REQUEST_URI'])) {
+        $variables['#cache']['max-age'] = 0;
+        telkom_cms_preprocess_approval_detail($variables);
+    }
+
+    // for landing custom form with response
+    else if (preg_match("/.*landing-master\/\d+\/form.*/", $_SERVER['REQUEST_URI'])) {
+        telkom_cms_preprocess_landing_form_page($variables);
+    }
+
+    else if (preg_match("/.*analytic\/global.*/", $_SERVER['REQUEST_URI'])) {
+      $variables['topWebVisitor'] = Drupal::service('media_upload.landing_analytic')->topWebVisitor();
+      $variables['topWebVisitor']['header'] = [
+        'name' => 'Title',
+        'url' => 'Url',
+        'unique_visitor' => 'Unique Visotor',
+        'visitor' => 'Total Visitor',
+        'user_login' => 'User Login',
+        'user_not_login' => 'User Non Login',
+      ];
+
+      $variables['topPageVisitor'] = Drupal::service('media_upload.landing_analytic')->topPageVisitor();
+      $variables['topPageVisitor']['header'] = [
+        'url' => 'Url',
+        'landing_page' => 'Landing Page',
+        'unique_visitor' => 'Unique Visotor',
+        'visitor' => 'Total Visitor',
+        'user_login' => 'User Login',
+        'user_not_login' => 'User Non Login',
+      ];
+
+      $variables['topVisitDuration'] = Drupal::service('media_upload.landing_analytic')->topWebDuration();
+      $variables['topVisitDuration']['header'] = [
+        'name' => 'Title',
+        'url' => 'Url',
+        'duration' => 'Average Visit Duration'
+      ];
+
+    }
+    else if(preg_match("/.*analytic\/website\/\d+.*/", $_SERVER['REQUEST_URI'])) {
+      $node_id = preg_replace("/.*analytic\/website\//", '', $_SERVER['REQUEST_URI']);
+      $node_id = preg_replace("/\?.*$/", '', $node_id);
+      $node_id = str_replace('/', '', $node_id);
+
+      $node = Node::load($node_id);
+      if (!$node || $node->getType()!=='landing') {
+        \Drupal::service('media_upload.page_helper')->redirect($_ENV['APP_URL']."/landing-master");
+      }
+
+      $variables['webVisitor'] = Drupal::service('media_upload.landing_analytic')->webVisitor($node);
+      if (!empty($variables['webVisitor']['pages']['data'])) {
+        $variables['webVisitor']['pages']['header'] = [
+          'url' => 'Url',
+          'landing_page' => 'Landing Page',
+          'unique_visitor' => 'Unique Visotor',
+          'visitor' => 'Total Visitor',
+          'user_login' => 'User Login',
+          'user_not_login' => 'User Non Login',
+        ];
+      }
+
+    }
+
+    $variables['is_using_card_class'] = is_using_card_class();
+}
+
+function convert_speed_to_mbps_value($text_speed){
+    $speed = (int)preg_replace("/\D/", '', $text_speed);
+    return $speed>1000 ? $speed/1000 : $speed;
+}
+
+function convert_price_format($text_price){
+    $price = (int)preg_replace("/\D/", '', $text_price);
+    return number_format($price, 0, ',', '.');
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for HTML document templates.
+ */
+function telkom_cms_preprocess_node(&$variables){
+
+    $node = $variables['node'];
+
+    $current_path = \Drupal::service('path.current')->getPath(); // url /paket/slug is /node/id
+    $variables['is_front'] = \Drupal::service('path.matcher')->isFrontPage();
+    
+    // detail citem page
+    if ($node->getType()==='citem' && preg_match("/^\/node\/\d+$/i", $current_path)) {
+      // process data
+      CitemHelper::detail_citem($variables, $node);
+      $variables['is_approved'] = $node->field_workflow_status->getString()==='workflow_status_approve' ? true : false;
+    }
+
+    // detail ebis
+    else if ($node->getType()==='ebis' && preg_match("/^\/node\/\d+$/i", $current_path)) {
+      // process data
+      EbisHelper::detail($variables, $node);
+      $variables['is_approved'] = $node->field_workflow_status->getString()==='workflow_status_approve' ? true : false;
+    }
+
+    // detail wibs
+    else if ($node->getType()==='wibs' && preg_match("/^\/node\/\d+$/i", $current_path)) {
+      // process data
+      WibsHelper::detail($variables, $node);
+      $variables['is_approved'] = $node->field_workflow_status->getString()==='workflow_status_approve' ? true : false;
+    }
+
+    // detail paket
+    else if ($node->getType()==='paket' && preg_match("/^\/node\/\d+$/i", $current_path)) {
+
+        include_custom_functions('/paket/', 'helper');
+        $paketHelper = new PaketHelper();
+        
+        $paketHelper->detail($variables, $node, true);
+
+        $variables['is_approved'] = $node->field_workflow_status->getString()==='workflow_status_approve' ? true : false;
+
+    }
+
+    // detail product catalog page
+    // $current_path = \Drupal::service('path.current')->getPath(); // url /product-catalog/slug is /node/id
+    else if ($node->getType()==='product_catalog' && preg_match("/^\/node\/\d+$/i", $current_path)) {
+        $variables['#cache']['max-age'] = 0;
+
+        (new CatalogHelper())->detail_catalog($variables, $node);
+
+    }
+
+    // detail segment page
+    // $current_path = \Drupal::service('path.current')->getPath(); // url /product-catalog/slug is /node/id
+    else if ($node->getType()==='segment' && preg_match("/^\/node\/\d+$/i", $current_path)) {
+      $variables['#cache']['max-age'] = 0;
+      $variables['is_approved'] = $node->field_workflow_status->getString()==='workflow_status_approve' ? true : false;
+
+      $variables['data'] = [
+        'id' => $node->id(),
+        'base_url' => $_ENV['APP_URL'],
+        'request_uri' => explode('?',$_SERVER['REQUEST_URI'])[0],
+        'title' => $node->title->getString(),
+      ];
+      // dd($variables['data']);
+    }
+
+    // detail notification
+    else if ($node->getType()==='notification' && preg_match("/^\/node\/\d+$/i", $current_path)) {
+        $variables['#cache']['max-age'] = 0;
+
+        // referenced content
+        $content = '';
+        $content_id = '';
+        $content_type = '';
+        $content_url = '';
+        foreach ($node->field_notif_content->referencedEntities() as $ref) {
+            $content_url = $_ENV['APP_URL'].\Drupal::service('path_alias.manager')->getAliasByPath("/node/".$ref->id());
+            $content = "<a href='".$content_url."' >".$ref->title->getString()."</a>";
+            $content_type = $ref->gettype();
+            $content_id = $ref->id();
+        }
+
+        $message = $node->field_notif_message->getString();
+        $author = "<a href='".$_ENV['APP_URL'].'/user/'.$node->getOwnerId()."'>".$node->getOwner()->getDisplayName()."</a>";
+        $variables['detail_notification'] = [
+            ['heading' => 'Date', 'text' => \Drupal::service('date.formatter')->format($node->getCreatedTime(), 'medium')],
+            ['heading' => 'Title', 'text' => $node->title->getString()],
+            ['heading' => 'Message', 'text' => empty($message) ? "-" : $message],
+            ['heading' => 'Content', 'text' => empty($content) ? "-" : $content, 'is_raw'=> true],
+            ['heading' => 'Authored By', 'text' => empty($author) ? "-" : $author, 'is_raw'=> true],
+        ];
+
+        $str_user = trim($node->field_notif_read_by->getString(), ',');
+        $arr_user_read = explode(',',$str_user);
+        if (!in_array(\Drupal::currentUser()->id(), $arr_user_read)) {
+            // ex : have read by user id 3 & 13 => $str_user = ,3,13,
+            $str_user = empty($str_user) ? ','.\Drupal::currentUser()->id().',' : $str_user . "," . \Drupal::currentUser()->id() . ',';
+        }
+
+        if (!empty($str_user) && $str_user[0]!==',') {
+            $str_user = ','.$str_user;
+        }
+        if (!empty($str_user) && $str_user[strlen($str_user)-1]!==',') {
+            $str_user = $str_user.",";
+        }
+        $node->field_notif_read_by = $str_user;
+        $node->save();
+
+        $user_roles = \Drupal::currentUser()->getRoles();
+        if (in_array('approval', $user_roles) && $content_id) {
+            if ($content_type==='external_request') {
+                \Drupal::service('media_upload.page_helper')->redirect($content_url);
+            }else{
+                \Drupal::service('media_upload.page_helper')->redirect($_ENV['APP_URL']."/approval/$content_id");
+            }
+        }
+        else if(in_array('admin_content', $user_roles) && $content_id){
+            if ($content_type==='external_request') {
+                \Drupal::service('media_upload.page_helper')->redirect($content_url);
+            }
+        }
+    }
+
+    // detail external request
+    else if ($node->getType()==='external_request' && preg_match("/^\/node\/\d+$/i", $current_path)) {
+        $variables['#cache']['max-age'] = 0;
+
+        $variables['show_form'] = in_array('approval', Drupal::currentUser()->getRoles());
+
+        $variables['request_id'] = $node->id();
+        $variables['request_title'] = $node->title->getString();
+        $variables['request_status'] = $node->field_req_status->getString();
+        $variables['detail_request'] = [
+            ['heading' => 'Status', 'text'=> ucfirst($node->field_req_status->getString())],
+            ['heading' => 'Date', 'text' => \Drupal::service('date.formatter')->format($node->getCreatedTime(), 'medium')],
+            ['heading' => 'Title', 'text' => $variables['request_title']],
+            ['heading' => 'Message', 'text' => $node->field_req_message->getString()],
+            ['heading' => 'Requester', 'text' => $node->field_req_requester->getString()],
+            ['heading' => 'Callback Url', 'text' => $node->field_req_callback_url->getString()],
+            ['heading' => 'Request Token', 'text' => $node->field_req_request_token->getString()]
+        ];
+        $variables['log_status'] = json_decode($node->field_req_response_log->getString(), true);
+
+        // attached content
+        $attached_content = [];
+        foreach ($node->field_req_attached_content->getValue() as $content) {
+            $content_id = $content['target_id'];
+
+            if (!empty($content_id)) {
+                $content_node = Node::load($content_id);
+
+                $url = Drupal::service('media_upload.workflow_helper')->get_url_alias($content_id);
+                $url = str_replace($_ENV['APP_URL'].'/landing/', $_ENV['APP_URL'].'/landingpage/', $url); //replace url for landing page
+                $attached_content[] = [
+                    'title' => $content_node->title->getString(),
+                    'url' => $url
+                ];
+            }
+        }
+        $variables['attached_content'] = $attached_content;
+
+        // assigned user
+        $variables['assigned_user'] = array_map(function($user){
+            return [
+                'username' => $user->getDisplayName(),
+                'url' => $_ENV['APP_URL']."/user/{$user->id()}"
+            ];
+        }, $node->field_req_assigned_user->referencedEntities());
+        
+    }
+
+    // add message "not approved" for detail node, if have field workflow status 
+    if (preg_match("/^\/node\/\d+$/i", $current_path) && $node->hasField('field_workflow_status')) {
+        $variables['#cache']['max-age'] = 0;
+        $variables['is_not_approved'] = $node->field_workflow_status->getString() !== 'workflow_status_approve';
+        $variables['is_rejected'] = $node->field_workflow_status->getString() === 'workflow_status_reject';
+    }
+}

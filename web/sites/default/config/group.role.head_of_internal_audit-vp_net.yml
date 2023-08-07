@@ -1,0 +1,14 @@
+uuid: 5fd68bbd-0f08-4b4a-91b8-967d5406fcbb
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.head_of_internal_audit
+id: head_of_internal_audit-vp_net
+label: 'VP. Net and Sol Audit'
+weight: 11
+internal: false
+audience: member
+group_type: head_of_internal_audit
+permissions_ui: true
+permissions: {  }

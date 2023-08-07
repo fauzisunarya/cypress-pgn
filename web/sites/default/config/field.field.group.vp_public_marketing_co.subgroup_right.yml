@@ -1,0 +1,23 @@
+uuid: 778371f1-5376-472c-ae0c-e87f24ef6e3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_right
+    - group.type.vp_public_marketing_co
+id: group.vp_public_marketing_co.subgroup_right
+field_name: subgroup_right
+entity_type: group
+bundle: vp_public_marketing_co
+label: Right
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

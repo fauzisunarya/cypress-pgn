@@ -1,0 +1,26 @@
+uuid: d60092d1-910a-4334-ae17-8891efeb425a
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.bundling_spesifikasi.field_spec_category
+    - field.field.node.bundling_spesifikasi.field_spec_code_ppt
+    - field.field.node.bundling_spesifikasi.field_spec_workflow_state
+    - node.type.bundling_spesifikasi
+  module:
+    - user
+id: node.bundling_spesifikasi.teaser
+targetEntityType: node
+bundle: bundling_spesifikasi
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_spec_category: true
+  field_spec_code_ppt: true
+  field_spec_workflow_state: true

@@ -1,0 +1,23 @@
+uuid: 444db050-7e90-4d5c-b83b-5086f586c8e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_depth
+    - group.type.rt
+id: group.rt.subgroup_depth
+field_name: subgroup_depth
+entity_type: group
+bundle: rt
+label: Depth
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

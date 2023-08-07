@@ -1,0 +1,17 @@
+uuid: 7a46cd1f-4366-4015-8a4e-3e6642f9e2c6
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.direktur_utama
+  module:
+    - user
+id: direktur_utama-group_membership
+label: 'Direktur Utama: Group membership'
+description: 'Adds users to groups as members.'
+group_type: direktur_utama
+content_plugin: group_membership
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

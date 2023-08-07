@@ -1,0 +1,21 @@
+uuid: 86b25b1f-da1f-4951-8a5b-6c4a7d5cc11a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_workflow_status
+    - node.type.citem_product_knowledge
+  module:
+    - workflow
+id: node.citem_product_knowledge.field_workflow_status
+field_name: field_workflow_status
+entity_type: node
+bundle: citem_product_knowledge
+label: 'Workflow Status'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: workflow

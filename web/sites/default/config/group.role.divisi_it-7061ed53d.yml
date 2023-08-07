@@ -1,0 +1,17 @@
+uuid: 79702a7a-f6a2-4323-97cb-95e6c9cbe7f9
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.divisi_it
+  enforced:
+    config:
+      - user.role.admin_content
+id: divisi_it-7061ed53d
+label: 'Product Owner'
+weight: 4
+internal: true
+audience: outsider
+group_type: divisi_it
+permissions_ui: false
+permissions: {  }

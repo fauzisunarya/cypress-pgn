@@ -1,0 +1,62 @@
+uuid: d9d46916-2c23-47e2-9168-ddbaa2b0473b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.product_catalog_product_knowledg.field_pct_pknowledge_body
+    - field.field.node.product_catalog_product_knowledg.field_pct_pknowledge_file
+    - field.field.node.product_catalog_product_knowledg.field_pct_pknowledge_image
+    - field.field.node.product_catalog_product_knowledg.field_pct_pknowledge_parent
+    - field.field.node.product_catalog_product_knowledg.field_workflow_status
+    - node.type.product_catalog_product_knowledg
+  module:
+    - file
+    - image
+    - text
+    - user
+id: node.product_catalog_product_knowledg.default
+targetEntityType: node
+bundle: product_catalog_product_knowledg
+mode: default
+content:
+  field_pct_pknowledge_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_pct_pknowledge_file:
+    type: file_default
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_pct_pknowledge_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_pct_pknowledge_parent:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_workflow_status: true

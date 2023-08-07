@@ -1,0 +1,17 @@
+uuid: e9907641-df3e-4950-910b-e3d841909399
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Landing Custom Form'
+type: landing_custom_form
+description: 'Custom form scheme for landing page'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: false

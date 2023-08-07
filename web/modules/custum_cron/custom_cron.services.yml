@@ -1,0 +1,11 @@
+services:
+  custom_cron.app_helper:
+    class: Drupal\custom_cron\Helper\App_Helper
+  custom_cron.citem_helper:
+    class: Drupal\custom_cron\Helper\Citem_Helper
+  custom_cron.ebis_helper:
+    class: Drupal\custom_cron\Helper\Ebis_Helper
+  custom_cron.wibs_helper:
+    class: Drupal\custom_cron\Helper\Wibs_Helper
+  custom_cron.kibana_helper:
+    class: Drupal\custom_cron\Helper\Kibana_Helper

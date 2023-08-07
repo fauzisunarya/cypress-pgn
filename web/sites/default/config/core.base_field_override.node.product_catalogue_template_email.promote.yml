@@ -1,0 +1,22 @@
+uuid: 81222cc1-3908-451c-b7c1-25e7c873fb5d
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.product_catalogue_template_email
+id: node.product_catalogue_template_email.promote
+field_name: promote
+entity_type: node
+bundle: product_catalogue_template_email
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

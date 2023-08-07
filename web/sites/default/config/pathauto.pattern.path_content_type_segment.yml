@@ -1,0 +1,22 @@
+uuid: 4307b1e1-c19c-4913-9af5-0fa6a10228a6
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: path_content_type_segment
+label: 'Path Content Type Segment'
+type: 'canonical_entities:node'
+pattern: 'segment/[node:title]'
+selection_criteria:
+  cf308c93-ebb9-46a6-afb7-9cabd54d9147:
+    id: node_type
+    negate: false
+    uuid: cf308c93-ebb9-46a6-afb7-9cabd54d9147
+    context_mapping:
+      node: node
+    bundles:
+      segment: segment
+selection_logic: and
+weight: -5
+relationships: {  }

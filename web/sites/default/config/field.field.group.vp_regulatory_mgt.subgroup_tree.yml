@@ -1,0 +1,23 @@
+uuid: 25cc0339-8b7e-47b4-9d1a-9378f87714f3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_tree
+    - group.type.vp_regulatory_mgt
+id: group.vp_regulatory_mgt.subgroup_tree
+field_name: subgroup_tree
+entity_type: group
+bundle: vp_regulatory_mgt
+label: Tree
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

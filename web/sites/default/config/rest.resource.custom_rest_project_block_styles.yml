@@ -1,0 +1,20 @@
+uuid: 0e4420f6-95b7-40a6-9d1c-776d74bb08fb
+langcode: en
+status: true
+dependencies:
+  module:
+    - basic_auth
+    - media_upload
+    - serialization
+    - user
+id: custom_rest_project_block_styles
+plugin_id: custom_rest_project_block_styles
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - basic_auth
+    - cookie

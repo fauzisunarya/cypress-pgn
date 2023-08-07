@@ -1,0 +1,14 @@
+uuid: 9b12fa86-89dd-4481-b0d6-1441c8cfd064
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.landing_owner
+  module:
+    - user
+id: user_add_role_action.landing_owner
+label: 'Add the Landing Owner role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: landing_owner

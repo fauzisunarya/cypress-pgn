@@ -1,0 +1,17 @@
+uuid: 6d983985-f169-430f-9363-cedd77fb91e5
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.vp_investor_relation_c
+  enforced:
+    config:
+      - user.role.content_editor
+id: vp_investor_relation_c-111523d41
+label: 'Content editor'
+weight: 2
+internal: true
+audience: outsider
+group_type: vp_investor_relation_c
+permissions_ui: false
+permissions: {  }

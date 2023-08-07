@@ -1,0 +1,22 @@
+uuid: eeea78b0-568b-494e-81a6-36958352827e
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.template_facebook
+id: node.template_facebook.status
+field_name: status
+entity_type: node
+bundle: template_facebook
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,29 @@
+uuid: 7ae806a0-c1da-4adf-a856-f96e140ca7fe
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_knowledge_paket_ref
+    - node.type.paket
+    - node.type.paket_knowledge_group
+id: node.paket_knowledge_group.field_pkt_knowledge_paket_ref
+field_name: field_pkt_knowledge_paket_ref
+entity_type: node
+bundle: paket_knowledge_group
+label: 'Paket Reference'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node_by_field'
+  handler_settings:
+    target_bundles:
+      paket: paket
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

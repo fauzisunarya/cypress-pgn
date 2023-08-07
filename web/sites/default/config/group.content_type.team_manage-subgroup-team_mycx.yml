@@ -1,0 +1,18 @@
+uuid: 2e8ee920-a948-41ac-86a7-5fb9f4869b93
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.team_manage
+    - group.type.team_mycx
+  module:
+    - subgroup
+id: team_manage-subgroup-team_mycx
+label: 'Team Manage: Subgroup (Team MyCX)'
+description: 'Adds <em class="placeholder">Team MyCX</em> groups as subgroups.'
+group_type: team_manage
+content_plugin: 'subgroup:team_mycx'
+plugin_config:
+  group_cardinality: 1
+  entity_cardinality: 1
+  use_creation_wizard: false

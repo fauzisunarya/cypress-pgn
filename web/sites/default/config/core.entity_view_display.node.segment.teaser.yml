@@ -1,0 +1,24 @@
+uuid: 1a6058e0-a995-4a7e-8c0f-f3a66393e044
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.segment.field_seg_description
+    - field.field.node.segment.field_workflow_status
+    - node.type.segment
+  module:
+    - user
+id: node.segment.teaser
+targetEntityType: node
+bundle: segment
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_seg_description: true
+  field_workflow_status: true

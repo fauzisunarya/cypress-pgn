@@ -1,0 +1,18 @@
+uuid: 5459079b-9be4-456e-974f-56eb921ff0de
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.team_fcc
+id: group.team_fcc.label
+field_name: label
+entity_type: group
+bundle: team_fcc
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

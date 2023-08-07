@@ -1,0 +1,12 @@
+uuid: 92c506b8-fa33-42fc-92a1-0f277ba770fb
+langcode: en
+status: true
+dependencies:
+  config:
+    - workflow.workflow.draft_done
+id: draft_done_draft
+label: Draft
+module: workflow
+wid: draft_done
+weight: -8
+sysid: 0

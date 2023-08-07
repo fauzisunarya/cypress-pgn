@@ -1,0 +1,19 @@
+uuid: 2c481c54-5dc4-43b3-a9b8-7e50d0046fa3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pkt_master_data
+    - node.type.citem
+id: node.citem.field_pkt_master_data
+field_name: field_pkt_master_data
+entity_type: node
+bundle: citem
+label: 'Master Data'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

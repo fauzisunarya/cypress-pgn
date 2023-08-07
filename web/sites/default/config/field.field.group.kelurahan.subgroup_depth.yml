@@ -1,0 +1,23 @@
+uuid: 29f0075a-d869-4142-86fc-310c44771e90
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_depth
+    - group.type.kelurahan
+id: group.kelurahan.subgroup_depth
+field_name: subgroup_depth
+entity_type: group
+bundle: kelurahan
+label: Depth
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

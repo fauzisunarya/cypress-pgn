@@ -1,0 +1,28 @@
+uuid: 5ac9e5fd-f693-4391-84a5-a8a612eb1564
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.citem_knowledge_group.field_pkt_knowledge_non_priority
+    - field.field.node.citem_knowledge_group.field_pkt_knowledge_order
+    - field.field.node.citem_knowledge_group.field_pkt_knowledge_paket_ref
+    - field.field.node.citem_knowledge_group.field_pkt_knowledge_priority
+    - node.type.citem_knowledge_group
+  module:
+    - user
+id: node.citem_knowledge_group.teaser
+targetEntityType: node
+bundle: citem_knowledge_group
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_pkt_knowledge_non_priority: true
+  field_pkt_knowledge_order: true
+  field_pkt_knowledge_paket_ref: true
+  field_pkt_knowledge_priority: true

@@ -1,0 +1,23 @@
+uuid: 8a0b15cd-b9fa-48e1-8e1d-8431bb66213c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group.subgroup_right
+    - group.type.team_manage
+id: group.team_manage.subgroup_right
+field_name: subgroup_right
+entity_type: group
+bundle: team_manage
+label: Right
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

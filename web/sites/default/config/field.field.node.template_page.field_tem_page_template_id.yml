@@ -1,0 +1,29 @@
+uuid: 62b04d3d-855c-4dff-bb57-716eda0768a3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tem_page_template_id
+    - node.type.template
+    - node.type.template_page
+id: node.template_page.field_tem_page_template_id
+field_name: field_tem_page_template_id
+entity_type: node
+bundle: template_page
+label: 'Template id'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      template: template
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,19 @@
+uuid: fb5618c2-a7af-4dbd-b38d-4c46fe6015f7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tags
+    - node.type.paket_video
+id: node.paket_video.field_tags
+field_name: field_tags
+entity_type: node
+bundle: paket_video
+label: Tags
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,48 @@
+<?php
+use Drupal\Core\Database\Database;
+ 
+/**
+ * Implements hook_schema().
+ */
+function restapi_telkom_schema(){
+    $schema['auth_tokens'] = [
+        'description' => 'Table for storing token auth',
+        'fields' => [
+            'id' => [
+                'description' => 'The primary identifier for tokens data',
+                'type' => 'serial',
+                'not null' => TRUE,
+                'unsigned' => TRUE,
+            ],
+            'user_id' => [
+                'description' => 'Token identifier column to link with userdata',
+                'type' => 'int',
+                'not null' => TRUE,
+                'unsigned' => TRUE,
+            ],
+            'token' => [
+                'description' => 'Token for auth',
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => TRUE,
+            ],
+            'expired_at' => [
+                'description' => 'Date and time when token expired',
+                'type' => 'varchar',
+                'mysql_type' => 'datetime',
+                'not null' => TRUE,
+            ],
+            'created_at' => [
+                'description' => 'Date and time when token created',
+                'type' => 'varchar',
+                'mysql_type' => 'timestamp',
+                'not null' => FALSE,
+            ],
+        ],
+        'primary key' => ['id'],
+        'indexes' => [
+            'MainIndex' => ['token','user_id']
+        ]
+    ];
+    return $schema;
+}

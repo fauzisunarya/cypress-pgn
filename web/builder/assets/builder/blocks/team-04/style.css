@@ -1,0 +1,12 @@
+.icl-team--style-4 .icl-team__avatar {
+  margin-bottom: 15px;
+}
+.icl-team--style-4 .icl-team__name {
+  font-size: 20px;
+  font-weight: 700;
+}
+.icl-team--style-4 .icl-team__title {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 20px;
+}

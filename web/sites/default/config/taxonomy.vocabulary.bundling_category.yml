@@ -1,0 +1,8 @@
+uuid: b8ee8d94-15fa-419a-ae0b-8fcf7ccd56bb
+langcode: en
+status: true
+dependencies: {  }
+name: 'Bundling Category'
+vid: bundling_category
+description: ''
+weight: -10

@@ -1,0 +1,107 @@
+.icl-header {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1px;
+  position: relative;
+  z-index: 2;
+}
+.icl-header .columns,
+.icl-header .column {
+  margin-top: 0!important;
+  margin-bottom: 0!important;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+@media screen and (max-width: 640px) {
+  .icl-header .button {
+    font-size: 14px;
+  }
+  .icl-header .button .icon {
+    display: none;
+  }
+}
+.icl-header .navbar {
+  background-color: transparent;
+}
+.icl-header .navbar-secondary-menu {
+  display: flex;
+  font-size: 14px;
+}
+.icl-header .navbar-secondary-menu .navbar-item {
+  margin: 0 10px;
+  padding: 0;
+}
+.icl-header .navbar-secondary-menu .navbar-item:last-child {
+  margin-right: 0;
+}
+.icl-header .navbar-secondary-menu .navbar-item:hover {
+  background-color: transparent;
+  color: inherit;
+}
+.icl-header .navbar-brand img {
+  max-width: 200px;
+  max-height: 200px;
+  min-width: 75px;
+}
+@media screen and (max-width: 480px) {
+  .icl-header .navbar-brand img {
+    max-width: 150px;
+  }
+}
+.icl-header .navbar-menu .navbar-item {
+  transition: 0.3s ease;
+}
+.icl-header .navbar-menu .navbar-item:hover {
+  color: inherit;
+  background-color: transparent;
+  opacity: 0.7;
+}
+@media screen and (min-width: 1024px) {
+  .icl-header .navbar-menu .navbar-item.is-active {
+    font-weight: 700;
+    color: inherit;
+  }
+}
+.icl-header .navbar-burger {
+  align-self: center;
+}
+@media screen and (max-width: 1023px) {
+  .icl-header .navbar-menu {
+    box-shadow: none;
+  }
+}
+
+.icl-header--style-3 .navbar-top {
+  background-color: #fbfbfb;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 10px 12px;
+  font-size: 14px;
+}
+.icl-header--style-3 .navbar-social-icons i {
+  width: 25px;
+  height: 25px;
+  font-size: 14px;
+}
+
+/* multi-level dropdown bulma */
+.nested.dropdown:hover > .dropdown-menu {
+  display: block;
+}
+
+.nested.dropdown .dropdown-menu {
+  top: -15px;
+  margin-left: 100%;
+}
+
+.nested.dropdown .dropdown-trigger a {
+  padding: 0px 0px;
+  border: 0px;
+  font-size: 14px;
+  font-weight: 400;
+  height: 2em;
+}
+
+@media screen and (max-width: 1000px) {
+  .content-light a.navbar-link {
+    color: #3273dc;
+  }
+}

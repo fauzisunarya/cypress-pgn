@@ -1,0 +1,173 @@
+# Cron Email
+custom_cron.send_email:
+  path: '/cron/send/email'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\EmailController::send_email' 
+  methods: [get]
+  requirements:
+    _access: 'TRUE'
+
+# Cron Syncron Package from Feasibility platform
+custom_cron.sync_package:
+  path: '/cron/sync-package'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\PackageController::sync' 
+  methods: [get]
+  requirements:
+    _access: 'TRUE'
+
+# Cron Syncron Package from Feasibility platform
+custom_cron.sync_package_queue:
+  path: '/cron/sync-package-queue'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\PackageController::sync_queue' 
+  methods: [get]
+  requirements:
+    _access: 'TRUE'
+
+# Cron send notif when there is a new or updated package
+custom_cron.send_notif_package:
+  path: '/cron/send/notif-package'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\PackageController::send_notif_package' 
+  methods: [get]
+  requirements:
+    _access: 'TRUE'
+
+# Cron Syncron Citem from Feasibility platform
+custom_cron.sync_citem:
+  path: '/cron/sync-citem'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\CitemController::sync' 
+  methods: [get]
+  requirements:
+    _access: 'TRUE'
+
+# Cron Syncron EBIS from Feasibility platform
+custom_cron.sync_ebis:
+  path: '/cron/sync-ebis'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\EbisController::sync' 
+  methods: [get]
+  requirements:
+    _access: 'TRUE'
+
+# Cron Syncron WIBS from Feasibility platform
+custom_cron.sync_wibs:
+  path: '/cron/sync-wibs'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\WibsController::sync' 
+  methods: [get]
+  requirements:
+    _access: 'TRUE'
+
+# Cron Screenshoot for template page
+custom_cron.template_page_screenshoot:
+  path: '/cron/template-page-screenshoot'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\TemplatePageController::process' 
+  methods: [get]
+  requirements:
+    _access: 'TRUE'
+
+# Cron Submit landing to kibana
+custom_cron.submit_landing_to_kibana:
+  path: '/cron/submit-landing-to-kibana'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\KibanaController::submitLanding' 
+  methods: [get]
+  requirements:
+    _access: 'TRUE'
+
+
+# dummy controller to modify something else
+custom_cron.dummy_modify_landing_coordinate:
+  path: '/dummy/modify-landing-coordinate'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\DummyController::modify_landing_form_field_address_to_coordinate' 
+  methods: [get]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator'
+    _user_is_logged_in: 'true'
+
+custom_cron.dummy_landing_field_add_another_field:
+  path: '/dummy/modify-landing-field-add-another-field'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\DummyController::add_another_field_inside_field_form' 
+  methods: [get]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator'
+    _user_is_logged_in: 'true'
+
+custom_cron.dummy_remove_addon_from_paket:
+  path: '/dummy/remove-addon-from-paket'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\DummyController::remove_addon_from_paket' 
+  methods: [get]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator'
+    _user_is_logged_in: 'true'
+    
+custom_cron.dummy_move_tipe_paket_to_taxonomy_backup:
+  path: '/dummy/move-tipe-paket-to-taxonomy-backup'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\DummyController::move_tipe_paket_to_taxonomy_backup' 
+  methods: [get]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator'
+    _user_is_logged_in: 'true'
+
+custom_cron.dummy_restore_tipe_paket_from_backup:
+  path: '/dummy/restore-tipe-paket-from-backup'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\DummyController::restore_tipe_paket_from_backup' 
+  methods: [get]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator'
+    _user_is_logged_in: 'true'
+
+custom_cron.dummy_assign_empty_landing_type_to_ao:
+  path: '/dummy/assign-empty-landing-type-to-ao'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\DummyController::assign_empty_landing_type_to_ao' 
+  methods: [get]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator'
+    _user_is_logged_in: 'true'
+
+custom_cron.dummy_regenerate_shortlink:
+  path: '/dummy/regenerate-shortlink/{shortlink_domain}'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\DummyController::regenerate_shortlink' 
+  methods: [get]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator'
+    _user_is_logged_in: 'true'
+
+custom_cron.dummy_fill_citem_type_customized_null_to_false:
+  path: '/dummy/citem-customized-null-to-false'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\DummyController::fill_citem_type_customized_null_to_false' 
+  methods: [get]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator'
+    _user_is_logged_in: 'true'
+
+# content type "landing_page" copy value field_website_id to field_page_landing_id
+custom_cron.dummy_copy_and_fill_landing_page_parent:
+  path: '/dummy/copy-and-fill-landing-page-parent'
+  defaults: 
+    _controller: '\Drupal\custom_cron\Controller\DummyController::copy_and_fill_landing_page_parent' 
+  methods: [get]
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator'
+    _user_is_logged_in: 'true'

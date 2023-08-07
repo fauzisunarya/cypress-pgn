@@ -1,0 +1,59 @@
+add.citem.product_knowledge:
+  path: '/citem/{ctm_id}/product-knowledges/add'
+  defaults:
+    _form: 'Drupal\knowledges_telkom\Form\AddCtmProductKnowledge'
+    _title: 'Tambah Product Knowledge'
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'
+
+add.ebis.product_knowledge:
+  path: '/ebis/{ebis_id}/product-knowledges/add'
+  defaults:
+    _form: 'Drupal\knowledges_telkom\Form\AddEbisProductKnowledge'
+    _title: 'Tambah Product Knowledge'
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'
+
+add.wibs.product_knowledge:
+  path: '/wibs/{wibs_id}/product-knowledges/add'
+  defaults:
+    _form: 'Drupal\knowledges_telkom\Form\AddWibsProductKnowledge'
+    _title: 'Tambah Product Knowledge'
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'
+
+add.paket.product_knowledge:
+  path: '/paket/{pkt_id}/product-knowledges/add'
+  defaults:
+    _form: 'Drupal\knowledges_telkom\Form\AddPktProductKnowledge'
+    _title: 'Tambah Product Knowledge'
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'
+
+add.product_catalog.product_knowledge:
+  path: '/product-catalog/{pct_id}/product-knowledges/add'
+  defaults:
+    _form: 'Drupal\knowledges_telkom\Form\AddPctProductKnowledge'
+    _title: 'Tambah Product Knowledge'
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'
+
+add.segment.product_knowledge:
+  path: '/segment/{seg_id}/product-knowledges/add'
+  defaults:
+    _form: 'Drupal\knowledges_telkom\Form\AddSegProductKnowledge'
+    _title: 'Tambah Product Knowledge'
+  requirements:
+    _permission: 'access content'
+    _role: 'administrator+admin_content'
+    _user_is_logged_in: 'true'

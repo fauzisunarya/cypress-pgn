@@ -1,0 +1,17 @@
+uuid: f02e193b-bbcf-4297-a750-80ef8d3e306a
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.divisi_marketing
+  enforced:
+    config:
+      - user.role.administrator
+id: divisi_marketing-a416e6833
+label: 'Super Admin'
+weight: 3
+internal: true
+audience: outsider
+group_type: divisi_marketing
+permissions_ui: false
+permissions: {  }

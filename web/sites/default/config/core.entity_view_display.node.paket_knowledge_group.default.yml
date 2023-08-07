@@ -1,0 +1,55 @@
+uuid: 72ad7c0a-09df-4a0e-b016-3433add21a75
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.paket_knowledge_group.field_pkt_knowledge_non_priority
+    - field.field.node.paket_knowledge_group.field_pkt_knowledge_order
+    - field.field.node.paket_knowledge_group.field_pkt_knowledge_paket_ref
+    - field.field.node.paket_knowledge_group.field_pkt_knowledge_priority
+    - node.type.paket_knowledge_group
+  module:
+    - user
+id: node.paket_knowledge_group.default
+targetEntityType: node
+bundle: paket_knowledge_group
+mode: default
+content:
+  field_pkt_knowledge_non_priority:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_pkt_knowledge_order:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_pkt_knowledge_paket_ref:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_pkt_knowledge_priority:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

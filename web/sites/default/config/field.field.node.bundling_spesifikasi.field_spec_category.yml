@@ -1,0 +1,29 @@
+uuid: a1e27e29-ccde-4711-a794-33531ce8a54c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_spec_category
+    - node.type.bundling_spesifikasi
+    - taxonomy.vocabulary.bundling_category
+id: node.bundling_spesifikasi.field_spec_category
+field_name: field_spec_category
+entity_type: node
+bundle: bundling_spesifikasi
+label: Category
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      bundling_category: bundling_category
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

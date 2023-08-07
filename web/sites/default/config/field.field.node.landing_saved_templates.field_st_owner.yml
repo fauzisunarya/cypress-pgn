@@ -1,0 +1,37 @@
+uuid: 9aacb8d3-140c-4ab0-be90-dc9faac4cfe8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_st_owner
+    - node.type.landing_saved_templates
+id: node.landing_saved_templates.field_st_owner
+field_name: field_st_owner
+entity_type: node
+bundle: landing_saved_templates
+label: Owner
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: role
+      role:
+        landing_owner: landing_owner
+        content_editor: '0'
+        administrator: '0'
+        admin_content: '0'
+        admin: '0'
+        approval: '0'
+        end_user_visitor: '0'
+    include_anonymous: false
+field_type: entity_reference
