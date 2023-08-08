@@ -23,6 +23,7 @@ variables:
   GIT_DEPTH: "0"
   SONAR_HOST_URL: "https://sonar.neuronworks.co.id"
   SONAR_SOURCES: "."
+  SONAR_EXCLUSIONS: "vendor/**"
   #SONAR_EXCLUSIONS: "**/*.html,**/*.phtml,**/*.css,**/*.js"
 
 # ---------------------------------------------- Rules for Trigger -----------------------------------------------------
@@ -81,6 +82,10 @@ sonarqube-check:
     - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=900 -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN -Dsonar.sourceEncoding=UTF-8 -Dsonar.projectName="$CI_PROJECT_NAME $CI_COMMIT_REF_NAME" -Dsonar.projectKey="${CI_PROJECT_ID}_${CI_PROJECT_NAME}_${CI_COMMIT_REF_NAME}" -Dsonar.sources=$SONAR_SOURCES -Dsonar.exclusions=$SONAR_EXCLUSIONS
   rules:
     - !reference [.sonar_rules, rules]
+    - !reference [.dev_rules, rules]
+    - !reference [.staging_rules, rules]
+    - !reference [.prod_rules, rules]
+    - !reference [.release_rules, rules]
 
 # ---------------------------------------------- Build & Publish -----------------------------------------------------
 prepare-version:
