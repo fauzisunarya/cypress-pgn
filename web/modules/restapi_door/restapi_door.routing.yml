@@ -1,0 +1,8 @@
+apidoor.content_detail:
+  path: '/apidoor/contents/{content_id}'
+  defaults:
+    _controller: '\Drupal\restapi_door\Controller\ContentController::detail'
+    _title: 'Get Detail of content post'
+  methods: [GET]
+  requirements: 
+    _permission: 'access content'
