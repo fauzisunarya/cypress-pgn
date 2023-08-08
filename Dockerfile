@@ -6,7 +6,7 @@ WORKDIR /app
 
 # enable ssl module and enable the default-ssl site
 RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y ssl-cert \
  && rm -r /var/lib/apt/lists/*
 
 RUN a2enmod ssl \
