@@ -13,6 +13,7 @@ class ContentController extends ControllerBase{
         if (empty($content_id)) {
             return Drupal::service('restapi_door.app_helper')->response([
                'status'  => 'failed',
+               'code'  => '400',
                'info' => 'landing page id cannot be empty',
                'data'    => []
             ], 400);
@@ -59,7 +60,8 @@ class ContentController extends ControllerBase{
    
         return Drupal::service('restapi_door.app_helper')->response([
             'status'  => !empty($result) ? 'success' : 'failed',
-            'info' => !empty($result) ? 'success to retrieve data' : 'theres no data related to selected paket id',
+            'code'  => !empty($result) ? '0' : '1',
+            'info' => !empty($result) ? 'success to retrieve data' : 'theres no data related to selected content id',
             'data'    => $result
         ]);
 
