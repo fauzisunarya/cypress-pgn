@@ -23,7 +23,7 @@ variables:
   GIT_DEPTH: "0"
   SONAR_HOST_URL: "https://sonar.neuronworks.co.id"
   SONAR_SOURCES: "."
-  SONAR_EXCLUSIONS: "vendor/**"
+  SONAR_EXCLUSIONS: "vendor/**,web/core/modules/**"
   #SONAR_EXCLUSIONS: "**/*.html,**/*.phtml,**/*.css,**/*.js"
 
 # ---------------------------------------------- Rules for Trigger -----------------------------------------------------
