@@ -44,8 +44,17 @@ class AuthMiddleware implements HttpKernelInterface {
         // setting core
         $whitelist = array('media_render');
 
+        // this URL not contins restapi keyword
+        if (strpos($request->getRequestUri(), 'apidoor') === false || strpos($request->getRequestUri(), 'login')) {
+            return $this->httpKernel->handle($request, $type, $catch);
+        };
+        // whitelist API
+        if (strlen(str_replace($whitelist, '', $request->getRequestUri())) !== strlen($request->getRequestUri())) {
+            return $this->httpKernel->handle($request, $type, $catch);
+        };
+
         $token = str_replace('Bearer ', '', $request->headers->get('authorization'));
-        
+
         if (!is_null($token)) {
             $jwt = new JWT();
             $result = $jwt->authorize($request->headers->get('Authorization'));

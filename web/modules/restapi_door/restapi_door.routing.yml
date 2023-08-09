@@ -6,3 +6,12 @@ apidoor.content_detail:
   methods: [GET]
   requirements: 
     _permission: 'access content'
+
+apidoor.content_create:
+  path: '/apidoor/contents/create'
+  defaults:
+    _controller: '\Drupal\restapi_door\Controller\ContentController::createContent'
+    _title: 'Make new content data'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'

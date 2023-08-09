@@ -5,6 +5,7 @@ namespace Drupal\restapi_door\Controller;
 use Drupal;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\node\Entity\Node;
 
 class ContentController extends ControllerBase{
     public function detail($content_id, Request $request)
@@ -63,6 +64,47 @@ class ContentController extends ControllerBase{
             'code'  => !empty($result) ? '0' : '1',
             'info' => !empty($result) ? 'success to retrieve data' : 'theres no data related to selected content id',
             'data'    => $result
+        ]);
+
+    }
+
+    public function createContent(Request $request)
+    {
+        // prepare request
+        $parameters    = $request->getContent();
+
+        try {
+            $parameters = json_decode($parameters, true, 512, \JSON_BIGINT_AS_STRING | \JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            throw new JsonException('Could not decode request body.', $e->getCode(), $e);
+        }
+
+        // general validation
+        if (empty($parameters['data']['name']) || empty($parameters['data']['module']) || empty($parameters['data']['content_body'])) {
+            return \Drupal::service('restapi_door.app_helper')->response([
+                'status'  => 'failed',
+                'message' => 'request parameter not valid. data, data.name, data.module, data.content_body cannot be empty!',
+                'data'    => []
+            ], 400);
+        };
+
+        $node =  \Drupal\node\Entity\Node::create([
+            'title' => $parameters['data']['name'],
+            'langcode' => $parameters['data']['lang']? $parameters['data']['lang'] : 'en',
+            'type' => $parameters['data']['module'],
+            'body' => $parameters['data']['content_body'], 
+            'image' => $parameters['data']['content_image'],
+            'status' => $parameters['data']['status']? $parameters['data']['lang']:1,
+            'created_date' => $parameters['data']['created_date']? $parameters['data']['created_date']:date('Y-m-d H:i:s'),
+            'last_update' => $parameters['data']['status']? $parameters['data']['lang']:date('Y-m-d H:i:s')
+        ]);
+        $node->save();
+
+        return Drupal::service('restapi_door.app_helper')->response([
+            'status'  => !empty($node->uuid()) ? 'success' : 'failed',
+            'code'  => !empty($node->uuid()) ? '0' : '1',
+            'info' => !empty($node->uuid()) ? 'success to save content' : 'failed to save content',
+            'data'    => $node->uuid()
         ]);
 
     }
