@@ -24,7 +24,7 @@ class S3fsCssOptimizerTest extends UnitTestCase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     // D9.3 we need to mock the FileUrlGenerator service.

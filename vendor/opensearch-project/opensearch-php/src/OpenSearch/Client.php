@@ -53,7 +53,10 @@ use OpenSearch\Namespaces\SslNamespace;
  */
 class Client
 {
-    public const VERSION = '7.10.0';
+    /**
+     * @deprecated since version is pulled from InstalledVersions::getVersion('opensearch-project/opensearch-php')
+     */
+    public const VERSION = '2.1.0';
 
     /**
      * @var Transport
@@ -1243,17 +1246,17 @@ class Client
         return $this->performRequest($endpoint);
     }
     /**
-     * $params['body'] = (array) a point-in-time id to close
+     * $params['body'] = (array) a point-in-time id to delete
      *
      * @param array $params Associative array of parameters
      * @return array
      */
-    public function closePointInTime(array $params = [])
+    public function deletePointInTime(array $params = [])
     {
         $body = $this->extractArgument($params, 'body');
 
         $endpointBuilder = $this->endpoints;
-        $endpoint = $endpointBuilder('ClosePointInTime');
+        $endpoint = $endpointBuilder('DeletePointInTime');
         $endpoint->setParams($params);
         $endpoint->setBody($body);
 
@@ -1270,12 +1273,12 @@ class Client
      * @param array $params Associative array of parameters
      * @return array
      */
-    public function openPointInTime(array $params = [])
+    public function createPointInTime(array $params = [])
     {
         $index = $this->extractArgument($params, 'index');
 
         $endpointBuilder = $this->endpoints;
-        $endpoint = $endpointBuilder('OpenPointInTime');
+        $endpoint = $endpointBuilder('CreatePointInTime');
         $endpoint->setParams($params);
         $endpoint->setIndex($index);
 

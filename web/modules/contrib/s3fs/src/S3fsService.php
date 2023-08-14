@@ -45,7 +45,7 @@ class S3fsService implements S3fsServiceInterface {
   /**
    * An object for obtaining the system time.
    *
-   * @var \Drupal\Component\DateTime\TimeInterface
+   * @var \Drupal\Component\Datetime\TimeInterface
    */
   protected $time;
 
@@ -70,7 +70,7 @@ class S3fsService implements S3fsServiceInterface {
    *   The new database connection object.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory object.
-   * @param \Drupal\Component\DateTime\TimeInterface $time
+   * @param \Drupal\Component\Datetime\TimeInterface $time
    *   An object to obtain the system time.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
@@ -552,12 +552,7 @@ class S3fsService implements S3fsServiceInterface {
       if (isset($s3_metadata['IsLatest']) && !$s3_metadata['IsLatest']) {
         return;
       }
-      // Files with no StorageClass are actually from the DeleteMarkers list,
-      // rather then the Versions list. They represent a file which has been
-      // deleted, so don't cache them.
-      if (!isset($s3_metadata['StorageClass'])) {
-        return;
-      }
+
       // Buckets with Versioning disabled set all files' VersionIds to "null".
       // If we see that, unset VersionId to prevent "null" from being written
       // to the DB.
@@ -596,7 +591,7 @@ class S3fsService implements S3fsServiceInterface {
     // Create the temp table, into which all the refreshed data will be written.
     // After the full refresh is complete, the temp table will be swapped with
     // the real one.
-    module_load_install('s3fs');
+    $this->moduleHandler->loadInclude('s3fs', 'install');
     $schema = s3fs_schema();
     try {
       \Drupal::database()->schema()->dropTable('s3fs_file_temp');

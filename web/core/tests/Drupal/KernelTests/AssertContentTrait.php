@@ -125,7 +125,7 @@ trait AssertContentTrait {
       // DOM can load HTML soup. But, HTML soup can throw warnings, suppress
       // them.
       $html_dom = new \DOMDocument();
-      @$html_dom->loadHTML('<?xml encoding="UTF-8">' . $this->getRawContent());
+      @$html_dom->loadHTML('<?xml encoding="UTF-8">' . $this->getRawContent(), LIBXML_NOBLANKS);
       if ($html_dom) {
         // It's much easier to work with simplexml than DOM, luckily enough
         // we can just simply import our DOM tree.
@@ -143,7 +143,7 @@ trait AssertContentTrait {
    *   The current URL.
    */
   protected function getUrl() {
-    return $this->url ?? 'no-url';
+    return 'no-url';
   }
 
   /**
@@ -488,8 +488,7 @@ trait AssertContentTrait {
   }
 
   /**
-   * Passes if the raw text IS NOT found escaped on the loaded page, fail
-   * otherwise.
+   * Passes if raw text IS NOT found escaped on loaded page, fail otherwise.
    *
    * Raw text refers to the raw HTML that the page generated.
    *

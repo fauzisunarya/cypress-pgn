@@ -63,6 +63,8 @@ class S3fsCssOptimizer extends CssOptimizer {
       $url = $this->fileUrlGenerator->generateAbsoluteString($path);
     }
     else {
+      // @todo remove when D9.3 is minimal supported version.
+      // @phpstan-ignore-next-line
       $url = file_create_url($path);
     }
 
