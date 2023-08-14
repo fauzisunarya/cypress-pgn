@@ -31,3 +31,8 @@ services:
     tags:
       - { name: s3fs_mime_type_guesser }
     lazy: true
+
+  s3fs.route_subscriber_core_image_style:
+    class: Drupal\s3fs\Routing\S3fsAlterCoreImageStyleRoutesSubscriber
+    tags:
+      - { name: event_subscriber }

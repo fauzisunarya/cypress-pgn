@@ -139,7 +139,7 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t(
         "A custom profile or ini file location. This will add a custom AWS SDK
          ini provider in addition to the AWS SDK defaultProvider.
-         \$settings[\'s3fs.access_key'] and \$settings['s3fs.secret_key'] will
+         \$settings['s3fs.access_key'] and \$settings['s3fs.secret_key'] will
          take priority over this setting."
       ),
     ];

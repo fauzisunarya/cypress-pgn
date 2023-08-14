@@ -14,6 +14,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\s3fs\S3fsException;
 use Drupal\s3fs\S3fsServiceInterface;
+use Drupal\s3fs\Traits\S3fsPathsTrait;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -25,6 +26,7 @@ use Psr\Http\Message\RequestInterface;
 class S3fsStream extends StreamWrapper implements StreamWrapperInterface {
 
   use StringTranslationTrait;
+  use S3fsPathsTrait;
 
   const API_VERSION = '2006-03-01';
 
@@ -322,6 +324,7 @@ class S3fsStream extends StreamWrapper implements StreamWrapperInterface {
    */
   public function setUri($uri) {
     $uri = $this->resolvePath($uri);
+    // Perform an access check before allowing URI to be set.
     $this->uri = $uri;
   }
 
@@ -979,10 +982,15 @@ class S3fsStream extends StreamWrapper implements StreamWrapperInterface {
    * @see http://php.net/manual/en/streamwrapper.mkdir.php
    */
   public function mkdir($uri, $mode, $options) {
+    // Resolve relative path and strip any trailing slash that we mustn't
+    // store in the cache.
     $uri = $this->resolvePath($uri);
-    // Some Drupal plugins call mkdir with a trailing slash. We mustn't store
-    // that slash in the cache.
-    $uri = rtrim($uri, '/');
+
+    if (StreamWrapperManager::getTarget($uri) == '') {
+      // Don't store the root path in the database.
+      // Always consider this successful.
+      return TRUE;
+    }
 
     if (mb_strlen($uri) > S3fsServiceInterface::MAX_URI_LENGTH) {
       return FALSE;
@@ -1037,13 +1045,13 @@ class S3fsStream extends StreamWrapper implements StreamWrapperInterface {
       return FALSE;
     }
 
-    // We need a version of $uri with no / because folders are cached with no /.
+    // We need a version of $uri with no / because folders are cached with no /,
+    // this is provided by resolvePath() above.
     // We also need one with the /, because it might be a file in S3 that
     // ends with /. In addition, we must differentiate against files with this
     // folder's name as a substring.
-    // e.g. rmdir('s3://foo/bar') should ignore s3://foo/barbell.jpg.
-    $base_path = rtrim($uri, '/');
-    $slash_path = $base_path . '/';
+    // e.g. rmdir('s3://foo/bar') should ignore s3://foo/barbell.jpg.;
+    $slash_path = $uri . '/';
 
     // Check if the folder is empty.
     $query = \Drupal::database()->select('s3fs_file', 's');
@@ -1114,14 +1122,17 @@ class S3fsStream extends StreamWrapper implements StreamWrapperInterface {
       return FALSE;
     }
 
+    $public_folder = !empty($this->config['public_folder']) ? $this->config['public_folder'] : 's3fs-public';
+    $public_folder = trim($public_folder, '/');
+    $private_folder = !empty($this->config['private_folder']) ? $this->config['private_folder'] : 's3fs-private';
+    $private_folder = trim($private_folder, '/');
+
     $scheme = StreamWrapperManager::getScheme($uri);
-    $base_path = rtrim($uri, '/');
-    $slash_path = $base_path . '/';
+    $slash_path = $uri . '/';
 
     // If this path was originally a root folder (e.g. s3://), the above code
-    // removed *both* slashes but only added one back. So we need to add
-    // back the second slash.
-    if ($slash_path == "$scheme:/") {
+    // added an extra slash so we need to remove it now.
+    if ($slash_path == "$scheme:///") {
       $slash_path = "$scheme://";
     }
 
@@ -1131,6 +1142,42 @@ class S3fsStream extends StreamWrapper implements StreamWrapperInterface {
     $query->fields('s', ['uri']);
     $query->condition('uri', $query->escapeLike($slash_path) . '%', 'LIKE');
     $query->condition('uri', $query->escapeLike($slash_path) . '%/%', 'NOT LIKE');
+
+    // Prevent cross scheme directory structure leakage.
+    // This shouldn't be an issue for most scenarios, however if the
+    // private/public folder ever make it into the cache under another scheme
+    // this ensures a directory scan will not reveal them.
+    switch ($scheme) {
+      case 's3':
+        // Prevent private and public folder from showing nested under s3://.
+        $query->condition('uri', 's3://' . $query->escapeLike($public_folder) . '/%', 'NOT LIKE');
+        $query->condition('uri', 's3://' . $public_folder, '<>');
+        $query->condition('uri', 's3://' . $query->escapeLike($private_folder) . '/%', 'NOT LIKE');
+        $query->condition('uri', 's3://' . $private_folder, '<>');
+        break;
+
+      case 'public':
+        // Prevent the private folder from appearing nested under public://.
+        if (mb_strpos($private_folder, $public_folder) === 0) {
+          $private_search = '#^' . $private_folder . '#';
+          $prefix = preg_replace($private_search, '', $public_folder);
+          $query->condition('uri', 'public://' . $query->escapeLike($prefix) . '/%', 'NOT LIKE');
+          $query->condition('uri', 'public://' . $prefix, '<>');
+        }
+        break;
+
+      case 'private':
+        // Prevent the public folder from showing up nested under
+        // private://.
+        if (mb_strpos($public_folder, $private_folder) === 0) {
+          $public_search = '#^' . $public_folder . '#';
+          $prefix = preg_replace($public_search, '', $private_folder);
+          $query->condition('uri', 'private://' . $query->escapeLike($prefix) . '/%', 'NOT LIKE');
+          $query->condition('uri', 'private://' . $prefix, '<>');
+        }
+        break;
+    }
+
     $child_paths = $query->execute()->fetchCol(0);
 
     $this->dir = [];
@@ -1175,6 +1222,7 @@ class S3fsStream extends StreamWrapper implements StreamWrapperInterface {
    *   begin to exist within 10 seconds.
    */
   public function waitUntilFileExists($uri) {
+    $this->preventCrossSchemeAccess($uri);
     // Retry ten times, once every second.
     $params = $this->getCommandParams($uri);
     $params['@waiter'] = [
@@ -1202,6 +1250,7 @@ class S3fsStream extends StreamWrapper implements StreamWrapperInterface {
    * then have us write the correct metadata into our cache.
    */
   public function writeUriToCache($uri) {
+    $this->preventCrossSchemeAccess($uri);
     if ($this->waitUntilFileExists($uri)) {
       $metadata = $this->getS3Metadata($uri);
       if (!empty($metadata)) {
@@ -1306,13 +1355,15 @@ class S3fsStream extends StreamWrapper implements StreamWrapperInterface {
       return FALSE;
     }
 
+    $this->preventCrossSchemeAccess($uri);
+
     // Check if this URI is in the cache. NOTE We do this even if cache is
     // disabled because directories do not exist in S3, only object keys.
     $metadata = $this->readCache($uri);
 
     // If cache ignore is enabled, query S3 for all URIs that are
     // not directories.
-    if (!empty($this->config['ignore_cache']) && ($metadata && !$metadata['dir'])) {
+    if (!empty($this->config['ignore_cache']) && !($metadata && !$metadata['dir'])) {
       // If getS3Metadata() returns FALSE, the file doesn't exist.
       $metadata = $this->getS3Metadata($uri);
     }
@@ -1350,11 +1401,50 @@ class S3fsStream extends StreamWrapper implements StreamWrapperInterface {
         $record = $this->readCache($uri);
       }
       else {
-        $record = \Drupal::database()->select('s3fs_file', 's')
+
+        $public_folder = !empty($this->config['public_folder']) ? $this->config['public_folder'] : 's3fs-public';
+        $public_folder = trim($public_folder, '/');
+        $private_folder = !empty($this->config['private_folder']) ? $this->config['private_folder'] : 's3fs-private';
+        $private_folder = trim($private_folder, '/');
+
+        $query = \Drupal::database()->select('s3fs_file', 's')
           ->fields('s')
-          ->condition('uri', $uri, '=')
-          ->execute()
-          ->fetchAssoc();
+          ->condition('uri', $uri, '=');
+
+        // Limit searching to file under the same scheme.
+        switch (StreamWrapperManager::getScheme($uri)) {
+          case 's3':
+            // Prevent private and public folder from showing nested under
+            // s3://.
+            $query->condition('uri', 's3://' . $query->escapeLike($public_folder) . '/%', 'NOT LIKE');
+            $query->condition('uri', 's3://' . $public_folder, '<>');
+            $query->condition('uri', 's3://' . $query->escapeLike($private_folder) . '/%', 'NOT LIKE');
+            $query->condition('uri', 's3://' . $private_folder, '<>');
+            break;
+
+          case 'public':
+            // Prevent the private folder from appearing nested under public://.
+            if (mb_strpos($private_folder, $public_folder) === 0) {
+              $private_search = '#^' . $private_folder . '#';
+              $prefix = preg_replace($private_search, '', $public_folder);
+              $query->condition('uri', 'public://' . $query->escapeLike($prefix) . '/%', 'NOT LIKE');
+              $query->condition('uri', 'public://' . $prefix, '<>');
+            }
+            break;
+
+          case 'private':
+            // Prevent the public folder from showing up nested under
+            // private://.
+            if (mb_strpos($public_folder, $private_folder) === 0) {
+              $public_search = '#^' . $public_folder . '#';
+              $prefix = preg_replace($public_search, '', $private_folder);
+              $query->condition('uri', 'private://' . $query->escapeLike($prefix) . '/%', 'NOT LIKE');
+              $query->condition('uri', 'private://' . $prefix, '<>');
+            }
+            break;
+        }
+
+        $record = $query->execute()->fetchAssoc();
 
         $cache->set($cid, $record, Cache::PERMANENT, [S3FS_CACHE_TAG]);
         $lock->release($cid);
@@ -1604,33 +1694,6 @@ class S3fsStream extends StreamWrapper implements StreamWrapperInterface {
     \Drupal::moduleHandler()->alter('s3fs_command_params', $params);
 
     return $params;
-  }
-
-  /**
-   * Helper method to resolve a path to its non-relative location.
-   *
-   * Based on vfsStreamWrapper::resolvePath().
-   *
-   * @param string $path
-   *   The path to resolve.
-   *
-   * @return string
-   *   The resolved path.
-   */
-  protected function resolvePath(string $path): string {
-    $newPath = [];
-    foreach (explode('/', $path) as $pathPart) {
-      if ('.' !== $pathPart) {
-        if ('..' !== $pathPart) {
-          $newPath[] = $pathPart;
-        }
-        elseif (count($newPath) > 1) {
-          array_pop($newPath);
-        }
-      }
-    }
-
-    return implode('/', $newPath);
   }
 
 }

@@ -22,6 +22,7 @@ TABLE OF CONTENTS
 * UPGRADING FROM S3 FILE SYSTEM 7.x-2.x or 7.x-3.x
 * TROUBLESHOOTING
 * KNOWN ISSUES
+* UNINSTALLING
 * DEVELOPER TESTING
 * ACKNOWLEDGEMENT
 * MAINTAINERS
@@ -162,11 +163,6 @@ CONFIGURE DRUPAL TO STORE FILES IN S3
     "S3 File System" in the "Field Settings" tab. Files uploaded to a field
     configured to use S3 will be stored in the S3 bucket.
 
-    * Drupal will by default continue to store files it creates automatically
-      (such as aggregated CSS) on the local filesystem as they are hard coded
-      to use the public:// file handler. To prevent this enable takeover of
-      the public:// file handler.
-
   * To enable takeover of the public and/or private file handler(s you can
     enable s3fs.use_s3_for_public and/or s3fs.use_s3_for_private in
     settings.php. This will cause your site to store newly uploaded/generated
@@ -246,6 +242,11 @@ COPY LOCAL FILES TO S3
 
 AGGREGATED CSS AND JS IN S3
 ---------------------------
+
+  * Drupal Core 10.1 has moved CSS and JS aggregation storage to the
+    "assets://" streamWrapper. This means that in the latest versions of Drupal
+    aggregated CSS and JS files will no longer be stored in the S3 bucket.
+    The following information is not relevant for D10.1 and newer.
 
   * In previous versions S3FS required that the server be configured as a
     reverse proxy in order to use the public:// StreamWrapper.
@@ -458,6 +459,51 @@ KNOWN ISSUES
         recommended that you replace it with a different opcode cache plugin,
         as its development was abandoned several years ago.
 
+UNINSTALLING
+------------
+
+Removing s3fs from an installation is similar to removing a hard drive from an
+existing system, any files presently stored on the S3 bucket will no longer be
+accessible once the module is removed. Care must be taken to ensure the site
+has been prepared before uninstalling the s3fs module.
+
+* Prior to starting migration from s3fs the site should be placed into
+  maintenance mode and all tasks that will write new files to the s3fs managed
+  streams should be disabled.
+
+* Migrating files from s3fs public:// and private:// takeover before
+  uninstalling:
+
+  Migrating from public/private takeover is the easiest method migrate from.
+  Files can be copied from the S3 bucket using any available S3 tools and
+  placed in the appropriate folders inside Drupal.
+
+  Once files have been migrated public/private takeover should be disabled in
+  settings.php and the Drupal Cache refreshed.
+
+* Migrating from s3:// before uninstalling:
+
+  It is not possible for the s3fs module to be able to determine where files
+  should be placed upon removal. As with the public/private takeover you may
+  copy the files from the S3 bucket using the most convenient tool and place
+  them in the replacement location.
+
+  File paths will need to be re-written in the Database to refer to new paths.
+
+  In addition, you must ensure no fields or system components are configured to
+  utilize s3:// for file storage.
+
+  An alternative solution to rewriting paths may be to use a replacement
+  streamWrapper that allows registering the 's3://' scheme to a new location.
+
+* Removal of the s3fs module:
+
+  Once public/private takeover has been disabled and no configuration in
+  Drupal refer to any of the s3fs provided streamWrapper paths you may
+  uninstall the s3fs module in the same manner as any other module.
+
+  Failure to remove all references to s3fs managed paths and files could
+  result in unexpected errors.
 
 DEVELOPER TESTING
 -----------------
