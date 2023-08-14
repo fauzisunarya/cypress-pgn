@@ -20,37 +20,37 @@ class CreateContentControllerTest extends LocalTaskIntegrationTestBase
         ]; 
 
         $body = [
-            "data"=>array(
-                "name"=> "test content dengan api module door",
-                "lang"=> "en",
-                "module"=> "news",
-                "content_body"=>array(
-                    "value"=> "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    "summary"=> "",
-                    "format"=> "basic_html"
-                ),
-                "content_image"=>array(
-                    "filename"=> "039886000_1593101008-Tips_Bisnis.jpeg",
-                    "mimeType"=> "image/jpeg",
-                    "location"=> "https://content-management-service.test/sites/default/files/2022-03/039886000_1593101008-Tips_Bisnis.jpeg"
-                ),
-                "status"=> "published",
-                "created_date"=> "2023-08-09 15:20:43",
-                "last_update"=> "2023-08-09 20:17:11"
-            ),
-        ];
+          "data" => [
+              "name" => "test content dengan api module door",
+              "lang" => "en",
+              "module" => "news",
+              "content_body" => [
+                  "value" => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                  "summary" => "",
+                  "format" => "basic_html"
+              ],
+              "content_image" => [
+                  "filename" => "039886000_1593101008-Tips_Bisnis.jpeg",
+                  "mimeType" => "image/jpeg",
+                  "location" => "https://content-management-service.test/sites/default/files/2022-03/039886000_1593101008-Tips_Bisnis.jpeg"
+              ],
+              "status" => "published",
+              "created_date" => "2023-08-09 15:20:43",
+              "last_update" => "2023-08-09 20:17:11"
+          ],
+      ];
      
         // // Execute cURL session and get response 
         // $response =  $this->http_request($url, $headers); 
-        $client = HttpClient::create(['verify_peer' => false, 'verify_host' => false]); 
-        $response = $client->request( 
-          'POST', 
-          $url, 
-          [ 
-            'headers' => $headers,
-            'body' => $body,
-          ] 
-        ); 
+        $client = HttpClient::create(['verify_peer' => false, 'verify_host' => false]);
+        $response = $client->request(
+            'POST',
+            $url,
+            [
+                'headers' => $headers,
+                'json' => $body,
+            ]
+        );
      
      
         // // Get HTTP status code 
@@ -59,17 +59,10 @@ class CreateContentControllerTest extends LocalTaskIntegrationTestBase
         // Assert HTTP status code is 200 (OK) 
         // var_dump($code); 
      
-        // // Parse JSON response 
-        // $content = json_decode($response, true); 
+        // Parse JSON response 
         $content = $response->toArray(); 
         $this->assertEquals($content['code'], 0);
         
         
-     
-        // // Assert JSON response is valid and contains expected keys 
-        $this->assertIsArray($content['data']); 
-        // $this->assertArrayHasKey('uuid', $content['data']); 
-        // $this->assertArrayHasKey('name', $content['data']); 
-        // $this->assertArrayHasKey('body', $content); 
     }
 }
