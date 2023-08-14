@@ -6,10 +6,10 @@ CMS service digunakan untuk membuat content manajement service dimana cms berupa
 
 ## How to Run
 
-Employee service dapat dijalankan menggunakan docker dengan step - step berikut : 
+CMS service dapat dijalankan menggunakan docker dengan step - step berikut : 
 - masuk kedalam root folder directory applikasi menggunakan terminal (contoh : `cd C:\laragon\www\cms`)
 - pastikan env untuk `APP_URL=vhost/dommain` yang akan digunakan (contoh : APP_URL=https://localhost)
-- kemudian jalankan perintah `docker build -t employee .` untuk melakukan build image, kemudian tunggu hingga proses build selesai seperti langkah berikut : 
+- kemudian jalankan perintah `docker build -t cms .` untuk melakukan build image, kemudian tunggu hingga proses build selesai seperti langkah berikut : 
 ![image](/uploads/51fdcbe6a8290add0c6a3e61a9bd3124/image.png)
 ![image](/uploads/d716014eff0a60308d9d487f5444e2fd/image.png)
 
@@ -17,11 +17,11 @@ Employee service dapat dijalankan menggunakan docker dengan step - step berikut 
 - untuk menjalankan applikasi jalankan perintah `docker run -p 80:8080 -p 443:443 cms` :
 ![image](/uploads/b6dfc74727f8cd391eb091999a79594e/image.png)
 
-- Kemudian akses employee menggunakan `https://localhost` pada browser
+- Kemudian akses cms menggunakan `https://localhost` pada browser
 ![image](/uploads/b5c53573ea2a847f3ffcfad733d08fa8/image.png)
 
 ## Note untuk setiap perubahan 
-- module pada masing2 library yangdigunakan dilakukan push kedalam git
+- module pada masing2 library yang digunakan dilakukan push kedalam git
 - setiap melakukan perubahan file .env maka perlu menjalankan perintah berikut ./vendor/drush/drush/drush cr
 
 ## Environment Variables 
