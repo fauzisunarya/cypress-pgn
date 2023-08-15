@@ -558,4 +558,13 @@ class Module_helper {
     return $json && $str !== $json;
   }
 
+  public function hasGrant($grants, $objectCode) {
+
+    foreach ($grants as $grant) {
+      if ($grant->access_object_code == $objectCode) {
+        return $grant;
+      }
+    }
+    return false;
+  }
 }

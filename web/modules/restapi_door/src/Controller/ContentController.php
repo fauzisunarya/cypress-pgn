@@ -85,7 +85,17 @@ class ContentController extends ControllerBase{
         // prepare request
         $parameters    = $request->getContent();
         $user  = $request->get('user');
-        print("<pre>".print_r($user,true)."</pre>"); die();
+        $hasGrant = Drupal::service('restapi_door.app_helper')->hasGrant($user['grants'], 'cms_create_content');
+    
+        if(!$hasGrant){
+            return \Drupal::service('restapi_door.app_helper')->response([
+                'status'  => 'failed',
+                'code'  => '403',
+                'message' => 'You do not have permission to create content',
+                'data'    => []
+            ], 403);
+        }
+
         try {
             $parameters = json_decode($parameters, true, 512, \JSON_BIGINT_AS_STRING | \JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
