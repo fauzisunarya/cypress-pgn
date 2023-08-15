@@ -24,3 +24,12 @@ apidoor.content_image:
   methods: [GET]
   requirements:
     _permission: 'access content'
+
+apidoor.content_update:
+  path: '/apidoor/contents/update'
+  defaults:
+    _controller: '\Drupal\restapi_door\Controller\ContentController::updateContent'
+    _title: 'update content data'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
