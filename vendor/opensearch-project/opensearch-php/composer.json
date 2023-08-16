@@ -55,10 +55,20 @@
       "phpstan analyse --no-progress"
     ],
     "unit": [
-      "phpunit"
+      "phpunit --exclude-group Integration"
     ],
     "integration": [
-      "phpunit -c phpunit-integration-tests.xml"
+      "phpunit --group Integration"
+    ],
+    "phpunit": [
+      "phpunit"
+    ],
+    "apigen": [
+      "rm -f apigen",
+      "curl -L https://github.com/ApiGen/ApiGen/releases/download/v7.0.0-alpha.4/apigen.phar -o apigen",
+      "chmod +x apigen",
+      "./apigen src --output docs",
+      "rm -f apigen"
     ]
   }
 }

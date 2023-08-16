@@ -43,14 +43,17 @@
         "drupal/views_data_export": "1.1",
         "drupal/workflow": "1.5",
         "drush/drush": "^10.6",
+        "firebase/php-jwt": "^6.8",
         "opensearch-project/opensearch-php": "^2.0",
         "php-webdriver/webdriver": "^1.12",
         "phpmailer/phpmailer": "^6.6",
+        "symfony/http-client": "*",
         "vlucas/phpdotenv": "^5.1",
         "webflo/drupal-finder": "^1.2"
     },
     "require-dev": {
-        "drupal/core-dev": "^9.3"
+        "drupal/core-dev": "^9.3",
+        "phpunit/phpunit": "8.*"
     },
     "conflict": {
         "drupal/drupal": "*"
