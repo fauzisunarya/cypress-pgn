@@ -41,11 +41,6 @@ $form['drupal8_w3css_theme_settings']['social_icon']['pinterest_url'] = [
   '#title' => t('Pinterest Profile'),
   '#default_value' => theme_get_setting('pinterest_url'),
 ];
-$form['drupal8_w3css_theme_settings']['social_icon']['google_plus_url'] = [
-  '#type' => 'textfield',
-  '#title' => t('Google Plus Page'),
-  '#default_value' => theme_get_setting('google_plus_url'),
-];
 $form['drupal8_w3css_theme_settings']['social_icon']['linkedin_url'] = [
   '#type' => 'textfield',
   '#title' => t('Linkedin Profile'),
@@ -70,4 +65,9 @@ $form['drupal8_w3css_theme_settings']['social_icon']['rss_url'] = [
   '#type' => 'textfield',
   '#title' => t('RSS Link'),
   '#default_value' => theme_get_setting('rss_url'),
+];
+$form['drupal8_w3css_theme_settings']['social_icon']['mastodon_url'] = [
+  '#type' => 'textfield',
+  '#title' => t('Mastodon Profile'),
+  '#default_value' => theme_get_setting('mastodon_url'),
 ];

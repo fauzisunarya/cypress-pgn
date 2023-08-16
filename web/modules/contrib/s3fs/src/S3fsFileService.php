@@ -12,6 +12,7 @@ use Drupal\Core\File\Exception\FileWriteException;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\StreamWrapper\StreamWrapperManagerInterface;
+use Drupal\s3fs\Traits\S3fsPathsTrait;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -28,6 +29,8 @@ use Psr\Log\LoggerInterface;
  * @see https://www.drupal.org/project/s3fs/issues/3204635
  */
 class S3fsFileService implements FileSystemInterface {
+
+  use S3fsPathsTrait;
 
   /**
    * The inner service.
@@ -76,7 +79,7 @@ class S3fsFileService implements FileSystemInterface {
   /**
    * Mime Type Guessing Service.
    *
-   * @var \Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface
+   * @var \Symfony\Component\Mime\MimeTypesInterface|\Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface
    */
   protected $mimeGuesser;
 
@@ -117,6 +120,10 @@ class S3fsFileService implements FileSystemInterface {
   public function moveUploadedFile($filename, $uri) {
     $wrapper = $this->streamWrapperManager->getViaUri($uri);
     if (is_a($wrapper, 'Drupal\s3fs\StreamWrapper\S3fsStream')) {
+      // Ensure the file was uploaded as part of HTTP POST.
+      if (!is_uploaded_file($filename)) {
+        return FALSE;
+      }
       return $this->putObject($filename, $uri);
     }
     else {
@@ -190,7 +197,7 @@ class S3fsFileService implements FileSystemInterface {
       return $this->decorated->uriScheme($uri);
     }
     else {
-      @trigger_error('S3FS: FileSystem::uriScheme() has been removed in core. Use \Drupal\Core\StreamWrapper\StreamWrapperManagerInterface::getScheme() instead. See https://www.drupal.org/node/3035273', E_USER_ERROR);
+      trigger_error('S3FS: FileSystem::uriScheme() has been removed in core. Use \Drupal\Core\StreamWrapper\StreamWrapperManagerInterface::getScheme() instead. See https://www.drupal.org/node/3035273', E_USER_ERROR);
     }
   }
 
@@ -204,7 +211,7 @@ class S3fsFileService implements FileSystemInterface {
       return $this->decorated->validScheme($scheme);
     }
     else {
-      @trigger_error('S3FS: FileSystem::validScheme() Has been removed in core. Use \Drupal\Core\StreamWrapper\StreamWrapperManagerInterface::isValidScheme() instead. See https://www.drupal.org/node/3035273', E_USER_ERROR);
+      trigger_error('S3FS: FileSystem::validScheme() Has been removed in core. Use \Drupal\Core\StreamWrapper\StreamWrapperManagerInterface::isValidScheme() instead. See https://www.drupal.org/node/3035273', E_USER_ERROR);
     }
   }
 
@@ -458,6 +465,8 @@ class S3fsFileService implements FileSystemInterface {
     // We only need to convert relative path for storing on the bucket.
     $destination = $this->resolvePath($destination);
 
+    $this->preventCrossSchemeAccess($destination);
+
     if (mb_strlen($destination) > S3fsServiceInterface::MAX_URI_LENGTH) {
       $this->logger->error("The specified file '%destination' exceeds max URI length limit.",
         [
@@ -553,6 +562,9 @@ class S3fsFileService implements FileSystemInterface {
     $source = $this->resolvePath($source);
     $destination = $this->resolvePath($destination);
 
+    $this->preventCrossSchemeAccess($source);
+    $this->preventCrossSchemeAccess($destination);
+
     if (mb_strlen($destination) > S3fsServiceInterface::MAX_URI_LENGTH) {
       $this->logger->error("The specified file '%destination' exceeds max URI length limit.",
         [
@@ -627,7 +639,12 @@ class S3fsFileService implements FileSystemInterface {
       $copyParams['ACL'] = 'public-read';
     }
 
-    $this->moduleHandler->alter('s3fs_copy_params_alter', $copyParams);
+    $keyPaths = [
+      'from_key' => $src_key_path,
+      'to_key' => $key_path,
+    ];
+
+    $this->moduleHandler->alter('s3fs_copy_params', $copyParams, $keyPaths);
 
     try {
       $s3->copyObject($copyParams);
@@ -638,33 +655,6 @@ class S3fsFileService implements FileSystemInterface {
 
     $wrapper->writeUriToCache($destination);
     return TRUE;
-  }
-
-  /**
-   * Helper method to resolve a path to its non-relative location.
-   *
-   * Based on vfsStreamWrapper::resolvePath().
-   *
-   * @param string $path
-   *   The path to resolve.
-   *
-   * @return string
-   *   The resolved path.
-   */
-  protected function resolvePath(string $path): string {
-    $newPath = [];
-    foreach (explode('/', $path) as $pathPart) {
-      if ('.' !== $pathPart) {
-        if ('..' !== $pathPart) {
-          $newPath[] = $pathPart;
-        }
-        elseif (count($newPath) > 1) {
-          array_pop($newPath);
-        }
-      }
-    }
-
-    return implode('/', $newPath);
   }
 
 }
