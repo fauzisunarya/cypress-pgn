@@ -56,7 +56,9 @@ class ContentControllerTest extends UnitTestCase
         'headers' => $headers  
       ]  
     );  
-    var_dump($response);  
+    var_dump($response); 
+    
+    $this->assertNotEquals($code, 0); 
   }  
 
 
