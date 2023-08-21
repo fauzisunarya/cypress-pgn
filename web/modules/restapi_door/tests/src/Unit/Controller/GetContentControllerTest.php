@@ -2,90 +2,88 @@
 
 namespace Drupal\restapi_door\Tests\Unit\Controller;
 
-use Drupal\Tests\UnitTestCase; 
-use Drupal\restapi_door\Controller\ContentController; 
-use Symfony\Component\HttpFoundation\Request; 
-use Symfony\Component\HttpClient\HttpClient; 
-
+use Drupal\Tests\UnitTestCase;
+use Drupal\restapi_door\Controller\ContentController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpClient\HttpClient;
 
 class ContentControllerTest extends UnitTestCase
 {
 
   // public function testBerhasilMemunculkanDataContent()
   // {
-  //   $url = 'apidoor/contents/311758db-375b-4f61-b58f-0e9e19b923a6';
-
-  //   // Initialize cURL session
-  //   $ch = curl_init($url);
+  //   $url = 'https://content-management-service.test/apidoor/contents/311758db-375b-4f61-b58f-0e9e19b923a6';
 
   //   $headers = [
-  //     'Authorization: '.'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzaWQiOiJjaHRnY2o3OG9rN29ib3ZiMm5tb2hjM2ZtZCIsInN1YiI6IjgiLCJleHAiOjE5MjQ3OTQwMDAsImNvZGUiOiIyMDIzMDAwMDAxIiwibmFtZSI6IlNhbXBsZSBFbXBsb3llZSIsImVtYWlsIjoiZW1wQGRvb3J2My5jb20iLCJhcHBpZCI6OCwiYXBwbmFtZSI6ImRvb3IiLCJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsiZW1wbG95ZWUiXSwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoiZW1wbG95ZWUifSwiZmxhZyI6MSwidXJsIjoiaHR0cHM6Ly91YW0tZGV2Lm5ldXJvbi5pZCIsImNvbmZpZyI6IntcImFwcGxpY2F0aW9uXCI6e1wibmFtZVwiOlwiZG9vclwiLFwiY29tcGFueVwiOlwiZG9vciBuZXVyb25cIixcImljb25cIjpcImh0dHBzOi8vY2RuLm5ldXJvbndvcmtzLmNvLmlkL2Rvb3J2My9pbWFnZXMvZmF2aWNvbi5pY29cIixcImltYWdlX2xvZ29cIjpcImh0dHBzOi8vY2RuLm5ldXJvbndvcmtzLmNvLmlkL2Rvb3J2My9pbWFnZXMvZmF2aWNvbi5pY29cIixcImltYWdlX2xvZ29fbmFtZVwiOlwiaHR0cHM6Ly9ocm1pcy5uZXVyb24uaWQvYXNzZXRzL3BlcnNvbmFsaXphdGlvbi83ZTk4ZDRiMjIwMDBkYjg0YWQxNjczMTExNDBlZTZiMS5wbmdcIixcImltYWdlX2xvYWRlclwiOlwiaHR0cHM6Ly9jZG4ubmV1cm9ud29ya3MuY28uaWQvZG9vcnYzL2ltYWdlcy9mYXZpY29uLmljb1wiXHJcbn0sXCJlbXBsb3llZVwiOntcImFwcGxpY2F0aW9uXCI6XCJkb29yLGRvb3Jtb2JpbGVcIn19Iiwic2FsdCI6IjcxYjAwY2ExNDZmYjY0YjNiMmNiN2MwN2U0NmNmZWRlNDYxMzg4YTZiYjY3MTJmZjkxMjZlYzhlNjE4NjkwMjIiLCJhbGxvd2VkX3JvbGVzIjpbImVtcGxveWVlIl19.qwQC0n5Y7SFQ2gUzm5XOA9gIcFVShG1AuvOdyZtHSg0Qht4Hdc-ip-ugycoi2R2pT4gblpJwK5ey3SAWXNJbySlyPvaA4TyR7RwrZ28SmCvToGqStg6WJWca0kAL8m7IG6aDygnH9T_0qFQ1n0lr33oPzCafgkTH-Exe98PBTak'
+  //     'Authorization: ' . 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzaWQiOiI4ODFibnU0Zm85MzM0a2hobmM5cmNzbmxjaSIsInN1YiI6IjE1IiwiZXhwIjoxNjkyNjEyMDQwLCJjb2RlIjoiMjAyMzAwMDAwNCIsIm5hbWUiOiJidWRpYW5hIGNlayIsImVtYWlsIjoidGVzMTIzMzMzM0BtYWlsLmNvbSIsImxhbmciOiJpZCIsImFwcGlkIjo4LCJhcHBuYW1lIjoiZG9vciIsImh0dHBzOlwvXC9oYXN1cmEuaW9cL2p3dFwvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsiaHIiXSwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoiaHIifSwiZ3JhbnRzIjpbeyJhY2Nlc3Nfb2JqZWN0X3R5cGVfbmFtZSI6IkFjdGlvbiIsImFjY2Vzc19vYmplY3RfY29kZSI6ImxvZ2luIiwiYWNjZXNzX3Blcm1pc3Npb25fbmFtZSI6ImFsbCJ9LHsiYWNjZXNzX29iamVjdF90eXBlX25hbWUiOiJBY3Rpb24iLCJhY2Nlc3Nfb2JqZWN0X2NvZGUiOiJ1c2VyX2NyZWF0ZSIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifSx7ImFjY2Vzc19vYmplY3RfdHlwZV9uYW1lIjoiQWN0aW9uIiwiYWNjZXNzX29iamVjdF9jb2RlIjoidXNlcl9wcm9maWxlIiwiYWNjZXNzX3Blcm1pc3Npb25fbmFtZSI6ImFsbCJ9LHsiYWNjZXNzX29iamVjdF90eXBlX25hbWUiOiJBY3Rpb24iLCJhY2Nlc3Nfb2JqZWN0X2NvZGUiOiJ1c2VyX3VwZGF0ZSIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifSx7ImFjY2Vzc19vYmplY3RfdHlwZV9uYW1lIjoiQWN0aW9uIiwiYWNjZXNzX29iamVjdF9jb2RlIjoidXNlcl9hdmF0YXIiLCJhY2Nlc3NfcGVybWlzc2lvbl9uYW1lIjoiYWxsIn0seyJhY2Nlc3Nfb2JqZWN0X3R5cGVfbmFtZSI6IkFjdGlvbiIsImFjY2Vzc19vYmplY3RfY29kZSI6ImNtc19jcmVhdGVfY29udGVudCIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifV0sImNhbl9jcmVhdGUiOiJ5ZXMiLCJjYW5fbW9kaWZ5IjoieWVzIiwiY2FuX2RlbGV0ZSI6InllcyIsImNhbl9hdXRoIjoieWVzIiwiY2FuX2FjbCI6InllcyIsImZsYWciOjEsInVybCI6Imh0dHBzOlwvXC91YW0tZGV2Lm5ldXJvbi5pZCIsImNvbmZpZyI6IntcImFwcGxpY2F0aW9uXCI6e1wibmFtZVwiOlwiZG9vclwiLFwiY29tcGFueVwiOlwiZG9vciBuZXVyb25cIixcImljb25cIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9mYXZpY29uLmljb1wiLFwiaW1hZ2VfbG9nb1wiOlwiaHR0cHM6XC9cL2Nkbi5uZXVyb253b3Jrcy5jby5pZFwvZG9vcnYzXC9pbWFnZXNcL2Zhdmljb24uaWNvXCIsXCJpbWFnZV9sb2dvX25hbWVcIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9ob3Jpem9udGFsLWxvZ28ucG5nXCIsXCJpbWFnZV9sb2FkZXJcIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9mYXZpY29uLmljb1wiXHJcbn0sXCJlbXBsb3llZVwiOntcImFwcGxpY2F0aW9uXCI6XCJkb29yLGRvb3Jtb2JpbGVcIn0sXCJhdHRlbmRhbmNlXCI6e1wiY3V0b2ZmXCI6IFwiMjZcIn19Iiwic2FsdCI6IjdhZWIxNWYxZDA0NTY4M2U3MzUxMGIwMzc2MDc4MTg1OGQ4MGFmNmRlYWE3ODM2NGE1MWM5ZWM3OTU3ZjQ2ZmUifQ.nj0I7J7SMnLuXmuDHikQoGxJq6n7kWxOF5Yoh9HszNqlXPQ2TaeSiNGvUQJzPpw4kfVDaQ9MVxpvT4CeqKeCdcbe2TW7zf7f9viqRV-Zdt7LbDrN90S5NrVKaN3Mqy35z5ed3e0FUCNSZKbzLy0C979AJZpfeQ5xxKP06id25EQ'
   //   ];
 
-  //   // Set cURL options
-  //   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  //   curl_setopt($ch, CURLOPT_HEADER, $headers);
+  //   $client = HttpClient::create(['verify_peer' => false, 'verify_host' => false]);
+  //   $response = $client->request(
+  //     'GET',
+  //     $url,
+  //     [
+  //       'headers' => $headers,
+  //     ]
+  //   );
 
-  //   // Get HTTP status code
-  //   $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  //   // Assert that the response is not null
+  //   $this->assertNotNull($response);
 
-  //   // Close cURL session
-  //   curl_close($ch);
-
-  //   // Assert HTTP status code is 200 (OK)
-  //   $this->assertEquals($code, 0);
-
+  //   // Parse JSON response
+  //   $content = $response->toArray();
+  //   $this->assertEquals($content['code'], 0);
   // }
 
-  public function testGetContentApi()  
-  {  
-  
-    /** CARA 2 */  
-  
-    $url = 'https://content-management-service.test/apidoor/contents/311758db-375b-4f61-b58f-0e9e19b923a6';  
-  
-    $headers = [  
-      'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzaWQiOiJjaHRnY2o3OG9rN29ib3ZiMm5tb2hjM2ZtZCIsInN1YiI6IjgiLCJleHAiOjE5MjQ3OTQwMDAsImNvZGUiOiIyMDIzMDAwMDAxIiwibmFtZSI6IlNhbXBsZSBFbXBsb3llZSIsImVtYWlsIjoiZW1wQGRvb3J2My5jb20iLCJhcHBpZCI6OCwiYXBwbmFtZSI6ImRvb3IiLCJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsiZW1wbG95ZWUiXSwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoiZW1wbG95ZWUifSwiZmxhZyI6MSwidXJsIjoiaHR0cHM6Ly91YW0tZGV2Lm5ldXJvbi5pZCIsImNvbmZpZyI6IntcImFwcGxpY2F0aW9uXCI6e1wibmFtZVwiOlwiZG9vclwiLFwiY29tcGFueVwiOlwiZG9vciBuZXVyb25cIixcImljb25cIjpcImh0dHBzOi8vY2RuLm5ldXJvbndvcmtzLmNvLmlkL2Rvb3J2My9pbWFnZXMvZmF2aWNvbi5pY29cIixcImltYWdlX2xvZ29cIjpcImh0dHBzOi8vY2RuLm5ldXJvbndvcmtzLmNvLmlkL2Rvb3J2My9pbWFnZXMvZmF2aWNvbi5pY29cIixcImltYWdlX2xvZ29fbmFtZVwiOlwiaHR0cHM6Ly9ocm1pcy5uZXVyb24uaWQvYXNzZXRzL3BlcnNvbmFsaXphdGlvbi83ZTk4ZDRiMjIwMDBkYjg0YWQxNjczMTExNDBlZTZiMS5wbmdcIixcImltYWdlX2xvYWRlclwiOlwiaHR0cHM6Ly9jZG4ubmV1cm9ud29ya3MuY28uaWQvZG9vcnYzL2ltYWdlcy9mYXZpY29uLmljb1wiXHJcbn0sXCJlbXBsb3llZVwiOntcImFwcGxpY2F0aW9uXCI6XCJkb29yLGRvb3Jtb2JpbGVcIn19Iiwic2FsdCI6IjcxYjAwY2ExNDZmYjY0YjNiMmNiN2MwN2U0NmNmZWRlNDYxMzg4YTZiYjY3MTJmZjkxMjZlYzhlNjE4NjkwMjIiLCJhbGxvd2VkX3JvbGVzIjpbImVtcGxveWVlIl19.qwQC0n5Y7SFQ2gUzm5XOA9gIcFVShG1AuvOdyZtHSg0Qht4Hdc-ip-ugycoi2R2pT4gblpJwK5ey3SAWXNJbySlyPvaA4TyR7RwrZ28SmCvToGqStg6WJWca0kAL8m7IG6aDygnH9T_0qFQ1n0lr33oPzCafgkTH-Exe98PBTak'  
-    ];  
-  
-    $client = HttpClient::create(['verify_peer' => false, 'verify_host' => false]); 
-    $response = $client->request(  
-      'GET',  
-      $url,  
-      [  
-        'headers' => $headers  
-      ]  
-    );  
-    var_dump($response); 
-    
-    $this->assertNotEquals($code, 0); 
-  }  
-
-
-  // public function testgagalMemunculkanDataContentDenganInformasiJwtInvalid()
+  // public function testGagalMemunculkanDataContent()
   // {
-  //   $url = 'apidoor/contents/311758db-375b-4f61-b58f-0e9e19b923a6';
-
-  //   // Initialize cURL session
-  //   $ch = curl_init($url);
+  //   $url = 'https://content-management-service.test/apidoor/contents/311758db-375b-4f61-b58f-0e9e19b9';
 
   //   $headers = [
-  //     'Authorization: '.'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9'
+  //     'Authorization: ' . 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzaWQiOiI4ODFibnU0Zm85MzM0a2hobmM5cmNzbmxjaSIsInN1YiI6IjE1IiwiZXhwIjoxNjkyNjEyMDQwLCJjb2RlIjoiMjAyMzAwMDAwNCIsIm5hbWUiOiJidWRpYW5hIGNlayIsImVtYWlsIjoidGVzMTIzMzMzM0BtYWlsLmNvbSIsImxhbmciOiJpZCIsImFwcGlkIjo4LCJhcHBuYW1lIjoiZG9vciIsImh0dHBzOlwvXC9oYXN1cmEuaW9cL2p3dFwvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsiaHIiXSwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoiaHIifSwiZ3JhbnRzIjpbeyJhY2Nlc3Nfb2JqZWN0X3R5cGVfbmFtZSI6IkFjdGlvbiIsImFjY2Vzc19vYmplY3RfY29kZSI6ImxvZ2luIiwiYWNjZXNzX3Blcm1pc3Npb25fbmFtZSI6ImFsbCJ9LHsiYWNjZXNzX29iamVjdF90eXBlX25hbWUiOiJBY3Rpb24iLCJhY2Nlc3Nfb2JqZWN0X2NvZGUiOiJ1c2VyX2NyZWF0ZSIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifSx7ImFjY2Vzc19vYmplY3RfdHlwZV9uYW1lIjoiQWN0aW9uIiwiYWNjZXNzX29iamVjdF9jb2RlIjoidXNlcl9wcm9maWxlIiwiYWNjZXNzX3Blcm1pc3Npb25fbmFtZSI6ImFsbCJ9LHsiYWNjZXNzX29iamVjdF90eXBlX25hbWUiOiJBY3Rpb24iLCJhY2Nlc3Nfb2JqZWN0X2NvZGUiOiJ1c2VyX3VwZGF0ZSIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifSx7ImFjY2Vzc19vYmplY3RfdHlwZV9uYW1lIjoiQWN0aW9uIiwiYWNjZXNzX29iamVjdF9jb2RlIjoidXNlcl9hdmF0YXIiLCJhY2Nlc3NfcGVybWlzc2lvbl9uYW1lIjoiYWxsIn0seyJhY2Nlc3Nfb2JqZWN0X3R5cGVfbmFtZSI6IkFjdGlvbiIsImFjY2Vzc19vYmplY3RfY29kZSI6ImNtc19jcmVhdGVfY29udGVudCIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifV0sImNhbl9jcmVhdGUiOiJ5ZXMiLCJjYW5fbW9kaWZ5IjoieWVzIiwiY2FuX2RlbGV0ZSI6InllcyIsImNhbl9hdXRoIjoieWVzIiwiY2FuX2FjbCI6InllcyIsImZsYWciOjEsInVybCI6Imh0dHBzOlwvXC91YW0tZGV2Lm5ldXJvbi5pZCIsImNvbmZpZyI6IntcImFwcGxpY2F0aW9uXCI6e1wibmFtZVwiOlwiZG9vclwiLFwiY29tcGFueVwiOlwiZG9vciBuZXVyb25cIixcImljb25cIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9mYXZpY29uLmljb1wiLFwiaW1hZ2VfbG9nb1wiOlwiaHR0cHM6XC9cL2Nkbi5uZXVyb253b3Jrcy5jby5pZFwvZG9vcnYzXC9pbWFnZXNcL2Zhdmljb24uaWNvXCIsXCJpbWFnZV9sb2dvX25hbWVcIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9ob3Jpem9udGFsLWxvZ28ucG5nXCIsXCJpbWFnZV9sb2FkZXJcIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9mYXZpY29uLmljb1wiXHJcbn0sXCJlbXBsb3llZVwiOntcImFwcGxpY2F0aW9uXCI6XCJkb29yLGRvb3Jtb2JpbGVcIn0sXCJhdHRlbmRhbmNlXCI6e1wiY3V0b2ZmXCI6IFwiMjZcIn19Iiwic2FsdCI6IjdhZWIxNWYxZDA0NTY4M2U3MzUxMGIwMzc2MDc4MTg1OGQ4MGFmNmRlYWE3ODM2NGE1MWM5ZWM3OTU3ZjQ2ZmUifQ.nj0I7J7SMnLuXmuDHikQoGxJq6n7kWxOF5Yoh9HszNqlXPQ2TaeSiNGvUQJzPpw4kfVDaQ9MVxpvT4CeqKeCdcbe2TW7zf7f9viqRV-Zdt7LbDrN90S5NrVKaN3Mqy35z5ed3e0FUCNSZKbzLy0C979AJZpfeQ5xxKP06id25EQ'
   //   ];
 
-  //   // Set cURL options
-  //   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  //   curl_setopt($ch, CURLOPT_HEADER, $headers);
+  //   $client = HttpClient::create(['verify_peer' => false, 'verify_host' => false]);
+  //   $response = $client->request(
+  //     'GET',
+  //     $url,
+  //     [
+  //       'headers' => $headers,
+  //     ]
+  //   );
 
-  //   // Get HTTP status code
-  //   $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  //   // Assert that the response is not null
+  //   $this->assertNotNull($response);
 
-  //   // Close cURL session
-  //   curl_close($ch);
-
-  //   // Assert HTTP status code is 200 (OK)
-  //   $this->assertNotEquals($code, 0);
+  //   // Parse JSON response
+  //   $content = $response->toArray();
+  //   $this->assertNotEquals($content['code'], 0);
   // }
 
+  public function testGagalMemunculkanDataContentDenganInformasiJwtInvalid()
+  {
+    $url = 'https://content-management-service.test/apidoor/contents/311758db-375b-4f61-b58f-0e9e19b923a6';
+
+    // Modify the token here to make it invalid
+    $headers = [
+      'Authorization: ' . 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzaWQiOiI4ODFibnU0Zm85MzM0a2hI6IjE1IiwiZXhwIjoxNjkyNjEyMDQwLCJjb2RlIjoiMjAyMzAwMDAwNCIsIm5hbWUiOiJidWRpYW5hIGNlayIsImVtYWlsIjoidGVzMTIzMzMzM0BtYWlsLmNvbSIsImxhbmciOiJpZCIsImFwcGlkIjo4LCJhcHBuYW1lIjoiZG9vciIsImh0dHBzOlwvXC9oYXN1cmEuaW9cL2p3dFwvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsiaHIiXSwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoiaHIifSwiZ3JhbnRzIjpbeyJhY2Nlc3Nfb2JqZWN0X3R5cGVfbmFtZSI6IkFjdGlvbiIsImFjY2Vzc19vYmplY3RfY29kZSI6ImxvZ2luIiwiYWNjZXNzX3Blcm1pc3Npb25fbmFtZSI6ImFsbCJ9LHsiYWNjZXNzX29iamVjdF90eXBlX25hbWUiOiJBY3Rpb24iLCJhY2Nlc3Nfb2JqZWN0X2NvZGUiOiJ1c2VyX2NyZWF0ZSIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifSx7ImFjY2Vzc19vYmplY3RfdHlwZV9uYW1lIjoiQWN0aW9uIiwiYWNjZXNzX29iamVjdF9jb2RlIjoidXNlcl9wcm9maWxlIiwiYWNjZXNzX3Blcm1pc3Npb25fbmFtZSI6ImFsbCJ9LHsiYWNjZXNzX29iamVjdF90eXBlX25hbWUiOiJBY3Rpb24iLCJhY2Nlc3Nfb2JqZWN0X2NvZGUiOiJ1c2VyX3VwZGF0ZSIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifSx7ImFjY2Vzc19vYmplY3RfdHlwZV9uYW1lIjoiQWN0aW9uIiwiYWNjZXNzX29iamVjdF9jb2RlIjoidXNlcl9hdmF0YXIiLCJhY2Nlc3NfcGVybWlzc2lvbl9uYW1lIjoiYWxsIn0seyJhY2Nlc3Nfb2JqZWN0X3R5cGVfbmFtZSI6IkFjdGlvbiIsImFjY2Vzc19vYmplY3RfY29kZSI6ImNtc19jcmVhdGVfY29udGVudCIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifV0sImNhbl9jcmVhdGUiOiJ5ZXMiLCJjYW5fbW9kaWZ5IjoieWVzIiwiY2FuX2RlbGV0ZSI6InllcyIsImNhbl9hdXRoIjoieWVzIiwiY2FuX2FjbCI6InllcyIsImZsYWciOjEsInVybCI6Imh0dHBzOlwvXC91YW0tZGV2Lm5ldXJvbi5pZCIsImNvbmZpZyI6IntcImFwcGxpY2F0aW9uXCI6e1wibmFtZVwiOlwiZG9vclwiLFwiY29tcGFueVwiOlwiZG9vciBuZXVyb25cIixcImljb25cIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9mYXZpY29uLmljb1wiLFwiaW1hZ2VfbG9nb1wiOlwiaHR0cHM6XC9cL2Nkbi5uZXVyb253b3Jrcy5jby5pZFwvZG9vcnYzXC9pbWFnZXNcL2Zhdmljb24uaWNvXCIsXCJpbWFnZV9sb2dvX25hbWVcIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9ob3Jpem9udGFsLWxvZ28ucG5nXCIsXCJpbWFnZV9sb2FkZXJcIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9mYXZpY29uLmljb1wiXHJcbn0sXCJlbXBsb3llZVwiOntcImFwcGxpY2F0aW9uXCI6XCJkb29yLGRvb3Jtb2JpbGVcIn0sXCJhdHRlbmRhbmNlXCI6e1wiY3V0b2ZmXCI6IFwiMjZcIn19Iiwic2FsdCI6IjdhZWIxNWYxZDA0NTY4M2U3MzUxMGIwMzc2MDc4MTg1OGQ4MGFmNmRlYWE3ODM2NGE1MWM5ZWM3OTU3ZjQ2ZmUifQ.nj0I7J7SMnLuXmuDHikQoGxJq6n7kWxOF5Yoh9HszNqlXPQ2TaeSiNGvUQJzPpw4kfVDaQ9MVxpvT4CeqKeCdcbe2TW7zf7f9viqRV-Zdt7LbDrN90S5NrVKaN3Mqy35z5ed3e0FUCNSZKbzLy0C979AJZpfeQ5xxKP06id25EX'
+    ];
+
+    $client = HttpClient::create(['verify_peer' => false, 'verify_host' => false]);
+    $response = $client->request(
+      'GET',
+      $url,
+      [
+        'headers' => $headers,
+      ]
+    );
+
+    // Assert that the response is not null
+    $this->assertNotNull($response);
+
+    // Parse JSON response
+    $content = $response->toArray();
+    $this->assertEquals($content['code'], 0);
+  }
 
 }
