@@ -30,14 +30,13 @@ class S3fsFileServiceTest extends S3fsTestBase {
     $testUri3 = "{$this->remoteTestsFolderUri}/test_file3.txt";
     $testUri4 = "{$this->remoteTestsFolderUri}/test_file4.txt";
 
-    $fileSystem = \Drupal::service('file_system');
+    $fileSystem = $this->container->get('file_system');
 
     $file_contents = file_get_contents(__DIR__ . '/../../fixtures/test.txt');
-    $temp_file = $fileSystem->saveData($file_contents, 'temporary://123');
 
-    $this->assertTrue($fileSystem->moveUploadedFile($temp_file, $testUri1), 'Uploaded file with S3fsFileService');
-    $this->assertFalse($fileSystem->moveUploadedFile('/tmp/invalidFile', $testUri1), 'Did not upload nonexistent file');
+    $this->assertTrue($fileSystem->mkdir($this->remoteTestsFolderUri));
 
+    file_put_contents($testUri1, $file_contents);
     $this->assertEquals($testUri2, $fileSystem->move($testUri1, $testUri2), 'Moved file with S3fsFileService');
     $this->expectException(FileNotExistsException::class);
     $fileSystem->move($testUri1, $testUri3);

@@ -50,6 +50,20 @@ class PluginInstaller extends LibraryInstaller
     /**
      * @inheritDoc
      */
+    public function prepare($type, PackageInterface $package, PackageInterface $prevPackage = null)
+    {
+        // fail install process early if it is going to fail due to a plugin not being allowed
+        if (($type === 'install' || $type === 'update') && !$this->composer->getPluginManager()->arePluginsDisabled('local')) {
+            $extra = $package->getExtra();
+            $this->composer->getPluginManager()->isPluginAllowed($package->getName(), false, isset($extra['plugin-optional']) && true === $extra['plugin-optional']);
+        }
+
+        return parent::prepare($type, $package, $prevPackage);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function download(PackageInterface $package, PackageInterface $prevPackage = null)
     {
         $extra = $package->getExtra();

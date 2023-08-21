@@ -35,7 +35,7 @@ class S3fsConfigValidationTest extends S3fsTestBase {
     // Read only on a read/write bucket.
     $s3CustomConfig['read_only'] = TRUE;
     $errors = $this->s3fs->validate($s3CustomConfig);
-    $this->assertEquals(t('The provided credentials are not read-only.'), $errors[0]);
+    $this->assertEquals('The provided credentials are not read-only.', $errors[0]);
   }
 
 }
