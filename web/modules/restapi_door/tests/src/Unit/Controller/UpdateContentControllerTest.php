@@ -2,12 +2,12 @@
 
 namespace Drupal\restapi_door\Tests\Unit\Controller;
 
-use Drupal\Tests\Core\Menu\LocalTaskIntegrationTestBase;
+use Drupal\Tests\UnitTestCase; 
 use Drupal\restapi_door\Controller\ContentController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpClient\HttpClient;
 
-class UpdateContentControllerTest extends LocalTaskIntegrationTestBase
+class UpdateContentControllerTest extends UnitTestCase
 {
     public function testUpdateContentApi()
     {

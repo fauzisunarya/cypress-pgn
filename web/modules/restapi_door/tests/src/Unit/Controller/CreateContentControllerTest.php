@@ -2,13 +2,13 @@
 
 namespace Drupal\restapi_door\Tests\Unit\Controller;
 
-use Drupal\Tests\Core\Menu\LocalTaskIntegrationTestBase;
+use Drupal\Tests\UnitTestCase; 
 use Drupal\restapi_door\Controller\ContentController; 
 use Symfony\Component\HttpFoundation\Request; 
 use Symfony\Component\HttpClient\HttpClient; 
 
 
-class CreateContentControllerTest extends LocalTaskIntegrationTestBase
+class CreateContentControllerTest extends UnitTestCase
 {
 
     public function testBerhasilMenyimpanDataContent()
@@ -42,8 +42,7 @@ class CreateContentControllerTest extends LocalTaskIntegrationTestBase
      
         // // Execute cURL session and get response 
         // $response =  $this->http_request($url, $headers); 
-        $client = HttpClient::create(['verify_peer' => false, 'verify_host' => false]);
-        $response = $client->request(
+        $response = $this->client->request(
             'POST',
             $url,
             [
