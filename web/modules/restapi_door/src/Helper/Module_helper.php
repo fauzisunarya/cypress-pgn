@@ -561,7 +561,7 @@ class Module_helper {
   public function hasGrant($grants, $objectCode) {
 
     foreach ($grants as $grant) {
-      if ($grant->access_object_code == $objectCode) {
+      if ($grant == $objectCode) {
         return $grant;
       }
     }
