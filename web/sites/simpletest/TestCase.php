@@ -738,11 +738,11 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
             if ($runEntireClass) {
                 $template = new Text_Template(
-                    'C:\laragon\www\content-door\content-management-service\vendor\composer/../phpunit/phpunit/src/Util/PHP/Template/TestCaseClass.tpl'
+                    'C:\laragon\www\doorv3\content-management-service\vendor\composer/../phpunit/phpunit/src/Util/PHP/Template/TestCaseClass.tpl'
                 );
             } else {
                 $template = new Text_Template(
-                    'C:\laragon\www\content-door\content-management-service\vendor\composer/../phpunit/phpunit/src/Util/PHP/Template/TestCaseMethod.tpl'
+                    'C:\laragon\www\doorv3\content-management-service\vendor\composer/../phpunit/phpunit/src/Util/PHP/Template/TestCaseMethod.tpl'
                 );
             }
 
