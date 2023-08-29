@@ -66,6 +66,7 @@ variables:
         - doorv3
         CLIENT_NAME:
           - jagooit
+          - pgn
           
 # ---------------------------------------------- Code Quality -----------------------------------------------------
 sonarqube-check:
