@@ -1,5 +1,5 @@
-# base docker registry php 7 apache
-FROM registry.neuron.id/pub/php:php7-latest
+# base docker registry php 8 apache
+FROM registry.neuron.id/pub/php:php8-latest
 
 # main application directory (docroot)
 WORKDIR /app
