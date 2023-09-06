@@ -2,46 +2,86 @@
 
 namespace Drupal\restapi_door\Tests\Unit\Controller;
 
-use Drupal\Tests\Core\Menu\LocalTaskIntegrationTestBase;
+use Drupal\Tests\UnitTestCase;
+use Drupal\restapi_door\Controller\ContentController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpClient\HttpClient;
 
-
-class ContentControllerTest extends LocalTaskIntegrationTestBase
+class ContentControllerTest extends UnitTestCase
 {
 
-  public function testGetContentApi()
+  public function testBerhasilMemunculkanDataContent()
   {
-    $url = 'apidoor/contents/311758db-375b-4f61-b58f-0e9e19b923a6';
-
-    // Initialize cURL session
-    $ch = curl_init($url);
+    $url = '/apidoor/contents/311758db-375b-4f61-b58f-0e9e19b923a6';
 
     $headers = [
-      'Authorization: '.'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzaWQiOiJjaHRnY2o3OG9rN29ib3ZiMm5tb2hjM2ZtZCIsInN1YiI6IjgiLCJleHAiOjE5MjQ3OTQwMDAsImNvZGUiOiIyMDIzMDAwMDAxIiwibmFtZSI6IlNhbXBsZSBFbXBsb3llZSIsImVtYWlsIjoiZW1wQGRvb3J2My5jb20iLCJhcHBpZCI6OCwiYXBwbmFtZSI6ImRvb3IiLCJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsiZW1wbG95ZWUiXSwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoiZW1wbG95ZWUifSwiZmxhZyI6MSwidXJsIjoiaHR0cHM6Ly91YW0tZGV2Lm5ldXJvbi5pZCIsImNvbmZpZyI6IntcImFwcGxpY2F0aW9uXCI6e1wibmFtZVwiOlwiZG9vclwiLFwiY29tcGFueVwiOlwiZG9vciBuZXVyb25cIixcImljb25cIjpcImh0dHBzOi8vY2RuLm5ldXJvbndvcmtzLmNvLmlkL2Rvb3J2My9pbWFnZXMvZmF2aWNvbi5pY29cIixcImltYWdlX2xvZ29cIjpcImh0dHBzOi8vY2RuLm5ldXJvbndvcmtzLmNvLmlkL2Rvb3J2My9pbWFnZXMvZmF2aWNvbi5pY29cIixcImltYWdlX2xvZ29fbmFtZVwiOlwiaHR0cHM6Ly9ocm1pcy5uZXVyb24uaWQvYXNzZXRzL3BlcnNvbmFsaXphdGlvbi83ZTk4ZDRiMjIwMDBkYjg0YWQxNjczMTExNDBlZTZiMS5wbmdcIixcImltYWdlX2xvYWRlclwiOlwiaHR0cHM6Ly9jZG4ubmV1cm9ud29ya3MuY28uaWQvZG9vcnYzL2ltYWdlcy9mYXZpY29uLmljb1wiXHJcbn0sXCJlbXBsb3llZVwiOntcImFwcGxpY2F0aW9uXCI6XCJkb29yLGRvb3Jtb2JpbGVcIn19Iiwic2FsdCI6IjcxYjAwY2ExNDZmYjY0YjNiMmNiN2MwN2U0NmNmZWRlNDYxMzg4YTZiYjY3MTJmZjkxMjZlYzhlNjE4NjkwMjIiLCJhbGxvd2VkX3JvbGVzIjpbImVtcGxveWVlIl19.qwQC0n5Y7SFQ2gUzm5XOA9gIcFVShG1AuvOdyZtHSg0Qht4Hdc-ip-ugycoi2R2pT4gblpJwK5ey3SAWXNJbySlyPvaA4TyR7RwrZ28SmCvToGqStg6WJWca0kAL8m7IG6aDygnH9T_0qFQ1n0lr33oPzCafgkTH-Exe98PBTak'
+      'Authorization: ' . 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzaWQiOiI4ODFibnU0Zm85MzM0a2hobmM5cmNzbmxjaSIsInN1YiI6IjE1IiwiZXhwIjoxNjkyNjc0ODk2LCJjb2RlIjoiMjAyMzAwMDAwNCIsIm5hbWUiOiJidWRpYW5hIGNlayIsImVtYWlsIjoidGVzMTIzMzMzM0BtYWlsLmNvbSIsImxhbmciOiJpZCIsImFwcGlkIjo4LCJhcHBuYW1lIjoiZG9vciIsImh0dHBzOlwvXC9oYXN1cmEuaW9cL2p3dFwvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsiaHIiXSwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoiaHIifSwiZ3JhbnRzIjpbeyJhY2Nlc3Nfb2JqZWN0X3R5cGVfbmFtZSI6IkFjdGlvbiIsImFjY2Vzc19vYmplY3RfY29kZSI6ImxvZ2luIiwiYWNjZXNzX3Blcm1pc3Npb25fbmFtZSI6ImFsbCJ9LHsiYWNjZXNzX29iamVjdF90eXBlX25hbWUiOiJBY3Rpb24iLCJhY2Nlc3Nfb2JqZWN0X2NvZGUiOiJ1c2VyX2NyZWF0ZSIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifSx7ImFjY2Vzc19vYmplY3RfdHlwZV9uYW1lIjoiQWN0aW9uIiwiYWNjZXNzX29iamVjdF9jb2RlIjoidXNlcl9wcm9maWxlIiwiYWNjZXNzX3Blcm1pc3Npb25fbmFtZSI6ImFsbCJ9LHsiYWNjZXNzX29iamVjdF90eXBlX25hbWUiOiJBY3Rpb24iLCJhY2Nlc3Nfb2JqZWN0X2NvZGUiOiJ1c2VyX3VwZGF0ZSIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifSx7ImFjY2Vzc19vYmplY3RfdHlwZV9uYW1lIjoiQWN0aW9uIiwiYWNjZXNzX29iamVjdF9jb2RlIjoidXNlcl9hdmF0YXIiLCJhY2Nlc3NfcGVybWlzc2lvbl9uYW1lIjoiYWxsIn0seyJhY2Nlc3Nfb2JqZWN0X3R5cGVfbmFtZSI6IkFjdGlvbiIsImFjY2Vzc19vYmplY3RfY29kZSI6ImNtc19jcmVhdGVfY29udGVudCIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifV0sImNhbl9jcmVhdGUiOiJ5ZXMiLCJjYW5fbW9kaWZ5IjoieWVzIiwiY2FuX2RlbGV0ZSI6InllcyIsImNhbl9hdXRoIjoieWVzIiwiY2FuX2FjbCI6InllcyIsImZsYWciOjEsInVybCI6Imh0dHBzOlwvXC91YW0tZGV2Lm5ldXJvbi5pZCIsImNvbmZpZyI6IntcImFwcGxpY2F0aW9uXCI6e1wibmFtZVwiOlwiZG9vclwiLFwiY29tcGFueVwiOlwiZG9vciBuZXVyb25cIixcImljb25cIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9mYXZpY29uLmljb1wiLFwiaW1hZ2VfbG9nb1wiOlwiaHR0cHM6XC9cL2Nkbi5uZXVyb253b3Jrcy5jby5pZFwvZG9vcnYzXC9pbWFnZXNcL2Zhdmljb24uaWNvXCIsXCJpbWFnZV9sb2dvX25hbWVcIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9ob3Jpem9udGFsLWxvZ28ucG5nXCIsXCJpbWFnZV9sb2FkZXJcIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9mYXZpY29uLmljb1wiXHJcbn0sXCJlbXBsb3llZVwiOntcImFwcGxpY2F0aW9uXCI6XCJkb29yLGRvb3Jtb2JpbGVcIn0sXCJhdHRlbmRhbmNlXCI6e1wiY3V0b2ZmXCI6IFwiMjZcIn19Iiwic2FsdCI6IjYwZjIwNWZkOTYzNWVjMTNhM2JjNmUxM2UxMTA0ZmI2ODlkMzQwMDkwOWU1Yjk4YTY5ODk1ZGFkYWUzYzM5MGEifQ.RcnubOgZq73kb5RHjn9w5eYpbwGdhpRuvS4jXvpFnMOaJLGCKEKs0HDR2S7ZqWQmMR8-6pUSegzoF-5bH0n2mlELssPyAi8IJWap2WqfM65UVneQrXcDxFh9iVTUXGyMtrOeiPx86UH5GjNd_8jXXiJ8OKiAK-Rd7LWQrT4LtaA'
     ];
 
-    // Set cURL options
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, $headers);
+    $response = $this->client->request(
+      'GET',
+      $url,
+      [
+        'headers' => $headers,
+      ]
+    );
 
-    // Execute cURL session and get response
-    // $response = curl_exec($ch);
+    // Assert that the response is not null
+    $this->assertNotNull($response);
 
-    // Get HTTP status code
-    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    // Parse JSON response
+    $content = $response->toArray();
+    $this->assertEquals($content['code'], 0);
+  }
 
-    // Close cURL session
-    curl_close($ch);
+  public function testGagalMemunculkanDataContent()
+  {
+    $url = '/apidoor/contents/311758db-375b-4f61-b58f-0e9e19b';
 
-    // Assert HTTP status code is 200 (OK)
-    $this->assertEquals($code, 0);
+    $headers = [
+      'Authorization: ' . 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzaWQiOiI4ODFibnU0Zm85MzM0a2hobmM5cmNzbmxjaSIsInN1YiI6IjE1IiwiZXhwIjoxNjkyNjc0ODk2LCJjb2RlIjoiMjAyMzAwMDAwNCIsIm5hbWUiOiJidWRpYW5hIGNlayIsImVtYWlsIjoidGVzMTIzMzMzM0BtYWlsLmNvbSIsImxhbmciOiJpZCIsImFwcGlkIjo4LCJhcHBuYW1lIjoiZG9vciIsImh0dHBzOlwvXC9oYXN1cmEuaW9cL2p3dFwvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsiaHIiXSwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoiaHIifSwiZ3JhbnRzIjpbeyJhY2Nlc3Nfb2JqZWN0X3R5cGVfbmFtZSI6IkFjdGlvbiIsImFjY2Vzc19vYmplY3RfY29kZSI6ImxvZ2luIiwiYWNjZXNzX3Blcm1pc3Npb25fbmFtZSI6ImFsbCJ9LHsiYWNjZXNzX29iamVjdF90eXBlX25hbWUiOiJBY3Rpb24iLCJhY2Nlc3Nfb2JqZWN0X2NvZGUiOiJ1c2VyX2NyZWF0ZSIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifSx7ImFjY2Vzc19vYmplY3RfdHlwZV9uYW1lIjoiQWN0aW9uIiwiYWNjZXNzX29iamVjdF9jb2RlIjoidXNlcl9wcm9maWxlIiwiYWNjZXNzX3Blcm1pc3Npb25fbmFtZSI6ImFsbCJ9LHsiYWNjZXNzX29iamVjdF90eXBlX25hbWUiOiJBY3Rpb24iLCJhY2Nlc3Nfb2JqZWN0X2NvZGUiOiJ1c2VyX3VwZGF0ZSIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifSx7ImFjY2Vzc19vYmplY3RfdHlwZV9uYW1lIjoiQWN0aW9uIiwiYWNjZXNzX29iamVjdF9jb2RlIjoidXNlcl9hdmF0YXIiLCJhY2Nlc3NfcGVybWlzc2lvbl9uYW1lIjoiYWxsIn0seyJhY2Nlc3Nfb2JqZWN0X3R5cGVfbmFtZSI6IkFjdGlvbiIsImFjY2Vzc19vYmplY3RfY29kZSI6ImNtc19jcmVhdGVfY29udGVudCIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifV0sImNhbl9jcmVhdGUiOiJ5ZXMiLCJjYW5fbW9kaWZ5IjoieWVzIiwiY2FuX2RlbGV0ZSI6InllcyIsImNhbl9hdXRoIjoieWVzIiwiY2FuX2FjbCI6InllcyIsImZsYWciOjEsInVybCI6Imh0dHBzOlwvXC91YW0tZGV2Lm5ldXJvbi5pZCIsImNvbmZpZyI6IntcImFwcGxpY2F0aW9uXCI6e1wibmFtZVwiOlwiZG9vclwiLFwiY29tcGFueVwiOlwiZG9vciBuZXVyb25cIixcImljb25cIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9mYXZpY29uLmljb1wiLFwiaW1hZ2VfbG9nb1wiOlwiaHR0cHM6XC9cL2Nkbi5uZXVyb253b3Jrcy5jby5pZFwvZG9vcnYzXC9pbWFnZXNcL2Zhdmljb24uaWNvXCIsXCJpbWFnZV9sb2dvX25hbWVcIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9ob3Jpem9udGFsLWxvZ28ucG5nXCIsXCJpbWFnZV9sb2FkZXJcIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9mYXZpY29uLmljb1wiXHJcbn0sXCJlbXBsb3llZVwiOntcImFwcGxpY2F0aW9uXCI6XCJkb29yLGRvb3Jtb2JpbGVcIn0sXCJhdHRlbmRhbmNlXCI6e1wiY3V0b2ZmXCI6IFwiMjZcIn19Iiwic2FsdCI6IjYwZjIwNWZkOTYzNWVjMTNhM2JjNmUxM2UxMTA0ZmI2ODlkMzQwMDkwOWU1Yjk4YTY5ODk1ZGFkYWUzYzM5MGEifQ.RcnubOgZq73kb5RHjn9w5eYpbwGdhpRuvS4jXvpFnMOaJLGCKEKs0HDR2S7ZqWQmMR8-6pUSegzoF-5bH0n2mlELssPyAi8IJWap2WqfM65UVneQrXcDxFh9iVTUXGyMtrOeiPx86UH5GjNd_8jXXiJ8OKiAK-Rd7LWQrT4LtaA'
+    ];
 
-    // // Parse JSON response
-    // $content = json_decode($response, true);
+    $response = $this->client->request(
+      'GET',
+      $url,
+      [
+        'headers' => $headers,
+      ]
+    );
 
-    // Assert JSON response is valid and contains expected keys
-    // $this->assertIsArray($content);
-    // $this->assertArrayHasKey('id', $content);
-    // $this->assertArrayHasKey('title', $content);
-    // $this->assertArrayHasKey('body', $content);
+    // Assert that the response is not null
+    $this->assertNotNull($response);
+
+    // Parse JSON response
+    $content = $response->toArray();
+    $this->assertNotEquals($content['code'], 0);
+  }
+
+  public function testGagalMemunculkanDataContentDenganInformasiJwtInvalid()
+
+  {
+    $url = '/apidoor/contents/311758db-375b-4f61-b58f-0e9e19b923a6';
+
+    $headers = [
+      'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzaWQiOiI4ODFibnU0Zm85MzM0a2hobmM5cmNzbmxjaSIsInN1YiI6IjE1IiwiZXhwIjoxNjkyNjE5Nzg0LCJjb2RlIjoiMjAyMzAwMDAwNCIsIm5hbWUiOiJidWRpYW5hIGNlayWlsLmNvbSIsImxhbmciOiJpZCIsImFwcGlkIjo4LCJhcHBuYW1lIjoiZG9vciIsImh0dHBzOlwvXC9oYXN1cmEuaW9cL2p3dFwvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsiaHIiXSwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoiaHIifSwiZ3JhbnRzIjpbeyJhY2Nlc3Nfb2JqZWN0X3R5cGVfbmFtZSI6IkFjdGlvbiIsImFjY2Vzc19vYmplY3RfY29kZSI6ImxvZ2luIiwiYWNjZXNzX3Blcm1pc3Npb25fbmFtZSI6ImFsbCJ9LHsiYWNjZXNzX29iamVjdF90eXBlX25hbWUiOiJBY3Rpb24iLCJhY2Nlc3Nfb2JqZWN0X2NvZGUiOiJ1c2VyX2NyZWF0ZSIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifSx7ImFjY2Vzc19vYmplY3RfdHlwZV9uYW1lIjoiQWN0aW9uIiwiYWNjZXNzX29iamVjdF9jb2RlIjoidXNlcl9wcm9maWxlIiwiYWNjZXNzX3Blcm1pc3Npb25fbmFtZSI6ImFsbCJ9LHsiYWNjZXNzX29iamVjdF90eXBlX25hbWUiOiJBY3Rpb24iLCJhY2Nlc3Nfb2JqZWN0X2NvZGUiOiJ1c2VyX3VwZGF0ZSIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifSx7ImFjY2Vzc19vYmplY3RfdHlwZV9uYW1lIjoiQWN0aW9uIiwiYWNjZXNzX29iamVjdF9jb2RlIjoidXNlcl9hdmF0YXIiLCJhY2Nlc3NfcGVybWlzc2lvbl9uYW1lIjoiYWxsIn0seyJhY2Nlc3Nfb2JqZWN0X3R5cGVfbmFtZSI6IkFjdGlvbiIsImFjY2Vzc19vYmplY3RfY29kZSI6ImNtc19jcmVhdGVfY29udGVudCIsImFjY2Vzc19wZXJtaXNzaW9uX25hbWUiOiJhbGwifV0sImNhbl9jcmVhdGUiOiJ5ZXMiLCJjYW5fbW9kaWZ5IjoieWVzIiwiY2FuX2RlbGV0ZSI6InllcyIsImNhbl9hdXRoIjoieWVzIiwiY2FuX2FjbCI6InllcyIsImZsYWciOjEsInVybCI6Imh0dHBzOlwvXC91YW0tZGV2Lm5ldXJvbi5pZCIsImNvbmZpZyI6IntcImFwcGxpY2F0aW9uXCI6e1wibmFtZVwiOlwiZG9vclwiLFwiY29tcGFueVwiOlwiZG9vciBuZXVyb25cIixcImljb25cIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9mYXZpY29uLmljb1wiLFwiaW1hZ2VfbG9nb1wiOlwiaHR0cHM6XC9cL2Nkbi5uZXVyb253b3Jrcy5jby5pZFwvZG9vcnYzXC9pbWFnZXNcL2Zhdmljb24uaWNvXCIsXCJpbWFnZV9sb2dvX25hbWVcIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9ob3Jpem9udGFsLWxvZ28ucG5nXCIsXCJpbWFnZV9sb2FkZXJcIjpcImh0dHBzOlwvXC9jZG4ubmV1cm9ud29ya3MuY28uaWRcL2Rvb3J2M1wvaW1hZ2VzXC9mYXZpY29uLmljb1wiXHJcbn0sXCJlbXBsb3llZVwiOntcImFwcGxpY2F0aW9uXCI6XCJkb29yLGRvb3Jtb2JpbGVcIn0sXCJhdHRlbmRhbmNlXCI6e1wiY3V0b2ZmXCI6IFwiMjZcIn19Iiwic2FsdCI6IjU1NTQzNzEwMDVjMTA3YjdiMzVhYTI0MTJlYmMzMDNkMjNmZjVjOTMyMGU0ZTRjM2RjNDVhMzY1YjM0YjM4NzMifQ.E7KmcQzsGCpmnJxG7Ve9tX7x-TZAdcQySUJx_HwUO14S6fsnPNEs2ZEGQQcJMUBSglPcZaz8xuE4p5mFMNBaGHHQVGBT7naGz_YVNoHmxatUMfHWZhM7LE85C_ShcRNFYsjGxNBhI_RAMuTSQQW4DkXUcTXUhMMHuzepun9gyqI'
+    ];
+
+    $response = $this->client->request(
+      'GET',
+      $url,
+      [
+        'headers' => $headers,
+      ]
+    );
+
+    // Assert that the response is not null
+    $this->assertNotNull($response);
+
+    // Parse JSON response
+    $statusCode = $response->getStatusCode();
+
+    // Assert that the status code indicates a failed request (400 Bad Request)
+    $this->assertEquals(403, $statusCode);
   }
 }

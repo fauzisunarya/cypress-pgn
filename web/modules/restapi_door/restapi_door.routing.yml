@@ -15,3 +15,21 @@ apidoor.content_create:
   methods: [POST]
   requirements:
     _permission: 'access content'
+
+apidoor.content_image:
+  path: '/apidoor/contents/image'
+  defaults:
+    _controller: '\Drupal\restapi_door\Controller\ContentController::image'
+    _title: 'get content image data'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+apidoor.content_update:
+  path: '/apidoor/contents/update'
+  defaults:
+    _controller: '\Drupal\restapi_door\Controller\ContentController::updateContent'
+    _title: 'update content data'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'

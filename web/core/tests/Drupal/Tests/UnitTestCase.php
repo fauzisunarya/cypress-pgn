@@ -14,6 +14,7 @@ use Drupal\TestTools\TestVarDumper;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
+use Symfony\Component\HttpClient\HttpClient; 
 
 /**
  * Provides a base class and helpers for Drupal unit tests.
@@ -43,6 +44,9 @@ abstract class UnitTestCase extends TestCase {
    */
   protected $root;
 
+  /** Http Client */
+  protected $client;
+
   /**
    * {@inheritdoc}
    */
@@ -65,6 +69,10 @@ abstract class UnitTestCase extends TestCase {
     FileCacheFactory::setConfiguration([FileCacheFactory::DISABLE_CACHE => TRUE]);
     // Ensure that FileCacheFactory has a prefix.
     FileCacheFactory::setPrefix('prefix');
+
+    $this->client = HttpClient::create(['verify_peer' => false, 'verify_host' => false]);
+    $this->client = $this->client->withOptions(['base_uri' => getenv('APP_URL')]);
+
 
     $this->root = dirname(substr(__DIR__, 0, -strlen(__NAMESPACE__)), 2);
   }
