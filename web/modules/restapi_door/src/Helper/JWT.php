@@ -28,6 +28,8 @@ class JWT {
         $result = new Result();
         $key = $this->_private_key;
 
+print_r($key);
+print_r($this->_algo);
         if($key && $this->_algo){
             try {
                 if($salt) $payload->salt = bin2hex(random_bytes(32));
@@ -39,7 +41,7 @@ class JWT {
             }
         } else {
             $result->code = 1;
-            $result->info = 'service_unavailable';
+            $result->info = 'service_unavailable_2';
         }
 
         return $result;
