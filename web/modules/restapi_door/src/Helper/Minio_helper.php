@@ -14,12 +14,12 @@ class Minio_helper {
 
     public function __construct($config = array()) {
 
-		$this->_config['user'] = $_ENV['MINIO_USER'];
-		$this->_config['secret'] = $_ENV['MINIO_SECRET_KEY'];
-		$this->_config['region'] = $_ENV['MINIO_REGION'];
-		$this->_config['host'] = $_ENV['MINIO_HOST'];
-		$this->_config['bucket'] = $_ENV['MINIO_BUCKET'];
-		$this->_config['upload_path'] = $_ENV['MINIO_UPLOADPATH'];
+		$this->_config['user'] = getenv('MINIO_USER');
+		$this->_config['secret'] = getenv('MINIO_SECRET_KEY');
+		$this->_config['region'] = getenv('MINIO_REGION');
+		$this->_config['host'] = getenv('MINIO_HOST');
+		$this->_config['bucket'] = getenv('MINIO_BUCKET');
+		$this->_config['upload_path'] = getenv('MINIO_UPLOADPATH');
 		
         $file = getcwd() . '/../vendor/aws/aws-sdk-php/src/AwsClient.php';
 		if (file_exists($file)){
