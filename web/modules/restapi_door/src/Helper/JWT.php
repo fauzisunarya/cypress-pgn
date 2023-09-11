@@ -28,8 +28,6 @@ class JWT {
         $result = new Result();
         $key = $this->_private_key;
 
-print_r($key);
-print_r($this->_algo);
         if($key && $this->_algo){
             try {
                 if($salt) $payload->salt = bin2hex(random_bytes(32));
@@ -41,7 +39,7 @@ print_r($this->_algo);
             }
         } else {
             $result->code = 1;
-            $result->info = 'service_unavailable_2';
+            $result->info = 'service_unavailable';
         }
 
         return $result;
@@ -53,7 +51,9 @@ print_r($this->_algo);
         $key = $this->_public_key;
 
         if($private) $key = $this->_private_key;
-        
+        print_r($key);
+print_r($this->_algo);
+
         if($key && $this->_algo){
             try {
                 $res = JwtLib::decode($jwt, new Key($key, $this->_algo));
@@ -64,7 +64,7 @@ print_r($this->_algo);
             }
         } else {
             $result->code = 1;
-            $result->info = 'service_unavailable';
+            $result->info = 'service_unavailable_dsadfs';
         }
 
         return $result;
