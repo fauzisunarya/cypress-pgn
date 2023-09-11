@@ -11,7 +11,11 @@ use Drupal\restapi_door\Helper\Result;
 class ContentController extends ControllerBase{
     public function detail($content_id, Request $request)
     {   
-
+        echo '-------------';
+        echo getenv('SECRET_PUBLIC_KEY');
+        echo '<br>';
+        echo getenv('SECRET_PRIVATE_KEY');
+        echo '-------------';
         if (empty($content_id)) {
             return Drupal::service('restapi_door.app_helper')->response([
                'status'  => 'failed',
