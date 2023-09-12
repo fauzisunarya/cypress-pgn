@@ -253,7 +253,7 @@ class ContentController extends ControllerBase{
                 if($filesaved->code == $filesaved::STATUS_SUCCESS){
                     // marker semua value content yang ada nama filenya
                     $newBodyLooping = [];
-                    foreach ($parameters['data']['content_body'] as $body) {
+                    foreach ($contentBody as $body) {
                         $marker = '[doorimageurl]'.$filesaved->data.$file['filename'];
                         $body['value'] = str_replace($file['filename'], $marker, $body['value']);
                         $newBodyLooping[] = $body;
