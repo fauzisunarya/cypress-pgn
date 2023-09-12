@@ -124,18 +124,19 @@ class ContentController extends ControllerBase{
 
         // cek jika ada parameter 
         if(isset($parameters['data']['content_image'])&& !empty($parameters['data']['content_image'])){
-            $contentBody = [];
+            $contentBody = $parameters['data']['content_body'];
             foreach($parameters['data']['content_image'] as $file){
                 // upload file ke minio
                 $filesaved = \Drupal::service('restapi_door.minio_helper')->upload($file, null);
                 if($filesaved->code == $filesaved::STATUS_SUCCESS){
                     // marker semua value content yang ada nama filenya
-                    foreach ($parameters['data']['content_body'] as $body) {
+                    $newBodyLooping = [];
+                    foreach ($contentBody as $body) {
                         $marker = '[doorimageurl]'.$filesaved->data.$file['filename'];
                         $body['value'] = str_replace($file['filename'], $marker, $body['value']);
-                        $contentBody = $body;
+                        $newBodyLooping[] = $body;
                     }
-
+                    $contentBody = $newBodyLooping;
                 }
             }
             $node->set('body', $contentBody);
@@ -246,18 +247,19 @@ class ContentController extends ControllerBase{
 
         // cek jika ada parameter 
         if(isset($parameters['data']['content_image'])&& !empty($parameters['data']['content_image'])){
-            $contentBody = [];
+            $contentBody = $parameters['data']['content_body'];
             foreach($parameters['data']['content_image'] as $file){
                 // upload file ke minio
                 $filesaved = \Drupal::service('restapi_door.minio_helper')->upload($file, null);
                 if($filesaved->code == $filesaved::STATUS_SUCCESS){
                     // marker semua value content yang ada nama filenya
+                    $newBodyLooping = [];
                     foreach ($parameters['data']['content_body'] as $body) {
                         $marker = '[doorimageurl]'.$filesaved->data.$file['filename'];
                         $body['value'] = str_replace($file['filename'], $marker, $body['value']);
-                        $contentBody = $body;
+                        $newBodyLooping[] = $body;
                     }
-
+                    $contentBody = $newBodyLooping;
                 }
             }
             $node->body = $contentBody;
