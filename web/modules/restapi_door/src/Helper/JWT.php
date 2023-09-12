@@ -12,14 +12,14 @@ class JWT {
     private $_algo = null;
     
     public function __construct(){
-        if($_ENV['SECRET_PUBLIC_KEY']){
-            $this->_public_key = $_ENV['SECRET_PUBLIC_KEY'];
+        if(getenv('SECRET_PUBLIC_KEY')){
+            $this->_public_key = getenv('SECRET_PUBLIC_KEY');
         }
-        if($_ENV['SECRET_PRIVATE_KEY']){
-            $this->_private_key = $_ENV['SECRET_PRIVATE_KEY'];
+        if(getenv('SECRET_PRIVATE_KEY')){
+            $this->_private_key = getenv('SECRET_PRIVATE_KEY');
         }
-        if($_ENV['SECRET_ALGO']){
-            $this->_algo = $_ENV['SECRET_ALGO'];
+        if(getenv('SECRET_ALGO')){
+            $this->_algo = getenv('SECRET_ALGO');
         }
     }
     

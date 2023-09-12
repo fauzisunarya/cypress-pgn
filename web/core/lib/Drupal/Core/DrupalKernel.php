@@ -1042,7 +1042,7 @@ class DrupalKernel implements DrupalKernelInterface, TerminableInterface {
       $error_reporting &= ~E_DEPRECATED;
     }
 
-    error_reporting($error_reporting);
+    //error_reporting($error_reporting);
 
     // Override PHP settings required for Drupal to work properly.
     // sites/default/default.settings.php contains more runtime settings.

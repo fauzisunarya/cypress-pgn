@@ -10,8 +10,7 @@ use Drupal\restapi_door\Helper\Result;
 
 class ContentController extends ControllerBase{
     public function detail($content_id, Request $request)
-    {   
-
+    {
         if (empty($content_id)) {
             return Drupal::service('restapi_door.app_helper')->response([
                'status'  => 'failed',
