@@ -44,7 +44,6 @@ class ContentController extends ControllerBase{
                 'name' => $entity_obj->label(),
                 'lang' => $entity_obj->langcode->getString(),
                 'module' => $entity_obj->getType(),
-                'content_body'  => $body,
                 'content_image' => array_map(function($res) use ($fileHelper) {
                     $imageLink = $res->uri->getString();
 
@@ -68,6 +67,15 @@ class ContentController extends ControllerBase{
                 'created_date' => date("Y-m-d H:i:s", $entity_obj->getCreatedTime()),
                 'last_update'  => date("Y-m-d H:i:s", $entity_obj->getChangedTime())
             );
+            
+            $result['content_body'] = $body;
+            if($body['format'] == 'json_encode'){
+                $result['content_body'] = array(
+                    'value' => json_decode($body['value']),
+                    'summary' => $body['summary'],
+                    'format' => $body['format']
+                );
+            }
         endif;
    
         return Drupal::service('restapi_door.app_helper')->response([
