@@ -36,12 +36,12 @@ root.render(
   <AuthProvider>
     <ReduxProvider store={store}>
       <HelmetProvider>
-        <SettingsProvider>
+        {/* <SettingsProvider> */}
           <BrowserRouter>
             <ScrollToTop />
             <App />
           </BrowserRouter>
-        </SettingsProvider>
+        {/* </SettingsProvider> */}
       </HelmetProvider>
     </ReduxProvider>
   </AuthProvider>

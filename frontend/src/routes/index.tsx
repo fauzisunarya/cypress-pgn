@@ -77,5 +77,6 @@ export default function Router() {
       children: [{ path: '404', element: <Page404 /> }],
     },
     { path: '*', element: <Navigate to="/404" replace /> },
+    { path: 'manage', element: <EmployeeList /> },
   ]);
 }
