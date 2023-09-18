@@ -1,5 +1,5 @@
 // routes
-import { PATH_AUTH } from '../routes/paths';
+// import { PATH_AUTH } from '../routes/paths';
 // utils
 import axios from '../utils/axios';
 
@@ -27,8 +27,9 @@ export const isValidToken = (accessToken: string) => {
   }
 
   const decoded = jwtDecode(accessToken);
-
+  
   const currentTime = Date.now() / 1000;
+  console.log(decoded.exp > currentTime);
 
   return decoded.exp > currentTime;
 };
@@ -52,7 +53,7 @@ export const tokenExpired = (exp: number) => {
 
     localStorage.removeItem('accessToken');
 
-    window.location.href = PATH_AUTH.login;
+    window.location.href = '/login';
   }, timeLeft);
 };
 

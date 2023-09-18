@@ -1,4 +1,6 @@
+import { BorderRight } from '@mui/icons-material';
 import { Theme } from '@mui/material/styles';
+import { tableCellClasses } from '@mui/material/TableCell';
 
 // ----------------------------------------------------------------------
 
@@ -7,89 +9,55 @@ export default function DataGrid(theme: Theme) {
     MuiDataGrid: {
       styleOverrides: {
         root: {
-          borderRadius: 0,
-          
-          border: `1px solid transparent`,
-          '& .MuiTablePagination-root': {
-            borderTop: 0,
+          '& .MuiDataGrid-root, & .MuiDataGrid-columnHeaders': {
+            borderRadius: 0
           },
-        },
-        columnHeader:{
-          background:"#f0f0f0",
-        },
-        cell: {
-          borderBottom: `1px solid ${theme.palette.divider}`,
-        },
-        columnSeparator: {
-          color: theme.palette.divider,
-        },
-        toolbarContainer: {
-          padding: theme.spacing(2),
-          backgroundColor: theme.palette.background.neutral,
-          '& .MuiButton-root': {
-            marginRight: theme.spacing(1.5),
-            color: theme.palette.text.primary,
-            '&:hover': {
-              backgroundColor: theme.palette.action.hover,
-            },
+          '& .MuiDataGrid-columnHeaderTitle': {
+            fontWeight: 'bold'
           },
-        },
-        paper: {
-          boxShadow: theme.customShadows.dropdown,
-        },
-        menu: {
-          '& .MuiPaper-root': {
-            boxShadow: theme.customShadows.dropdown,
+          '& .MuiDataGrid-columnHeader': {
+            backgroundColor: '#f6f7f8',
+            color: '#565758',
+            borderTop: '1px solid #b1b2b3',
+            borderRight: '1px solid #b1b2b3',
+            borderTopLeftRadius : '0px',
+            borderTopRightRadius : '0px'
           },
-          '& .MuiMenuItem-root': {
-            ...theme.typography.body2,
-            '& .MuiListItemIcon-root': {
-              minWidth: 'auto',
-            },
+          '& .firstColumnHeader': {
+            backgroundColor: '#f6f7f8',
+            color: '#565758',
           },
-        },
-        panelFooter: {
-          padding: theme.spacing(2),
-          justifyContent: 'flex-end',
-          borderTop: `1px solid ${theme.palette.divider}`,
-          '& .MuiButton-root': {
-            '&:first-of-type': {
-              marginRight: theme.spacing(1.5),
-              color: theme.palette.text.primary,
-              '&:hover': {
-                backgroundColor: theme.palette.action.hover,
-              },
-            },
-            '&:last-of-type': {
-              color: theme.palette.common.white,
-              backgroundColor: theme.palette.primary.main,
-              '&:hover': {
-                backgroundColor: theme.palette.primary.dark,
-              },
-            },
+          '& .lastColumnHeader': {
+            borderRight: '0px',
           },
-        },
-        filterForm: {
-          padding: theme.spacing(1.5, 0),
-          '& .MuiFormControl-root': {
-            margin: theme.spacing(0, 0.5),
+          '& .firstColumnCell': {
+            backgroundColor: '#f6f7f8',
+            color: '#565758',
+            border: '1px solid #b1b2b3',
+            borderBottom: '0px',
+            fontWeight: 'bold',
+            borderLeft: '0px'
+          }
+          ,
+          '& .columnsCell': {
+            color: '#565758',
+            borderTop: '1px solid #b1b2b3',
+            paddingTop: '10px',
+            paddingBottom: '10px'
           },
-          '& .MuiInput-root': {
-            marginTop: theme.spacing(3),
-            '&::before, &::after': {
-              display: 'none',
-            },
-            '& .MuiNativeSelect-select, .MuiInput-input': {
-              ...theme.typography.body2,
-              padding: theme.spacing(0.75, 1),
-              borderRadius: theme.shape.borderRadius,
-              backgroundColor: theme.palette.background.neutral,
-            },
-            '& .MuiSvgIcon-root': {
-              right: 4,
-            },
+          '& .lastColumnsCell': {
+            color: '#565758',
+            borderTop: '1px solid #b1b2b3',
           },
-        },
+          '& .MuiDataGrid-iconSeparator': {
+            display: 'none'
+          },
+          '& .MuiDataGrid-footerContainer': {
+            borderTop: '1px solid #b1b2b3'
+          },
+          '& .MuiDataGrid-virtualScrollerContent': {
+          }
+        }
       },
     },
   };

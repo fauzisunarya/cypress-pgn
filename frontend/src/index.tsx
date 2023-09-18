@@ -13,13 +13,12 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 // components
-import { SettingsProvider } from './components/settings';
-import ScrollToTop from './components/scroll-to-top';
+import ScrollToTop from 'src/components/scrollbar';
 
 // Check our docs
 // https://docs.minimals.cc/authentication/ts-version
 
-import { AuthProvider } from './auth/JwtContext';
+import { AuthProvider } from 'src/auth/JwtContext';
 import { Provider as ReduxProvider } from 'react-redux';
 import { store, persistor } from './redux/store';
 

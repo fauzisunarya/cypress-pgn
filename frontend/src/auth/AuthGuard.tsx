@@ -1,10 +1,11 @@
 import { useState, ReactNode } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+// import { Navigate, useLocation } from 'react-router-dom';
 // components
-import LoadingScreen from '../components/loading-screen';
+// import LoadingScreen from '../components/loading-screen';
 //
-import Login from '../pages/LoginPage';
+// import Login from '../pages/LoginPage';
 import { useAuthContext } from './useAuthContext';
+import LoadingScreen from '@/Components/loading-screen';
 
 // ----------------------------------------------------------------------
 
@@ -15,25 +16,25 @@ type AuthGuardProps = {
 export default function AuthGuard({ children }: AuthGuardProps) {
   const { isAuthenticated, isInitialized } = useAuthContext();
 
-  const { pathname } = useLocation();
+  const pathname = route().current();
 
   const [requestedLocation, setRequestedLocation] = useState<string | null>(null);
 
   if (!isInitialized) {
-    return <LoadingScreen />;
+    return <LoadingScreen/>;
   }
 
   if (!isAuthenticated) {
-    if (pathname !== requestedLocation) {
-      setRequestedLocation(pathname);
-    }
-    return <Login />;
+    // if (pathname !== requestedLocation) {
+    //   setRequestedLocation(pathname ? pathname : null);
+    // }
+    return <LoadingScreen/>;
   }
 
-  if (requestedLocation && pathname !== requestedLocation) {
-    setRequestedLocation(null);
-    return <Navigate to={requestedLocation} />;
-  }
+  // if (requestedLocation && pathname !== requestedLocation) {
+  //   setRequestedLocation(null);
+  //   return <Navigate to={requestedLocation} />;
+  // }
 
-  return <>{children}</>;
+  return <>{children}</> ;
 }

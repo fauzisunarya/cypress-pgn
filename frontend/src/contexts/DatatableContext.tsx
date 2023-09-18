@@ -1,5 +1,4 @@
 import { ReactNode, createContext, useState, useEffect } from 'react';
-import { AnyObject } from 'yup/lib/types';
 
 // ----------------------------------------------------------------------
 export type DatatableContextProps = {
@@ -9,6 +8,7 @@ export type DatatableContextProps = {
   rowCount: number;
   rowTotal: number;
   keyword: string;
+  limit: string;
   reload: number;
   setSort: (value: any) => void;
   setData: (value: any) => void;
@@ -16,6 +16,7 @@ export type DatatableContextProps = {
   setRowCount: (value: number) => void;
   setRowTotal: (value: number) => void;
   setKeyword: (value: string) => void;
+  setLimit: (value: string) => void;
   setReload: () => void;
 };
 const carts: any = [];
@@ -32,6 +33,7 @@ const initialState: DatatableContextProps = {
   rowCount: 10,
   rowTotal: 0,
   keyword: '',
+  limit: '',
   reload: 0,
   setData: () => {},
   setSort: () => {},
@@ -39,6 +41,7 @@ const initialState: DatatableContextProps = {
   setRowCount: () => {},
   setRowTotal: () => {},
   setKeyword: () => {},
+  setLimit: () => {},
   setReload: () => {}
 };
 
@@ -61,6 +64,7 @@ function DatatableProvider({ children }: DatatableProviderProps) {
   const [ reload,setReload ] = useState(0);
   const [ rowCount,setRowCount ] = useState(10);
   const [ keyword,setKeyword ] = useState('');
+  const [ limit,setLimit ] = useState('');
   const [ rowTotal,setRowTotal ] = useState(0);
 
   const handleReload = () => {
@@ -77,6 +81,7 @@ function DatatableProvider({ children }: DatatableProviderProps) {
         rowCount: rowCount,
         rowTotal: rowTotal,
         keyword: keyword,
+        limit: limit,
         reload: reload,
         setSort: setSort,
         setData: setData,
@@ -85,6 +90,7 @@ function DatatableProvider({ children }: DatatableProviderProps) {
         setRowTotal: setRowTotal,
         setKeyword: setKeyword,
         setReload: handleReload,
+        setLimit: setLimit,
       }}
     >
       {children}

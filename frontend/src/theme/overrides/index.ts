@@ -42,6 +42,8 @@ import Autocomplete from './Autocomplete';
 import ToggleButton from './ToggleButton';
 import ControlLabel from './ControlLabel';
 import LoadingButton from './LoadingButton';
+import IconButton from './IconButton';
+import RTE from './Rte';
 
 // ----------------------------------------------------------------------
 
@@ -54,6 +56,7 @@ export default function ComponentsOverrides(theme: Theme) {
     Menu(theme),
     Link(theme),
     Input(theme),
+    IconButton(theme),
     Radio(theme),
     Badge(theme),
     Lists(theme),
@@ -88,6 +91,7 @@ export default function ComponentsOverrides(theme: Theme) {
     Autocomplete(theme),
     ControlLabel(theme),
     ToggleButton(theme),
-    LoadingButton(theme)
+    LoadingButton(theme),
+    RTE(theme)
   );
 }
