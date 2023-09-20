@@ -305,7 +305,7 @@ class ContentController extends ControllerBase{
             return \Drupal::service('restapi_door.app_helper')->response([
                 'status'  => 'failed',
                 'code'  => 403,
-                'message' => 'You do not have permission to create content',
+                'message' => 'You do not have permission to view list content',
                 'data'    => []
             ], 403);
         }
@@ -321,6 +321,7 @@ class ContentController extends ControllerBase{
             $entity = \Drupal::entityTypeManager()->getStorage('node');
             $query = $entity->getQuery();
             $search_query = isset($parameters['data']['search']) && !empty($parameters['data']['search']) ? " and nfd.title like '%".$parameters['data']['search']."%' " : "";
+            $module = isset($parameters['data']['module']) && !empty($parameters['data']['module']) ? " nfd.type = '".$parameters['data']['module']."' " : " nfd.type = 'news' ";
             $perpage = isset($parameters['data']['length']) && !empty($parameters['data']['length']) ? $parameters['data']['length'] : 10;
             $status = isset($parameters['data']['status']) && $parameters['data']['status'] != "" ? " and nfd.status='".$parameters['data']['status']."' " : "";
             $page = isset($parameters['data']['page']) && !empty($parameters['data']['page']) ? $parameters['data']['page'] : 1;
@@ -339,7 +340,7 @@ class ContentController extends ControllerBase{
             $offset = ($perpage * $page) - $perpage;
             $database = \Drupal::database();
 
-            $query = $database->query("SELECT nfd.nid, nfd.title, nfd.vid, node.uuid, nfd.created, nfd.changed, nfd.status FROM {node_field_data} as nfd INNER JOIN node ON node.nid = nfd.nid where nfd.type='news' $status $search_query order by $orderBy $dir limit $perpage offset $offset");
+            $query = $database->query("SELECT nfd.nid, nfd.title, nfd.vid, node.uuid, nfd.created, nfd.changed, nfd.status FROM {node_field_data} as nfd INNER JOIN node ON node.nid = nfd.nid where $module $status $search_query order by $orderBy $dir limit $perpage offset $offset");
             
             $datas = $query->fetchAll();
 
@@ -361,6 +362,71 @@ class ContentController extends ControllerBase{
                 'perpage' => (int) $perpage,
                 'page'    => (int) $page
                 ]
+            ]);
+        }catch(\Throwable $ex){
+            return Drupal::service('restapi_door.app_helper')->response([
+                'status'  => 'failed',
+                'code'  => 99,
+                'info' =>  $ex->getMessage(),
+                'data'    => null
+            ]);
+        }
+    }
+    
+    public function deleteContent(Request $request)
+    {
+        // prepare request
+        $parameters    = $request->getContent();
+        $user  = $request->get('user');
+        $hasGrant = Drupal::service('restapi_door.app_helper')->hasGrant($user['grants'], 'cms_create_content');
+    
+        if(!$hasGrant){
+            return \Drupal::service('restapi_door.app_helper')->response([
+                'status'  => 'failed',
+                'code'  => 403,
+                'message' => 'You do not have permission to create content',
+                'data'    => []
+            ], 403);
+        }
+
+        try {
+            $parameters = json_decode($parameters, true, 512, \JSON_BIGINT_AS_STRING | \JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            throw new \JsonException('Could not decode request body.', $e->getCode(), $e);
+        }
+        
+        try{
+            // general validation
+            if (empty($parameters['data']['uuid'])) {
+                return \Drupal::service('restapi_door.app_helper')->response([
+                    'status'  => 'failed',
+                    'code'  => 400,
+                    'message' => 'request parameter not valid. data, data.uuid, data.name, data.module, data.content_body cannot be empty!',
+                    'data'    => []
+                ], 400);
+            };
+
+            $entity = Drupal::entityTypeManager()->getStorage('node');
+            $node = current($entity->loadByProperties(['type'=>$parameters['data']['module'],'uuid' => $parameters['data']['uuid']]));
+
+            if (empty($node)) {
+                return \Drupal::service('restapi_door.app_helper')->response([
+                    'status'  => 'failed',
+                    'code'  => 400,
+                    'message' => 'Invalid uuid',
+                    'data'    => []
+                ], 400);
+            }
+            $node->title = 'dfghj d111 1 1knbvfgh ghjk dsdsdsds';
+            $node->status = 0;
+            
+            $node->save();
+
+            return Drupal::service('restapi_door.app_helper')->response([
+                'status'  => !empty($node->uuid()) ? 'success' : 'failed',
+                'code'  => !empty($node->uuid()) ? '0' : '1',
+                'info' => !empty($node->uuid()) ? 'success to update content' : 'failed to update content',
+                'data'    => $node->uuid()
             ]);
         }catch(\Throwable $ex){
             return Drupal::service('restapi_door.app_helper')->response([

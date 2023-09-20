@@ -35,9 +35,18 @@ apidoor.content_update:
     _permission: 'access content'
     
 apidoor.content_list:
-  path: '/apidoor/contents/landing'
+  path: '/apidoor/contents/list'
   defaults:
     _controller: '\Drupal\restapi_door\Controller\ContentController::contentList'
+    _title: 'Get List of landing page'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+    
+apidoor.content_delete:
+  path: '/apidoor/contents/delete-content'
+  defaults:
+    _controller: '\Drupal\restapi_door\Controller\ContentController::deleteContent'
     _title: 'Get List of landing page'
   methods: [POST]
   requirements:
