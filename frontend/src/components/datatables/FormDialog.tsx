@@ -1,7 +1,8 @@
 import { LoadingButton } from "@mui/lab";
 import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from "@mui/material";
 import { useState } from "react";
-import useDatatable from "@/hooks/useDatatable";
+import { useForm } from "react-hook-form";
+import useDatatable from "src/hooks/useDatatable";
 
 export default function FormDialog(props: any) {
 
@@ -32,7 +33,8 @@ export default function FormDialog(props: any) {
       <div>
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>{formMode == 'save' ? 'Save' : 'Edit'} Form</DialogTitle>
-          <form
+          <form 
+            onSubmit={handleSubmit(handleSave)}
           >
             <DialogContent>
               {

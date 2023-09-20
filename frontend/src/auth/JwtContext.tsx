@@ -1,11 +1,10 @@
-import { createContext, useEffect, useReducer, useCallback, useState } from 'react';
+import { createContext, useEffect, useReducer, useCallback } from 'react';
 // utils
 import axios from '../utils/axios';
 //
 import { isValidToken, setSession } from './utils';
 import { ActionMapType, AuthStateType, AuthUserType, JWTContextType } from './types';
-import { login as login_handler } from '../api_handler/auth';
-import useIframe from 'src/hooks/useIframe';
+import { login as login_handler } from 'src/api_handler/auth';
 
 // ----------------------------------------------------------------------
 
@@ -90,20 +89,11 @@ type AuthProviderProps = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { data } = useIframe();
 
   const initialize = useCallback(async () => {
     try {
-      const accessToken = data.token;
-      if(accessToken){
-        dispatch({
-          type: Types.INITIAL,
-          payload: {
-            isAuthenticated: false,
-            user: null,
-          },
-        });
-      }
+      const accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : '';
+
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken);
 
@@ -138,11 +128,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         },
       });
     }
-  }, [data]);
+  }, []);
 
   useEffect(() => {
     initialize();
-  }, [data]);
+  }, [initialize]);
 
   // LOGIN
   const login = async (email: string, password: string) => {

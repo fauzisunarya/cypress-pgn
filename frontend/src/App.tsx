@@ -1,12 +1,13 @@
 // routes
 import Router from './routes';
 // theme
-import ThemeProvider from 'src/theme';
+import ThemeProvider from './theme';
 // locales
-import ThemeLocalization from 'src/locales';
+import ThemeLocalization from './locales';
 // components
-import SnackbarProvider from 'src/components/snackbar';
-import { MotionLazyContainer } from 'src/components/animate';
+import SnackbarProvider from './components/snackbar';
+import { ThemeSettings } from './components/settings';
+import { MotionLazyContainer } from './components/animate';
 
 // ----------------------------------------------------------------------
 

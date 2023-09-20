@@ -13,5 +13,5 @@ const Loadable = (Component: ElementType) => (props: any) =>
 
 // ----------------------------------------------------------------------
 
-export const ListContent = Loadable(lazy(() => import('../pages/List')));
+export const ContentList = Loadable(lazy(() => import('../pages/ContentList')));
 export const Page404 = Loadable(lazy(() => import('../pages/Page404')));

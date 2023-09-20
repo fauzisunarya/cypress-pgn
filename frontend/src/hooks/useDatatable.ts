@@ -3,6 +3,6 @@ import { DatatableContext } from 'src/contexts/DatatableContext';
 
 // ----------------------------------------------------------------------
 
-const useDatatable:any = () => useContext(DatatableContext);
+const useDatatable = () => useContext(DatatableContext);
 
 export default useDatatable;

@@ -28,12 +28,9 @@ export default function Button(theme: Theme) {
 
     const smallSize = ownerState.size === 'small';
 
-    const mediumSize = ownerState.size === 'medium';
-
     const largeSize = ownerState.size === 'large';
 
     const defaultStyle = {
-      borderRadius : 8,
       ...(inheritColor && {
         // CONTAINED
         ...(containedVariant && {
@@ -102,13 +99,6 @@ export default function Button(theme: Theme) {
         fontSize: 13,
         ...(softVariant && {
           padding: '4px 10px',
-        }),
-      }),
-      ...(mediumSize && {
-        height: 36,
-        fontSize: 14,
-        ...(softVariant && {
-          padding: '6px 16px',
         }),
       }),
       ...(largeSize && {

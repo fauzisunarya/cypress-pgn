@@ -1,19 +1,21 @@
 import { LoadingButton } from "@mui/lab";
-import { Stack, TextField, Typography, Grid, Button, MenuItem, TablePaginationProps, Box, InputAdornment, Skeleton } from "@mui/material";
-import { DataGrid, GridActionsCellItem, GridColDef, GridPagination, GridRowParams, gridClasses, GridFooter } from "@mui/x-data-grid";
-import { useTheme } from '@mui/material/styles';
-import SearchIcon from '@mui/icons-material/Search';
+import { Stack, TextField, Grid, MenuItem, Typography, InputAdornment, Button, Box, List, ListItem, TablePaginationProps, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, ButtonGroup } from "@mui/material";
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import SearchIcon from '@mui/icons-material/Search';
+import { useForm } from "react-hook-form";
+import { useTheme } from '@mui/material/styles';
 import { DatatableProvider } from "src/contexts/DatatableContext";
 import useDatatable from "src/hooks/useDatatable";
 import useResponsive from "src/hooks/useResponsive";
 import Iconify from "../iconify";
+import { useSnackbar } from "notistack";
+import { useLocales } from 'src/locales';
+import MuiPagination from '@mui/material/Pagination';
 
 import FormDialog from "./FormDialog";
+import ExportExcel from "../exports/ExportExcel";
 import ItemList from "./ItemList";
-import { useSnackbar } from "notistack";
-import MuiPagination from '@mui/material/Pagination';
-import { useLocales } from 'src/locales';
 
 export type fillableProps = {
   field: string;
@@ -42,13 +44,14 @@ export default function Datatable(props: {
   saveOption?: saveOptionProps;
   searching?:boolean;
   openDialog?:any;
+  buttonCreate?:any;
   components?:any;
 }) {
-  const { columns, mobileOptions, load, saveOption, addonParam, primaryId, getActions,  searching = true, openDialog, components } = props;
+  const { columns, mobileOptions, load, saveOption, addonParam, primaryId, getActions,  searching = true, openDialog, components, buttonCreate } = props;
 
   return (
     <DatatableProvider>
-      <TableView load={load} addonParam={addonParam} primaryId={primaryId} getActions={getActions} searchAction={props.searchAction} limitAction={props.limitAction} columns={columns} mobileOptions={mobileOptions} saveOption={saveOption} searching={searching} openDialog={openDialog} components={components}/>
+      <TableView load={load} addonParam={addonParam} primaryId={primaryId} getActions={getActions} searchAction={props.searchAction} limitAction={props.limitAction} columns={columns} mobileOptions={mobileOptions} saveOption={saveOption} searching={searching} openDialog={openDialog} buttonCreate={buttonCreate} components={components}/>
     </DatatableProvider>
   )
 }
@@ -64,11 +67,12 @@ function TableView(props: {
   saveOption?: saveOptionProps;
   searching?: boolean;
   openDialog?:any;
+  buttonCreate?:any;
   components?:any;
 }) {
   const { translate } = useLocales();
   const isDesktop = useResponsive('up', 'lg');
-  const { columns, mobileOptions, saveOption, addonParam, primaryId = "id", searching = true, openDialog, components } = props;
+  const { columns, mobileOptions, saveOption, addonParam, primaryId = "id", searching = true, openDialog, buttonCreate, components } = props;
   if (mobileOptions != undefined) {
     const { visible, mainColumns, detailColumns } = mobileOptions;
   }
@@ -164,6 +168,10 @@ function TableView(props: {
     openDialog();
   }
 
+  const openCreate = () => {
+    buttonCreate();
+  }
+
   return (
     <div style={{width: '100%', border: '1px solid #DADDE1' }}>
       <Stack direction="row" justifyContent={'space-between'} sx={{padding:'8px'}} >
@@ -212,11 +220,20 @@ function TableView(props: {
             </Stack>
           </Grid>
           <Grid item xs={6} sx={{ textAlign:'text-right' }}>
-            <Box display={'flex'} justifyContent={'right'} alignItems={'right'} sx={{ mr: 3 }}>
-              <Button variant="outlined" color={'inherit'} onClick={openDialogFilter} disabled={data.isLoading}>
-                { translate('Filter list') }
-              </Button>
-            </Box>
+            {openDialog &&
+              <Box display={'flex'} justifyContent={'right'} alignItems={'right'} sx={{ mr: 3 }}>
+                <Button variant="outlined" color={'inherit'} onClick={openDialogFilter} disabled={data.isLoading}>
+                  { translate('Filter list') }
+                </Button>
+              </Box>
+            }
+            {buttonCreate &&
+              <Box display={'flex'} justifyContent={'right'} alignItems={'right'} sx={{ mr: 3 }}>
+                <Button variant="outlined" onClick={openCreate} disabled={data.isLoading}>
+                  { translate('Add new') }
+                </Button>
+              </Box>
+            }
           </Grid>
         </Grid>
       </Stack>
@@ -255,6 +272,7 @@ function TableView(props: {
     </div>
   )
 }
+
 function Pagination({
   page,
   count,
@@ -290,4 +308,3 @@ function Pagination({
     </Box>
   );
 }
-

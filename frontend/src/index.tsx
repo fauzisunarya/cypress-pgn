@@ -13,12 +13,13 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 // components
-import ScrollToTop from 'src/components/scrollbar';
+import { SettingsProvider } from './components/settings';
+import ScrollToTop from './components/scroll-to-top';
 
 // Check our docs
 // https://docs.minimals.cc/authentication/ts-version
 
-import { AuthProvider } from 'src/auth/JwtContext';
+import { AuthProvider } from './auth/JwtContext';
 import { Provider as ReduxProvider } from 'react-redux';
 import { store, persistor } from './redux/store';
 
@@ -35,12 +36,12 @@ root.render(
   <AuthProvider>
     <ReduxProvider store={store}>
       <HelmetProvider>
-        {/* <SettingsProvider> */}
+        <SettingsProvider>
           <BrowserRouter>
             <ScrollToTop />
             <App />
           </BrowserRouter>
-        {/* </SettingsProvider> */}
+        </SettingsProvider>
       </HelmetProvider>
     </ReduxProvider>
   </AuthProvider>
