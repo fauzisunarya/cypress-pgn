@@ -299,7 +299,7 @@ class ContentController extends ControllerBase{
         // prepare request
         $parameters    = $request->getContent();
         $user  = $request->get('user');
-        $hasGrant = Drupal::service('restapi_door.app_helper')->hasGrant($user['grants'], 'cms_create_content');
+        $hasGrant = Drupal::service('restapi_door.app_helper')->hasGrant($user['grants'], 'cms_list_content');
 
         if(!$hasGrant){
             return \Drupal::service('restapi_door.app_helper')->response([
@@ -378,13 +378,13 @@ class ContentController extends ControllerBase{
         // prepare request
         $parameters    = $request->getContent();
         $user  = $request->get('user');
-        $hasGrant = Drupal::service('restapi_door.app_helper')->hasGrant($user['grants'], 'cms_create_content');
+        $hasGrant = Drupal::service('restapi_door.app_helper')->hasGrant($user['grants'], 'cms_delete_content');
     
         if(!$hasGrant){
             return \Drupal::service('restapi_door.app_helper')->response([
                 'status'  => 'failed',
                 'code'  => 403,
-                'message' => 'You do not have permission to create content',
+                'message' => 'You do not have permission to delete content',
                 'data'    => []
             ], 403);
         }
@@ -417,7 +417,7 @@ class ContentController extends ControllerBase{
                     'data'    => []
                 ], 400);
             }
-            $node->title = 'dfghj d111 1 1knbvfgh ghjk dsdsdsds';
+            
             $node->status = 0;
             
             $node->save();
