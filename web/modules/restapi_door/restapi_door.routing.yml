@@ -33,3 +33,12 @@ apidoor.content_update:
   methods: [POST]
   requirements:
     _permission: 'access content'
+    
+apidoor.content_list:
+  path: '/apidoor/contents/landing'
+  defaults:
+    _controller: '\Drupal\restapi_door\Controller\ContentController::contentList'
+    _title: 'Get List of landing page'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'

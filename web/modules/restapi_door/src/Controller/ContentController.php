@@ -108,54 +108,65 @@ class ContentController extends ControllerBase{
         } catch (\JsonException $e) {
             throw new \JsonException('Could not decode request body.', $e->getCode(), $e);
         }
+        
+        
+        try{
 
-        // general validation
-        if (empty($parameters['data']['name']) || empty($parameters['data']['module']) || empty($parameters['data']['content_body'])) {
-            return \Drupal::service('restapi_door.app_helper')->response([
-                'status'  => 'failed',
-                'message' => 'request parameter not valid. data, data.name, data.module, data.content_body cannot be empty!',
-                'data'    => []
-            ], 400);
-        };
+            // general validation
+            if (empty($parameters['data']['name']) || empty($parameters['data']['module']) || empty($parameters['data']['content_body'])) {
+                return \Drupal::service('restapi_door.app_helper')->response([
+                    'status'  => 'failed',
+                    'message' => 'request parameter not valid. data, data.name, data.module, data.content_body cannot be empty!',
+                    'data'    => []
+                ], 400);
+            };
 
-        $node =  \Drupal\node\Entity\Node::create([
-            'title' => $parameters['data']['name'],
-            'langcode' => $parameters['data']['lang']? $parameters['data']['lang'] : 'en',
-            'type' => $parameters['data']['module'],
-            'body' => $parameters['data']['content_body'], 
-            'status' => $parameters['data']['status']? $parameters['data']['lang']:1,
-            'created_date' => $parameters['data']['created_date']? $parameters['data']['created_date']:date('Y-m-d H:i:s'),
-            'last_update' => $parameters['data']['status']? $parameters['data']['lang']:date('Y-m-d H:i:s'),
-            'field_image' => []
-        ]);
+            $node =  \Drupal\node\Entity\Node::create([
+                'title' => $parameters['data']['name'],
+                'langcode' => $parameters['data']['lang']? $parameters['data']['lang'] : 'en',
+                'type' => $parameters['data']['module'],
+                'body' => $parameters['data']['content_body'], 
+                'status' => $parameters['data']['status']? $parameters['data']['status']:1,
+                'created_date' => $parameters['data']['created_date']? $parameters['data']['created_date']:date('Y-m-d H:i:s'),
+                'last_update' => $parameters['data']['status']? $parameters['data']['lang']:date('Y-m-d H:i:s'),
+                'field_image' => []
+            ]);
 
-        // cek jika ada parameter 
-        if(isset($parameters['data']['content_image'])&& !empty($parameters['data']['content_image'])){
-            $contentBody = $parameters['data']['content_body'];
-            foreach($parameters['data']['content_image'] as $file){
-                // upload file ke minio
-                $filesaved = \Drupal::service('restapi_door.minio_helper')->upload($file, null);
-                if($filesaved->code == $filesaved::STATUS_SUCCESS){
-                    // marker semua value content yang ada nama filenya
-                    $newBodyLooping = [];
-                    foreach ($contentBody as $body) {
-                        $marker = '[doorimageurl]'.$filesaved->data.$file['filename'];
-                        $body['value'] = str_replace($file['filename'], $marker, $body['value']);
-                        $newBodyLooping[] = $body;
+            // cek jika ada parameter 
+            if(isset($parameters['data']['content_image'])&& !empty($parameters['data']['content_image'])){
+                $contentBody = $parameters['data']['content_body'];
+                foreach($parameters['data']['content_image'] as $file){
+                    // upload file ke minio
+                    $filesaved = \Drupal::service('restapi_door.minio_helper')->upload($file, null);
+                    if($filesaved->code == $filesaved::STATUS_SUCCESS){
+                        // marker semua value content yang ada nama filenya
+                        $newBodyLooping = [];
+                        foreach ($contentBody as $body) {
+                            $marker = '[doorimageurl]'.$filesaved->data.$file['filename'];
+                            $body['value'] = str_replace($file['filename'], $marker, $body['value']);
+                            $newBodyLooping[] = $body;
+                        }
+                        $contentBody = $newBodyLooping;
                     }
-                    $contentBody = $newBodyLooping;
                 }
+                $node->set('body', $contentBody);
             }
-            $node->set('body', $contentBody);
-        }
-        $node->save();
+            $node->save();
 
-        return Drupal::service('restapi_door.app_helper')->response([
-            'status'  => !empty($node->uuid()) ? 'success' : 'failed',
-            'code'  => !empty($node->uuid()) ? '0' : '1',
-            'info' => !empty($node->uuid()) ? 'success to save content' : 'failed to save content',
-            'data'    => $node->uuid()
-        ]);
+            return Drupal::service('restapi_door.app_helper')->response([
+                'status'  => !empty($node->uuid()) ? 'success' : 'failed',
+                'code'  => !empty($node->uuid()) ? '0' : '1',
+                'info' => !empty($node->uuid()) ? 'success to save content' : 'failed to save content',
+                'data'    => $node->uuid()
+            ]);
+        }catch(\Throwable $ex){
+              return Drupal::service('restapi_door.app_helper')->response([
+                'status'  => 'failed',
+                'code'  => 99,
+                'info' =>  $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage(),
+                'data'    => null
+            ]);
+        }
 
     }
 
@@ -244,7 +255,7 @@ class ContentController extends ControllerBase{
         $node->body = $parameters['data']['content_body'];
         $node->langcode = $parameters['data']['lang'];
         $node->type = $parameters['data']['module'];
-        $node->status = $parameters['data']['status']? $parameters['data']['lang']:1;
+        $node->status = $parameters['data']['status']? $parameters['data']['status']:1;
         $node->last_update = date('Y-m-d H:i:s');
         // Make this change a new revision
         $node->setNewRevision(TRUE);
@@ -281,6 +292,84 @@ class ContentController extends ControllerBase{
             'data'    => $node->uuid()
         ]);
 
+    }
+    
+    public function contentList(Request $request)
+    {
+        // prepare request
+        $parameters    = $request->getContent();
+        $user  = $request->get('user');
+        $hasGrant = Drupal::service('restapi_door.app_helper')->hasGrant($user['grants'], 'cms_create_content');
+
+        if(!$hasGrant){
+            return \Drupal::service('restapi_door.app_helper')->response([
+                'status'  => 'failed',
+                'code'  => 403,
+                'message' => 'You do not have permission to create content',
+                'data'    => []
+            ], 403);
+        }
+
+        try {
+            $parameters = json_decode($parameters, true, 512, \JSON_BIGINT_AS_STRING | \JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            throw new \JsonException('Could not decode request body.', $e->getCode(), $e);
+        }
+
+        try{
+            $result = [];
+            $entity = \Drupal::entityTypeManager()->getStorage('node');
+            $query = $entity->getQuery();
+            $search_query = isset($parameters['data']['search']) && !empty($parameters['data']['search']) ? " and nfd.title like '%".$parameters['data']['search']."%' " : "";
+            $perpage = isset($parameters['data']['length']) && !empty($parameters['data']['length']) ? $parameters['data']['length'] : 10;
+            $status = isset($parameters['data']['status']) && $parameters['data']['status'] != "" ? " and nfd.status='".$parameters['data']['status']."' " : "";
+            $page = isset($parameters['data']['page']) && !empty($parameters['data']['page']) ? $parameters['data']['page'] : 1;
+            $orderBy = isset($parameters['data']['order']['column']) && !empty($parameters['data']['order']['column']) ? $parameters['data']['order']['column'] : 'created';
+            $dir = isset($parameters['data']['order']['dir']) && !empty($parameters['data']['order']['dir']) ? $parameters['data']['order']['dir'] : 'desc';
+            
+            $query = $query
+                ->condition('status', 0)
+                ->condition('type', 'news')
+                ->condition('title', "%{$search_query}%", 'LIKE');
+
+
+            $raw_query = preg_replace('/SELECT[^FROM]*/is', 'SELECT COUNT("base_table"."vid") AS "total" ', (String)$query);
+            $raw_total = \Drupal::database()->query($raw_query)->fetchObject();
+
+            $offset = ($perpage * $page) - $perpage;
+            $database = \Drupal::database();
+
+            $query = $database->query("SELECT nfd.nid, nfd.title, nfd.vid, node.uuid, nfd.created, nfd.changed, nfd.status FROM {node_field_data} as nfd INNER JOIN node ON node.nid = nfd.nid where nfd.type='news' $status $search_query order by $orderBy $dir limit $perpage offset $offset");
+            
+            $datas = $query->fetchAll();
+
+
+            $temp = [];
+            foreach($datas as $v){
+                $v->created = date("Y-m-d H:i:s", $v->created);
+                $v->changed = date("Y-m-d H:i:s", $v->changed);
+                array_push($temp, $v);
+            }
+
+            return \Drupal::service('restapi_door.app_helper')->response([
+            'code'     => !empty($temp) ? '0' : '1',
+            'info'    => !empty($temp) ? 'success to retrieve data' : 'theres no data available',
+            'data' => [
+                'data' => $temp,
+                'total_page' => (int) ceil($raw_total->total / $perpage),
+                'total_data' => (int) $raw_total->total,
+                'perpage' => (int) $perpage,
+                'page'    => (int) $page
+                ]
+            ]);
+        }catch(\Throwable $ex){
+            return Drupal::service('restapi_door.app_helper')->response([
+                'status'  => 'failed',
+                'code'  => 99,
+                'info' =>  $ex->getMessage(),
+                'data'    => null
+            ]);
+        }
     }
 
 }
