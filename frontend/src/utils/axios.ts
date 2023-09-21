@@ -4,17 +4,17 @@ import { api } from '../config';
 
 // ----------------------------------------------------------------------
 
-const axiosInstance = axios.create({ baseURL:  api.basepath.main });
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
+const axiosContent = axios.create({ baseURL:  api.basepath.main });
+axiosContent.interceptors.response.use(
+  (response:any) => response,
+  (error:any) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
 );
 
 export const axiosInstanceUam = axios.create({ baseURL: api.basepath.uam });
 
-axiosInstance.interceptors.response.use(
-  (response) => response.data,
-  (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
+axiosInstanceUam.interceptors.response.use(
+  (response:any) => response.data,
+  (error:any) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
 );
 
-export default axiosInstance;
+export default axiosContent;

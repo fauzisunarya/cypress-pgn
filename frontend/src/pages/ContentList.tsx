@@ -1,20 +1,8 @@
 /* eslint-disable react/jsx-key */
 import { useEffect, useState } from "react";
-import { Box, Grid, Typography, MenuItem, Link, Stack, Button, FormControl, InputLabel, Select, Backdrop, Snackbar, CircularProgress } from "@mui/material";
-import {
-  DataGrid,
-  GridRowId,
-  GridColumns,
-  GridRowParams,
-  GridActionsCellItem,
-} from '@mui/x-data-grid';
-import DeleteIcon from '@mui/icons-material/Delete';
-import SecurityIcon from '@mui/icons-material/Security';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
+import { Box, Grid, Typography, MenuItem, TextField, Stack, Button, FormControl, InputLabel, Select, Link, Backdrop, Snackbar, CircularProgress } from "@mui/material";
 import Datatable, { saveOptionProps } from 'src/components/datatables/Datatable';
 import Page from 'src/components/Page';
-import { save } from 'src/api_handler/person';
-import { load } from 'src/api_handler/users';
 import { useLocales } from 'src/locales';
 import { personalization } from 'src/config';
 import moment from 'moment';
@@ -22,6 +10,8 @@ import { ChangeEvent, ReactNode } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 import FormDialog from 'src/components/dialog/FormDialog';
 import { useForm, Controller } from "react-hook-form";
+import TextEditor from "src/components/TextEditor";
+import { list } from 'src/api_handler/content';
 
 export default function ContentList() {  
     const { translate }:any = useLocales();
@@ -32,8 +22,18 @@ export default function ContentList() {
         "setLimit": "",
         "status": "",
         "order": "desc",
-        "sortBy" : "create_dtm"
+        "sortBy" : "nid"
     });
+
+    const loadFilter = async (order:any, sortBy:any) => {
+        setParameter({
+            "search": "",
+            "setLimit": "",
+            "status": "",
+            "order": order,
+            "sortBy" : sortBy ? "title" : "nid"
+        })
+    };
 
     const dataStatus = [
         {
@@ -47,45 +47,38 @@ export default function ContentList() {
     ];
 
     const columns = [
-        { field: 'no', headerName: '#', width: 90 },
         {
-            field: 'name',
-            headerName: 'Name',
+            field: 'title',
+            headerName: translate('Title'),
             width: 150,
-            editable: true,
+            filterable: false,
+            sortable: false,
         },
         {
-            field: 'module',
-            headerName: 'Module',
-            width: 100,
-            editable: true,
-        },
-        {
-            field: 'Status',
-            headerName: 'Phone Number',
-            type: 'number',
+            field: 'status',
+            headerName: 'Status',
             width: 120,
-            editable: true,
+            filterable: false,
+            sortable: false,
         },
-        
         {
-            field: 'create_dtm',
-            headerName: translate("Request Date"),
+            field: 'created',
+            headerName: translate("Created Date"),
             cellClassName: 'columnsCell',
             filterable: false,
             sortable: false,
             renderCell : (params:any) => {
-                return moment(params.row.create_dtm, 'YYYYMM').format('DD MMM YYYY hh:mm');
+                return moment(params.row.created, 'YYYYMM').format('DD MMM YYYY hh:mm');
             }
         },
         {
-            field: 'update_dtm',
+            field: 'changed',
             headerName: translate("Update Date"),
             cellClassName: 'columnsCell',
             filterable: false,
             sortable: false,
             renderCell : (params:any) => {
-                return moment(params.row.update_dtm, 'YYYYMM').format('DD MMM YYYY hh:mm');
+                return moment(params.row.changed, 'YYYYMM').format('DD MMM YYYY hh:mm');
             }
         },
         {
@@ -94,6 +87,14 @@ export default function ContentList() {
             cellClassName: 'columnsCell',
             filterable: false,
             sortable: false,
+            renderCell : (params:any) => {
+                return (
+                    <Stack direction="row" spacing={1}>
+                        <Link variant={'body2'} sx={{ color:'#333435', cursor:'pointer' }}>{ translate('Edit') }</Link>
+                        <Link variant={'body2'} sx={{ color:'#333435', cursor:'pointer' }}>{ translate('Remove') }</Link>
+                    </Stack>
+                );
+            }
         },
     ];
 
@@ -105,9 +106,9 @@ export default function ContentList() {
         setOpen(false);
     }; 
 
-    // const openDialog = () => {
-    //     handleClickOpen();
-    // }
+    const openDialog = () => {
+        handleClickOpen();
+    }
 
     const openDialogCreate = () => {
         setOpenCreate(true);
@@ -117,15 +118,44 @@ export default function ContentList() {
         setOpenCreate(false);
     }
 
-    const onSubmitFilter = (val:any, e:any, ) => {
+    const onSubmitFilter = (val:any, e:any) => {
         e.preventDefault();
-        // loadFilter(val.status, val.asc);
+        var order = '';
+        var sortBy = '';
+
+        if (val.sort == '1') {
+            order = 'asc';
+            sortBy = 'title';
+        } else if (val.sort == '2') {
+            order = 'desc';
+            sortBy = 'title';
+        } else if (val.sort == '3') {
+            order = 'asc';
+            sortBy = 'status';
+        } else if (val.sort == '4') {
+            order = 'desc';
+            sortBy = 'status';
+        } else if (val.sort == '5') {
+            order = 'asc';
+            sortBy = 'created';
+        } else if (val.sort == '6') {
+            order = 'desc';
+            sortBy = 'created';
+        } else if (val.sort == '7') {
+            order = 'asc';
+            sortBy = 'changed';
+        } else if (val.sort == '8') {
+            order = 'desc';
+            sortBy = 'changed';
+        }
+
+        loadFilter(order, sortBy);
         handleClose();
     }
 
     const defaultValues = {
-        sort: "asc",
-        status: "1",
+        sort: "0",
+        // status: "1",
     };
 
     const { register, handleSubmit, reset, control, getValues, setValue, watch } = useForm({
@@ -146,7 +176,7 @@ export default function ContentList() {
             </Box>
             <Box sx={{ width: '100%', pb:0, backgroundColor: '#fff', mb:3 }}>
                 <Datatable
-                    load={[]}
+                    load={list}
                     addonParam={parameter}
                     columns={columns}
                     mobileOptions={
@@ -156,8 +186,9 @@ export default function ContentList() {
                             detailColumns: columns
                         }
                     }
+                    primaryId={'nid'}
                     buttonCreate={openDialogCreate}
-                    // openDialog={openDialog}
+                    openDialog={openDialog}
                     // components={{
                     //     Toolbar: GridToolbar,
                     // }}
@@ -192,15 +223,22 @@ export default function ContentList() {
                                             field.onChange(event.target.value)
                                         }}
                                     >
-                                        <MenuItem value={'asc'}>{ translate ("Name A - Z") }</MenuItem>
-                                        <MenuItem value={'desc'}>{ translate ("Name Z - A") }</MenuItem>
+                                        <MenuItem value="0">{ translate ("Choose Sort") }</MenuItem>
+                                        <MenuItem value="1">{ translate ("Title A - Z") }</MenuItem>
+                                        <MenuItem value="2">{ translate ("Title Z - A") }</MenuItem>
+                                        <MenuItem value="3">{ translate ("Status A - Z") }</MenuItem>
+                                        <MenuItem value="4">{ translate ("Status Z - A") }</MenuItem>
+                                        <MenuItem value="5">{ translate ("Created Date A - Z") }</MenuItem>
+                                        <MenuItem value="6">{ translate ("Created Date Z - A") }</MenuItem>
+                                        <MenuItem value="7">{ translate ("Update Date A - Z") }</MenuItem>
+                                        <MenuItem value="8">{ translate ("Update Date Z - A") }</MenuItem>
                                     </Select>
                                 </FormControl>
                             )}
                         />
                     </Stack>
 
-                    <Stack mt={2}>
+                    {/* <Stack mt={2}>
                         <Controller
                             name="status"
                             control={control}
@@ -225,70 +263,7 @@ export default function ContentList() {
                                 </FormControl>
                             )}
                         />
-                    </Stack>
-                </Box>
-            </FormDialog>
-            <FormDialog
-                handleClose={closeDialogCreate}
-                open={openCreate}
-                cancelButtonLabel={ translate ("DISMISS") }
-                submitButtonLabel={ translate ("SAVE CHANGE") }
-                handleSubmit={handleSubmit(onSubmitFilter)}
-                reset={reset}
-                title={ translate("Create Content") }
-                maxWidth={'md'}
-            >
-                <Box sx={{ width: '100%' }} component="form" noValidate autoComplete="off">
-                    <Stack>
-                        <Controller
-                            name="sort"
-                            control={control}
-                            defaultValue={defaultValues.sort}
-                            render={({ field }) => (
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label"></InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        {...field}
-                                        onChange={(event: SelectChangeEvent<string>, child: ReactNode) => {
-                                            field.onChange(event.target.value)
-                                        }}
-                                    >
-                                        <MenuItem value={'asc'}>{ translate ("Name A - Z") }</MenuItem>
-                                        <MenuItem value={'desc'}>{ translate ("Name Z - A") }</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            )}
-                        />
-                    </Stack>
-
-                    <Stack mt={2}>
-                        <Controller
-                            name="status"
-                            control={control}
-                            defaultValue={defaultValues.status}
-                            render={({ field }) => (
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label-status"></InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label-status"
-                                        id="demo-simple-select-status"
-                                        {...field}
-                                        onChange={(event: SelectChangeEvent<string>, child: ReactNode) => {
-                                            field.onChange(event.target.value)
-                                        }}
-                                    >
-                                        {dataStatus.map((status:any) => (
-                                            <MenuItem key={status.id} value={status.id}>
-                                                {status.status_name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            )}
-                        />
-                    </Stack>
+                    </Stack> */}
                 </Box>
             </FormDialog>
         </Page>

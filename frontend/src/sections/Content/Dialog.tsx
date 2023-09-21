@@ -40,7 +40,54 @@ export const DialogCreate = (props: DialogProps) => {
 
     return (
         <div>
+            
+            {/* <FormDialog
+                handleClose={closeDialogCreate}
+                open={openCreate}
+                cancelButtonLabel={ translate ("DISMISS") }
+                submitButtonLabel={ translate ("SAVE CHANGE") }
+                handleSubmit={handleSubmit(onSubmitFilter)}
+                reset={reset}
+                title={ translate("Create Content") }
+                maxWidth={'xs'}
+            >
+                <Box sx={{ width: '100%' }} component="form" noValidate autoComplete="off">
+                    <Stack>
+                        <TextField fullWidth
+                            label={ translate('Put a short note') }
+                            type="text"
+                        />
+                    </Stack>
 
+                    <Stack mt={2}>
+                        <TextEditor label={ translate('Address') } control={control} name="address"/>
+                    </Stack>
+
+                    <Stack mt={2}>
+                        <Controller
+                            name="sort"
+                            control={control}
+                            defaultValue={defaultValues.sort}
+                            render={({ field }) => (
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label"></InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        {...field}
+                                        onChange={(event: SelectChangeEvent<string>, child: ReactNode) => {
+                                            field.onChange(event.target.value)
+                                        }}
+                                    >
+                                        <MenuItem value={'asc'}>{ translate ("Name A - Z") }</MenuItem>
+                                        <MenuItem value={'desc'}>{ translate ("Name Z - A") }</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            )}
+                        />
+                    </Stack>
+                </Box>
+            </FormDialog> */}
         </div>
     )
 }

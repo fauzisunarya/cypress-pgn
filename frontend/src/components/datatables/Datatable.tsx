@@ -114,7 +114,7 @@ function TableView(props: {
       }
       try {
         const response: any = await props.load(param);
-        setRowTotal(response.data.data.total);
+        setRowTotal(response.data.data.total || response.data.data.total_data);
         setData({
           ...data,
           isLoading: false,
@@ -220,20 +220,20 @@ function TableView(props: {
             </Stack>
           </Grid>
           <Grid item xs={6} sx={{ textAlign:'text-right' }}>
-            {openDialog &&
-              <Box display={'flex'} justifyContent={'right'} alignItems={'right'} sx={{ mr: 3 }}>
-                <Button variant="outlined" color={'inherit'} onClick={openDialogFilter} disabled={data.isLoading}>
-                  { translate('Filter list') }
-                </Button>
-              </Box>
-            }
-            {buttonCreate &&
-              <Box display={'flex'} justifyContent={'right'} alignItems={'right'} sx={{ mr: 3 }}>
-                <Button variant="outlined" onClick={openCreate} disabled={data.isLoading}>
-                  { translate('Add new') }
-                </Button>
-              </Box>
-            }
+            <Box display={'flex'} justifyContent={'right'} alignItems={'right'} sx={{ mr: 3 }}>
+              <Stack spacing={1} direction={'row'}>
+                {openDialog &&
+                  <Button variant="outlined" color={'inherit'} onClick={openDialogFilter} disabled={data.isLoading}>
+                    { translate('Filter list') }
+                  </Button>
+                }
+                {buttonCreate &&
+                  <Button variant="outlined" onClick={openCreate} disabled={data.isLoading}>
+                    { translate('Add new') }
+                  </Button>
+                }
+              </Stack>
+            </Box>
           </Grid>
         </Grid>
       </Stack>
