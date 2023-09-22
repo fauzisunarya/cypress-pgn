@@ -143,7 +143,7 @@ class ContentController extends ControllerBase{
                 if($val['format'] == 'json'){
                     $val['value'] = json_encode($val['value']);
                 }
-                array_push($temp, $val['value']);
+                array_push($temp, $val);
             }
             
             $parameters['data']['content_body'] = $temp;
@@ -268,9 +268,15 @@ class ContentController extends ControllerBase{
             ], 400);
         }
         
-        if($parameters['data']['content_body']['format'] == 'json'){
-            $parameters['data']['content_body']['value'] = json_encode($parameters['data']['content_body']['value']);
+        $temp = [];
+        foreach($parameters['data']['content_body'] as $val){
+            if($val['format'] == 'json'){
+                $val['value'] = json_encode($val['value']);
+            }
+            array_push($temp, $val);
         }
+        
+        $parameters['data']['content_body'] = $temp;
         
         // update product
         $node->title = $parameters['data']['name'];
