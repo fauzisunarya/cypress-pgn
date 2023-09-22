@@ -138,9 +138,15 @@ class ContentController extends ControllerBase{
                 'field_image' => []
             ];
             
-            if($parameters['data']['content_body']['format'] == 'json'){
-                $parameters['data']['content_body']['value'] = $dataCreate['body']['value'] = json_encode($parameters['data']['content_body']['value']);
+            $temp = [];
+            foreach($parameters['data']['content_body'] as $val){
+                if($val['format'] == 'json'){
+                    $val['value'] = json_encode($val['value']);
+                }
+                array_push($temp, $val['value']);
             }
+            
+            $parameters['data']['content_body'] = $temp;
 
             $node =  \Drupal\node\Entity\Node::create($dataCreate);
 
