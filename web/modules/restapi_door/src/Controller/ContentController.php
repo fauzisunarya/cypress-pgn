@@ -75,6 +75,12 @@ class ContentController extends ControllerBase{
                     'summary' => $body['summary'],
                     'format' => $body['format']
                 );
+            }else if($body['format'] == 'json'){
+                $result['content_body'] = array(
+                    'value' => json_decode($body['value']),
+                    'summary' => $body['summary'],
+                    'format' => $body['format']
+                );
             }
         endif;
    
@@ -120,17 +126,23 @@ class ContentController extends ControllerBase{
                     'data'    => []
                 ], 400);
             };
-
-            $node =  \Drupal\node\Entity\Node::create([
+            
+            $dataCreate = [
                 'title' => $parameters['data']['name'],
                 'langcode' => $parameters['data']['lang']? $parameters['data']['lang'] : 'en',
                 'type' => $parameters['data']['module'],
-                'body' => $parameters['data']['content_body'], 
+                'body' => $parameters['data']['content_body'],
                 'status' => $parameters['data']['status']? $parameters['data']['status']:1,
                 'created_date' => $parameters['data']['created_date']? $parameters['data']['created_date']:date('Y-m-d H:i:s'),
                 'last_update' => $parameters['data']['status']? $parameters['data']['lang']:date('Y-m-d H:i:s'),
                 'field_image' => []
-            ]);
+            ];
+            
+            if($parameters['data']['content_body']['format'] == 'json'){
+                $parameters['data']['content_body']['value'] = $dataCreate['body']['value'] = json_encode($parameters['data']['content_body']['value']);
+            }
+
+            $node =  \Drupal\node\Entity\Node::create($dataCreate);
 
             // cek jika ada parameter 
             if(isset($parameters['data']['content_image'])&& !empty($parameters['data']['content_image'])){
@@ -249,7 +261,11 @@ class ContentController extends ControllerBase{
                 'data'    => []
             ], 400);
         }
-
+        
+        if($parameters['data']['content_body']['format'] == 'json'){
+            $parameters['data']['content_body']['value'] = json_encode($parameters['data']['content_body']['value']);
+        }
+        
         // update product
         $node->title = $parameters['data']['name'];
         $node->body = $parameters['data']['content_body'];
