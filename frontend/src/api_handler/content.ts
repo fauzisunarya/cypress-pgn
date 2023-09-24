@@ -36,3 +36,46 @@ export function list(params: listProps){
         }
     });
 }
+
+export function deleteContent(uuid: any){
+    axiosContent.defaults.headers.common.Authorization = token;
+    return axiosContent.post('/apidoor/contents/delete-content', {
+        "data": {
+            "uuid": uuid,
+            "module": "news",
+        }
+    });
+}
+
+export function getContent(uuid: any){
+    axiosContent.defaults.headers.common.Authorization = token;
+    return axiosContent.get('/apidoor/contents/'+uuid);
+}
+
+export type createProps =  {
+    "uuid": string;
+    "name" : string;
+    "lang" : string;
+    "content_body" : any;
+    "content_image": any;
+    "created_date": Date;
+    "last_update": Date;
+    "type_create": string;
+}
+
+export function createContent(params: createProps){
+    axiosContent.defaults.headers.common.Authorization = token;
+    return axiosContent.post('/apidoor/contents/'+params.type_create, {
+        "data": {
+            "uuid": params.uuid,
+            "name": params.name,
+            "module": "news",
+            "lang": params.lang,
+            "status": 1,
+            "content_body" : params.content_body,
+            "content_image" : params.content_image,
+            "created_date" : params.created_date,
+            'last_update' : params.last_update
+        }
+    });
+}

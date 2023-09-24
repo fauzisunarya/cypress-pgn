@@ -10,13 +10,51 @@ import { ChangeEvent, ReactNode } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 import FormDialog from 'src/components/dialog/FormDialog';
 import { useForm, Controller } from "react-hook-form";
-import TextEditor from "src/components/TextEditor";
 import { list } from 'src/api_handler/content';
+import useHelper from "src/hooks/useHelper";
+import { CreatedDialog, DeleteDialog } from "src/sections/Content/Dialog";
+
+function filterData(params:any) {
+    var order = '';
+    var sortBy = '';
+
+    if (params == '1') {
+        order = 'asc';
+        sortBy = 'title';
+    } else if (params == '2') {
+        order = 'desc';
+        sortBy = 'title';
+    } else if (params == '3') {
+        order = 'asc';
+        sortBy = 'status';
+    } else if (params == '4') {
+        order = 'desc';
+        sortBy = 'status';
+    } else if (params == '5') {
+        order = 'asc';
+        sortBy = 'created';
+    } else if (params == '6') {
+        order = 'desc';
+        sortBy = 'created';
+    } else if (params == '7') {
+        order = 'asc';
+        sortBy = 'changed';
+    } else if (params == '8') {
+        order = 'desc';
+        sortBy = 'changed';
+    }
+
+    return [order, sortBy];
+}
 
 export default function ContentList() {  
     const { translate }:any = useLocales();
+    const { setLoadingShowBackdrop, showSnackbar } = useHelper();
     const [open, setOpen] = useState(false);
     const [openCreate, setOpenCreate] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
+    const [selectedRow, setSelectedRow] = useState([] as any);
+    const [info, setInfo] = useState('');
     const [parameter, setParameter] = useState({
         "search": "",
         "setLimit": "",
@@ -90,8 +128,8 @@ export default function ContentList() {
             renderCell : (params:any) => {
                 return (
                     <Stack direction="row" spacing={1}>
-                        <Link variant={'body2'} sx={{ color:'#333435', cursor:'pointer' }}>{ translate('Edit') }</Link>
-                        <Link variant={'body2'} sx={{ color:'#333435', cursor:'pointer' }}>{ translate('Remove') }</Link>
+                        <Link variant={'body2'} sx={{ color:'#333435', cursor:'pointer' }} onClick={(e:any) => handleEditDialog(params.row.uuid)}>{ translate('Edit') }</Link>
+                        <Link variant={'body2'} sx={{ color:'#333435', cursor:'pointer' }} onClick={(e:any) => handleDeleteDialog(params.row.uuid)}>{ translate('Remove') }</Link>
                     </Stack>
                 );
             }
@@ -104,6 +142,14 @@ export default function ContentList() {
 
     const handleClose = () => {
         setOpen(false);
+    }; 
+
+    const handleOpenDelete = () => {
+        setOpenDelete(true);
+    };
+
+    const handleCloseDelete = () => {
+        setOpenDelete(false);
     }; 
 
     const openDialog = () => {
@@ -120,38 +166,32 @@ export default function ContentList() {
 
     const onSubmitFilter = (val:any, e:any) => {
         e.preventDefault();
-        var order = '';
-        var sortBy = '';
-
-        if (val.sort == '1') {
-            order = 'asc';
-            sortBy = 'title';
-        } else if (val.sort == '2') {
-            order = 'desc';
-            sortBy = 'title';
-        } else if (val.sort == '3') {
-            order = 'asc';
-            sortBy = 'status';
-        } else if (val.sort == '4') {
-            order = 'desc';
-            sortBy = 'status';
-        } else if (val.sort == '5') {
-            order = 'asc';
-            sortBy = 'created';
-        } else if (val.sort == '6') {
-            order = 'desc';
-            sortBy = 'created';
-        } else if (val.sort == '7') {
-            order = 'asc';
-            sortBy = 'changed';
-        } else if (val.sort == '8') {
-            order = 'desc';
-            sortBy = 'changed';
-        }
-
-        loadFilter(order, sortBy);
+        var fdata:any = filterData(val.sort);
+        loadFilter(fdata.order, fdata.sortBy);
         handleClose();
     }
+
+    const handleEditDialog = async (e:any) => {
+        try {
+            setOpenCreate(true)
+            setLoadingShowBackdrop(true);
+            setLoadingShowBackdrop(false);
+            setSelectedRow(e);
+        } catch (error) {
+            setLoadingShowBackdrop(false);
+        }
+    };
+
+    const handleDeleteDialog = async (e:any) => {
+        try {
+            setOpenDelete(true)
+            setLoadingShowBackdrop(true);
+            setLoadingShowBackdrop(false);
+            setSelectedRow(e);
+        } catch (error) {
+            setLoadingShowBackdrop(false);
+        }
+    };
 
     const defaultValues = {
         sort: "0",
@@ -161,6 +201,13 @@ export default function ContentList() {
     const { register, handleSubmit, reset, control, getValues, setValue, watch } = useForm({
         defaultValues
     });
+
+    const onSubmit = () => {
+        const formValues:any = getValues();
+        // var filterData:any = filterData(formValues.sort);
+        // loadFilter(filterData.order, filterData.sortBy);
+        loadFilter('', '');
+    }
 
     return (
         <Page title={personalization.application +" - " + translate('Manage CMS') } container={false}>
@@ -194,7 +241,20 @@ export default function ContentList() {
                     // }}
                 />
             </Box>
-            
+            <CreatedDialog 
+                openModal={openCreate} 
+                closeModal={() => setOpenCreate(false)}
+                stateBackdrop={true}
+                data={selectedRow}
+                onSubmit={onSubmit}
+            />
+            <DeleteDialog 
+                openModal={openDelete} 
+                closeModal={() => setOpenDelete(false)}
+                stateBackdrop={true}
+                data={selectedRow}
+                onSubmit={onSubmit}
+            />
             <FormDialog
                 handleClose={handleClose}
                 open={open}
