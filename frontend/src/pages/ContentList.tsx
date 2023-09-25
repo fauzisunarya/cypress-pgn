@@ -53,7 +53,7 @@ export default function ContentList() {
     const [open, setOpen] = useState(false);
     const [openCreate, setOpenCreate] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
-    const [selectedRow, setSelectedRow] = useState([] as any);
+    const [selectedRow, setSelectedRow] = useState('');
     const [info, setInfo] = useState('');
     const [parameter, setParameter] = useState({
         "search": "",
@@ -157,6 +157,7 @@ export default function ContentList() {
     }
 
     const openDialogCreate = () => {
+        setSelectedRow('');
         setOpenCreate(true);
     }
 

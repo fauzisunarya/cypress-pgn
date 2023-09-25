@@ -73,48 +73,16 @@ export const DeleteDialog = (props: DialogProps) => {
 
 export const CreatedDialog = (props: DialogProps) => {
     const { translate } = useLocales();
+    const [titleDialog, setTitle] = React.useState(translate('Create Content'));
 	const [isLoading, setLoading] = React.useState(true);
-    const [openBackDrop, setOpenBackDrop] = React.useState(false);
     const [message, setMessage] = React.useState('');
-    const { setLoadingShowBackdrop, showSnackbar } = useHelper();
     const [selectedFiles, setSelectedFiles] = React.useState([]);
     const [filePreviews, setFilePreviews] = React.useState([]);
-    const [nameFile, setNameFile] = React.useState('');
-    const [typeFile, setTypeFile] = React.useState('');
     const [defaultValues, setDefaultValues] = React.useState<DefaultValues>({
         title: '',
         lang: '0',
         content_body: '',
     });
-
-    React.useEffect(() => {
-        reset();
-        setLoading(true);
-        setMessage('');
-        setFilePreviews([]);
-        setSelectedFiles([]);
-        getContents();
-    },[props.openModal]);
-
-    const getContents = async() => {
-        try {
-            if (props.data) {
-                const response: any = await getContent(props.data);
-                var responseData = response.data.data;
-                if (responseData) {
-                    setDefaultValues({
-                        title: '',
-                        lang: '0',
-                        content_body: '',
-                    })
-                }
-                setLoading(false);
-            }
-        } catch (error) {
-            setLoading(false);
-            setMessage(error.message);
-        }
-    }
 
     const imageConvert = (selectedFiles:any) => {
         const convertedImagesPromise = selectedFiles.map((image: File) => {
@@ -190,14 +158,14 @@ export const CreatedDialog = (props: DialogProps) => {
                 
                 setLoading(true);
                 const response:any = await createContent({
-                    uuid : '',
+                    uuid : props.data,
                     name : value.title,
                     lang : value.lang,
                     content_body : [convertContent],
                     content_image: convertedImages,
                     created_date: moment().toDate(),
                     last_update: moment().toDate(),
-                    type_create: 'create',
+                    type_create: props.data ? 'update' : 'create',
                 });
     
                 setMessage(response.data.info);
@@ -211,7 +179,8 @@ export const CreatedDialog = (props: DialogProps) => {
                 } 
             })
             .catch((error) => {
-                console.error(error);
+                setLoading(false);
+                setMessage(error);
             });
         } catch (error) {
             setLoading(false);
@@ -257,6 +226,50 @@ export const CreatedDialog = (props: DialogProps) => {
         defaultValues
     });
 
+    React.useEffect(() => {
+        if (defaultValues) {
+            reset(defaultValues);
+        }
+    }, [defaultValues, reset]);
+
+    const getContents = async () => {
+        try {
+            setLoading(true);
+
+            if (props.data) {
+                const response: any = await getContent(props.data);
+                var responseData = response.data.data;
+                if (responseData) {
+                    setDefaultValues({
+                        title: responseData.name,
+                        lang: responseData.lang,
+                        content_body: responseData.content_body,
+                    });
+
+                    setFilePreviews(responseData.content_image);
+                    setSelectedFiles(responseData.content_image);
+                    setTitle(translate('Edit Content'));
+                }
+            }
+
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            setMessage(error.message);
+        }
+    }
+
+    React.useEffect(() => {
+        reset();
+        setValue('title', '');
+        setValue('lang', '0');
+        setMessage('');
+        setFilePreviews([]);
+        setSelectedFiles([]);
+        setTitle(translate('Create Content'));
+        getContents();
+    },[props.data]);
+
     return (
         <div>
             <FormDialog
@@ -266,7 +279,7 @@ export const CreatedDialog = (props: DialogProps) => {
                 submitButtonLabel={ translate ("SAVE CHANGE") }
                 handleSubmit={handleSubmit(handleSubmitCreate)}
                 reset={reset}
-                title={ translate("Create Content") }
+                title={titleDialog}
                 maxWidth={'xs'}
                 isLoading={isLoading}
                 message={message}
@@ -276,6 +289,9 @@ export const CreatedDialog = (props: DialogProps) => {
                         <TextField fullWidth
                             label={ translate('Title') }
                             type="text"
+                            InputLabelProps={{
+                                shrink: true
+                            }}
                             { ...register('title') }
                         />
                     </Stack>
