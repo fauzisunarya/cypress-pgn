@@ -1,18 +1,18 @@
 /* eslint-disable react/jsx-key */
-import { useEffect, useState } from "react";
-import { Box, Grid, Typography, MenuItem, TextField, Stack, Button, FormControl, InputLabel, Select, Link, Backdrop, Snackbar, CircularProgress } from "@mui/material";
-import Datatable, { saveOptionProps } from 'src/components/datatables/Datatable';
+import { useState } from "react";
+import { Box, Grid, Typography, MenuItem, Stack, FormControl, InputLabel, Select, Link } from "@mui/material";
+import Datatable from 'src/components/datatables/Datatable';
 import Page from 'src/components/Page';
 import { useLocales } from 'src/locales';
 import { personalization } from 'src/config';
-import moment from 'moment';
-import { ChangeEvent, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 import FormDialog from 'src/components/dialog/FormDialog';
 import { useForm, Controller } from "react-hook-form";
 import { list } from 'src/api_handler/content';
 import useHelper from "src/hooks/useHelper";
 import { CreatedDialog, DeleteDialog } from "src/sections/Content/Dialog";
+import AuthGuard from "src/auth/AuthGuard";
 
 function filterData(params:any) {
     var order = '';
@@ -45,6 +45,13 @@ function filterData(params:any) {
     }
 
     return [order, sortBy];
+}
+
+function FormatDate(dateString: any) {
+    const options: any = { day: 'numeric', month: 'short', year: 'numeric' };
+    const tanggal = new Date(dateString).toLocaleDateString('id-ID', options);
+    const jam = new Date(dateString).toLocaleTimeString('id-ID', { hour: 'numeric', minute: 'numeric' });
+    return `${tanggal} ${jam}`;
 }
 
 export default function ContentList() {  
@@ -106,7 +113,7 @@ export default function ContentList() {
             filterable: false,
             sortable: false,
             renderCell : (params:any) => {
-                return moment(params.row.created, 'YYYYMM').format('DD MMM YYYY hh:mm');
+                return FormatDate(params.row.created);
             }
         },
         {
@@ -116,7 +123,7 @@ export default function ContentList() {
             filterable: false,
             sortable: false,
             renderCell : (params:any) => {
-                return moment(params.row.changed, 'YYYYMM').format('DD MMM YYYY hh:mm');
+                return FormatDate(params.row.changed);
             }
         },
         {
@@ -211,122 +218,124 @@ export default function ContentList() {
     }
 
     return (
-        <Page title={personalization.application +" - " + translate('Manage CMS') } container={false}>
-            <Box sx={{ width: '100%', mb: 2, backgroundColor: '#fff', mt:4 }}>
-                <Grid container>
-                    <Grid item xs={6}>
-                        <Typography variant="h5" fontWeight={500}>{translate("Manage CMS")}</Typography>
+        // <AuthGuard>
+            <Page title={personalization.application +" - " + translate('Manage CMS') } container={false}>
+                <Box sx={{ width: '100%', mb: 2, backgroundColor: '#fff', mt:4 }}>
+                    <Grid container>
+                        <Grid item xs={6}>
+                            <Typography variant="h5" fontWeight={500}>{translate("Manage CMS")}</Typography>
+                        </Grid>
+                        <Grid item xs={6} sx={{ textAlign: 'right', mt:1 }}>
+                            <Typography variant={'body2'} sx={{ color: '#637381;' }}> {translate("CMS")} / {translate("Manage")}</Typography>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6} sx={{ textAlign: 'right', mt:1 }}>
-                        <Typography variant={'body2'} sx={{ color: '#637381;' }}> {translate("CMS")} / {translate("Manage")}</Typography>
-                    </Grid>
-                </Grid>
-            </Box>
-            <Box sx={{ width: '100%', pb:0, backgroundColor: '#fff', mb:3 }}>
-                <Datatable
-                    load={list}
-                    addonParam={parameter}
-                    columns={columns}
-                    mobileOptions={
-                        {
-                            visible: true,
-                            mainColumns: columns,
-                            detailColumns: columns
-                        }
-                    }
-                    primaryId={'nid'}
-                    buttonCreate={openDialogCreate}
-                    openDialog={openDialog}
-                    // components={{
-                    //     Toolbar: GridToolbar,
-                    // }}
-                />
-            </Box>
-            <CreatedDialog 
-                openModal={openCreate} 
-                closeModal={() => setOpenCreate(false)}
-                stateBackdrop={true}
-                data={selectedRow}
-                onSubmit={onSubmit}
-            />
-            <DeleteDialog 
-                openModal={openDelete} 
-                closeModal={() => setOpenDelete(false)}
-                stateBackdrop={true}
-                data={selectedRow}
-                onSubmit={onSubmit}
-            />
-            <FormDialog
-                handleClose={handleClose}
-                open={open}
-                cancelButtonLabel={ translate ("DISMISS") }
-                submitButtonLabel={ translate ("FILTER") }
-                resetButtonLabel={ translate ("RESET") }
-                handleSubmit={handleSubmit(onSubmitFilter)}
-                reset={reset}
-                title={ translate("Filter data") }
-                maxWidth={'xs'}
-            >
-                <Box sx={{ width: '100%' }} component="form" noValidate autoComplete="off">
-                    <Stack>
-                        <Controller
-                            name="sort"
-                            control={control}
-                            defaultValue={defaultValues.sort}
-                            render={({ field }) => (
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label"></InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        {...field}
-                                        onChange={(event: SelectChangeEvent<string>, child: ReactNode) => {
-                                            field.onChange(event.target.value)
-                                        }}
-                                    >
-                                        <MenuItem value="0">{ translate ("Choose Sort") }</MenuItem>
-                                        <MenuItem value="1">{ translate ("Title A - Z") }</MenuItem>
-                                        <MenuItem value="2">{ translate ("Title Z - A") }</MenuItem>
-                                        <MenuItem value="3">{ translate ("Status A - Z") }</MenuItem>
-                                        <MenuItem value="4">{ translate ("Status Z - A") }</MenuItem>
-                                        <MenuItem value="5">{ translate ("Created Date A - Z") }</MenuItem>
-                                        <MenuItem value="6">{ translate ("Created Date Z - A") }</MenuItem>
-                                        <MenuItem value="7">{ translate ("Update Date A - Z") }</MenuItem>
-                                        <MenuItem value="8">{ translate ("Update Date Z - A") }</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            )}
-                        />
-                    </Stack>
-
-                    {/* <Stack mt={2}>
-                        <Controller
-                            name="status"
-                            control={control}
-                            defaultValue={defaultValues.status}
-                            render={({ field }) => (
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label-status"></InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label-status"
-                                        id="demo-simple-select-status"
-                                        {...field}
-                                        onChange={(event: SelectChangeEvent<string>, child: ReactNode) => {
-                                            field.onChange(event.target.value)
-                                        }}
-                                    >
-                                        {dataStatus.map((status:any) => (
-                                            <MenuItem key={status.id} value={status.id}>
-                                                {status.status_name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            )}
-                        />
-                    </Stack> */}
                 </Box>
-            </FormDialog>
-        </Page>
+                <Box sx={{ width: '100%', pb:0, backgroundColor: '#fff', mb:3 }}>
+                    <Datatable
+                        load={list}
+                        addonParam={parameter}
+                        columns={columns}
+                        mobileOptions={
+                            {
+                                visible: true,
+                                mainColumns: columns,
+                                detailColumns: columns
+                            }
+                        }
+                        primaryId={'nid'}
+                        buttonCreate={openDialogCreate}
+                        openDialog={openDialog}
+                        // components={{
+                        //     Toolbar: GridToolbar,
+                        // }}
+                    />
+                </Box>
+                <CreatedDialog 
+                    openModal={openCreate} 
+                    closeModal={() => setOpenCreate(false)}
+                    stateBackdrop={true}
+                    data={selectedRow}
+                    onSubmit={onSubmit}
+                />
+                <DeleteDialog 
+                    openModal={openDelete} 
+                    closeModal={() => setOpenDelete(false)}
+                    stateBackdrop={true}
+                    data={selectedRow}
+                    onSubmit={onSubmit}
+                />
+                <FormDialog
+                    handleClose={handleClose}
+                    open={open}
+                    cancelButtonLabel={ translate ("DISMISS") }
+                    submitButtonLabel={ translate ("FILTER") }
+                    resetButtonLabel={ translate ("RESET") }
+                    handleSubmit={handleSubmit(onSubmitFilter)}
+                    reset={reset}
+                    title={ translate("Filter data") }
+                    maxWidth={'xs'}
+                >
+                    <Box sx={{ width: '100%' }} component="form" noValidate autoComplete="off">
+                        <Stack>
+                            <Controller
+                                name="sort"
+                                control={control}
+                                defaultValue={defaultValues.sort}
+                                render={({ field }) => (
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label"></InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            {...field}
+                                            onChange={(event: SelectChangeEvent<string>, child: ReactNode) => {
+                                                field.onChange(event.target.value)
+                                            }}
+                                        >
+                                            <MenuItem value="0">{ translate ("Choose Sort") }</MenuItem>
+                                            <MenuItem value="1">{ translate ("Title A - Z") }</MenuItem>
+                                            <MenuItem value="2">{ translate ("Title Z - A") }</MenuItem>
+                                            <MenuItem value="3">{ translate ("Status A - Z") }</MenuItem>
+                                            <MenuItem value="4">{ translate ("Status Z - A") }</MenuItem>
+                                            <MenuItem value="5">{ translate ("Created Date A - Z") }</MenuItem>
+                                            <MenuItem value="6">{ translate ("Created Date Z - A") }</MenuItem>
+                                            <MenuItem value="7">{ translate ("Update Date A - Z") }</MenuItem>
+                                            <MenuItem value="8">{ translate ("Update Date Z - A") }</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                )}
+                            />
+                        </Stack>
+
+                        {/* <Stack mt={2}>
+                            <Controller
+                                name="status"
+                                control={control}
+                                defaultValue={defaultValues.status}
+                                render={({ field }) => (
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label-status"></InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label-status"
+                                            id="demo-simple-select-status"
+                                            {...field}
+                                            onChange={(event: SelectChangeEvent<string>, child: ReactNode) => {
+                                                field.onChange(event.target.value)
+                                            }}
+                                        >
+                                            {dataStatus.map((status:any) => (
+                                                <MenuItem key={status.id} value={status.id}>
+                                                    {status.status_name}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                )}
+                            />
+                        </Stack> */}
+                    </Box>
+                </FormDialog>
+            </Page>
+        // </AuthGuard>
     );
 }

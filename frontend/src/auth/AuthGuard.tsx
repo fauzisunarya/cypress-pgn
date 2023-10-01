@@ -3,7 +3,6 @@ import { Navigate, useLocation } from 'react-router-dom';
 // components
 import LoadingScreen from '../components/loading-screen';
 //
-import Login from '../pages/LoginPage';
 import { useAuthContext } from './useAuthContext';
 
 // ----------------------------------------------------------------------
@@ -27,7 +26,7 @@ export default function AuthGuard({ children }: AuthGuardProps) {
     if (pathname !== requestedLocation) {
       setRequestedLocation(pathname);
     }
-    return <Login />;
+    return <Navigate to="/404" replace />;
   }
 
   if (requestedLocation && pathname !== requestedLocation) {

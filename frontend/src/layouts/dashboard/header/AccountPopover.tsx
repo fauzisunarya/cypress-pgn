@@ -35,7 +35,7 @@ const OPTIONS = [
 export default function AccountPopover() {
   const navigate = useNavigate();
 
-  const { user, logout } = useAuthContext();
+  const { user } = useAuthContext();
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -51,7 +51,6 @@ export default function AccountPopover() {
 
   const handleLogout = async () => {
     try {
-      logout();
       navigate(PATH_AUTH.login, { replace: true });
       handleClosePopover();
     } catch (error) {

@@ -58,8 +58,8 @@ export type createProps =  {
     "lang" : string;
     "content_body" : any;
     "content_image": any;
-    "created_date": Date;
-    "last_update": Date;
+    "created_date": string;
+    "last_update": string;
     "type_create": string;
 }
 

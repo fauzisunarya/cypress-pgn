@@ -4,7 +4,8 @@ import axios from '../utils/axios';
 //
 import { isValidToken, setSession } from './utils';
 import { ActionMapType, AuthStateType, AuthUserType, JWTContextType } from './types';
-import { login as login_handler } from 'src/api_handler/auth';
+import { login as login_handler } from '../api_handler/auth';
+import useIframe from 'src/hooks/useIframe';
 
 // ----------------------------------------------------------------------
 
@@ -89,11 +90,21 @@ type AuthProviderProps = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { data } = useIframe();
 
   const initialize = useCallback(async () => {
     try {
-      const accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : '';
-
+      const accessToken = data.token;
+      console.log(accessToken);
+      if(accessToken){
+        dispatch({
+          type: Types.INITIAL,
+          payload: {
+            isAuthenticated: false,
+            user: null,
+          },
+        });
+      }
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken);
 
@@ -128,11 +139,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         },
       });
     }
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     initialize();
-  }, [initialize]);
+  }, [data, initialize]);
 
   // LOGIN
   const login = async (email: string, password: string) => {
@@ -140,7 +151,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         code : email,
         password : password
     });
-    if(response.data.code == 0){
+    if(response.data.code === 0){
 
       const user = response.data.data;
       setSession(user.token);
@@ -178,12 +189,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   // LOGOUT
-  const logout = async () => {
-    setSession(null);
-    dispatch({
-      type: Types.LOGOUT,
-    });
-  };
+  // const logout = async () => {
+  //   setSession(null);
+  //   dispatch({
+  //     type: Types.LOGOUT,
+  //   });
+  // };
 
   return (
     <AuthContext.Provider
@@ -194,7 +205,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         loginWithGoogle: () => {},
         loginWithGithub: () => {},
         loginWithTwitter: () => {},
-        logout,
+        // logout,
         register,
       }}
     >

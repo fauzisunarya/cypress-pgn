@@ -27,24 +27,13 @@ function TextEditorBase({ value, onChange }: any) {
         EditorState.createEmpty()
     );
 
-    // React.useEffect(() => {
-    //     if (value) {
-    //         const content = JSON.parse(value);
-    //         setEditorState(EditorState.createWithContent(content));
-    //     }
-    // }, [value]);
-
     function handleEditorChange(editorState: any) {
         setEditorState(editorState);
-        const rawContentState = convertToRaw(editorState.getCurrentContent());
-        const markup = draftToHtml(rawContentState);
+        // const rawContentState = convertToRaw(editorState.getCurrentContent());
+        // const markup = draftToHtml(rawContentState);
         // onChange(convertToRaw(editorState.getCurrentContent()));
-        onChange(markup);
-        
-        // const { contentBlocks, entityMap } = convertFromHTML('<p></p>');
-        // const content = ContentState.createFromBlockArray(contentBlocks, entityMap);
-        // const hasText = content.hasText();
-        // console.log(contentBlocks);
+        const plainText = editorState.getCurrentContent().getPlainText();
+        onChange(plainText);
     }
 
     const editorStyle = {

@@ -258,7 +258,7 @@ function TableView(props: {
           paginationMode="server"
           onPageSizeChange={(newPageSize: any) => setRowCount(newPageSize)}
           columns={columns}
-          getRowHeight={() => 'auto'}
+          getRowHeight={() => 50}
         />
       )}
       {(!isDesktop && mobileOptions != undefined) && (
@@ -297,7 +297,7 @@ function Pagination({
       {translate('Showing')} {startRow} - {endRow} {translate('of')} {count} {translate('entries')}
       </Typography>
       <MuiPagination
-        color="primary"
+        variant={'soft'}
         className={className}
         count={Math.ceil(count/rowsPerPage)}
         page={page}
