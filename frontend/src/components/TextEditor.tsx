@@ -9,23 +9,36 @@ import { useLocales } from 'src/locales';
 
 const theme = createTheme();
 
-export default function TextEditor({ control, name }: any) {
+export default function TextEditor({ control, name, defaultValue }: any) {
     return (
         <Controller
             name={name}
             control={control}
-            defaultValue=""
+            defaultValue={defaultValue}
             render={({ field: { onChange, value } }) => (
-                <TextEditorBase value={value} onChange={onChange} />
+                <TextEditorBase value={value} onChange={onChange} defaultValue={defaultValue} />
             )}
         />
     );
 }
-function TextEditorBase({ value, onChange }: any) {
+function TextEditorBase({ value, onChange, defaultValue }: any) {
     const { translate } = useLocales();
     const [editorState, setEditorState] = React.useState(
         EditorState.createEmpty()
     );
+
+    React.useEffect(() => {
+        if (defaultValue) {
+            try {
+                const state = EditorState.createWithContent(ContentState.createFromText(defaultValue));
+                setEditorState(state);
+            } catch (error) {
+                // Handle invalid JSON string, for example, set editor state to empty
+                console.error('Invalid JSON string:', defaultValue);
+                setEditorState(EditorState.createEmpty());
+            }
+        }
+    }, [defaultValue]);
 
     function handleEditorChange(editorState: any) {
         setEditorState(editorState);

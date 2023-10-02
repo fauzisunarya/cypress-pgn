@@ -5,7 +5,6 @@ import { useLocales } from 'src/locales';
 import { useFieldArray } from "react-hook-form";
 
 export default ({ nestIndex, fileSubPreviews, control, setValue, register }:any) => {
-    console.log(fileSubPreviews);
     const { translate } = useLocales();
     const [filePreviews, setFilePreviews] = React.useState([]);
     const { fields, remove, append } = useFieldArray({

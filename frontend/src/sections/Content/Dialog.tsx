@@ -304,19 +304,6 @@ export const CreatedDialog = (props: DialogProps) => {
             setValue(`contents.${index}.title`, value.header.title);
             setValue(`contents.${index}.main_content`, value.header.desc);
 
-            if (value.header.image) {
-                const preview = value.header.image;
-                const type = 'img_header';
-                const newFilePreviews:any = [...filePreviews];
-        
-                if (!newFilePreviews[index]) {
-                    newFilePreviews[index] = {};
-                }
-        
-                newFilePreviews[index][type] = preview;
-                setFilePreviews(newFilePreviews);
-            }
-
             if (value.img_banner) {
                 const preview = value.img_banner;
                 const type = 'img_banner';
@@ -329,6 +316,19 @@ export const CreatedDialog = (props: DialogProps) => {
                 newFilePreviews[index][type] = preview;
                 setFilePreviews(newFilePreviews);
             }
+
+            if (value.header.image) {
+                const preview = value.header.image;
+                const type = 'img_header';
+                const newFileHeaderPreviews:any = [...filePreviews];
+        
+                if (!newFileHeaderPreviews[index]) {
+                    newFileHeaderPreviews[index] = {};
+                }
+        
+                newFileHeaderPreviews[index][type] = preview;
+                setFilePreviews(newFileHeaderPreviews);
+            } 
 
             if (value.body) {
                 (value.body).map((sub, idx) => {
@@ -354,9 +354,12 @@ export const CreatedDialog = (props: DialogProps) => {
         reset(defaultValues);
         setMessage('');
         setFilePreviews([]);
+        setFileSubPreviews([]);
         setTitle(translate('Create Content'));
         getContents();
     },[props.data]);
+
+    console.log(filePreviews);
 
     return (
         <div>
@@ -567,6 +570,7 @@ export const CreatedDialog = (props: DialogProps) => {
                                     <TextEditor 
                                         label={ translate('Main Content') } 
                                         control={control} 
+                                        defaultValue={getValues(`contents.${index}.main_content`)}
                                         {...register(`contents.${index}.main_content`)}
                                     />
                                 </Stack>

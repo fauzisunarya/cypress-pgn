@@ -218,7 +218,7 @@ export default function ContentList() {
     }
 
     return (
-        // <AuthGuard>
+        <AuthGuard>
             <Page title={personalization.application +" - " + translate('Manage CMS') } container={false}>
                 <Box sx={{ width: '100%', mb: 2, backgroundColor: '#fff', mt:4 }}>
                     <Grid container>
@@ -336,6 +336,6 @@ export default function ContentList() {
                     </Box>
                 </FormDialog>
             </Page>
-        // </AuthGuard>
+        </AuthGuard>
     );
 }
