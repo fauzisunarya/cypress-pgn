@@ -17,19 +17,14 @@ class AuthController extends ControllerBase
     $captcha  = $request->request->get('g-recaptcha-response');
     
     // ==== END DUMMY ====
-    if (filter_var($username, FILTER_VALIDATE_INT) !== FALSE) {
-        $response = $this->login_ldap([
-          'username' => $username,
-          'password' => $password
-        ]);
-      } else{
+    
         $response = $this->login_default([
           'username' => $username,
           'password' => $password
         ]);
-      }
       
     return Drupal::service('restapi_telkom.app_helper')->response($response);
+    exit;
    // ==== END DUMMY ====
 
     // check captcha validation
@@ -217,7 +212,7 @@ class AuthController extends ControllerBase
       //$find_data = Drupal::service('media_upload.auth_helper')->otp_validate($user_data->id(), $otp_code);
       $find_data = array(
         'status'=> 'success',
-        'message'=> 'success',
+        'message'=> 'success'
       );
       
       if ($find_data['status'] === 'success') {
