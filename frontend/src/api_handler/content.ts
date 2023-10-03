@@ -1,7 +1,7 @@
 // https://63aafbf8cf281dba8c1697c5.mockapi.io/aryaapi/persons
 
 import axiosContent from "src/utils/axios";
-import { token } from "src/config";
+// import { token } from "src/config";
 
 export type listProps =  {
     "search" : string;
@@ -20,7 +20,7 @@ export type listProps =  {
 export function list(params: listProps){
     var page = params.search == '' ? params.page : 1; 
     var offset = (params.page * params.limit) - params.limit;
-    axiosContent.defaults.headers.common.Authorization = token;
+    // axiosContent.defaults.headers.common.Authorization = token;
     return axiosContent.post('/apidoor/contents/list', {
         "data": {
             "order": {
@@ -38,7 +38,7 @@ export function list(params: listProps){
 }
 
 export function deleteContent(uuid: any){
-    axiosContent.defaults.headers.common.Authorization = token;
+    // axiosContent.defaults.headers.common.Authorization = token;
     return axiosContent.post('/apidoor/contents/delete-content', {
         "data": {
             "uuid": uuid,
@@ -48,7 +48,7 @@ export function deleteContent(uuid: any){
 }
 
 export function getContent(uuid: any){
-    axiosContent.defaults.headers.common.Authorization = token;
+    // axiosContent.defaults.headers.common.Authorization = token;
     return axiosContent.get('/apidoor/contents/'+uuid);
 }
 
@@ -64,7 +64,7 @@ export type createProps =  {
 }
 
 export function createContent(params: createProps){
-    axiosContent.defaults.headers.common.Authorization = token;
+    // axiosContent.defaults.headers.common.Authorization = token;
     return axiosContent.post('/apidoor/contents/'+params.type_create, {
         "data": {
             "uuid": params.uuid,

@@ -5,6 +5,7 @@ import { Navigate } from 'react-router-dom';
 import LoadingScreen from '../components/loading-screen';
 //
 import { useAuthContext } from './useAuthContext';
+import { PATH_AFTER_LOGIN } from 'src/config';
 
 // ----------------------------------------------------------------------
 
@@ -16,7 +17,7 @@ export default function GuestGuard({ children }: GuestGuardProps) {
   const { isAuthenticated, isInitialized } = useAuthContext();
 
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" />;
+    return <Navigate to={PATH_AFTER_LOGIN} />;
   }
 
   if (!isInitialized) {

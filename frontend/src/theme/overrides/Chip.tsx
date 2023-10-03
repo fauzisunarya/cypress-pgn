@@ -26,6 +26,8 @@ export default function Chip(theme: Theme) {
 
     const softVariant = ownerState.variant === 'soft';
 
+    const smallSize = ownerState.size === 'small';
+
     const defaultStyle = {
       ...(defaultColor && {
         '& .MuiChip-avatar': {
@@ -79,7 +81,16 @@ export default function Chip(theme: Theme) {
       }),
     }));
 
-    return [...colorStyle, defaultStyle];
+    const size = {
+      ...(smallSize && {
+        height: 22
+      }),
+      ...(!smallSize && {
+        height: 30
+      }),
+    }
+
+    return [...colorStyle, defaultStyle, size];
   };
 
   return {
