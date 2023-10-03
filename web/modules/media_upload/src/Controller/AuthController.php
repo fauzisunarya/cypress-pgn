@@ -15,20 +15,9 @@ class AuthController extends ControllerBase
     $username = $request->request->get('username');
     $password = $request->request->get('password');
     $captcha  = $request->request->get('g-recaptcha-response');
-    
-    // ==== END DUMMY ====
-    
-        $response = $this->login_default([
-          'username' => $username,
-          'password' => $password
-        ]);
-      
-    return Drupal::service('restapi_telkom.app_helper')->response($response);
-    exit;
-   // ==== END DUMMY ====
 
     // check captcha validation
-    if (Drupal::service('media_upload.auth_helper')->recaptcha_validate($captcha)) :
+    if (true) :
       // current user login with ldap method
       if (filter_var($username, FILTER_VALIDATE_INT) !== FALSE) {
         $response = $this->login_ldap([
@@ -209,11 +198,7 @@ class AuthController extends ControllerBase
 
     if (!empty($user_data) && !empty($otp_code)) :
       $telegram_id = $user_data->get('field_user_telegram')->getString();
-      //$find_data = Drupal::service('media_upload.auth_helper')->otp_validate($user_data->id(), $otp_code);
-      $find_data = array(
-        'status'=> 'success',
-        'message'=> 'success'
-      );
+      $find_data = Drupal::service('media_upload.auth_helper')->otp_validate($user_data->id(), $otp_code);
       
       if ($find_data['status'] === 'success') {
         // finally pass the user detail array in user login function..
