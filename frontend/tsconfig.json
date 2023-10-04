@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "types": ["autosuggest-highlight"],
     "baseUrl": ".",
     "target": "es5",
     "lib": [

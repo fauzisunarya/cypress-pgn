@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSettingsContext } from '../components/settings';
 //
 import { allLangs, defaultLang } from './config';
+import axiosContent from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -18,11 +19,20 @@ export default function useLocales() {
   const handleChangeLanguage = (newlang: string) => {
     i18n.changeLanguage(newlang);
     onChangeDirectionByLang(newlang);
+    axiosContent.defaults.headers.common['Accept-Language'] = newlang;
   };
 
   return {
     onChangeLang: handleChangeLanguage,
-    translate: (text: any, options?: any) => translate(text, options),
+    translate: (text: any, options?: any) => {
+      let text_alias = text.split(' ').join('_');
+      let translated = translate(text_alias.toLowerCase(), options);
+      let is_success_translated = translated != text_alias.toLowerCase();
+      if(!is_success_translated){
+        return text;
+      }
+      return translated;
+    },
     currentLang,
     allLangs,
   };

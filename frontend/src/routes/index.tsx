@@ -12,6 +12,7 @@ import {
   Page404,
   ContentList
 } from './elements';
+import IframeExample from 'src/pages/example/IframeExample';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +27,12 @@ export default function Router() {
     {
       element: <CompactLayout />,
       children: [{ path: '404', element: <Page404 /> }],
+    },
+    {
+      path: '/iframe-example',
+      element: (
+        <IframeExample />
+      )
     },
     { path: '*', element: <Navigate to="/404" replace /> },
   ]);

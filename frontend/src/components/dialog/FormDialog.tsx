@@ -1,25 +1,48 @@
-import { Backdrop, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, styled, Grid } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
+import { Backdrop, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, Stack, styled } from "@mui/material";
 import BasicDialog from "./BasicDialog";
 import { useState } from "react";
 import React from "react";
 
-export default function FormDialog({ handleClose, open, maxWidth, isLoading, title, children, handleSubmit, cancelButtonLabel, submitButtonLabel, resetButtonLabel, reset, message, handleDisabled }: any) {
+export interface FormDialogProps {
+    handleClose: () => void;
+    open: boolean;
+    maxWidth: number | string;
+    isLoading: boolean;
+    title: string;
+    children?: React.Component;
+    handleSubmit ?: () => void | null;
+    handleReset ?: () => void | null;
+    tertierButtonLabel ?: string | null;
+    cancelButtonLabel ?: string | null;
+    submitButtonLabel ?: string | null;
+}
+
+export default function FormDialog({
+    handleClose,
+    open,
+    maxWidth,
+    isLoading,
+    title,
+    children,
+    handleSubmit,
+    handleReset,
+    tertierButtonLabel,
+    cancelButtonLabel,
+    submitButtonLabel
+}: FormDialogProps | any) {
     return (
         <BasicDialog
-            handleClose={handleClose}
+            // handleClose={handleClose}
             open={open}
             maxWidth={maxWidth}
             action={<Action
                 isLoading={isLoading}
                 handleClose={handleClose}
+                handleReset={handleReset}
+                tertierButtonLabel={tertierButtonLabel}
                 cancelButtonLabel={cancelButtonLabel}
                 submitButtonLabel={submitButtonLabel}
-                resetButtonLabel={resetButtonLabel}
                 handleSubmit={handleSubmit}
-                reset={reset}
-                message={message}
-                handleDisabled={handleDisabled}
             />}
             title={title}
         >
@@ -28,30 +51,25 @@ export default function FormDialog({ handleClose, open, maxWidth, isLoading, tit
     )
 }
 
-function Action({ handleClose, message, isLoading, cancelButtonLabel, submitButtonLabel, resetButtonLabel, handleSubmit, reset, handleDisabled }: any) {
+function Action({ handleClose,handleReset, message, isLoading, tertierButtonLabel,cancelButtonLabel, submitButtonLabel, handleSubmit }: any) {
     const [openSnackbar, setOpenSnackbar] = useState(false);
-    React.useEffect(()=>{
-        if(message && message != ''){
+
+    React.useEffect(() => {
+        if (message && message != '') {
             setOpenSnackbar(true)
         }
-    },[message])
+    }, [message])
     return (
         <DialogActions sx={{ backgroundColor: '#fff', p: '8px!important;' }}>
-            <Grid container>
-                <Grid item xs={6}>
-                    { resetButtonLabel &&
-                        <Button sx={{ color: '#0088C9' }} onClick={reset} disabled={handleDisabled}>{resetButtonLabel}</Button>
+            <Box sx={{ display: 'flex', width: '100%' }}>
+                {tertierButtonLabel && <Button onClick={handleReset} color="primary">Reset</Button>}
+                <Stack direction={'row'} spacing={1} sx={{ ml: 'auto' }}>
+                    {cancelButtonLabel && <Button onClick={handleClose} color="primary">{cancelButtonLabel}</Button> }
+                    {submitButtonLabel &&
+                        <Button color="primary" onClick={handleSubmit}>{submitButtonLabel}</Button>
                     }
-                </Grid>
-                <Grid item xs={6}>
-                    <Box display={'flex'} justifyContent={'right'} alignItems={'right'}>
-                        <Button onClick={handleClose} sx={{ color: '#0088C9' }}>{cancelButtonLabel}</Button>
-                        { submitButtonLabel &&
-                            <Button sx={{ color: '#0088C9' }} onClick={handleSubmit} disabled={handleDisabled}>{submitButtonLabel}</Button>
-                        }
-                    </Box>
-                </Grid>
-            </Grid>
+                </Stack>
+            </Box>
             <Backdrop
                 sx={{ color: '#CED8E0', zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: 'rgba(145, 158, 171, 0.48);' }}
                 open={isLoading}

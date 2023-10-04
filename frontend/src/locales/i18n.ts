@@ -9,6 +9,7 @@ import frLocales from './langs/fr';
 import vnLocales from './langs/vn';
 import cnLocales from './langs/cn';
 import arLocales from './langs/ar';
+import idLocales from './langs/id';
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +25,7 @@ i18n
   .init({
     resources: {
       en: { translations: enLocales },
+      id: { translations: idLocales },
       fr: { translations: frLocales },
       vn: { translations: vnLocales },
       cn: { translations: cnLocales },

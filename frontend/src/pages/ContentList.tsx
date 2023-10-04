@@ -5,7 +5,6 @@ import Datatable from 'src/components/datatables/Datatable';
 import Page from 'src/components/Page';
 import { useLocales } from 'src/locales';
 import { personalization } from 'src/config';
-import { ReactNode } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 import FormDialog from 'src/components/dialog/FormDialog';
 import { useForm, Controller } from "react-hook-form";

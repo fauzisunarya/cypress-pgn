@@ -63,8 +63,8 @@ const BLUEGREY = {
 const PRIMARY = {
   lighter: '#fef7ec',
   light: '#FFBA61',
-  main: '#0088C9',
-  dark: '#005588',
+  main: '#F19011',
+  dark: '#CD7400',
   darker: '#9C5800',
   contrastText: '#fff',
 };

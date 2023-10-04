@@ -22,18 +22,18 @@ function useIframe(src?: string) {
         // Function to send a post message to the iframe
 
         // Add event listener to handle incoming messages from the iframe
-        const handleMessage = (event: any) => {
-            // Handle the received message here
-          console.log(event.data);
-            setData(event.data);
-        };
+        // const handleMessage = (event: any) => {
+        //     // Handle the received message here
+        //     console.log("handleMessage", event)
+        //     setData(event.data);
+        // };
 
-        window.addEventListener('message', handleMessage);
+        // window.addEventListener('message', handleMessage);
 
-        // Clean up the event listener when the component unmounts
-        return () => {
-            window.removeEventListener('message', handleMessage);
-        };
+        // // Clean up the event listener when the component unmounts
+        // return () => {
+        //     window.removeEventListener('message', handleMessage);
+        // };
     }, [src]);
 
     return {
@@ -44,7 +44,10 @@ function useIframe(src?: string) {
                 if (iframeRef.current) {
                     var parameter: any = {};
                     parameter[key] = value;
-                    iframeRef.current.contentWindow.postMessage(parameter, "*");
+                    iframeRef.current.contentWindow.postMessage(parameter,"*")
+                    // iframeRef.current.contentWindow.postMessage = (ev, origin) => {
+                    //     console.log("TES",ev, origin); //message is from webpack
+                    // };
                 }
             }, 100)
         },

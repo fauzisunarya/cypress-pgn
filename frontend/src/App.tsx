@@ -12,16 +12,17 @@ import { MotionLazyContainer } from './components/animate';
 // ----------------------------------------------------------------------
 
 export default function App() {
+  
   return (
     <MotionLazyContainer>
       <ThemeProvider>
-        {/* <ThemeSettings> */}
+        <ThemeSettings>
           <ThemeLocalization>
             <SnackbarProvider>
               <Router />
             </SnackbarProvider>
           </ThemeLocalization>
-        {/* </ThemeSettings> */}
+        </ThemeSettings>
       </ThemeProvider>
     </MotionLazyContainer>
   );

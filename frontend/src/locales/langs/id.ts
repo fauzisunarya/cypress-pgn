@@ -5,7 +5,7 @@
 
 // ----------------------------------------------------------------------
 
-const en = {
+const id = {
   demo: {
     title: `English`,
     introduction: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
@@ -57,11 +57,12 @@ const en = {
   item_by_roles: `item by roles`,
   only_admin_can_see_this_item: `Only admin can see this item`,
   //login auth
-  login:`Login`,
-  your_email_address_or_nik : `Your email address or NIK`,
-  enter_password : `Enter password`,
-  forgot_password : `Forgot password`,
-  log_in_now : `Login Now`
+  login:`Masuk`,
+  your_email_address_or_nik : `Surel atau NIK`,
+  enter_password : `Masukan kata sandi`,
+  forgot_password : `Lupa kata sandi`,
+  log_in_now : `Masuk Sekarang`,
+  navigation : `Navigasi`
 };
 
-export default en;
+export default id;
