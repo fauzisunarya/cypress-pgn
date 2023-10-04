@@ -101,11 +101,12 @@ export const CreatedDialog = (props: DialogProps) => {
         lang: '0',
         contents : [{ 
             id: '', 
-            title: '', 
+            header : {
+                title: '', 
+                image: '',
+                desc: '',
+            },
             img_banner : '', 
-            img_header : '', 
-            main_content: '', 
-            // subtitle: '', 
             body : [{ title: '', desc: '', image : '' }] }],
     };
 
@@ -119,20 +120,16 @@ export const CreatedDialog = (props: DialogProps) => {
                 content.img_banner = content.img_banner.name;
             }
 
-            if (content.img_header != '') {
-                dataImage.push(content.img_header);
-                content.img_header = content.img_header.name;
+            if (content.header.image != '') {
+                dataImage.push(content.header.image);
+                content.header.image = content.header.image.name;
             }
 
             content.header = {
-                image : content.img_header,
-                title : content.title,
-                desc : content.main_content
+                image : content.header.image,
+                title : content.header.title,
+                desc : content.header.desc
             };
-
-            delete content.img_header;
-            delete content.title;
-            delete content.main_content;
 
             if (content.body) {
                 (content.body).forEach((sub:any) => {
@@ -252,7 +249,7 @@ export const CreatedDialog = (props: DialogProps) => {
         if (type == 'img_banner') {
             setValue(`contents.${index}.img_banner`, file);
         } else {
-            setValue(`contents.${index}.img_header`, file);
+            setValue(`contents.${index}.header.image`, file);
         }
     };    
 
@@ -270,7 +267,7 @@ export const CreatedDialog = (props: DialogProps) => {
         if (type == 'img_banner') {
             setValue(`contents.${index}.img_banner`, '');
         } else {
-            setValue(`contents.${index}.img_header`, '');
+            setValue(`contents.${index}.header.image`, '');
         }
     };
 
@@ -284,6 +281,7 @@ export const CreatedDialog = (props: DialogProps) => {
                 if (responseData) {
                     setValue('title', responseData.name);
                     setValue('lang', responseData.lang);
+                    setValue('contents', responseData.content_body.value);
                     editContent(responseData.content_body);
 
                     setTitle(translate('Edit Content'));
@@ -299,55 +297,45 @@ export const CreatedDialog = (props: DialogProps) => {
 
     const editContent = (content:ContentType) => {
         const contents = content.value;
-        contents.map((value, index) => {
-            setValue(`contents.${index}.id`, value.id);
-            setValue(`contents.${index}.title`, value.header.title);
-            setValue(`contents.${index}.main_content`, value.header.desc);
-
+        const newFilePreviews:any = [...filePreviews];
+        const newFileSubPreviews:any = [...fileSubPreviews];
+        contents.forEach((value, index) => {
             if (value.img_banner) {
-                const preview = value.img_banner;
                 const type = 'img_banner';
-                const newFilePreviews:any = [...filePreviews];
         
                 if (!newFilePreviews[index]) {
                     newFilePreviews[index] = {};
                 }
         
-                newFilePreviews[index][type] = preview;
-                setFilePreviews(newFilePreviews);
+                newFilePreviews[index][type] = value.img_banner;
             }
 
             if (value.header.image) {
-                const preview = value.header.image;
                 const type = 'img_header';
-                const newFileHeaderPreviews:any = [...filePreviews];
         
-                if (!newFileHeaderPreviews[index]) {
-                    newFileHeaderPreviews[index] = {};
+                if (!newFilePreviews[index]) {
+                    newFilePreviews[index] = {};
                 }
-        
-                newFileHeaderPreviews[index][type] = preview;
-                setFilePreviews(newFileHeaderPreviews);
+                
+                newFilePreviews[index][type] = value.header.image;
             } 
-
+        
             if (value.body) {
-                (value.body).map((sub, idx) => {
-                    setValue(`contents.${index}.body.${idx}.title`, sub.title);
-                    setValue(`contents.${index}.body.${idx}.desc`, sub.desc);
-
+                (value.body).forEach((sub, idx) => {
                     if (sub.image) {
-                        const newFileSubPreviews:any = [...fileSubPreviews];
                 
                         if (!newFileSubPreviews[index]) {
                             newFileSubPreviews[index] = {};
                         }
                 
                         newFileSubPreviews[index][idx] = sub.image;
-                        setFileSubPreviews(newFileSubPreviews);
                     }
                 });
             }
         });
+
+        setFilePreviews(newFilePreviews);
+        setFileSubPreviews(newFileSubPreviews);
     }
 
     React.useEffect(() => {
@@ -358,8 +346,6 @@ export const CreatedDialog = (props: DialogProps) => {
         setTitle(translate('Create Content'));
         getContents();
     },[props.data]);
-
-    console.log(filePreviews);
 
     return (
         <div>
@@ -413,7 +399,7 @@ export const CreatedDialog = (props: DialogProps) => {
                     <Stack mt={3}>
                         <Grid container>
                             <Grid item xs={3}>
-                                <Button variant={'outlined'} onClick={() => append({ id: '', title: '', img_banner : '', img_header : '', main_content: '', body : [{ title: '', desc: '', image : '' }] })}>{ translate('Add Content') }</Button>
+                                <Button variant={'outlined'} onClick={() => append({ id: '', img_banner : '', header: { title:'', image:'', desc:'' }, body : [{ title: '', desc: '', image : '' }] })}>{ translate('Add Content') }</Button>
                             </Grid>
                         </Grid>
                     </Stack>
@@ -452,7 +438,7 @@ export const CreatedDialog = (props: DialogProps) => {
                                         InputLabelProps={{
                                             shrink: true
                                         }}
-                                        {...register(`contents.${index}.title`)}
+                                        {...register(`contents.${index}.header.title`)}
                                     />
                                     
                                     {/* <TextField fullWidth
@@ -522,7 +508,7 @@ export const CreatedDialog = (props: DialogProps) => {
                                                     id={`upload-button-header-${index}`}
                                                     type="file"
                                                     style={{ display: 'none' }}
-                                                    {...register(`contents.${index}.img_header`)}
+                                                    {...register(`contents.${index}.header.image`)}
                                                     onChange={(e) => handleImageChange(e, index, 'img_header')}
                                                 />
                                                 <label htmlFor={`upload-button-header-${index}`}>
@@ -570,8 +556,7 @@ export const CreatedDialog = (props: DialogProps) => {
                                     <TextEditor 
                                         label={ translate('Main Content') } 
                                         control={control} 
-                                        defaultValue={getValues(`contents.${index}.main_content`)}
-                                        {...register(`contents.${index}.main_content`)}
+                                        {...register(`contents.${index}.header.desc`)}
                                     />
                                 </Stack>
 

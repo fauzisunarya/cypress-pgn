@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MUIRichTextEditor from 'mui-rte'
-import { EditorState, convertFromHTML, ContentState, convertToRaw } from "draft-js";
 import { Controller } from 'react-hook-form';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { stateToHTML } from 'draft-js-export-html';
-import draftToHtml from 'draftjs-to-html';
 import { useLocales } from 'src/locales';
+import { EditorState, ContentState } from 'draft-js';
 
 const theme = createTheme();
 
@@ -14,38 +12,26 @@ export default function TextEditor({ control, name, defaultValue }: any) {
         <Controller
             name={name}
             control={control}
-            defaultValue={defaultValue}
             render={({ field: { onChange, value } }) => (
-                <TextEditorBase value={value} onChange={onChange} defaultValue={defaultValue} />
+                <TextEditorBase value={value} onChange={onChange}/>
             )}
         />
     );
 }
-function TextEditorBase({ value, onChange, defaultValue }: any) {
+function TextEditorBase({ value, onChange }: any) {
     const { translate } = useLocales();
-    const [editorState, setEditorState] = React.useState(
-        EditorState.createEmpty()
-    );
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
-    React.useEffect(() => {
-        if (defaultValue) {
-            try {
-                const state = EditorState.createWithContent(ContentState.createFromText(defaultValue));
-                setEditorState(state);
-            } catch (error) {
-                // Handle invalid JSON string, for example, set editor state to empty
-                console.error('Invalid JSON string:', defaultValue);
-                setEditorState(EditorState.createEmpty());
-            }
+    useEffect(() => {
+        if (value) {
+            const contentState = ContentState.createFromText(value);
+            setEditorState(EditorState.createWithContent(contentState));
         }
-    }, [defaultValue]);
+    }, [value]);
 
-    function handleEditorChange(editorState: any) {
-        setEditorState(editorState);
-        // const rawContentState = convertToRaw(editorState.getCurrentContent());
-        // const markup = draftToHtml(rawContentState);
-        // onChange(convertToRaw(editorState.getCurrentContent()));
-        const plainText = editorState.getCurrentContent().getPlainText();
+    function handleEditorChange(content: any) {
+        setEditorState(content);
+        const plainText = content.getCurrentContent().getPlainText();
         onChange(plainText);
     }
 
@@ -61,11 +47,11 @@ function TextEditorBase({ value, onChange, defaultValue }: any) {
         <ThemeProvider theme={theme}>
             <div style={editorStyle}>
                 <MUIRichTextEditor
+                    defaultValue={editorState}
                     toolbarButtonSize="small"
                     inlineToolbar
                     label={ translate('Type here') }
                     onChange={handleEditorChange}
-                    // onChange={ value => stateToHTML(value.getCurrentContent()) }
                 />
             </div>
         </ThemeProvider>
