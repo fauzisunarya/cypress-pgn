@@ -9,8 +9,6 @@ export type listProps =  {
     "setOffset" : any;
     "status" : string;
     "module" : string;
-    "startdate": any;
-    "enddate": any;
     "page": any;
     "limit": any;
     "sortBy": any;

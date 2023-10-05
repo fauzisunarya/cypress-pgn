@@ -12,6 +12,8 @@ import { list } from 'src/api_handler/content';
 import useHelper from "src/hooks/useHelper";
 import { CreatedDialog, DeleteDialog } from "src/sections/Content/Dialog";
 import AuthGuard from "src/auth/AuthGuard";
+import { ChangeEvent, ReactNode } from 'react';
+import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 
 function filterData(params:any) {
     var order = '';
@@ -60,7 +62,6 @@ export default function ContentList() {
     const [openCreate, setOpenCreate] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [selectedRow, setSelectedRow] = useState('');
-    const [info, setInfo] = useState('');
     const [parameter, setParameter] = useState({
         "search": "",
         "setLimit": "",
@@ -69,28 +70,13 @@ export default function ContentList() {
         "sortBy" : "nid"
     });
 
-    const loadFilter = async (order:any, sortBy:any) => {
-        setParameter({
-            "search": "",
-            "setLimit": "",
-            "status": "",
-            "order": order,
-            "sortBy" : sortBy ? "title" : "nid"
-        })
-    };
+    const [length, setLength] = useState(10);
+    const [rows, setRows] = useState<any>([]);
+    const [page, setPage] = useState<number>(1);
+    const [rowTotal, setRowTotal] = useState<number>(0);
+    const [loading, setLoading] = useState(true);
 
-    const dataStatus = [
-        {
-            id : 1,
-            name : 'Open'
-        },
-        {
-            id : 2,
-            name : 'Close'
-        }
-    ];
-
-    const columns = [
+    const columns: GridColDef[] = [
         {
             field: 'title',
             headerName: translate('Title'),
@@ -141,6 +127,39 @@ export default function ContentList() {
             }
         },
     ];
+
+    const handleLoadData = async () => {
+        setLoading(true);
+        try {
+            const response: any = await list({
+                "search": "",
+                "setLimit": "",
+                "status": "",
+                "order": "",
+                "sortBy" : "title"
+            })
+
+            setLoading(false);
+            setRows(response.data.data.data);
+            setRowTotal(response.data.data.total);
+
+            // console.log('debugData', response.data.data.data)
+        } catch (error) {
+            console.log('debugErr', error)
+        }
+      }
+    
+    const handleChangeLength = (value: number) => {
+        setLength(value);
+    }
+
+    const handlePageChange = (event: any, newPage: any) => {
+        setPage(newPage)
+    }
+
+    const handleRefresh = () => {
+        handleLoadData();
+    }
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -231,22 +250,19 @@ export default function ContentList() {
                 </Box>
                 <Box sx={{ width: '100%', pb:0, backgroundColor: '#fff', mb:3 }}>
                     <Datatable
-                        load={list}
-                        addonParam={parameter}
+                        length={length}
+                        isLoading={loading}
                         columns={columns}
-                        mobileOptions={
-                            {
-                                visible: true,
-                                mainColumns: columns,
-                                detailColumns: columns
-                            }
-                        }
-                        primaryId={'nid'}
-                        buttonCreate={openDialogCreate}
-                        openDialog={openDialog}
-                        // components={{
-                        //     Toolbar: GridToolbar,
-                        // }}
+                        rows={rows}
+                        page={page}
+                        rowTotal={rowTotal}
+                        selectable={false}
+                        onChangeLength={handleChangeLength}
+                        onRefresh={handleRefresh}
+                        onPageChange={handlePageChange}
+                        // onSearch={handleSearch}
+                        // onClickFilter={handleFilter}
+                        // onClickAdd={handleAdd}
                     />
                 </Box>
                 <CreatedDialog 
