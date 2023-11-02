@@ -45,7 +45,7 @@ class AuthMiddleware implements HttpKernelInterface {
         $whitelist = array('image');
 
         // this URL not contins restapi keyword
-        if (strpos($request->getRequestUri(), 'apidoor') === false || strpos($request->getRequestUri(), 'login')) {
+        if (strpos($request->getRequestUri(), 'api') === false || strpos($request->getRequestUri(), 'login')) {
             return $this->httpKernel->handle($request, $type, $catch);
         };
         // whitelist API

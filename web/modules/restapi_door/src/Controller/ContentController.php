@@ -28,7 +28,7 @@ class ContentController extends ControllerBase{
             $entity_obj = current($entity);
             $imageData  = $entity_obj->getType() === 'article' ? $entity_obj->get('field_image')->referencedEntities() : $entity_obj->get('field_news_image')->referencedEntities();
             $body = $entity_obj->body->getValue();
-            $urlGetImage = Drupal::request()->getSchemeAndHttpHost().'/apidoor/contents/image?id=';
+            $urlGetImage = Drupal::request()->getSchemeAndHttpHost().'/api/contents/image?id=';
             if(is_array($body)){
                 $dataBody= [];
                 foreach($body as $item){
