@@ -1,5 +1,5 @@
 apidoor.content_detail:
-  path: '/apidoor/contents/{content_id}'
+  path: '/api/contents/{content_id}'
   defaults:
     _controller: '\Drupal\restapi_door\Controller\ContentController::detail'
     _title: 'Get Detail of content post'
@@ -8,7 +8,7 @@ apidoor.content_detail:
     _permission: 'access content'
 
 apidoor.content_create:
-  path: '/apidoor/contents/create'
+  path: '/api/contents/create'
   defaults:
     _controller: '\Drupal\restapi_door\Controller\ContentController::createContent'
     _title: 'Make new content data'
@@ -17,7 +17,7 @@ apidoor.content_create:
     _permission: 'access content'
 
 apidoor.content_image:
-  path: '/apidoor/contents/image'
+  path: '/api/contents/image'
   defaults:
     _controller: '\Drupal\restapi_door\Controller\ContentController::image'
     _title: 'get content image data'
@@ -26,7 +26,7 @@ apidoor.content_image:
     _permission: 'access content'
 
 apidoor.content_update:
-  path: '/apidoor/contents/update'
+  path: '/api/contents/update'
   defaults:
     _controller: '\Drupal\restapi_door\Controller\ContentController::updateContent'
     _title: 'update content data'
@@ -35,7 +35,7 @@ apidoor.content_update:
     _permission: 'access content'
     
 apidoor.content_list:
-  path: '/apidoor/contents/list'
+  path: '/api/contents/list'
   defaults:
     _controller: '\Drupal\restapi_door\Controller\ContentController::contentList'
     _title: 'Get List of landing page'
@@ -44,7 +44,7 @@ apidoor.content_list:
     _permission: 'access content'
     
 apidoor.content_delete:
-  path: '/apidoor/contents/delete-content'
+  path: '/api/contents/delete-content'
   defaults:
     _controller: '\Drupal\restapi_door\Controller\ContentController::deleteContent'
     _title: 'Get List of landing page'
