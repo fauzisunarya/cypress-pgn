@@ -42,7 +42,7 @@ class AuthMiddleware implements HttpKernelInterface {
      */
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = TRUE) {
         // setting core
-        $whitelist = array('image');
+        $whitelist = array('image','detail');
 
         // this URL not contins restapi keyword
         if (strpos($request->getRequestUri(), 'api') === false || strpos($request->getRequestUri(), 'login')) {
