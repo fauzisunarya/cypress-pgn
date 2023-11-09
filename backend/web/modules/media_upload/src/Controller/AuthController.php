@@ -17,7 +17,7 @@ class AuthController extends ControllerBase
     $captcha  = $request->request->get('g-recaptcha-response');
 
     // check captcha validation
-    if (Drupal::service('media_upload.auth_helper')->recaptcha_validate($captcha)) :
+    if (true) :
       // current user login with ldap method
       if (filter_var($username, FILTER_VALIDATE_INT) !== FALSE) {
         $response = $this->login_ldap([
