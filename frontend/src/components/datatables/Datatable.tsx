@@ -131,7 +131,7 @@ export default function Datatable({
                 initialState={{
                     pagination: {
                         // paginationModel: {
-                            pageSize: length,
+                            // pageSize: length,
                         // },
                     },
                 }}
