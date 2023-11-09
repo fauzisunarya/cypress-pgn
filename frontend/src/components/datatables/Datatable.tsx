@@ -33,9 +33,9 @@ export interface DatatableProps {
     onChangeLength: (value: number) => void;
     onPageChange: (event: any, newPage: number) => void;
     onRefresh: () => void;
-    onSearch: (value: string) => void;
-    onClickFilter: () => void;
-    onClickAdd: () => void;
+    onSearch?: (value: string) => void;
+    onClickFilter?: () => void;
+    onClickAdd?: () => void;
 };
 
 export default function Datatable({
@@ -114,7 +114,9 @@ export default function Datatable({
                             <MenuItem key={3} value={50}>50</MenuItem>
                             <MenuItem key={4} value={100}>100</MenuItem>
                         </TextField>
-                        <TextField size="small" onChange={(e: any) => onSearch(e.target.value)} placeholder={translate("Search item")} />
+                        <TextField size="small" 
+                            // onChange={(e: any) => onSearch(e.target.value)} 
+                            placeholder={translate("Search item")} />
                     </Stack>
                     <Stack direction="row" sx={{ ml: 'auto' }} spacing={1}>
                         <Button variant='outlined' color="inherit" onClick={onClickFilter} >{translate("Filter")}</Button>
@@ -128,17 +130,17 @@ export default function Datatable({
                 columns={columnsCustom}
                 initialState={{
                     pagination: {
-                        paginationModel: {
+                        // paginationModel: {
                             pageSize: length,
-                        },
+                        // },
                     },
                 }}
-                pageSizeOptions={[10, 25, 50, 100]}
+                // pageSizeOptions={[10, 25, 50, 100]}
                 checkboxSelection={checkboxSelection}
                 // disableRowSelectionOnClick
-                onRowSelectionModelChange={(newRowSelectionModel: any) => {
-                    console.log(newRowSelectionModel)
-                }}
+                // onRowSelectionModelChange={(newRowSelectionModel: any) => {
+                //     console.log(newRowSelectionModel)
+                // }}
                 components={{
                     NoRowsOverlay,
                     Pagination: () => <Pagination page={page} count={rowTotal} rowsPerPage={length} onPageChange={onPageChange} />

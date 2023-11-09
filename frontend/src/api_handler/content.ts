@@ -4,15 +4,15 @@ import axiosContent from "src/utils/axios";
 // import { token } from "src/config";
 
 export type listProps =  {
-    "search" : string;
-    "setLimit" : any;
-    "setOffset" : any;
-    "status" : string;
-    "module" : string;
-    "page": any;
-    "limit": any;
-    "sortBy": any;
-    "order": any;
+    search? : string;
+    setLimit? : any;
+    setOffset? : any;
+    status? : string;
+    module? : string;
+    page?: any;
+    limit?: any;
+    sortBy?: any;
+    order?: any;
 }
 
 export function list(params: listProps){
