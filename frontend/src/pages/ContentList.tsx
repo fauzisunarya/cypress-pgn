@@ -128,15 +128,15 @@ export default function ContentList() {
         },
     ];
 
-    const handleLoadData = async () => {
+    const handleLoadData = async (order:any, sortBy:any) => {
         setLoading(true);
         try {
             const response: any = await list({
                 "search": "",
                 "setLimit": "",
                 "status": "",
-                "order": "",
-                "sortBy" : "title"
+                "order": order,
+                "sortBy" : sortBy ? sortBy : "title"
             })
 
             setLoading(false);
@@ -158,7 +158,7 @@ export default function ContentList() {
     }
 
     const handleRefresh = () => {
-        handleLoadData();
+        handleLoadData('', '');
     }
 
     const handleClickOpen = () => {
@@ -193,7 +193,7 @@ export default function ContentList() {
     const onSubmitFilter = (val:any, e:any) => {
         e.preventDefault();
         var fdata:any = filterData(val.sort);
-        loadFilter(fdata.order, fdata.sortBy);
+        handleLoadData(fdata.order, fdata.sortBy);
         handleClose();
     }
 
@@ -224,6 +224,10 @@ export default function ContentList() {
         // status: "1",
     };
 
+    const handleSearch = () => {
+
+    }
+
     const { register, handleSubmit, reset, control, getValues, setValue, watch } = useForm({
         defaultValues
     });
@@ -232,7 +236,7 @@ export default function ContentList() {
         const formValues:any = getValues();
         // var filterData:any = filterData(formValues.sort);
         // loadFilter(filterData.order, filterData.sortBy);
-        loadFilter('', '');
+        handleLoadData('', '');
     }
 
     return (
@@ -260,7 +264,7 @@ export default function ContentList() {
                         onChangeLength={handleChangeLength}
                         onRefresh={handleRefresh}
                         onPageChange={handlePageChange}
-                        // onSearch={handleSearch}
+                        onSearch={handleSearch}
                         // onClickFilter={handleFilter}
                         // onClickAdd={handleAdd}
                     />
