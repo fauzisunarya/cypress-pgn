@@ -19,9 +19,9 @@ import IframeExample from 'src/pages/example/IframeExample';
 export default function Router() {
   return useRoutes([
     {
-      path: '/content',
+      path: '/',
       children: [
-        { path: 'list', element: <ContentList /> },
+        { path: 'content-list', element: <ContentList /> },
       ],
     },
     {
