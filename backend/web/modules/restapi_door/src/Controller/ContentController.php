@@ -344,6 +344,14 @@ class ContentController extends ControllerBase{
             throw new \JsonException('Could not decode request body.', $e->getCode(), $e);
         }
 
+        if (empty($parameters['data']) || empty($parameters['data']['order']) || empty($parameters['data']['page']) || empty($parameters['data']['length'])) {
+            return \Drupal::service('restapi_door.app_helper')->response([
+                'status'  => 'failed',
+                'message' => 'request parameter not valid. data, data.order, data.page, data.length cannot be empty!',
+                'data'    => []
+            ], 400);
+        };
+
         try{
             $result = [];
             $entity = \Drupal::entityTypeManager()->getStorage('node');
