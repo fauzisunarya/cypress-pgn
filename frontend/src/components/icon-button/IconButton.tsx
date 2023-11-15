@@ -12,6 +12,6 @@ export default function IconButton(props: any) {
             width = 28;break;
     }
     return (
-        <IconButtonMUI  {...props}> <Iconify icon={props.icon} width={width}/> </IconButtonMUI>
+        <IconButtonMUI sx={{ p : 0 }} {...props}> <Iconify icon={props.icon} width={width}/> </IconButtonMUI>
     )
 }

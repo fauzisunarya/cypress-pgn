@@ -1,5 +1,5 @@
-import { CloseIcon } from "src/theme/overrides/CustomIcons";
 import { Dialog, DialogContent, DialogTitle, IconButton, Snackbar, styled } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {

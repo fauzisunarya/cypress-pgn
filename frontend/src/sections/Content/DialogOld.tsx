@@ -4,11 +4,11 @@ import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import { useLocales } from 'src/locales';
-import FormDialog from 'src/components/dialog/FormDialog';
+import FormDialog from 'src/Components/dialog/FormDialog';
 import { ChangeEvent, ReactNode } from 'react';
 import { SelectChangeEvent } from '@mui/material';
-import TextEditor from "src/components/TextEditor";
-import Iconify from 'src/components/iconify';
+import TextEditor from "src/Components/TextEditor";
+import Iconify from 'src/Components/iconify';
 import moment from "moment"
 import { any } from 'prop-types';
 import { useForm, Controller } from "react-hook-form";

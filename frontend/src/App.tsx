@@ -5,9 +5,9 @@ import ThemeProvider from './theme';
 // locales
 import ThemeLocalization from './locales';
 // components
-import SnackbarProvider from './components/snackbar';
-import { ThemeSettings } from './components/settings';
-import { MotionLazyContainer } from './components/animate';
+import SnackbarProvider from './Components/snackbar';
+import { ThemeSettings } from './Components/settings';
+import { MotionLazyContainer } from './Components/animate';
 
 // ----------------------------------------------------------------------
 

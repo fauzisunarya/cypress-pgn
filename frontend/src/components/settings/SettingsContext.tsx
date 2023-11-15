@@ -5,32 +5,31 @@ import useLocalStorage from '../../hooks/useLocalStorage';
 import { defaultSettings } from './config';
 import { SettingsContextProps } from './types';
 import { defaultPreset, getPresets, presetsOption } from './presets';
-import { useAuthContext } from 'src/auth/useAuthContext';
 
 // ----------------------------------------------------------------------
 
 const initialState: SettingsContextProps = {
   ...defaultSettings,
   // Mode
-  onToggleMode: () => { },
-  onChangeMode: () => { },
+  onToggleMode: () => {},
+  onChangeMode: () => {},
   // Direction
-  onToggleDirection: () => { },
-  onChangeDirection: () => { },
-  onChangeDirectionByLang: () => { },
+  onToggleDirection: () => {},
+  onChangeDirection: () => {},
+  onChangeDirectionByLang: () => {},
   // Layout
-  onChangeLayout: () => { },
+  onChangeLayout: () => {},
   // Contrast
-  onToggleContrast: () => { },
-  onChangeContrast: () => { },
+  onToggleContrast: () => {},
+  onChangeContrast: () => {},
   // Color
-  onChangeColorPresets: () => { },
+  onChangeColorPresets: () => {},
   presetsColor: defaultPreset,
   presetsOption: [],
   // Stretch
-  onToggleStretch: () => { },
+  onToggleStretch: () => {},
   // Reset
-  onResetSetting: () => { },
+  onResetSetting: () => {},
 };
 
 // ----------------------------------------------------------------------
@@ -57,7 +56,6 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
   const langStorage = typeof window !== 'undefined' ? localStorage.getItem('i18nextLng') : '';
 
   const isArabic = langStorage === 'ar';
-  const { setAuthenticated } = useAuthContext();
 
   useEffect(() => {
     if (isArabic) {
@@ -65,31 +63,6 @@ export function SettingsProvider({ children }: SettingsProviderProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isArabic]);
-
-  useEffect(() => {
-
-    // Function to send a post message to the iframe
-
-    // Add event listener to handle incoming messages from the iframe
-    const handleMessage = (event: any) => {
-      // Handle the received message here
-      // if(event.origin === 'https://'){
-        console.log("handleMessage", event.data)
-        const data = event.data;
-        if(data.token){
-          setAuthenticated(data.token);
-        } 
-        
-      // }
-    };
-
-    window.addEventListener('message', handleMessage);
-
-    // Clean up the event listener when the component unmounts
-    return () => {
-      window.removeEventListener('message', handleMessage);
-    };
-  }, []);
 
   // Mode
   const onToggleMode = useCallback(() => {

@@ -2,11 +2,11 @@ import { m } from 'framer-motion';
 // @mui
 import { Container, Typography } from '@mui/material';
 // components
-import { MotionContainer, varBounce } from '../components/animate';
+import { MotionContainer, varBounce } from 'src/Components/animate';
 // assets
 import { ForbiddenIllustration } from '../assets/illustrations';
 //
-import { Navigate } from 'react-router-dom';
+import { useAuthContext } from './useAuthContext';
 
 // ----------------------------------------------------------------------
 
@@ -18,15 +18,30 @@ type RoleBasedGuardProp = {
 
 export default function RoleBasedGuard({ hasContent, roles, children }: RoleBasedGuardProp) {
   // Logic here to get current user role
-  const activeRole = localStorage.getItem('activeRole');
+  const { user } = useAuthContext();
+
   // const currentRole = 'user';
-  const currentRole = activeRole != null && activeRole != '' ? activeRole : 'admin'; // admin;
-  console.log(activeRole);
-  console.log(roles);
-  console.log(!roles?.includes(currentRole));
-  if (typeof roles !== 'undefined' && !roles.includes(currentRole)) { 
+  const currentRole = user?.role; // admin;
+
+  if (typeof roles !== 'undefined' && !roles.includes(currentRole)) {
     return hasContent ? (
-      <Navigate to={'/403'} />
+      <Container component={MotionContainer} sx={{ textAlign: 'center' }}>
+        <m.div variants={varBounce().in}>
+          <Typography variant="h3" paragraph>
+            Permission Denied
+          </Typography>
+        </m.div>
+
+        <m.div variants={varBounce().in}>
+          <Typography sx={{ color: 'text.secondary' }}>
+            You do not have permission to access this page
+          </Typography>
+        </m.div>
+
+        <m.div variants={varBounce().in}>
+          <ForbiddenIllustration sx={{ height: 260, my: { xs: 5, sm: 10 } }} />
+        </m.div>
+      </Container>
     ) : null;
   }
 
