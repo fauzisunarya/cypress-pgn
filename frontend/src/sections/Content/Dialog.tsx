@@ -438,15 +438,6 @@ export const CreatedDialog = (props: DialogProps) => {
                                         }}
                                         {...register(`contents.${index}.header.title`)}
                                     />
-                                    
-                                    {/* <TextField fullWidth
-                                        label={ translate('Subtitle') }
-                                        type="text"
-                                        InputLabelProps={{
-                                            shrink: true
-                                        }}
-                                        {...register(`contents.${index}.subtitle`)}
-                                    /> */}
                                 </Stack>
 
                                 <Stack direction={'row'} spacing={2} ml={-2}>
