@@ -12,7 +12,7 @@ export const allLangs = [
     icon: '/assets/icons/flags/ic_flag_en.svg',
   },
   {
-    label: 'Indonesia',
+    label: 'Bahasa',
     value: 'id',
     systemValue: idID,
     icon: '/assets/icons/flags/ic_flag_id.svg',

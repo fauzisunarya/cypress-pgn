@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next';
 // components
-import { useSettingsContext } from '../components/settings';
+import { useSettingsContext } from 'src/Components/settings';
 //
 import { allLangs, defaultLang } from './config';
-import axiosContent from 'src/utils/axios';
+import axios, { axiosInstanceUam, axiosInstanceRetail, axiosInstanceCustomer,  } from '../utils/axios';
+import en from './langs/en';
+import id from './langs/id';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +21,9 @@ export default function useLocales() {
   const handleChangeLanguage = (newlang: string) => {
     i18n.changeLanguage(newlang);
     onChangeDirectionByLang(newlang);
-    axiosContent.defaults.headers.common['Accept-Language'] = newlang;
+    axios.defaults.headers.common['Accept-Language'] = newlang;
+    axiosInstanceRetail.defaults.headers.common['Accept-Language'] = newlang;
+    axiosInstanceCustomer.defaults.headers.common['Accept-Language'] = newlang;
   };
 
   return {
@@ -36,4 +40,16 @@ export default function useLocales() {
     currentLang,
     allLangs,
   };
+}
+
+export function getMasterLocales(key:string){
+  const langStorage = typeof window !== 'undefined' ? localStorage.getItem('i18nextLng') : '';
+  const currentLang = allLangs.find((_lang) => _lang.value === langStorage) || defaultLang;
+  let collection: any = en;
+  if(currentLang.value == 'en'){
+    collection = en;
+  }else if(currentLang.value == 'id'){
+    collection = id;
+  }
+  return collection[key];
 }

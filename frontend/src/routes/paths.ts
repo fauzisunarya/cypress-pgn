@@ -4,8 +4,8 @@ function path(root: string, sublink: string) {
   return `${root}${sublink}`;
 }
 
-const ROOTS_DASHBOARD = '/dashboard';
 const ROOTS_EMPLOYEE = '/employee';
+const ROOTS_ATTENDANCE = '/attendance';
 
 // ----------------------------------------------------------------------
 
@@ -14,19 +14,9 @@ export const PATH_AUTH = {
 };
 
 export const PATH_EMPLOYEE = {
-  root: ROOTS_EMPLOYEE,  
-  list: path(ROOTS_EMPLOYEE, '/list'),  
+  root: ROOTS_EMPLOYEE 
 }
 
-export const PATH_DASHBOARD = {
-  root: ROOTS_DASHBOARD,  
-  one: path(ROOTS_DASHBOARD, '/one'),
-  two: path(ROOTS_DASHBOARD, '/two'),
-  three: path(ROOTS_DASHBOARD, '/three'),
-  user: {
-    root: path(ROOTS_DASHBOARD, '/user'),
-    four: path(ROOTS_DASHBOARD, '/user/four'),
-    five: path(ROOTS_DASHBOARD, '/user/five'),
-    six: path(ROOTS_DASHBOARD, '/user/six'),
-  },
-};
+export const PATH_ATTENDANCE = {
+  root: ROOTS_ATTENDANCE 
+}

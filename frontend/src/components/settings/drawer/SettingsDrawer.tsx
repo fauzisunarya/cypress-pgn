@@ -10,18 +10,10 @@ import { NAV } from '../../../config';
 import Iconify from '../../iconify';
 import Scrollbar from '../../scrollbar';
 //
-import { defaultSettings } from '../config';
+// import { defaultSettings } from '../config';
+// import { useSettingsContext } from '../SettingsContext';
 import { useSettingsContext } from '../SettingsContext';
-import Block from './Block';
-import BadgeDot from './BadgeDot';
-import ToggleButton from './ToggleButton';
-import ModeOptions from './ModeOptions';
-import LayoutOptions from './LayoutOptions';
-import StretchOptions from './StretchOptions';
-import ContrastOptions from './ContrastOptions';
-import DirectionOptions from './DirectionOptions';
-import FullScreenOptions from './FullScreenOptions';
-import ColorPresetsOptions from './ColorPresetsOptions';
+import { defaultSettings } from '../config';
 
 // ----------------------------------------------------------------------
 
@@ -60,7 +52,7 @@ export default function SettingsDrawer() {
 
   return (
     <>
-      {!open && <ToggleButton open={open} notDefault={notDefault} onToggle={handleToggle} />}
+      {/* {!open && <ToggleButton open={open} notDefault={notDefault} onToggle={handleToggle} />} */}
 
       <Drawer
         anchor="right"
@@ -91,14 +83,14 @@ export default function SettingsDrawer() {
             Settings
           </Typography>
 
-          <Tooltip title="Reset">
+          {/* <Tooltip title="Reset">
             <Box sx={{ position: 'relative' }}>
               {notDefault && <BadgeDot />}
               <IconButton onClick={onResetSetting}>
                 <Iconify icon="ic:round-refresh" />
               </IconButton>
             </Box>
-          </Tooltip>
+          </Tooltip> */}
 
           <IconButton onClick={handleClose}>
             <Iconify icon="eva:close-fill" />
@@ -107,7 +99,7 @@ export default function SettingsDrawer() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Scrollbar sx={{ p: SPACING, pb: 0 }}>
+        {/* <Scrollbar sx={{ p: SPACING, pb: 0 }}>
           <Block title="Mode">
             <ModeOptions />
           </Block>
@@ -131,11 +123,11 @@ export default function SettingsDrawer() {
           <Block title="Presets">
             <ColorPresetsOptions />
           </Block>
-        </Scrollbar>
+        </Scrollbar> */}
 
-        <Box sx={{ p: SPACING, pt: 0 }}>
+        {/* <Box sx={{ p: SPACING, pt: 0 }}>
           <FullScreenOptions />
-        </Box>
+        </Box> */}
       </Drawer>
     </>
   );

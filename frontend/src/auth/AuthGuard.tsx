@@ -1,10 +1,11 @@
-import { useState, ReactNode, useMemo, useEffect } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { useState, ReactNode } from 'react';
+import { Navigate } from 'react-router-dom';
 // components
-import LoadingScreen from '../components/loading-screen';
-
+// import LoadingScreen from '../components/loading-screen';
+//
+// import Login from '../pages/LoginPage';
 import { useAuthContext } from './useAuthContext';
-import { isValidToken } from './utils';
+import LoadingScreen from 'src/Components/loading-screen';
 
 // ----------------------------------------------------------------------
 
@@ -14,32 +15,28 @@ type AuthGuardProps = {
 
 export default function AuthGuard({ children }: AuthGuardProps) {
   const { isAuthenticated, isInitialized } = useAuthContext();
-  
-  const { user } = useAuthContext();
-  const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE || 'off';
 
-  const { pathname } = useLocation();
+  // const pathname = route().current();
 
   const [requestedLocation, setRequestedLocation] = useState<string | null>(null);
 
   if (!isInitialized) {
-    return <LoadingScreen />;
+    <Navigate to={'/404'} />
+    // return <LoadingScreen/>;
   }
 
   if (!isAuthenticated) {
-    if (pathname !== requestedLocation) {
-      setRequestedLocation(pathname);
-    }
-    return <Navigate to={'/login'} />;
+    <Navigate to={'/404'} />
+    // if (pathname !== requestedLocation) {
+    //   setRequestedLocation(pathname ? pathname : null);
+    // }
+    // return <LoadingScreen/>;
   }
 
-  if(maintenanceMode === 'on' && user?.name !== 'admin'){
-    return <Navigate to={'/maintenance'} />;
-  }
+  // if (requestedLocation && pathname !== requestedLocation) {
+  //   setRequestedLocation(null);
+  //   return <Navigate to={requestedLocation} />;
+  // }
 
-  if (requestedLocation && pathname !== requestedLocation) {
-    return <Navigate to={requestedLocation} />;
-  }
-
-  return <>{children}</>;
+  return <>{children}</> ;
 }

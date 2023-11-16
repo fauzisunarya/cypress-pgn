@@ -32,7 +32,4 @@ export type JWTContextType = {
   loginWithGoogle?: () => void;
   loginWithGithub?: () => void;
   loginWithTwitter?: () => void;
-  setAuthenticated: (token : string | null | undefined) => void,
-  forgotPassword: (email: string) => Promise<void>;
-  submitNewPassword: (password:string, newPassword:string) => Promise<void>;
 };

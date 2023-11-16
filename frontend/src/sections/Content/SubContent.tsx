@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Grid, Typography, Button, Link, Box, Stack, TextField } from "@mui/material";
-import TextEditor from "src/components/TextEditor";
+import TextEditor from "src/Components/TextEditor";
 import { useLocales } from 'src/locales';
 import { useFieldArray } from "react-hook-form";
 

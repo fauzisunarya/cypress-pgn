@@ -1,9 +1,6 @@
 import { Backdrop, Box, Button, CircularProgress, Snackbar, Stack } from '@mui/material';
 import { ReactNode, createContext, useState, useEffect } from 'react';
-import IconButton from 'src/components/icon-button/IconButton';
-import { AnyObject } from 'yup/lib/types';
-
-// ----------------------------------------------------------------------
+import IconButton from 'src/Components/icon-button/IconButton';
 
 export const SNACKBAR_CLOSEABLE = 'closeable';
 export const SNACKBAR_NOT_CLOSEABLE = 'not_closeable';
@@ -53,7 +50,7 @@ function HelperProvider({ children }: HelperProviderProps) {
     >
       {children}
       <Backdrop
-        sx={{ color: '#CED8E0', zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: 'rgba(145, 158, 171, 0.48);' }}
+        sx={{ color: '#CED8E0', zIndex: (theme) => theme.zIndex.drawer + 999, backgroundColor: 'rgba(145, 158, 171, 0.48);' }}
         open={load}
       >
         <Box sx={{ backgroundColor: '#fff', borderRadius: '12px', p: 2 }}>

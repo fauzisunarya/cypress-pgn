@@ -1,5 +1,4 @@
 import { ReactNode, createContext, useState, useEffect } from 'react';
-import { AnyObject } from 'yup/lib/types';
 
 // ----------------------------------------------------------------------
 export type DatatableContextProps = {
