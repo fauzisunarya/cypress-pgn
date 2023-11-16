@@ -53,10 +53,14 @@ function filterData(params:any) {
 }
 
 function FormatDate(dateString: any) {
-    const options: any = { day: 'numeric', month: 'short', year: 'numeric' };
-    const tanggal = new Date(dateString).toLocaleDateString('id-ID', options);
-    const jam = new Date(dateString).toLocaleTimeString('id-ID', { hour: 'numeric', minute: 'numeric' });
-    return `${tanggal} ${jam}`;
+    if (dateString) {
+        const options: any = { day: 'numeric', month: 'short', year: 'numeric' };
+        const tanggal = new Date(dateString).toLocaleDateString('id-ID', options);
+        const jam = new Date(dateString).toLocaleTimeString('id-ID', { hour: 'numeric', minute: 'numeric' });
+        return `${tanggal} ${jam}`;
+    } else {
+        return '';
+    }
 }
 
 // export default function List({ message }: PageProps<{ message: string }>) {
@@ -198,7 +202,7 @@ export default function List() {
     }
 
     const handleCreate = (value:any) => {
-        setSelectedRow(value);
+        setSelectedRow('0');
         setOpenCreate(true);
     }
 
