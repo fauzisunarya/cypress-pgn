@@ -22,7 +22,7 @@ RUN a2enmod rewrite
 RUN a2enmod headers rewrite
 
 # copy file aplikasi ke docroot
-COPY . .
+COPY ./backend/ ./
 
 # change owner supaya bisa di write oleh aplikasi
 RUN chown -Rc www-data:root . && \
