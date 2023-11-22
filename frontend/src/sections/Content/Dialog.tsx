@@ -4,13 +4,13 @@ import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import { useLocales } from 'src/locales';
-import FormDialog from 'src/Components/dialog/FormDialog';
+import FormDialog from 'src/components/dialog/FormDialog';
 import { ChangeEvent, ReactNode } from 'react';
 import { SelectChangeEvent } from '@mui/material';
-import TextEditor from "src/Components/TextEditor";
+import TextEditor from "src/components/TextEditor";
 import MUIRichTextEditor from 'mui-rte'
 import { EditorState, convertFromHTML, ContentState, convertToRaw } from "draft-js";
-import Iconify from 'src/Components/iconify';
+import Iconify from 'src/components/iconify';
 import moment from "moment"
 import { any } from 'prop-types';
 import { useForm, Controller, useFieldArray } from "react-hook-form";

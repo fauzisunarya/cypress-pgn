@@ -2,7 +2,7 @@ import { m } from 'framer-motion';
 // @mui
 import { Container, Typography } from '@mui/material';
 // components
-import { MotionContainer, varBounce } from 'src/Components/animate';
+import { MotionContainer, varBounce } from 'src/components/animate';
 // assets
 import { ForbiddenIllustration } from '../assets/illustrations';
 //

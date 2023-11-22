@@ -1,5 +1,5 @@
 import { IconButton as IconButtonMUI  } from "@mui/material";
-import Iconify from "../iconify/Iconify";
+import Iconify from "src/components/iconify/Iconify";
 
 export default function IconButton(props: any) {
     let width = 20;
