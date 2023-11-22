@@ -8,6 +8,8 @@ import FormDialog from 'src/Components/dialog/FormDialog';
 import { ChangeEvent, ReactNode } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 import TextEditor from "src/Components/TextEditor";
+import MUIRichTextEditor from 'mui-rte'
+import { EditorState, convertFromHTML, ContentState, convertToRaw } from "draft-js";
 import Iconify from 'src/Components/iconify';
 import moment from "moment"
 import { any } from 'prop-types';
@@ -52,13 +54,15 @@ export const DeleteDialog = (props: DialogProps) => {
 
     const onSubmitDelete = async () => {
         try {
+            setLoading(true);
             const res:any = await deleteContent(props.data);
 
-            if (res.data.code == 0) {
-                setMessage(res.data.info);
+            if (res.code == 0) {
+                setMessage(res.info);
                 setTimeout(() => {
                     props.closeModal();
                     props.onSubmit();
+                    setLoading(false);
                 }, 3000);
             }
         } catch (error) {
@@ -76,6 +80,7 @@ export const DeleteDialog = (props: DialogProps) => {
                 handleSubmit={onSubmitDelete}
                 title={ translate("Information") }
                 maxWidth={'xs'}
+                isLoading={isLoading}
                 message={message}
             >
                 <Box sx={{ width: '100%' }} component="form" noValidate autoComplete="off">
@@ -111,14 +116,15 @@ export const CreatedDialog = (props: DialogProps) => {
     const contentConvert = (value:any) => {
         const contentBody = value;
         const dataImage: File[] = [];
+        const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
 
         contentBody.forEach((content:any) => {
-            if (content.img_banner != '') {
+            if (content.img_banner != '' && !urlRegex.test(content.img_banner)) {
                 dataImage.push(content.img_banner);
                 content.img_banner = content.img_banner.name;
             }
 
-            if (content.header.image != '') {
+            if (content.header.image != '' && !urlRegex.test(content.header.image)) {
                 dataImage.push(content.header.image);
                 content.header.image = content.header.image.name;
             }
@@ -131,7 +137,7 @@ export const CreatedDialog = (props: DialogProps) => {
 
             if (content.body) {
                 (content.body).forEach((sub:any) => {
-                    if (sub.image != '') {
+                    if (sub.image != '' && !urlRegex.test(sub.image)) {
                         dataImage.push(sub.image);
                         sub.image = sub.image.name;
                     }
@@ -159,7 +165,7 @@ export const CreatedDialog = (props: DialogProps) => {
             const convertContent = contentConvert(value.contents);
             const fileImage = convertContent.image;
 
-            const convertedImagesPromise = fileImage.map((image: File) => {
+            const convertImage = (image: File) => {
                 return new Promise<{ filename: string, mimeType: string, file: string | ArrayBuffer | null }>((resolve) => {
                     const reader = new FileReader();
             
@@ -174,41 +180,38 @@ export const CreatedDialog = (props: DialogProps) => {
             
                     reader.readAsDataURL(image);
                 });
-            });
-    
-            Promise.all(convertedImagesPromise)
-            .then(async(convertedImages) => {
-                
-                setLoading(true);
-                const response:any = await createContent({
-                    uuid : props.data,
-                    name : value.title,
-                    lang : value.lang,
-                    content_body : [{
-                        value : convertContent.content,
-                        summary : '',
-                        format : 'json',
-                    }],
-                    content_image: convertedImages,
-                    created_date: moment().format('YYYY-MM-DD HH:mm:ss'),
-                    last_update: moment().format('YYYY-MM-DD HH:mm:ss'),
-                    type_create: props.data ? 'update' : 'create',
-                });
-    
-                setMessage(response.data.info);
-                setLoading(false);
+            };
 
-                if (response.data.code == 0) {
-                    setTimeout(() => {
-                        props.closeModal();
-                        props.onSubmit();
-                    }, 2000);
-                } 
-            })
-            .catch((error) => {
-                setLoading(false);
-                setMessage(error);
+            // Convert images to base64
+            const convertedImages = await Promise.all(fileImage.map(convertImage));
+
+            setLoading(true);
+
+            // Create or update content
+            const response:any = await createContent({
+                uuid: props.data != '0' ? props.data : '',
+                name: value.title,
+                lang: value.lang,
+                content_body: [{
+                    value: convertContent.content,
+                    summary: '',
+                    format: 'json',
+                }],
+                content_image: convertedImages,
+                created_date: moment().format('YYYY-MM-DD HH:mm:ss'),
+                last_update: moment().format('YYYY-MM-DD HH:mm:ss'),
+                type_create: props.data != '0' ? 'update' : 'create',
             });
+
+            setMessage(response.info);
+            setLoading(false);
+
+            if (response.code == 0) {
+                setTimeout(() => {
+                    props.closeModal();
+                    props.onSubmit();
+                }, 2000);
+            }
         } catch (error) {
             setLoading(false);
             setMessage(error.message);
@@ -272,10 +275,14 @@ export const CreatedDialog = (props: DialogProps) => {
     const getContents = async () => {
         try {
             setLoading(true);
+            reset(defaultValues);
+            setMessage('');
+            setFilePreviews([]);
+            setFileSubPreviews([]);
 
-            if (props.data) {
+            if (props.data != '0') {
                 const response: any = await getContent(props.data);
-                var responseData = response.data.data;
+                var responseData = response.data;
                 if (responseData) {
                     setValue('title', responseData.name);
                     setValue('lang', responseData.lang);
@@ -344,6 +351,9 @@ export const CreatedDialog = (props: DialogProps) => {
         setTitle(translate('Create Content'));
         getContents();
     },[props.data]);
+
+    console.log(fileSubPreviews);
+    console.log(filePreviews);
 
     return (
         <div>
@@ -545,11 +555,12 @@ export const CreatedDialog = (props: DialogProps) => {
                                     <TextEditor 
                                         label={ translate('Main Content') } 
                                         control={control} 
+                                        defaultValue={getValues(`contents.${index}.header.desc`)}
                                         {...register(`contents.${index}.header.desc`)}
                                     />
                                 </Stack>
 
-                                <SubContent nestIndex={index} fileSubPreviews={fileSubPreviews} {...{ control, setValue, register }} />
+                                <SubContent nestIndex={index} fileSubPreviews={fileSubPreviews} {...{ control, setValue, register, getValues }} />
                             </Box>
                         </Stack>
                     ))}

@@ -9,8 +9,7 @@ export default function DataGrid(theme: Theme) {
     MuiDataGrid: {
       styleOverrides: {
         root: {
-          '& .MuiDataGrid-root': {
-            
+          '& .MuiDataGrid-root, & .MuiDataGrid-columnHeaders': {
             borderRadius: 0
           },
           '& .MuiDataGrid-columnHeaderTitle': {
@@ -19,7 +18,10 @@ export default function DataGrid(theme: Theme) {
           '& .MuiDataGrid-columnHeader': {
             backgroundColor: '#f6f7f8',
             color: '#565758',
-            borderRight: '1px solid #e5e7eb',
+            borderTop: '1px solid #b1b2b3',
+            borderRight: '1px solid #b1b2b3',
+            borderTopLeftRadius : '0px',
+            borderTopRightRadius : '0px'
           },
           '& .firstColumnHeader': {
             backgroundColor: '#f6f7f8',

@@ -141,7 +141,6 @@ export default function Datatable({
                         },
                     },
                 }}
-                getRowId={(row:any) => row}
                 pageSizeOptions={[10, 25, 50, 100]}
                 checkboxSelection={checkboxSelection}
                 disableColumnMenu 
@@ -158,7 +157,3 @@ export default function Datatable({
         </Box>
     );
 }
-
-
-
-
