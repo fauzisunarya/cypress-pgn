@@ -8,7 +8,7 @@ import {
   ThemeProvider as MUIThemeProvider,
 } from '@mui/material/styles';
 // components
-import { useSettingsContext } from 'src/Components/settings';
+import { useSettingsContext } from 'src/components/settings';
 //
 import palette from './palette';
 import typography from './typography';

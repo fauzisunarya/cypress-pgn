@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 //
 // import Login from '../pages/LoginPage';
 import { useAuthContext } from './useAuthContext';
-import LoadingScreen from 'src/Components/loading-screen';
+import LoadingScreen from 'src/components/loading-screen';
 
 // ----------------------------------------------------------------------
 

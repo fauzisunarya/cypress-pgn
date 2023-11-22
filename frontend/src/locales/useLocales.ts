@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 // components
-import { useSettingsContext } from 'src/Components/settings';
+import { useSettingsContext } from 'src/components/settings';
 //
 import { allLangs, defaultLang } from './config';
 import axios, { axiosInstanceUam, axiosInstanceRetail, axiosInstanceCustomer,  } from '../utils/axios';

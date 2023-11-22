@@ -6,7 +6,7 @@ import { HEADER } from 'src/config';
 // utils
 import { bgBlur } from 'src/utils/cssStyles';
 // components
-import Logo from 'src/Components/logo';
+import Logo from 'src/components/logo';
 
 // ----------------------------------------------------------------------
 

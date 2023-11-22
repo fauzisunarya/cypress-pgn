@@ -1,19 +1,19 @@
 // @mui
-import CompactLayout from 'src/Layouts/compact/CompactLayout';
-import Page from 'src/Components/Page';
+import CompactLayout from 'src/layouts/compact/CompactLayout';
+import Page from 'src/components/Page';
 import { Link, Box, Button, Checkbox, CircularProgress, Container, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Stack, TextField, Typography, Alert, AlertTitle } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material';
 import { ChangeEvent, ReactNode, useEffect, useMemo, useState } from 'react';
 
 // components
 import { PageProps } from 'src/types';
-import Chip from 'src/Components/chip/Chip';
-import Datatable from 'src/Components/datatables-v2/Datatable';
+import Chip from 'src/components/chip/Chip';
+import Datatable from 'src/components/datatables-v2/Datatable';
 import { GridColDef } from '@mui/x-data-grid';
-import FormDialog from 'src/Components/dialog/FormDialog';
+import FormDialog from 'src/components/dialog/FormDialog';
 import { Controller, useForm } from 'react-hook-form';
 import { list } from 'src/api_handler/content';
-import IconButton from 'src/Components/icon-button/IconButton'
+import Iconify from 'src/components/iconify';
 import { useLocales } from 'src/locales';
 import { CreatedDialog, DeleteDialog } from "src/sections/Content/Dialog";
 import AuthGuard from 'src/auth/AuthGuard';
@@ -121,7 +121,7 @@ export default function List() {
             renderCell: (params: any) => {
                 return (
                     <Stack direction="row" spacing={1}>
-                        <IconButton icon="fa:pencil" size="small" onClick={()=>handleEditDialog(params.row.uuid)}>{translate("Edit")}</IconButton>
+                        <Iconify icon="fa:pencil" sx={{ color: 'text.disabled', width:16 }} style={{ cursor:'pointer' }} onClick={()=>handleEditDialog(params.row.uuid)}/>
                         {/* <Link variant={'body2'} sx={{ color:'#333435', cursor:'pointer' }} onClick={(e:any) => handleDeleteDialog(params.row.uuid)}>{ translate('Remove') }</Link> */}
                     </Stack>
                 );

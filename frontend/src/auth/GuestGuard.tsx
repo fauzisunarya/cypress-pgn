@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 
 // components
-import LoadingScreen from 'src/Components/loading-screen';
+import LoadingScreen from 'src/components/loading-screen';
 //
 import { useAuthContext } from './useAuthContext';
 

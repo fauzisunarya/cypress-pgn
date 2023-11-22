@@ -1,6 +1,6 @@
 import { Backdrop, Box, Button, CircularProgress, Snackbar, Stack } from '@mui/material';
 import { ReactNode, createContext, useState, useEffect } from 'react';
-import IconButton from 'src/Components/icon-button/IconButton';
+import Iconify from 'src/components/iconify';
 
 export const SNACKBAR_CLOSEABLE = 'closeable';
 export const SNACKBAR_NOT_CLOSEABLE = 'not_closeable';
@@ -63,7 +63,7 @@ function HelperProvider({ children }: HelperProviderProps) {
 }
 
 const actionNotCloseable = (
-  <IconButton icon="fa:refresh" />
+  <Iconify icon="fa:refresh" />
 );
 
 const actionResponse = (
