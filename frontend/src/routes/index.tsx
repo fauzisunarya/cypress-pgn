@@ -5,6 +5,22 @@ import ContentList from 'src/Pages/Content/List';
 
 export default function Router() {
   return useRoutes([
-    { path:"/content/list",element: <ContentList />, index: true},
+    {
+      path: '/',
+      children: [
+        { path: 'content-list', element: <ContentList /> },
+      ],
+    },
+    {
+      element: <CompactLayout />,
+      children: [{ path: '404', element: <Page404 /> }],
+    },
+    {
+      path: '/iframe-example',
+      element: (
+        <IframeExample />
+      )
+    },
+    { path: '*', element: <Navigate to="/404" replace /> },
   ]);
 }
