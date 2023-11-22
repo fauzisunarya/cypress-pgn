@@ -116,14 +116,15 @@ export const CreatedDialog = (props: DialogProps) => {
     const contentConvert = (value:any) => {
         const contentBody = value;
         const dataImage: File[] = [];
+        const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
 
         contentBody.forEach((content:any) => {
-            if (content.img_banner != '') {
+            if (content.img_banner != '' && !urlRegex.test(content.img_banner)) {
                 dataImage.push(content.img_banner);
                 content.img_banner = content.img_banner.name;
             }
 
-            if (content.header.image != '') {
+            if (content.header.image != '' && !urlRegex.test(content.header.image)) {
                 dataImage.push(content.header.image);
                 content.header.image = content.header.image.name;
             }
@@ -136,7 +137,7 @@ export const CreatedDialog = (props: DialogProps) => {
 
             if (content.body) {
                 (content.body).forEach((sub:any) => {
-                    if (sub.image != '') {
+                    if (sub.image != '' && !urlRegex.test(sub.image)) {
                         dataImage.push(sub.image);
                         sub.image = sub.image.name;
                     }

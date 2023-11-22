@@ -25,23 +25,26 @@ function TextEditorBase({ value, onChange, defaultValue }: any) {
     const [editorState, setEditorState] = React.useState(
         EditorState.createEmpty()
     );
+    const [content, setContent] = React.useState('');
 
     React.useEffect(() => {
         if (defaultValue) {
             try {
-                const fromHtml = "<p>"+defaultValue+"</p>";
-                const blocksFromHTML = convertFromHTML(fromHtml);
-                const bstate = ContentState.createFromBlockArray(
-                    blocksFromHTML.contentBlocks,
-                    blocksFromHTML.entityMap,
-                );
-                const state = EditorState.createWithContent(bstate);
-                // const state = EditorState.createWithContent(ContentState.createFromText(fromHtml));
-                setEditorState(state);
+                const sampleMarkup = '<span>'+defaultValue+'</span>';
+
+                // 1. Convert the HTML
+                const contentHTML = convertFromHTML(sampleMarkup)
+
+                // 2. Create the ContentState object
+                const state = ContentState.createFromBlockArray(contentHTML.contentBlocks, contentHTML.entityMap)
+
+                // 3. Stringify `state` object from a Draft.Model.Encoding.RawDraftContentState object
+                const content = JSON.stringify(convertToRaw(state))
+                setContent(content);
             } catch (error) {
                 // Handle invalid JSON string, for example, set editor state to empty
                 console.error('Invalid JSON string:', defaultValue);
-                setEditorState(EditorState.createEmpty());
+                setContent(content);
             }
         }
     }, [defaultValue]);
@@ -64,13 +67,11 @@ function TextEditorBase({ value, onChange, defaultValue }: any) {
         minHeight: '200px',
     };
 
-    console.log(editorState)
-
     return (
         <ThemeProvider theme={theme}>
             <div style={editorStyle}>
                 <MUIRichTextEditor
-                    // defaultValue={editorState}
+                    defaultValue={content}
                     toolbarButtonSize="small"
                     inlineToolbar
                     label={ translate('Type here') }
