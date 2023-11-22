@@ -275,6 +275,10 @@ export const CreatedDialog = (props: DialogProps) => {
     const getContents = async () => {
         try {
             setLoading(true);
+            reset(defaultValues);
+            setMessage('');
+            setFilePreviews([]);
+            setFileSubPreviews([]);
 
             if (props.data != '0') {
                 const response: any = await getContent(props.data);
@@ -347,6 +351,9 @@ export const CreatedDialog = (props: DialogProps) => {
         setTitle(translate('Create Content'));
         getContents();
     },[props.data]);
+
+    console.log(fileSubPreviews);
+    console.log(filePreviews);
 
     return (
         <div>
