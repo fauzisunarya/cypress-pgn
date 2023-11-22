@@ -8,6 +8,8 @@ import FormDialog from 'src/Components/dialog/FormDialog';
 import { ChangeEvent, ReactNode } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 import TextEditor from "src/Components/TextEditor";
+import MUIRichTextEditor from 'mui-rte'
+import { EditorState, convertFromHTML, ContentState, convertToRaw } from "draft-js";
 import Iconify from 'src/Components/iconify';
 import moment from "moment"
 import { any } from 'prop-types';
@@ -545,11 +547,12 @@ export const CreatedDialog = (props: DialogProps) => {
                                     <TextEditor 
                                         label={ translate('Main Content') } 
                                         control={control} 
+                                        defaultValue={getValues(`contents.${index}.header.desc`)}
                                         {...register(`contents.${index}.header.desc`)}
                                     />
                                 </Stack>
 
-                                <SubContent nestIndex={index} fileSubPreviews={fileSubPreviews} {...{ control, setValue, register }} />
+                                <SubContent nestIndex={index} fileSubPreviews={fileSubPreviews} {...{ control, setValue, register, getValues }} />
                             </Box>
                         </Stack>
                     ))}

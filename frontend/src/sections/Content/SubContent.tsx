@@ -4,7 +4,7 @@ import TextEditor from "src/Components/TextEditor";
 import { useLocales } from 'src/locales';
 import { useFieldArray } from "react-hook-form";
 
-export default ({ nestIndex, fileSubPreviews, control, setValue, register }:any) => {
+export default ({ nestIndex, fileSubPreviews, control, setValue, register, getValues }:any) => {
     const { translate } = useLocales();
     const [filePreviews, setFilePreviews] = React.useState([]);
     const { fields, remove, append } = useFieldArray({
@@ -141,6 +141,7 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register }:any)
                             <TextEditor 
                                 label={ translate('Sub Content') } 
                                 control={control} 
+                                defaultValue={getValues(`contents.${nestIndex}.body.${num}.desc`)}
                                 {...register(`contents.${nestIndex}.body.${num}.desc`)}
                             />
                         </Stack>

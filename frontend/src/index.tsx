@@ -7,6 +7,8 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { CollapseDrawerProvider } from 'src/contexts/CollapseDrawerContext';
 import { store } from 'src/redux/store';
 import App from './App';
+import './bootstrap';
+import 'src/css/app.css';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(

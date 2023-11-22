@@ -83,7 +83,7 @@ export default function List() {
             headerName: translate('Title'), 
             filterable: false,
             sortable: false,
-            flex: 0.25,
+            flex: 0.4,
         },
         {
             field: 'status',
@@ -117,12 +117,12 @@ export default function List() {
             headerName: translate('Action'), 
             filterable: false,
             sortable: false,
-            flex: 0.35,
+            flex: 0.1,
             renderCell: (params: any) => {
                 return (
                     <Stack direction="row" spacing={1}>
-                        <Link variant={'body2'} sx={{ color:'#333435', cursor:'pointer' }} onClick={(e:any) => handleEditDialog(params.row.uuid)}>{ translate('Edit') }</Link>
-                        <Link variant={'body2'} sx={{ color:'#333435', cursor:'pointer' }} onClick={(e:any) => handleDeleteDialog(params.row.uuid)}>{ translate('Remove') }</Link>
+                        <IconButton icon="fa:pencil" size="small" onClick={()=>handleEditDialog(params.row.uuid)}>{translate("Edit")}</IconButton>
+                        {/* <Link variant={'body2'} sx={{ color:'#333435', cursor:'pointer' }} onClick={(e:any) => handleDeleteDialog(params.row.uuid)}>{ translate('Remove') }</Link> */}
                     </Stack>
                 );
             },
@@ -151,11 +151,18 @@ export default function List() {
                 "status": status,
                 "setOffset" : "",
                 "limit": "",
-            })
+            });
+
+            const modifiedData = { ...response };
+
+            // Mengganti nama field "nid" menjadi "id"
+            modifiedData.data.data = modifiedData.data.data.map((item:any) => {
+                return { ...item, id: item.nid, nid: item.nid };
+            });
 
             setLoading(false);
-            setRows(response.data.data || []);
-            setRowTotal(response.data.total_page || 0);
+            setRows(modifiedData.data.data || []);
+            setRowTotal(modifiedData.data.total_data || 0);
         } catch (error) {
             // console.log(error);
         }

@@ -37,7 +37,6 @@ export default function Button(theme: Theme) {
       ...(inheritColor && {
         // CONTAINED
         ...(containedVariant && {
-          backgroundColor: theme.palette.primary,
           color: theme.palette.grey[800],
           '&:hover': {
             boxShadow: theme.customShadows.z8,
