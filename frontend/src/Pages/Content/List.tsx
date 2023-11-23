@@ -79,6 +79,13 @@ export default function List() {
 
     const columns: GridColDef[] = [
         {
+            field: 'uuid',
+            headerName: translate('ID'), 
+            filterable: false,
+            sortable: false,
+            flex: 0.3,
+        },
+        {
             field: 'title',
             headerName: translate('Title'), 
             filterable: false,
