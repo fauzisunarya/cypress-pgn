@@ -100,6 +100,7 @@ export const CreatedDialog = (props: DialogProps) => {
     const [fileSubPreviews, setFileSubPreviews] = React.useState([]);
 
     const defaultValues = {
+        uuid:'',
         title: '',
         lang: '0',
         contents : [{ 
@@ -284,6 +285,7 @@ export const CreatedDialog = (props: DialogProps) => {
                 const response: any = await getContent(props.data);
                 var responseData = response.data;
                 if (responseData) {
+                    setValue('uuid', responseData.uuid);
                     setValue('title', responseData.name);
                     setValue('lang', responseData.lang);
                     setValue('contents', responseData.content_body.value);
@@ -352,9 +354,6 @@ export const CreatedDialog = (props: DialogProps) => {
         getContents();
     },[props.data]);
 
-    console.log(fileSubPreviews);
-    console.log(filePreviews);
-
     return (
         <div>
             <FormDialog
@@ -371,6 +370,20 @@ export const CreatedDialog = (props: DialogProps) => {
             >
                 <Box sx={{ width: '100%' }} component="form" noValidate autoComplete="off">
                     <Stack direction={'row'} spacing={2}>
+                        {props.data != '0' &&
+                        <TextField fullWidth
+                            label={ translate('ID') }
+                            type="text"
+                            InputLabelProps={{
+                                shrink: true
+                            }}
+                            InputProps={{
+                                readOnly: true
+                            }}
+                            { ...register('uuid') }
+                        />
+                        }
+
                         <TextField fullWidth
                             label={ translate('Name') }
                             type="text"
