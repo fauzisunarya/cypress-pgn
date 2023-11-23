@@ -141,6 +141,21 @@ export default function Datatable({
                         },
                     },
                 }}
+                sx={{
+                    borderRadius: 0,
+                    "& .MuiDataGrid-columnHeaderTitle": {
+                      whiteSpace: "normal",
+                      lineHeight: "normal"
+                    },
+                    "& .MuiDataGrid-columnHeader": {
+                      // Forced to use important since overriding inline styles
+                      height: "unset !important"
+                    },
+                    "& .MuiDataGrid-columnHeaders": {
+                      // Forced to use important since overriding inline styles
+                      maxHeight: "168px !important"
+                    }
+                }}
                 pageSizeOptions={[10, 25, 50, 100]}
                 checkboxSelection={checkboxSelection}
                 disableColumnMenu 
@@ -149,9 +164,6 @@ export default function Datatable({
                 components={{
                     NoRowsOverlay,
                     Pagination: () => <Pagination page={page} count={rowTotal} rowsPerPage={length} onPageChange={onPageChange} />
-                }}
-                sx={{
-                    borderRadius: 0
                 }}
             />
         </Box>

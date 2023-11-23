@@ -83,7 +83,7 @@ export default function List() {
             headerName: translate('ID'), 
             filterable: false,
             sortable: false,
-            flex: 0.3,
+            flex: 0.4,
         },
         {
             field: 'title',
@@ -91,13 +91,6 @@ export default function List() {
             filterable: false,
             sortable: false,
             flex: 0.4,
-        },
-        {
-            field: 'status',
-            headerName: 'Status',
-            filterable: false,
-            sortable: false,
-            flex: 0.2,
         },
         {
             field: 'created',
