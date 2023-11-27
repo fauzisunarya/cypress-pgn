@@ -23,4 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'contents'], function() {
     Route::post('/list', [ContentController::class, 'index'])->middleware('auth');
     Route::post('/create', [ContentController::class, 'create'])->middleware('auth');
+    Route::post('/update', [ContentController::class, 'update'])->middleware('auth');
 });

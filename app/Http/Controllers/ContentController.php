@@ -70,6 +70,7 @@ class ContentController extends Controller {
         $request->validate([
             'data.name' => 'required',
             'data.category_id' => 'required',
+            'data.language' => 'required',
             'data.module' => 'required',
             'data.format' => 'required',
             'data.start_date' => 'required',
@@ -217,6 +218,169 @@ class ContentController extends Controller {
             $result->status = 500;
 
             ApmCollector::stopMeasure('content-create-span');
+            return response()->json($result, $result->status);
+        }
+    }
+
+    function update(Request $request) {
+        ApmCollector::startMeasure('content-update-span', 'login', 'measure', 'content update');
+        $result = new Result();
+        $request->validate([
+            'data.content_id' => 'required',
+            'data.name' => 'required',
+            'data.category_id' => 'required',
+            'data.language' => 'required',
+            'data.module' => 'required',
+            'data.format' => 'required',
+            'data.start_date' => 'required',
+            'data.end_date' => 'required',
+            'data.content_body' => 'required',
+            'data.content_body.value' => 'required',
+        ]);
+
+        $data = $request->data;
+        $user = $request->user;
+
+        // if (array_key_exists('grants', $request->user)) {
+        //     if (!in_array(Content::LOADBY_GRANTS_CREATE, $request->user['grants'])) {
+        //         $result->code = 3;
+        //         $result->info = __("Unauthorized");
+        //         return response()->json($result, $result->status);
+        //     }
+        // }
+
+        $content = Content::find($data['content_id']);
+
+        if (!$content) {
+            $result->code = 2;
+            $result->info = __("Data not found");
+            return response()->json($result, $result->status);
+        }
+
+        try {
+            DB::beginTransaction();
+            $create = Content::where('id', $data['content_id'])->update([
+                'name' => $data['name'],
+                'start_date' => $data['start_date'],
+                'end_date' => $data['end_date'],
+                'status' => $data['status'],
+                'language' => $data['language'],
+                'module' => $data['module'],
+                'summary' => $data['summary'],
+                'format' => $data['format'],
+                'create_dtm' => Carbon::now(),
+                'update_dtm' => Carbon::now(),
+                'create_by' => $user['sub'],
+                'category_id' => $data['category_id'],
+            ]);
+
+            if ($data['content_body']) {
+                $value = $data['content_body']['value'];
+                foreach ($value as $val) {
+                    $img_banner = '';
+                    if ($val['image_banner'] != null) {
+                        $img_banner = 'product/cms/header/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
+                        Storage::disk('minio')->put($img_banner, $val['image_banner']);
+                    }
+
+                    $img = '';
+                    if ($val['header']['image'] != null) {
+                        $img = 'product/cms/header/image/'.Carbon::now()->format('YmdHis').'.jpg';
+                        Storage::disk('minio')->put($img, $val['header']['image']);
+                    }
+
+                    $create_header = Header::where('id', $val['header_id'])->update([
+                        'content_id' => $data['content_id'],
+                        'image_banner' => $img_banner,
+                        'image' => $img,
+                        'title' => $val['header']['title'],
+                        'subtitle' => $val['header']['title'],
+                        'desc' => $val['header']['desc'],
+                        'create_dtm' => Carbon::now(),
+                        'update_dtm' => null,
+                        'start_dtm' => $val['start_dtm'],
+                        'end_dtm' => $val['end_dtm'],
+                        'url' => $val['url'],
+                    ]);
+
+                    if (!$create_header) {
+                        DB::rollback();
+    
+                        $result->code = 4;
+                        $result->info = "Failed update header";
+                        $result->data = null;
+    
+                        return response()->json($result, $result->status);
+                    }
+
+                    $body = $val['body'];
+                    if ($body) {
+                        foreach ($body as $row) {
+
+                            $img_banner_body = '';
+                            if ($row['image_banner'] != null) {
+                                $img_banner = 'product/cms/body/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
+                                Storage::disk('minio')->put($img_banner_body, $row['image_banner']);
+                            }
+        
+                            $img_body = '';
+                            if ($row['image'] != null) {
+                                $img = 'product/cms/body/image/'.Carbon::now()->format('YmdHis').'.jpg';
+                                Storage::disk('minio')->put($img_body, $row['image']);
+                            }
+        
+                            $create_body = Detail::where('id', $row['detail_id'])->update([
+                                'image_banner' => $img_banner_body,
+                                'image' => $img_body,
+                                'header_id' => $val['header_id'],
+                                'title' => $row['title'],
+                                'subtitle' => $row['title'],
+                                'desc' => $row['desc'],
+                                'url' => $row['url'],
+                                'create_dtm' => Carbon::now(),
+                                'update_dtm' => null,
+                                'start_date' => $row['start_date'],
+                                'end_date' => $row['end_date'],
+                            ]);
+        
+                            if (!$create_body) {
+                                DB::rollback();
+            
+                                $result->code = 5;
+                                $result->info = "Failed update sub content";
+                                $result->data = null;
+            
+                                return response()->json($result, $result->status);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if ($create) {
+                DB::commit();
+
+                $result->code = 0;
+                $result->info = __("Success update data");
+                $result->data = $data['content_id'];
+            } else {
+                $result->code = 1;
+                $result->info = __("Failed update data");
+                $result->data = null;
+            }
+        
+            ApmCollector::stopMeasure('content-update-span');
+            return response()->json($result, $result->status);
+        }  catch (\Throwable $ex) {
+            error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage()); 
+
+            DB::rollback();
+            $result->code = 6;
+            $result->info = 'Failed update data';
+            $result->data = $ex->getMessage();
+            $result->status = 500;
+
+            ApmCollector::stopMeasure('content-update-span');
             return response()->json($result, $result->status);
         }
     }
