@@ -25,7 +25,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::group(['middleware' => [BeforeRequest::class], 'prefix' => 'content'], function()
+Route::group(['middleware' => [BeforeRequest::class], 'prefix' => 'contents'], function()
     {
         Route::get('/list', function() {
             return Inertia::render('Content/List');

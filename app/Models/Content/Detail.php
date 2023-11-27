@@ -11,26 +11,26 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class Header extends Model
+class Detail extends Model
 {
     use HasApiTokens, HasFactory;
     
-    public $table = 'cms.content_headers';
+    public $table = 'cms.content_details';
     public $timestamps = false;
 
     public $fillable = [
         'id',
-        'content_id',
         'image_banner',
+        'header_id',
         'image',
         'title',
         'subtitle',
         'desc',
+        'url',
         'create_dtm',
         'update_dtm',
-        'start_dtm',
-        'end_dtm',
-        'url',
+        'start_date',
+        'end_date',
     ];
     
 }
