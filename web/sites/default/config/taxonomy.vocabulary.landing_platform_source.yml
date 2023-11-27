@@ -1,8 +1,0 @@
-uuid: 81537590-9690-4094-afec-c23b8e31732c
-langcode: en
-status: true
-dependencies: {  }
-name: 'Landing Platform Source'
-vid: landing_platform_source
-description: ''
-weight: 5

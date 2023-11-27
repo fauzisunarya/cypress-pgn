@@ -1,0 +1,118 @@
+<?php
+
+namespace Tests\Feature\UnitTestCustomerProfile;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
+
+class UnitCustomerStatisticsListTest extends TestCase
+{
+
+    public function testBerhasilMemunculkanStatistik()
+    {
+
+        $param = array(
+            "data" => array(
+                "type" => "4",
+                "startdate" => "20231106",
+                "enddate" => "20231107"
+
+            )
+        );
+
+        /** get api Education */
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->_token
+        ])
+            ->post('/api/customer/statistics/list', $param);
+
+
+        /** mengambil response body dari get api Education */
+        $content = $response->decodeResponseJson();
+        $code = $content['code'];
+
+        /** ekspetasi response api dengan testcase ini */
+        $this->assertEquals($code, 0);
+    }
+
+    public function testGagalMemunculkanStatistikDenganInformasiDataNotFound()
+    {
+
+        $param = array(
+            "data" => array(
+                "type" => "99",
+                "startdate" => "20231106",
+                "enddate" => "20231107"
+
+            )
+        );
+
+        /** get api Education */
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->_token
+        ])
+            ->post('/api/customer/statistics/list', $param);
+
+
+        /** mengambil response body dari get api Education */
+        $content = $response->decodeResponseJson();
+        $code = $content['code'];
+
+        /** ekspetasi response api dengan testcase ini */
+        $this->assertNotEquals($code, 0);
+    }
+
+    public function testGagalMemunculkanStatistikDenganInformasiMandatoryFieldNotFound()
+    {
+
+        $param = array(
+            "data" => array(
+                "type" => "4",
+                "startdate" => "",
+                "enddate" => ""
+
+            )
+        );
+
+        /** get api Education */
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->_token
+        ])
+            ->post('/api/customer/statistics/list', $param);
+
+
+        /** mengambil response body dari get api Education */
+        $content = $response->decodeResponseJson();
+        $code = $content['code'];
+
+        /** ekspetasi response api dengan testcase ini */
+        $this->assertNotEquals($code, 0);
+    }
+    public function testGagalMemunculkanStatistikDenganInformasiUnauthorized()
+    {
+
+        $param = array(
+            "data" => array(
+                "type" => "4",
+                "startdate" => "20231106",
+                "enddate" => "20231107"
+
+            )
+        );
+
+        /** get api Education */
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->_tokenInvalid
+        ])
+            ->post('/api/customer/statistics/list', $param);
+
+
+        /** mengambil response body dari get api Education */
+        $content = $response->decodeResponseJson();
+        $code = $content['code'];
+
+        /** ekspetasi response api dengan testcase ini */
+        $this->assertNotEquals($code, 0);
+    }
+}

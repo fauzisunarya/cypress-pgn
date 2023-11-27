@@ -1,9 +1,0 @@
-<?php
-use Drupal\Core\Database\Database;
- 
-/**
- * Implements hook_schema().
- */
-function templates_telkom_schema(){
-    // return false;
-}

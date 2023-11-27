@@ -1,4 +1,0 @@
-catalog-form:
-  version: 1.x
-  js:
-    js/catalog-form.js: {}

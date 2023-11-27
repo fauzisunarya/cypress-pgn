@@ -1,8 +1,0 @@
-uuid: a663373b-bf5b-4913-b0a2-419176b014e1
-langcode: en
-status: true
-dependencies: {  }
-name: 'Tipe Paket'
-vid: tipe_paket
-description: ''
-weight: -7

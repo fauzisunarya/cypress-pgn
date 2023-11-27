@@ -1,5 +1,0 @@
-name: 'Custom Cron'
-type: module
-description: 'Module custom cron for telkom cms'
-core_version_requirement: ^8.8 || ^9
-package: 'Custom'

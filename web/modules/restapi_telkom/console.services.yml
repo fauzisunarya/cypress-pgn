@@ -1,6 +1,0 @@
-services:
-  restapi_telkom.restapi_telkom_tokenflush:
-    class: Drupal\restapi_telkom\Command\TokenFlushCommand
-    arguments: []
-    tags:
-      - { name: drupal.command }

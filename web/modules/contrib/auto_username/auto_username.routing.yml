@@ -1,7 +1,0 @@
-auto_username.admin_config:
-  path: '/admin/config/people/accounts/patterns'
-  defaults:
-    _form: '\Drupal\auto_username\Form\AutoUsernameSettingsForm'
-    _title: 'Patterns'
-  requirements:
-    _permission: 'administer auto username'

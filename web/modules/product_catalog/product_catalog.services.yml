@@ -1,3 +1,0 @@
-services:
-  product_catalog.catalog_helper:
-    class: Drupal\product_catalog\Helper\Catalog

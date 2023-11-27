@@ -1,5 +1,0 @@
-#
-# Apache/PHP/Drupal settings:
-#
-
-RewriteCond %{REQUEST_URI} !/builder/[^/]*\.php$

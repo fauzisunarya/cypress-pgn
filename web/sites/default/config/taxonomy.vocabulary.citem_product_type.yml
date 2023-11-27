@@ -1,8 +1,0 @@
-uuid: 59565f0a-7605-4a75-8085-c5054d7b17c7
-langcode: en
-status: true
-dependencies: {  }
-name: 'Citem Product Type'
-vid: citem_product_type
-description: 'Tipe Citem'
-weight: 3
