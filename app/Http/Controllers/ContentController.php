@@ -384,4 +384,85 @@ class ContentController extends Controller {
             return response()->json($result, $result->status);
         }
     }
+
+    function delete(Request $request) {
+        ApmCollector::startMeasure('content-delete-span', 'login', 'measure', 'content Delete');
+        $request->validate([
+            'data.id' => 'required',
+        ]);
+
+        $result = new Result();
+        $post = $request->data;
+        $user = $request->user;
+
+        // if ($request->user['grants']) {
+        //     if (!in_array(Station::LOADBY_GRANTS_DELETE, $request->user['grants'])) {
+        //         $result->code = 3;
+        //         $result->info = __("Unauthorized");
+        //         return response()->json($result, $result->status);
+        //     }
+        // }
+
+        $content = Content::where('id', $post['id'])->first();
+
+        if (!$content) {
+            $result->code = 1;
+            $result->info = __("Data not found");
+            return response()->json($result, $result->status);
+        }
+        
+        try {
+            DB::beginTransaction();
+
+            $header = Header::where('content_id', $post['id'])->get()->toArray();
+
+            $array_header_id = [];
+            if ($header) {
+                foreach ($header as $head) {
+                    array_push($array_header_id, $head['id']);
+                }
+            }
+
+            $delete_body = Detail::whereIn('id', $array_header_id)->delete();
+            $delete_header = Header::where('content_id', $post['id'])->delete();
+            if (!$delete_header) {
+                DB::rollback();
+            
+                $result->code = 3;
+                $result->info = "Failed delete header";
+                $result->data = null;
+
+                return response()->json($result, $result->status);
+            }
+
+            $delete_content = Content::where('id', $post['id'])->delete();
+
+            if (!$delete_content) {
+                DB::rollback();
+            
+                $result->code = 3;
+                $result->info = "Failed delete content";
+                $result->data = null;
+
+                return response()->json($result, $result->status);
+            }
+            
+            DB::commit();
+            $result->code = 0;
+            $result->info = __("Success delete data");
+            $result->data = $delete_content;
+            
+            ApmCollector::stopMeasure('content-delete-span');
+            return response()->json($result,$result->status);
+        } catch(\Exception $ex) {
+            error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage()); 
+
+            DB::rollback();
+            $result->code = 1111;
+            $result->info = "Failed delete data";
+            $result->data = null;
+            ApmCollector::stopMeasure('content-delete-span');
+            return response()->json($result,$result->status);
+        }
+    }
 }
