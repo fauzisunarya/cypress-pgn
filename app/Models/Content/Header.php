@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Content;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Sanctum\HasApiTokens;
@@ -11,27 +11,26 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class Content extends Model
+class Header extends Model
 {
     use HasApiTokens, HasFactory;
     
-    public $table = 'cms.content';
+    public $table = 'cms.content_header';
     public $timestamps = false;
 
     public $fillable = [
         'id',
-        'name',
-        'start_date',
-        'end_date',
-        'status',
-        'language',
-        'module',
-        'summary',
-        'format',
+        'content_id',
+        'image_banner',
+        'image',
+        'title',
+        'subtitle',
+        'desc',
         'create_dtm',
         'update_dtm',
-        'create_by',
-        'category_id',
+        'start_dtm',
+        'end_dtm',
+        'url',
     ];
     
 }

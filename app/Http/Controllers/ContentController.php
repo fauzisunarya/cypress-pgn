@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Helper\Result;
 use App\Models\Content;
+use App\Models\Content\Header;
 use Illuminate\Support\Facades\Storage;
 use AG\ElasticApmLaravel\Facades\ApmCollector;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +13,7 @@ use Carbon\Carbon;
 
 class ContentController extends Controller {
     public function index(Request $request) {
-        ApmCollector::startMeasure('approval-list-span', 'login', 'measure', 'approval list');
+        ApmCollector::startMeasure('content-list-span', 'login', 'measure', 'content list');
         $result = new Result();
         $post = $request->data;
 
@@ -37,14 +38,9 @@ class ContentController extends Controller {
         $length = !empty($post['length']) ? $post['length'] : 5;
 
         $data = new Content();
-        $data = $data->where('status', '!=', 0);
 
         if (isset($search) && !empty($search)) {
-            $data = $data->where('nomor_pelanggan', 'ILIKE', '%'.$search.'%');
-        }
-        
-        if (isset($post['status']) && !empty($post['status'])) {
-            $data = $data->where('status', $post['status']);
+            $data = $data->where('name', 'ILIKE', '%'.$search.'%');
         }
         
         $data = $data->orderBy($column, $dir)
@@ -63,7 +59,7 @@ class ContentController extends Controller {
 
         $result->data = $data;
 
-        ApmCollector::stopMeasure('approval-list-span');
+        ApmCollector::stopMeasure('content-list-span');
         return response()->json($result, $result->status);
     }
 }
