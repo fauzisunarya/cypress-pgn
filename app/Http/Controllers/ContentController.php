@@ -7,6 +7,7 @@ use App\Helper\Result;
 use App\Models\Content;
 use App\Models\Content\Header;
 use App\Models\Content\Detail;
+use App\Models\Status;
 use Illuminate\Support\Facades\Storage;
 use AG\ElasticApmLaravel\Facades\ApmCollector;
 use Illuminate\Support\Facades\DB;
@@ -114,13 +115,13 @@ class ContentController extends Controller {
                 foreach ($value as $val) {
                     $img_banner = '';
                     if ($val['image_banner'] != null) {
-                        $img_banner = 'product/cms/header/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
+                        $img_banner = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/header/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
                         Storage::disk('minio')->put($img_banner, $val['image_banner']);
                     }
 
                     $img = '';
                     if ($val['header']['image'] != null) {
-                        $img = 'product/cms/header/image/'.Carbon::now()->format('YmdHis').'.jpg';
+                        $img = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/header/image/'.Carbon::now()->format('YmdHis').'.jpg';
                         Storage::disk('minio')->put($img, $val['header']['image']);
                     }
 
@@ -156,13 +157,13 @@ class ContentController extends Controller {
 
                             $img_banner_body = '';
                             if ($row['image_banner'] != null) {
-                                $img_banner = 'product/cms/body/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
+                                $img_banner = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
                                 Storage::disk('minio')->put($img_banner_body, $row['image_banner']);
                             }
         
                             $img_body = '';
                             if ($row['image'] != null) {
-                                $img = 'product/cms/body/image/'.Carbon::now()->format('YmdHis').'.jpg';
+                                $img = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image/'.Carbon::now()->format('YmdHis').'.jpg';
                                 Storage::disk('minio')->put($img_body, $row['image']);
                             }
         
@@ -279,13 +280,13 @@ class ContentController extends Controller {
                 foreach ($value as $val) {
                     $img_banner = '';
                     if ($val['image_banner'] != null) {
-                        $img_banner = 'product/cms/header/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
+                        $img_banner = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/header/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
                         Storage::disk('minio')->put($img_banner, $val['image_banner']);
                     }
 
                     $img = '';
                     if ($val['header']['image'] != null) {
-                        $img = 'product/cms/header/image/'.Carbon::now()->format('YmdHis').'.jpg';
+                        $img = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/header/image/'.Carbon::now()->format('YmdHis').'.jpg';
                         Storage::disk('minio')->put($img, $val['header']['image']);
                     }
 
@@ -319,13 +320,13 @@ class ContentController extends Controller {
 
                             $img_banner_body = '';
                             if ($row['image_banner'] != null) {
-                                $img_banner = 'product/cms/body/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
+                                $img_banner = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
                                 Storage::disk('minio')->put($img_banner_body, $row['image_banner']);
                             }
         
                             $img_body = '';
                             if ($row['image'] != null) {
-                                $img = 'product/cms/body/image/'.Carbon::now()->format('YmdHis').'.jpg';
+                                $img = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image/'.Carbon::now()->format('YmdHis').'.jpg';
                                 Storage::disk('minio')->put($img_body, $row['image']);
                             }
         
@@ -463,6 +464,86 @@ class ContentController extends Controller {
             $result->data = null;
             ApmCollector::stopMeasure('content-delete-span');
             return response()->json($result,$result->status);
+        }
+    }
+
+    public function getContents(Request $request) {
+        ApmCollector::startMeasure('content-get-span', 'login', 'measure', 'content get');
+        try {
+            $result = new Result();
+            $post = $request->query();
+            $result->data = $post;
+    
+            $content = Content::select('content.*', 'content_status.status_name')
+            ->join('cms.content_status', 'content.status', '=', 'content_status.id'); 
+            
+            if (isset($post['id']) && !empty($post['id'])) {
+                $content = $content->where('content.id', $post['id']);
+            } else {
+                $content = $content->where('content.category_id', $post['category_id'])
+                ->where('content.language', $post['lang']);
+        
+                if ($post['mode'] == 'last') $content = $content->limit(1)->orderBy('content.id', 'desc');
+            }
+
+            $content = $content->get()->toArray();
+    
+            if (!$content) {
+                $result->code = 2;
+                $result->info = __('Data not found');
+                return response()->json($result, $result->status);
+            }
+    
+            foreach ($content as &$item) {
+                $header = Header::where('content_id', $item['id'])->get()->toArray();
+                $dataContent = [];
+                if ($header) {
+                    foreach ($header as $head) {
+                        $dataHeader['image_banner'] = $head['image_banner'];
+                        $dataHeader['start_dtm'] = $head['start_dtm'];
+                        $dataHeader['end_dtm'] = $head['end_dtm'];
+                        $dataHeader['header'] = [
+                            'image' => $head['image'],
+                            'url' => $head['url'],
+                            'title' => $head['title'],
+                            'subtitle' => $head['subtitle'],
+                            'desc' => $head['desc'],
+                        ];
+    
+                        $details = Detail::where('header_id', $head['id'])->get()->toArray();
+                        $dataDetails = [];
+                        if ($details) {
+                            foreach ($details as $body) {
+                                $dataDetails[] = [
+                                    'image_banner' => $body['image_banner'],
+                                    'image' => $body['image'],
+                                    'url' => $body['url'],
+                                    'title' => $body['title'],
+                                    'subtitle' => $body['subtitle'],
+                                    'desc' => $body['desc'],
+                                ];
+                            }
+                        }
+    
+                        $dataHeader['body'] = $dataDetails;
+                        $dataContent[] = $dataHeader;
+                    }
+                }
+                $item['content_body'] = [
+                    'value' => $dataContent];
+            }
+    
+            $result->data = $content;
+    
+            ApmCollector::stopMeasure('content-get-span');
+            return response()->json($result, $result->status);
+        } catch (\Throwable $th) {
+            error_log('Error at ' . $th->getFile() . ' line ' . $th->getLine() . ': ' . $th->getMessage());
+            $result->code = 3;
+            $result->info = __('Failed to get data');
+
+            ApmCollector::stopMeasure('content-get-span');
+            return response()->json($result, $result->status);
         }
     }
 }

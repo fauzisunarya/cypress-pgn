@@ -26,3 +26,5 @@ Route::group(['prefix' => 'contents'], function() {
     Route::post('/update', [ContentController::class, 'update'])->middleware('auth');
     Route::post('/delete-content', [ContentController::class, 'delete'])->middleware('auth');
 });
+
+Route::get('/contents',[ContentController::class,'getContents']);
