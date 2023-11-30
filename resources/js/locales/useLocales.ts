@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSettingsContext } from '@/Components/settings';
 //
 import { allLangs, defaultLang } from './config';
-import axios, { axiosInstanceUam, axiosInstanceRetail, axiosInstanceCustomer,  } from '@/utils/axios';
+import axios, { axiosContent } from '@/utils/axios';
 import en from './langs/en';
 import id from './langs/id';
 
@@ -22,8 +22,7 @@ export default function useLocales() {
     i18n.changeLanguage(newlang);
     onChangeDirectionByLang(newlang);
     axios.defaults.headers.common['Accept-Language'] = newlang;
-    axiosInstanceRetail.defaults.headers.common['Accept-Language'] = newlang;
-    axiosInstanceCustomer.defaults.headers.common['Accept-Language'] = newlang;
+    axiosContent.defaults.headers.common['Accept-Language'] = newlang;
   };
 
   return {

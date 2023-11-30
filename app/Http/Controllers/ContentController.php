@@ -7,7 +7,6 @@ use App\Helper\Result;
 use App\Models\Content;
 use App\Models\Content\Header;
 use App\Models\Content\Detail;
-use App\Models\Status;
 use Illuminate\Support\Facades\Storage;
 use AG\ElasticApmLaravel\Facades\ApmCollector;
 use Illuminate\Support\Facades\DB;
@@ -39,10 +38,14 @@ class ContentController extends Controller {
         $dir = !empty($post['order']['dir']) ? $post['order']['dir'] : 'asc';
         $length = !empty($post['length']) ? $post['length'] : 5;
 
-        $data = new Content();
+        $data = Content::select('content.*', 'content_status.status_name', 'content_category.category_name')
+        ->join('cms.content_status', 'content.status', '=', 'content_status.id')
+        ->join('cms.content_category', DB::raw('CAST(content.category_id AS INTEGER)'), '=', 'content_category.id');
 
         if (isset($search) && !empty($search)) {
-            $data = $data->where('name', 'ILIKE', '%'.$search.'%');
+            $data = $data->where('name', 'ILIKE', '%'.$search.'%')
+            ->orWhere('content_status.status_name', 'ILIKE', '%'.$search.'%')
+            ->orWhere('content_category.category_name', 'ILIKE', '%'.$search.'%');
         }
         
         $data = $data->orderBy($column, $dir)
@@ -75,9 +78,7 @@ class ContentController extends Controller {
             'data.module' => 'required',
             'data.format' => 'required',
             'data.start_date' => 'required',
-            'data.end_date' => 'required',
             'data.content_body' => 'required',
-            'data.content_body.value' => 'required',
         ]);
 
         $data = $request->data;
@@ -100,7 +101,7 @@ class ContentController extends Controller {
                 'status' => $data['status'],
                 'language' => $data['language'],
                 'module' => $data['module'],
-                'summary' => $data['summary'],
+                'summary' => "",
                 'format' => $data['format'],
                 'create_dtm' => Carbon::now(),
                 'update_dtm' => Carbon::now(),
@@ -234,9 +235,7 @@ class ContentController extends Controller {
             'data.module' => 'required',
             'data.format' => 'required',
             'data.start_date' => 'required',
-            'data.end_date' => 'required',
             'data.content_body' => 'required',
-            'data.content_body.value' => 'required',
         ]);
 
         $data = $request->data;
@@ -267,7 +266,7 @@ class ContentController extends Controller {
                 'status' => $data['status'],
                 'language' => $data['language'],
                 'module' => $data['module'],
-                'summary' => $data['summary'],
+                'summary' => "",
                 'format' => $data['format'],
                 'create_dtm' => Carbon::now(),
                 'update_dtm' => Carbon::now(),

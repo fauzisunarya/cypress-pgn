@@ -82,15 +82,10 @@ export const personalization = {
 }
 
 export const service = {
-  retail : {
+  cms : {
     // basepath : import.meta.env.REACT_APP_LOYALTY_BASEPATH
-    basepath : 'https://retail.doorv3-dev.neuron.id'
+    basepath : 'http://content-management-service.test'
     // basepath : 'https://data-dev.neuron.id'
-  },
-  customer : {
-    // basepath : import.meta.env.REACT_APP_LOYALTY_BASEPATH
-    // basepath : 'https://cp.doorv3-dev.neuron.id'
-    basepath : import.meta.env.VITE_APP_CUSTOMER_BASEPATH || 'https://cp.doorv3-dev.neuron.id'
   },
   proxy : {
     basepath : 'https://proxy.doorv3-dev.neuron.id'

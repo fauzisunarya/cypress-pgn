@@ -1,25 +1,20 @@
 // @mui
-import CompactLayout from '@/Layouts/compact/CompactLayout';
 import Page from '@/Components/Page';
 import { Link, Box, Button, Checkbox, CircularProgress, Container, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Stack, TextField, Typography, Alert, AlertTitle } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material';
-import { ChangeEvent, ReactNode } from 'react';
+import { ChangeEvent, ReactNode, useEffect, useMemo, useState } from 'react';
 
 // components
-import { PageProps } from '@/types';
 import Chip from '@/Components/chip/Chip';
-import { Head } from '@inertiajs/react';
 import Datatable from '@/Components/datatables-v2/Datatable';
-import { useEffect, useMemo, useState } from 'react';
 import { GridColDef } from '@mui/x-data-grid';
 import FormDialog from '@/Components/dialog/FormDialog';
 import { Controller, useForm } from 'react-hook-form';
-import { list } from '@/api_handler/account';
+import { list } from '@/api_handler/content';
 import Iconify from '@/Components/iconify';
 import { useLocales } from '@/locales';
-import { Detail } from "@/sections/Account/Dialog";
-import useHelper from '@/hooks/useHelper';
-import { CreateDialog } from '@/sections/Account/CreateDialog';
+import { CreatedDialog, DeleteDialog } from "@/sections/Content/Dialog";
+import AuthGuard from '@/auth/AuthGuard';
 // ----------------------------------------------------------------------
 
 function filterData(params:any) {
@@ -28,10 +23,10 @@ function filterData(params:any) {
 
     if (params == '1') {
         order = 'asc';
-        sortBy = 'nomor_pelanggan';
+        sortBy = 'title';
     } else if (params == '2') {
         order = 'desc';
-        sortBy = 'nomor_pelanggan';
+        sortBy = 'title';
     } else if (params == '3') {
         order = 'asc';
         sortBy = 'status';
@@ -40,29 +35,34 @@ function filterData(params:any) {
         sortBy = 'status';
     } else if (params == '5') {
         order = 'asc';
-        sortBy = 'create_dtm';
+        sortBy = 'created';
     } else if (params == '6') {
         order = 'desc';
-        sortBy = 'create_dtm';
+        sortBy = 'created';
     } else if (params == '7') {
         order = 'asc';
-        sortBy = 'update_dtm';
+        sortBy = 'created';
     } else if (params == '8') {
         order = 'desc';
-        sortBy = 'update_dtm';
+        sortBy = 'created';
     }
 
-    return [order, sortBy];
+    return [sortBy, order];
 }
 
 function FormatDate(dateString: any) {
-    const options: any = { day: 'numeric', month: 'short', year: 'numeric' };
-    const tanggal = new Date(dateString).toLocaleDateString('id-ID', options);
-    const jam = new Date(dateString).toLocaleTimeString('id-ID', { hour: 'numeric', minute: 'numeric' });
-    return `${tanggal} ${jam}`;
+    if (dateString) {
+        const options: any = { day: 'numeric', month: 'short', year: 'numeric' };
+        const tanggal = new Date(dateString).toLocaleDateString('id-ID', options);
+        const jam = new Date(dateString).toLocaleTimeString('id-ID', { hour: 'numeric', minute: 'numeric' });
+        return `${tanggal} ${jam}`;
+    } else {
+        return '';
+    }
 }
 
-export default function List({ message }: PageProps<{ message: string }>) {
+// export default function List({ message }: PageProps<{ message: string }>) {
+export default function List() {
     const { translate } = useLocales();
     
     const [length, setLength] = useState(10);
@@ -71,43 +71,28 @@ export default function List({ message }: PageProps<{ message: string }>) {
     const [rowTotal, setRowTotal] = useState<number>(0);
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
-    const [openView, setOpenView] = useState(false);
+    const [openCreate, setOpenCreate] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
     const [selectedRow, setSelectedRow] = useState('');
-    
-    const [openDialogCreate, setOpenDialogCreate] = useState(false);
 
     const columns: GridColDef[] = [
-        { 
-            field: "no", 
-            headerName: 'No', 
+        {
+            field: 'id',
+            headerName: translate('ID'), 
             filterable: false,
             sortable: false,
             flex: 0.1,
         },
         {
-            field: 'phone_number',
-            headerName: translate('Phone Number'), 
-            filterable: false,
-            sortable: false,
-            flex: 0.3,
-        },
-        {
-            field: 'email',
-            headerName: translate('Email'), 
+            field: 'name',
+            headerName: translate('Title'), 
             filterable: false,
             sortable: false,
             flex: 0.4,
         },
         {
-            field: 'nomor_pelanggan',
-            headerName: translate('Customer ID'), 
-            filterable: false,
-            sortable: false,
-            flex: 0.35,
-        },
-        {
-            field: 'status',
-            headerName: 'Status',
+            field: 'status_name',
+            headerName: translate('Status'), 
             filterable: false,
             sortable: false,
             flex: 0.3,
@@ -115,31 +100,25 @@ export default function List({ message }: PageProps<{ message: string }>) {
                 if (params.row.status == 1) {
                     return (
                         <Stack>
-                            <Chip label={'Request'} color={'primary'} variant="outlined" />
+                            <Chip label={'Active'} color={'success'} variant="outlined" />
                         </Stack>
                     );
-                } else if (params.row.status == 3) {
+                } else {
                     return (
                         <Stack>
-                            <Chip label={'Reject'} color={'error'} variant="outlined" />
+                            <Chip label={'Inactive'} color={'error'} variant="outlined" />
                         </Stack>
                     );
-                } else if (params.row.status == 2) {
-                    return (
-                        <Stack>
-                            <Chip label={'Approve'} color={'success'} variant="outlined" />
-                        </Stack>
-                    );
-                } 
+                }
             }
         },
-        // {
-        //     field: 'update_by',
-        //     headerName: translate('Processed By'), 
-        //     filterable: false,
-        //     sortable: false,
-        //     flex: 0.3,
-        // },
+        {
+            field: 'category_name',
+            headerName: translate('Catagory'), 
+            filterable: false,
+            sortable: false,
+            flex: 0.3,
+        },
         {
             field: 'create_dtm',
             headerName: translate('Create Date'), 
@@ -165,34 +144,45 @@ export default function List({ message }: PageProps<{ message: string }>) {
             headerName: translate('Action'), 
             filterable: false,
             sortable: false,
-            flex: 0.2,
+            flex: 0.1,
             renderCell: (params: any) => {
                 return (
                     <Stack direction="row" spacing={1}>
-                        <Iconify icon="fa6-solid:circle-info" sx={{ color: 'text.disabled', width:20 }} style={{ cursor:'pointer' }} onClick={()=>handleOpenDialog(params.row.id)}/>
+                        <Iconify icon="fa:pencil" sx={{ color: 'text.disabled', width:16 }} style={{ cursor:'pointer' }} onClick={()=>handleEditDialog(params.row.id)}/>
+                        <Iconify icon="fa:trash" sx={{ color: 'text.disabled', width:16 }} style={{ cursor:'pointer' }} onClick={()=>handleDeleteDialog(params.row.id)}/>
                     </Stack>
                 );
             },
         }
     ];
 
+    const handleEditDialog = async (e:any) => {
+        setOpenCreate(true);
+        setSelectedRow(e);
+    };
+
+    const handleDeleteDialog = async (e:any) => {
+        setOpenDelete(true)
+        setSelectedRow(e);
+    };
+
     const handleLoadData = async (sortBy:any, order:any, search:any, status:any) => {
         setLoading(true);
         try {
             const response: any = await list({
                 "page": page,
-                "sortBy": sortBy,
-                "order": order,
+                "sortBy": sortBy ? sortBy : 'id',
+                "order": order ? order : "desc",
                 "setLimit": length,
                 "search": search,
                 "status": status,
                 "setOffset" : "",
                 "limit": "",
-            })
+            });
 
             setLoading(false);
-            setRows(response.data.data.data || []);
-            setRowTotal(response.data.data.total || 0);
+            setRows(response.data.data || []);
+            setRowTotal(response.data.total || 0);
         } catch (error) {
             // console.log(error);
         }
@@ -207,7 +197,7 @@ export default function List({ message }: PageProps<{ message: string }>) {
     }
 
     const handleRefresh = () => {
-        handleLoadData('', '', '', 1);
+        handleLoadData('', '', '', '');
     }
 
     const handleSearch = (event:any) => {
@@ -234,13 +224,13 @@ export default function List({ message }: PageProps<{ message: string }>) {
         return () => clearTimeout(delayDebounceFn);
     }
 
-    const handleOpenDialog = async (e:any) => {
-        setOpenView(true);
-        setSelectedRow(e);
-    };
-
     const handleFilter = () => {
         setOpen(true);
+    }
+
+    const handleCreate = (value:any) => {
+        setSelectedRow('0');
+        setOpenCreate(true);
     }
 
     const handleClose = () => {
@@ -250,47 +240,39 @@ export default function List({ message }: PageProps<{ message: string }>) {
     const onSubmitFilter = (val:any, e:any) => {
         e.preventDefault();
         var fdata:any = filterData(val.sort);
-        handleLoadData(fdata[0], fdata[1], '', val.status);
+        handleLoadData(fdata[0], fdata[1], '', '');
         handleClose();
     }
 
     const onSubmit = () => {
         const formValues:any = getValues();
         var fdata:any = filterData(formValues.sort);
-        handleLoadData(fdata[0], fdata[1], formValues.search, formValues.status);
+        handleLoadData(fdata[0], fdata[1], formValues.search, '');
     }
 
     useEffect(() => {
-        handleLoadData('', '', '', 1);
+        handleLoadData('', '', '', '');
     }, [page, length])
 
     const defaultValues = {
         sort: "0",
         search: "",
-        status: "1",
+        // status: "1",
     };
 
     const { register, handleSubmit, reset, control, getValues, setValue, watch } = useForm({
         defaultValues
     });
 
-    const closeModalCreate = () =>{
-        setOpenDialogCreate(false);
-    }
-    
-    const handleAdd = () =>{
-        setOpenDialogCreate(true);
-    }
-
     return (
-        <Page title={'Customer to User Mapping Approval'} container={false}>
-            <Box sx={{ width: '100%', backgroundColor: '#fff', py:2 }}>
+        <Page title={'Station List'} container={false}>
+            <Box sx={{ width: '100%', py: 2, backgroundColor: '#fff'}}>
                 <Grid container>
                     <Grid item xs={6}>
-                        <Typography variant="h5" fontWeight={500}>{translate("Customer to User Mapping Approval")}</Typography>
+                        <Typography variant="h5" fontWeight={500}>{translate("Manage Content")}</Typography>
                     </Grid>
                     <Grid item xs={6} sx={{ textAlign: 'right', mt:1 }}>
-                        <Typography variant={'body2'} sx={{ color: '#637381;' }}> {translate("Customer")} / {translate("User Mapping Approval")}</Typography>
+                        <Typography variant={'body2'} sx={{ color: '#637381;' }}> {translate("Content")} / {translate("Manage")}</Typography>
                     </Grid>
                 </Grid>
             </Box>
@@ -298,7 +280,7 @@ export default function List({ message }: PageProps<{ message: string }>) {
                 <Datatable
                     length={length}
                     isLoading={loading}
-                    columns={columns}
+                    columns={columns} 
                     rows={rows}
                     page={page}
                     rowTotal={rowTotal}
@@ -308,14 +290,20 @@ export default function List({ message }: PageProps<{ message: string }>) {
                     onPageChange={handlePageChange}
                     onSearch={handleSearch}
                     onClickFilter={handleFilter}
-                    onClickAdd={handleAdd}
+                    onClickAdd={handleCreate}
                 />
             </Box>
-            <Detail 
-                openModal={openView} 
-                closeModal={() => setOpenView(false)}
+            <CreatedDialog 
+                openModal={openCreate} 
+                closeModal={() => setOpenCreate(false)}
                 stateBackdrop={true}
-                stateSnackbar={false}
+                data={selectedRow}
+                onSubmit={onSubmit}
+            />
+            <DeleteDialog 
+                openModal={openDelete} 
+                closeModal={() => setOpenDelete(false)}
+                stateBackdrop={true}
                 data={selectedRow}
                 onSubmit={onSubmit}
             />
@@ -336,7 +324,7 @@ export default function List({ message }: PageProps<{ message: string }>) {
                             name="sort"
                             control={control}
                             defaultValue={defaultValues.sort}
-                            render={({ field }) => (
+                            render={({ field }:any) => (
                                 <FormControl fullWidth>
                                     <InputLabel id="demo-simple-select-label"></InputLabel>
                                     <Select
@@ -348,21 +336,23 @@ export default function List({ message }: PageProps<{ message: string }>) {
                                         }}
                                     >
                                         <MenuItem value="0">{ translate ("Choose Sort") }</MenuItem>
-                                        <MenuItem value="1">{ translate ("Customer Number A - Z") }</MenuItem>
-                                        <MenuItem value="2">{ translate ("Customer Number Z - A") }</MenuItem>
+                                        <MenuItem value="1">{ translate ("Title A - Z") }</MenuItem>
+                                        <MenuItem value="2">{ translate ("Title Z - A") }</MenuItem>
                                         <MenuItem value="3">{ translate ("Status A - Z") }</MenuItem>
                                         <MenuItem value="4">{ translate ("Status Z - A") }</MenuItem>
-                                        <MenuItem value="5">{ translate ("Created Date A - Z") }</MenuItem>
-                                        <MenuItem value="6">{ translate ("Created Date Z - A") }</MenuItem>
-                                        <MenuItem value="7">{ translate ("Update Date A - Z") }</MenuItem>
-                                        <MenuItem value="8">{ translate ("Update Date Z - A") }</MenuItem>
+                                        <MenuItem value="5">{ translate ("Name A - Z") }</MenuItem>
+                                        <MenuItem value="6">{ translate ("Name Z - A") }</MenuItem>
+                                        <MenuItem value="7">{ translate ("Created Date A - Z") }</MenuItem>
+                                        <MenuItem value="8">{ translate ("Created Date Z - A") }</MenuItem>
+                                        <MenuItem value="9">{ translate ("Update Date A - Z") }</MenuItem>
+                                        <MenuItem value="10">{ translate ("Update Date Z - A") }</MenuItem>
                                     </Select>
                                 </FormControl>
                             )}
                         />
                     </Stack>
 
-                    <Stack mt={2}>
+                    {/* <Stack mt={2}>
                         <Controller
                             name="status"
                             control={control}
@@ -378,21 +368,18 @@ export default function List({ message }: PageProps<{ message: string }>) {
                                             field.onChange(event.target.value)
                                         }}
                                     >
-                                        <MenuItem value="1">{ translate('Request') }</MenuItem>
-                                        <MenuItem value="2">{ translate('Approve') }</MenuItem>
-                                        <MenuItem value="3">{ translate('Reject') }</MenuItem>
+                                        {dataStatus.map((status:any) => (
+                                            <MenuItem key={status.id} value={status.id}>
+                                                {status.status_name}
+                                            </MenuItem>
+                                        ))}
                                     </Select>
                                 </FormControl>
                             )}
                         />
-                    </Stack>
+                    </Stack> */}
                 </Box>
             </FormDialog>
-
-            <CreateDialog
-                openModal={openDialogCreate}
-                closeModal={closeModalCreate}
-            ></CreateDialog>
         </Page>
     );
 }
