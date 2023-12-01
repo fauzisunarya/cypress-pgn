@@ -44,7 +44,7 @@ export function deleteContent(uuid: any){
 
 export function getContent(uuid: any){
     axiosContent.defaults.headers.common.Authorization = localStorage.getItem('accessToken') ? 'bearer '+localStorage.getItem('accessToken') : token;
-    return axiosContent.get('/api/contents/'+uuid);
+    return axiosContent.get('/api/contents?id='+uuid);
 }
 
 export type createProps =  {

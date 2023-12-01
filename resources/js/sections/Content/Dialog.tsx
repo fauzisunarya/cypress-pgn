@@ -34,16 +34,25 @@ interface FilePreviews {
 interface ContentType {
     value: {
         id: string;
+        img_banner: string;
+        url : string,
+        start_dtm : Date,
+        end_dtm : Date,
         header: {
             title: string;
+            subtitle: string;
             image: string;
             desc: string;
         };
-        img_banner: string;
         body?: {
+            detail_id : any;
             title: string;
             desc: string;
             image: string;
+            image_banner : string;
+            start_date : Date;
+            end_date : Date;
+            url :string;
         }[];
     }[];
 }
@@ -127,44 +136,6 @@ export const CreatedDialog = (props: DialogProps) => {
             body : [{ detail_id : '', title: '', desc: '', image : '', image_banner : '', url : '', start_date : '', end_date : '' }] }],
     };
 
-    const contentConvert = (value:any) => {
-        const contentBody = value;
-        const dataImage: File[] = [];
-        const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
-
-        contentBody.forEach((content:any) => {
-            if (content.img_banner != '' && !urlRegex.test(content.img_banner)) {
-                dataImage.push(content.img_banner);
-                content.img_banner = content.img_banner.name;
-            }
-
-            if (content.header.image != '' && !urlRegex.test(content.header.image)) {
-                dataImage.push(content.header.image);
-                content.header.image = content.header.image.name;
-            }
-
-            content.header = {
-                image : content.header.image,
-                title : content.header.title,
-                desc : content.header.desc
-            };
-
-            if (content.body) {
-                (content.body).forEach((sub:any) => {
-                    if (sub.image != '' && !urlRegex.test(sub.image)) {
-                        dataImage.push(sub.image);
-                        sub.image = sub.image.name;
-                    }
-                });
-            }
-        });
-
-        return {
-            content : contentBody,
-            image : dataImage
-        }
-    }
-
     const handleSubmitCreate = async (value:any, e:any) => {
         e.preventDefault();
         try {
@@ -188,29 +159,6 @@ export const CreatedDialog = (props: DialogProps) => {
                 return false;
             }
 
-            const convertContent = contentConvert(value.contents);
-            const fileImage = convertContent.image;
-
-            const convertImage = (image: File) => {
-                return new Promise<{ filename: string, mimeType: string, file: string | ArrayBuffer | null }>((resolve) => {
-                    const reader = new FileReader();
-            
-                    reader.onload = () => {
-                        const fileImage = reader.result;
-                        resolve({
-                            filename: image.name,
-                            mimeType: image.type,
-                            file: fileImage,
-                        });
-                    };
-            
-                    reader.readAsDataURL(image);
-                });
-            };
-
-            // Convert images to base64
-            const convertedImages = await Promise.all(fileImage.map(convertImage));
-
             setLoading(true);
 
             // Create or update content
@@ -222,7 +170,7 @@ export const CreatedDialog = (props: DialogProps) => {
                 name: value.title,
                 lang: value.lang,
                 content_body: {
-                    value: convertContent.content,
+                    value: value.contents,
                     summary: '',
                     format: 'json',
                 },
@@ -269,16 +217,16 @@ export const CreatedDialog = (props: DialogProps) => {
     
             newFilePreviews[index][type] = preview;
             setFilePreviews(newFilePreviews);
+
+            if (type == 'img_banner') {
+                setValue(`contents.${index}.img_banner`, preview);
+            } else {
+                setValue(`contents.${index}.header.image`, preview);
+            }
         };
     
         if (file) {
             reader.readAsDataURL(file);
-        }
-
-        if (type == 'img_banner') {
-            setValue(`contents.${index}.img_banner`, file);
-        } else {
-            setValue(`contents.${index}.header.image`, file);
         }
     };    
 
@@ -310,11 +258,14 @@ export const CreatedDialog = (props: DialogProps) => {
 
             if (props.data != '0') {
                 const response: any = await getContent(props.data);
-                var responseData = response.data;
+                var responseData = response.data[0];
                 if (responseData) {
-                    setValue('uuid', responseData.uuid);
+                    setValue('uuid', responseData.id);
                     setValue('title', responseData.name);
-                    setValue('lang', responseData.lang);
+                    setValue('lang', responseData.language);
+                    setValue('category_id', responseData.category_id);
+                    setValue('start_date', responseData.start_date);
+                    setValue('end_date', responseData.end_date);
                     setValue('contents', responseData.content_body.value);
                     editContent(responseData.content_body);
 
@@ -376,7 +327,16 @@ export const CreatedDialog = (props: DialogProps) => {
                             newFileSubPreviews[index] = {};
                         }
                 
-                        newFileSubPreviews[index][idx] = sub.image;
+                        newFileSubPreviews[index][idx]['image'] = sub.image;
+                    }
+
+                    if (sub.image_banner) {
+                
+                        if (!newFileSubPreviews[index]) {
+                            newFileSubPreviews[index] = {};
+                        }
+                
+                        newFileSubPreviews[index][idx]['image_banner'] = sub.image_banner;
                     }
                 });
             }

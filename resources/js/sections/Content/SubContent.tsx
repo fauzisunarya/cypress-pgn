@@ -10,50 +10,52 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 interface FilePreviews {
-    type?: string;
-    preview?: string;
+    image?: string;
+    image_banner?: string;
 }
 
 export default ({ nestIndex, fileSubPreviews, control, setValue, register, getValues }:any) => {
     const { translate } = useLocales();
-    const [filePreviews, setFilePreviews] = React.useState<FilePreviews[]>([]);
+    const [filePreviews, setFilePreviews] = React.useState<FilePreviews[][]>([]);
     const { fields, remove, append } = useFieldArray({
         control,
         name: `contents.${nestIndex}.body`
     });
 
-    const handleImageChange = (e: any, nIdx: number, num: number, type: any) => {
+    const handleImageChange = (e: any, nIdx: number, num: number, type:any) => {
         const file = e.target.files[0];
         const reader = new FileReader();
-    
+
         reader.onload = (event: any) => {
             const preview = event.target.result;
-            const newFilePreviews: any = [...filePreviews];
-            console.log(newFilePreviews);
-    
+            const newFilePreviews: FilePreviews[][] = [...filePreviews];
+
             if (!newFilePreviews[nIdx]) {
-                newFilePreviews[nIdx] = {};
+                newFilePreviews[nIdx] = [];
             }
-    
-            newFilePreviews[nIdx][num] = { preview, type };
-            console.log(newFilePreviews);
+
+            if (!newFilePreviews[nIdx][num]) {
+                newFilePreviews[nIdx][num] = {};
+            }
+
+            newFilePreviews[nIdx][num][type] = preview;
             setFilePreviews(newFilePreviews);
+            setValue(`contents.${nestIndex}.body.${num}.${type}`, preview);
         };
-    
+
         if (file) {
             reader.readAsDataURL(file);
         }
-        
-        setValue(`contents.${nestIndex}.body.${num}.${type}`, file);
     };
-    
-    const handleRemoveImage = (nIdx: number, num: number, type: any) => {
-        const newFilePreviews = [...filePreviews];
-    
+
+    const handleRemoveImage = (nIdx: number, num: number, type:any) => {
+        const newFilePreviews: FilePreviews[][] = [...filePreviews];
+
         if (newFilePreviews[nIdx] && newFilePreviews[nIdx][num]) {
-            delete newFilePreviews[nIdx][num].type;
+            delete newFilePreviews[nIdx][num][type];
             setFilePreviews(newFilePreviews);
         }
+        // Assuming setValue is a function for updating form values
         setValue(`contents.${nestIndex}.body.${num}.${type}`, '');
     };
 
@@ -63,14 +65,12 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
         }
     }, [fileSubPreviews]);
 
-    console.log(filePreviews);
-
     return (
         <Box>
             <Stack mt={3}>
                 <Grid container>
                     <Grid item xs={3}>
-                        <Button variant={'outlined'} onClick={() => append({ title: '', desc: '', image : '' })}>{ translate('Add Sub Content') }</Button>
+                        <Button variant={'outlined'} onClick={() => append({ detail_id : '', title: '', desc: '', image : '', image_banner : '', url : '', start_date : '', end_date : '' })}>{ translate('Add Sub Content') }</Button>
                     </Grid>
                 </Grid>
             </Stack>
@@ -203,11 +203,11 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
                                         </span>
                                     </label>
 
-                                    {filePreviews[nestIndex] && filePreviews[nestIndex][num].type === 'image' && (
+                                    {filePreviews[nestIndex] && filePreviews[nestIndex][num]['image'] && (
                                         <Stack mt={1} direction={'column'}>
                                             <Stack direction={'row'} spacing={5}>
                                                 <img
-                                                    src={filePreviews[nestIndex][num].preview}
+                                                    src={filePreviews[nestIndex][num]['image']}
                                                     alt={`File ${num + 1}`}
                                                     style={{ width: '100px', height: '100px', margin: '2px', objectFit: 'cover' }}
                                                 />
@@ -251,11 +251,11 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
                                         </span>
                                     </label>
 
-                                    {filePreviews[nestIndex] && filePreviews[nestIndex][num].type === 'image_banner' && (
+                                    {filePreviews[nestIndex] && filePreviews[nestIndex][num]['image_banner'] && (
                                         <Stack mt={1} direction={'column'}>
                                             <Stack direction={'row'} spacing={5}>
                                                 <img
-                                                    src={filePreviews[nestIndex][num].preview}
+                                                    src={filePreviews[nestIndex][num]['image_banner']}
                                                     alt={`File ${num + 1}`}
                                                     style={{ width: '100px', height: '100px', margin: '2px', objectFit: 'cover' }}
                                                 />
