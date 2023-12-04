@@ -95,18 +95,18 @@ class ContentController extends Controller {
         try {
             DB::beginTransaction();
             $create = Content::create([
-                'name' => $data['name'],
-                'start_date' => $data['start_date'],
-                'end_date' => $data['end_date'],
-                'status' => $data['status'],
-                'language' => $data['language'],
-                'module' => $data['module'],
+                'name' => @$data['name'],
+                'start_date' => @$data['start_date'],
+                'end_date' => @$data['end_date'],
+                'status' => @$data['status'],
+                'language' => @$data['language'],
+                'module' => @$data['module'],
                 'summary' => "",
-                'format' => $data['format'],
+                'format' => @$data['format'],
                 'create_dtm' => Carbon::now(),
                 'update_dtm' => null,
                 'create_by' => $user['sub'],
-                'category_id' => $data['category_id'],
+                'category_id' => @$data['category_id'],
             ]);
 
             $create_id = $create->id;
@@ -130,14 +130,14 @@ class ContentController extends Controller {
                         'content_id' => $create_id,
                         'image_banner' => $img_banner,
                         'image' => $img,
-                        'title' => $val['header']['title'],
-                        'subtitle' => $val['header']['title'],
-                        'desc' => $val['header']['desc'],
+                        'title' => @$val['header']['title'],
+                        'subtitle' => @$val['header']['title'],
+                        'desc' => @$val['header']['desc'],
                         'create_dtm' => Carbon::now(),
                         'update_dtm' => null,
-                        'start_dtm' => $val['start_dtm'],
-                        'end_dtm' => $val['end_dtm'],
-                        'url' => $val['url'],
+                        'start_dtm' => @$val['start_dtm'],
+                        'end_dtm' => @$val['end_dtm'],
+                        'url' => @$val['url'],
                     ]);
 
                     if (!$create_header) {
@@ -171,14 +171,14 @@ class ContentController extends Controller {
                                 'image_banner' => $img_banner_body,
                                 'image' => $img_body,
                                 'header_id' => $header_id,
-                                'title' => $row['title'],
-                                'subtitle' => $row['title'],
-                                'desc' => $row['desc'],
-                                'url' => $row['url'],
+                                'title' => @$row['title'],
+                                'subtitle' => @$row['title'],
+                                'desc' => @$row['desc'],
+                                'url' => @$row['url'],
                                 'create_dtm' => Carbon::now(),
                                 'update_dtm' => null,
-                                'start_date' => $row['start_date'],
-                                'end_date' => $row['end_date'],
+                                'start_date' => @$row['start_date'],
+                                'end_date' => @$row['end_date'],
                             ]);
         
                             if (!$create_body) {
