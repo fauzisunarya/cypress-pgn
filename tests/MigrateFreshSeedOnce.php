@@ -20,5 +20,17 @@ trait MigrateFreshSeedOnce
     public function setUp() : void
     {
         parent::setUp();
+
+        if (!static::$setUpHasRunOnce) {
+
+            /** Isi collection dengan data default diambil dari seeder*/
+            Artisan::call(
+                'db:seed', [
+                    '--class' => ''
+                ]
+            );
+
+            static::$setUpHasRunOnce = true; 
+         }
     }
 }

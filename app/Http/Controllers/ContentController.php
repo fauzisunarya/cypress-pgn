@@ -275,7 +275,6 @@ class ContentController extends Controller {
             // end date header
             $dbHeader = Header::where('content_id', $data['content_id']);
             $endHeder = $dbHeader->update(['end_dtm' => Carbon::now()]);
-            echo "<pre>"; print_r($endHeder); echo "</pre>"; die('');
 
             // end date detail
 
