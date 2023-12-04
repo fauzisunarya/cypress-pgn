@@ -23,10 +23,10 @@ function filterData(params:any) {
 
     if (params == '1') {
         order = 'asc';
-        sortBy = 'title';
+        sortBy = 'name';
     } else if (params == '2') {
         order = 'desc';
-        sortBy = 'title';
+        sortBy = 'name';
     } else if (params == '3') {
         order = 'asc';
         sortBy = 'status';
@@ -35,16 +35,16 @@ function filterData(params:any) {
         sortBy = 'status';
     } else if (params == '5') {
         order = 'asc';
-        sortBy = 'created';
+        sortBy = 'create_dtm';
     } else if (params == '6') {
         order = 'desc';
-        sortBy = 'created';
+        sortBy = 'create_dtm';
     } else if (params == '7') {
         order = 'asc';
-        sortBy = 'created';
+        sortBy = 'update_dtm';
     } else if (params == '8') {
         order = 'desc';
-        sortBy = 'created';
+        sortBy = 'update_dtm';
     }
 
     return [sortBy, order];
