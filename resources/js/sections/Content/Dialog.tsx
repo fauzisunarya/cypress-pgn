@@ -267,9 +267,8 @@ export const CreatedDialog = (props: DialogProps) => {
                     setValue('start_date', responseData.start_date);
                     setValue('end_date', responseData.end_date);
                     setValue('contents', responseData.content_body.value);
-                    editContent(responseData.content_body);
-
                     setTitle(translate('Edit Content'));
+                    editContent(responseData.content_body);
                 }
             }
 
@@ -355,6 +354,10 @@ export const CreatedDialog = (props: DialogProps) => {
         setTitle(translate('Create Content'));
         getContents();
     },[props.data]);
+
+    console.log(titleDialog);
+    console.log(filePreviews);
+    console.log(fileSubPreviews);
 
     return (
         <div>

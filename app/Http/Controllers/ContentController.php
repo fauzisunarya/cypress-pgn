@@ -155,16 +155,15 @@ class ContentController extends Controller {
                     $body = $val['body'];
                     if ($body) {
                         foreach ($body as $row) {
-
                             $img_banner_body = '';
                             if (isset($row['img_banner'])) {
-                                $img_banner = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
+                                $img_banner_body = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
                                 Storage::disk('minio')->put($img_banner_body, $row['img_banner']);
                             }
         
                             $img_body = '';
                             if (isset($row['image'])) {
-                                $img = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image/'.Carbon::now()->format('YmdHis').'.jpg';
+                                $img_body = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image/'.Carbon::now()->format('YmdHis').'.jpg';
                                 Storage::disk('minio')->put($img_body, $row['image']);
                             }
         
@@ -327,13 +326,13 @@ class ContentController extends Controller {
 
                             $img_banner_body = '';
                             if ($row['image_banner'] != null) {
-                                $img_banner = isset($getImgBody['image_banner']) && !empty($getImgBody['image_banner']) ? $getImgBody['image_banner'] : env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
+                                $img_banner_body = isset($getImgBody['image_banner']) && !empty($getImgBody['image_banner']) ? $getImgBody['image_banner'] : env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
                                 Storage::disk('minio')->put($img_banner_body, $row['image_banner']);
                             }
         
                             $img_body = '';
                             if ($row['image'] != null) {
-                                $img = isset($getImgBody['image']) && !empty($getImgBody['image']) ? $getImgBody['image'] : env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image/'.Carbon::now()->format('YmdHis').'.jpg';
+                                $img_body = isset($getImgBody['image']) && !empty($getImgBody['image']) ? $getImgBody['image'] : env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image/'.Carbon::now()->format('YmdHis').'.jpg';
                                 Storage::disk('minio')->put($img_body, $row['image']);
                             }
         
