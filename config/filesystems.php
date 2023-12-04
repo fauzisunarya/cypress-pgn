@@ -55,7 +55,7 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
-        
+
         'minio' => [
             'driver' => 's3',
             'endpoint' => env('MINIO_ENDPOINT'),
@@ -65,6 +65,7 @@ return [
             'bucket' => env('MINIO_BUCKET'),
             'region' => env('MINIO_REGION')
         ],
+
     ],
 
     /*

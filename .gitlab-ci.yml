@@ -1,11 +1,23 @@
+<<<<<<< HEAD
 # default image
 image: registry.neuron.id/pub/php:php8-latest
 
+=======
+# stage yg dijalankan
+stages:
+  - code-quality
+  - pre-build
+  - build
+  - deploy
+  - automated-security
+# tag runner
+>>>>>>> e85fb9edaa5de817c56b0fb447b0870c3484a3a6
 .runner-tag:
   neuron:
     - docker
     - internal
 
+<<<<<<< HEAD
 # stage yg dijalankan
 stages:
   - code-quality
@@ -29,6 +41,37 @@ variables:
   SONAR_SOURCES: "app/Models"
 
 # ---------------------------------------------- Rules Pipeline -----------------------------------------------------
+=======
+# ci cache
+#cache:
+#  key: $CI_COMMIT_REF_SLUG
+#  paths:
+#    - vendor/Zend/
+
+# variables
+variables:
+  SONAR_USER_HOME: "$CI_PROJECT_DIR/.sonar"
+  GIT_DEPTH: "0"
+  SONAR_HOST_URL: "https://sonar.neuronworks.co.id"
+  SONAR_SOURCES: "."
+  SONAR_EXCLUSIONS: "vendor/**,web/core/modules/**,**/tests/**,drush/**,scripts/**"
+  #SONAR_EXCLUSIONS: "**/*.html,**/*.phtml,**/*.css,**/*.js"
+
+# ---------------------------------------------- Rules for Trigger -----------------------------------------------------
+.sonar_rules:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+      allow_failure: true
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != "main"'
+      allow_failure: true
+
+.demo_rules:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "demo" && ($CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event")'
+      variables:
+        APP_ENV: demo
+
+>>>>>>> e85fb9edaa5de817c56b0fb447b0870c3484a3a6
 .dev_rules:
   rules:
     - if: '$CI_COMMIT_BRANCH == "development" && ($CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "merge_request_event")'
@@ -60,14 +103,21 @@ variables:
       - APPS:
         - doorv3
         CLIENT_NAME:
+<<<<<<< HEAD
           - pgn
 
+=======
+          - jagooit
+          - pgn
+          
+>>>>>>> e85fb9edaa5de817c56b0fb447b0870c3484a3a6
 # ---------------------------------------------- Code Quality -----------------------------------------------------
 sonarqube-check:
   stage: code-quality
   tags: !reference [.runner-tag, neuron]
   image:
     name: sonarsource/sonar-scanner-cli:latest
+<<<<<<< HEAD
     entrypoint: [""]
   cache:
     key: "${CI_JOB_NAME}"
@@ -99,16 +149,35 @@ pre-build-apps:
     - npm install --legacy-peer-deps
     - npm run build
   rules:
+=======
+    entrypoint: [ "" ]
+  cache:
+    key: "$CI_JOB_NAME"
+    paths:
+      - .sonar/cache
+  script:
+    #- sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=900 -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN -Dsonar.sourceEncoding=UTF-8 -Dsonar.projectName="$CI_PROJECT_NAME $CI_COMMIT_REF_NAME" -Dsonar.projectKey="${CI_PROJECT_ID}_${CI_PROJECT_NAME}_${CI_COMMIT_REF_NAME}" -Dsonar.sources=$SONAR_SOURCES -Dsonar.exclusions=$SONAR_EXCLUSIONS
+    - echo "sonar scanner"
+  allow_failure: true
+  rules:
+    - !reference [.sonar_rules, rules]
+    - !reference [.demo_rules, rules]
+>>>>>>> e85fb9edaa5de817c56b0fb447b0870c3484a3a6
     - !reference [.dev_rules, rules]
     - !reference [.staging_rules, rules]
     - !reference [.prod_rules, rules]
     - !reference [.release_rules, rules]
+<<<<<<< HEAD
   artifacts:
     expose_as: "Vendor Laravel"
     paths:
       - vendor/
       - public/build/
 
+=======
+
+# ---------------------------------------------- Build & Publish -----------------------------------------------------
+>>>>>>> e85fb9edaa5de817c56b0fb447b0870c3484a3a6
 prepare-version:
   stage: pre-build
   tags: !reference [.runner-tag, neuron]
@@ -126,10 +195,15 @@ prepare-version:
       dotenv: build.env
     expire_in: 1 week
   rules:
+<<<<<<< HEAD
+=======
+    - !reference [.demo_rules, rules]
+>>>>>>> e85fb9edaa5de817c56b0fb447b0870c3484a3a6
     - !reference [.dev_rules, rules]
     - !reference [.staging_rules, rules]
     - !reference [.prod_rules, rules]
     - !reference [.release_rules, rules]
+<<<<<<< HEAD
     
 # ---------------------------------------------- Unit Testing -----------------------------------------------------
 phpunit:
@@ -178,6 +252,37 @@ publish-custprofile:
   stage: publish
   needs:
     ['sonarqube-check', 'prepare-version', 'pre-build-apps']
+=======
+
+prebuild-fe:
+  stage: pre-build
+  needs:
+    ['sonarqube-check', 'prepare-version']
+  tags: !reference [.runner-tag, neuron]
+  image:
+    node:lts-slim
+  script:
+    - cd frontend/
+    - npm install --legacy-peer-deps
+    - npm run build
+  artifacts:
+    when: always
+    expire_in: "1 days"
+    paths:
+      - "frontend/build/"
+  rules:
+    - !reference [.demo_rules, rules]
+    - !reference [.dev_rules, rules]
+    - !reference [.staging_rules, rules]
+    - !reference [.prod_rules, rules]
+    - !reference [.release_rules, rules]
+
+
+build-cms-be:
+  stage: build
+  needs:
+    ['sonarqube-check', 'prepare-version']
+>>>>>>> e85fb9edaa5de817c56b0fb447b0870c3484a3a6
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
@@ -187,21 +292,35 @@ publish-custprofile:
     # create docker config (json) untuk kaniko --> biar kaniko bisa auth ke container registry gitlab utk push
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+<<<<<<< HEAD
+=======
+    # jalankan build docker image & push ke container registry
+>>>>>>> e85fb9edaa5de817c56b0fb447b0870c3484a3a6
     - >-
       /kaniko/executor
       --cache=true --cache-repo="${CI_REGISTRY_IMAGE}/cache"
       --context "${CI_PROJECT_DIR}"
+<<<<<<< HEAD
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --build-arg=APP_VERSION="$APP_VERSION"
       --destination "${CI_REGISTRY_IMAGE}:${APP_VERSION}"
   #trigger pipeline
   rules:
+=======
+      --dockerfile "${CI_PROJECT_DIR}/backend/Dockerfile"
+      --build-arg=APP_VERSION="$APP_VERSION"
+      --destination "${CI_REGISTRY_IMAGE}/backend:${APP_VERSION}"
+  #trigger pipeline
+  rules:
+    - !reference [.demo_rules, rules]
+>>>>>>> e85fb9edaa5de817c56b0fb447b0870c3484a3a6
     - !reference [.dev_rules, rules]
     - !reference [.staging_rules, rules]
     - !reference [.prod_rules, rules]
     - !reference [.release_rules, rules]
   allow_failure: false
 
+<<<<<<< HEAD
 # ---------------------------------------------- Deploy App -----------------------------------------------------
 trigger-deploy-other-env:
   stage: deploy
@@ -218,10 +337,68 @@ trigger-deploy-other-env:
     - !reference [.prod_rules, rules]
     - !reference [.dev_rules, rules]
     - !reference [.staging_rules, rules]
+=======
+build-cms-fe:
+  stage: build
+  needs:
+    ['sonarqube-check', 'prepare-version', 'prebuild-fe']
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  tags: !reference [.runner-tag, neuron]
+  # script tahapan build docker image
+  script:
+    # create docker config (json) untuk kaniko --> biar kaniko bisa auth ke container registry gitlab utk push
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    # jalankan build docker image & push ke container registry
+    - >-
+      /kaniko/executor
+      --cache=true --cache-repo="${CI_REGISTRY_IMAGE}/cache"
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/frontend/Dockerfile"
+      --build-arg=APP_VERSION="$APP_VERSION"
+      --destination "${CI_REGISTRY_IMAGE}/frontend:${APP_VERSION}"
+  #trigger pipeline
+  rules:
+    - !reference [.demo_rules, rules]
+    - !reference [.dev_rules, rules]
+    - !reference [.staging_rules, rules]
+    - !reference [.prod_rules, rules]
+    - !reference [.release_rules, rules]
+  allow_failure: false
+
+# ---------------------------------------------- Trigger Deploy -----------------------------------------------------
+trigger-deploy:
+  stage: deploy
+  needs: ['sonarqube-check','prepare-version','build-cms-be','build-cms-fe']
+  variables:
+    APP_NAME: cms-services
+  tags: !reference [.runner-tag, neuron]
+  image: node:lts
+  script:
+    - echo "Deploying '$APP_NAME' version '$APP_VERSION' app env '$APP_ENV' ..."
+    - >-
+      curl --fail --request POST
+      --form token=$CI_JOB_TOKEN
+      --form ref=main
+      --form "variables[APP_NAME]=$APP_NAME"
+      --form "variables[APP_ENV]=$APP_ENV"
+      --form "variables[APP_VERSION]=$APP_VERSION"
+      "https://git.neuron.id/api/v4/projects/774/trigger/pipeline"
+  environment: $APP_ENV
+  #trigger pipeline
+  rules:
+    - !reference [.demo_rules, rules]
+    - !reference [.dev_rules, rules]
+    - !reference [.staging_rules, rules]
+    - !reference [.prod_rules, rules]
+>>>>>>> e85fb9edaa5de817c56b0fb447b0870c3484a3a6
   allow_failure: false
 
 trigger-deploy-client:
   stage: deploy
+<<<<<<< HEAD
   needs: ['sonarqube-check', 'pre-build-apps', 'prepare-version', 'publish-custprofile']
   variables:
     APP_NAME: custprofile-services
@@ -233,6 +410,27 @@ trigger-deploy-client:
     project: devops/doorv3/customer-profile-services
     strategy: depend
   ##trigger pipeline
+=======
+  parallel: !reference [.parallel-matrix-job, parallel]
+  needs: ['sonarqube-check','prepare-version','build-cms-be','build-cms-fe']
+  variables:
+    APP_NAME: cms-services
+  tags: !reference [.runner-tag, neuron]
+  image: node:lts
+  script:
+    - echo "Deploying '$APP_NAME' version '$APP_VERSION' app env '$APP_ENV' ..."
+    - >-
+      curl --fail --request POST
+      --form token=$CI_JOB_TOKEN
+      --form ref=main
+      --form "variables[APP_NAME]=$APP_NAME"
+      --form "variables[APP_ENV]=$APP_ENV"
+      --form "variables[APP_VERSION]=$APP_VERSION"
+      --form "variables[CLIENT_NAME]=$CLIENT_NAME"
+      "https://git.neuron.id/api/v4/projects/774/trigger/pipeline"
+  environment: $APP_ENV-$CLIENT_NAME
+  #trigger pipeline
+>>>>>>> e85fb9edaa5de817c56b0fb447b0870c3484a3a6
   rules:
     - !reference [.release_rules, rules]
   allow_failure: false
