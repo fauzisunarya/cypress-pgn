@@ -34,7 +34,7 @@ interface FilePreviews {
 interface ContentType {
     value: {
         id: string;
-        img_banner: string;
+        image_banner: string;
         url : string,
         start_dtm : Date,
         end_dtm : Date,
@@ -298,14 +298,14 @@ export const CreatedDialog = (props: DialogProps) => {
         const newFilePreviews:any = [...filePreviews];
         const newFileSubPreviews:any = [...fileSubPreviews];
         contents.forEach((value, index) => {
-            if (value.img_banner) {
+            if (value.image_banner) {
                 const type = 'img_banner';
         
                 if (!newFilePreviews[index]) {
                     newFilePreviews[index] = {};
                 }
         
-                newFilePreviews[index][type] = value.img_banner;
+                newFilePreviews[index][type] = value.image_banner;
             }
 
             if (value.header.image) {
@@ -320,10 +320,14 @@ export const CreatedDialog = (props: DialogProps) => {
         
             if (value.body) {
                 (value.body).forEach((sub, idx) => {
+                    if (!newFileSubPreviews[index]) {
+                        newFileSubPreviews[index] = {};
+                    }
+
                     if (sub.image) {
                 
-                        if (!newFileSubPreviews[index]) {
-                            newFileSubPreviews[index] = {};
+                        if (!newFileSubPreviews[index][idx]) {
+                            newFileSubPreviews[index][idx] = {};
                         }
                 
                         newFileSubPreviews[index][idx]['image'] = sub.image;
@@ -331,8 +335,8 @@ export const CreatedDialog = (props: DialogProps) => {
 
                     if (sub.image_banner) {
                 
-                        if (!newFileSubPreviews[index]) {
-                            newFileSubPreviews[index] = {};
+                        if (!newFileSubPreviews[index][idx]) {
+                            newFileSubPreviews[index][idx] = {};
                         }
                 
                         newFileSubPreviews[index][idx]['image_banner'] = sub.image_banner;
@@ -355,8 +359,6 @@ export const CreatedDialog = (props: DialogProps) => {
         getContents();
     },[props.data]);
 
-    console.log(titleDialog);
-    console.log(filePreviews);
     console.log(fileSubPreviews);
 
     return (
