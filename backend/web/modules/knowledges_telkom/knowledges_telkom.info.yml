@@ -1,5 +1,0 @@
-name: 'Knowledges Telkom'
-type: module
-description: 'Module for product knowledge form on paket and product_catalog'
-core_version_requirement: ^8.8 || ^9
-package: 'Custom'

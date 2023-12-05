@@ -1,8 +1,0 @@
-uuid: 16a64f13-4c50-41c1-9cf3-21b2bb727f4e
-langcode: en
-status: true
-dependencies: {  }
-name: 'Product Knowledge'
-vid: product_knowledge
-description: ''
-weight: -1

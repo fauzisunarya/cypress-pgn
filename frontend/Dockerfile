@@ -1,9 +1,0 @@
-FROM nginxinc/nginx-unprivileged:latest AS server
-
-WORKDIR /usr/share/nginx/html
-
-COPY ./frontend/build/ ./
-COPY ./frontend/nginx.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 8080
-CMD ["nginx", "-g", "daemon off;"]

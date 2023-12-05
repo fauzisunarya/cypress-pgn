@@ -1,9 +1,0 @@
-services:
-  restapi_door.app_helper:
-    class: Drupal\restapi_door\Helper\Module_helper
-  restapi_door.custom_middleware:
-    class: Drupal\restapi_door\Middleware\AuthMiddleware
-    tags:
-      - { name: http_middleware, priority: 100 }
-  restapi_door.minio_helper:
-    class: Drupal\restapi_door\Helper\Minio_helper

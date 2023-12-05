@@ -1,8 +1,0 @@
-uuid: 3490cb3a-33e2-4ba9-aea0-64a1bb36e358
-langcode: en
-status: true
-dependencies: {  }
-name: 'Non Retail  Product Type'
-vid: non_retail_product_type
-description: 'Product Type of EBIS & WIBS'
-weight: 1

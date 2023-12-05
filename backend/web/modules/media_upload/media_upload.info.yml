@@ -1,6 +1,0 @@
-name: Media Upload
-description: Module for storing file-file assets into min.io instead of drupal
-package: Custom
-
-type: module
-core_version_requirement: ^8.8 || ^9

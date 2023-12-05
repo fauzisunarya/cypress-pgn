@@ -1,8 +1,0 @@
-uuid: f55a10d9-cca3-4c8b-b442-7b4855f97ad2
-langcode: en
-status: true
-dependencies: {  }
-name: 'Media Bundle'
-vid: media_bundle
-description: ''
-weight: -9

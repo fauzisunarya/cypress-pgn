@@ -1,5 +1,0 @@
-name: 'Product Catalog Telkom'
-type: module
-description: 'Module for product_catalog'
-core_version_requirement: ^8.8 || ^9
-package: 'Custom'

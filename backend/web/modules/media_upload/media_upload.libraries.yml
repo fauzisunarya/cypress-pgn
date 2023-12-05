@@ -1,4 +1,0 @@
-landing-form:
-  version: 1.x
-  js:
-    js/landing-form.js: {}

@@ -1,8 +1,0 @@
-uuid: b32b58f1-5388-4104-a682-c7b89f95c6ca
-langcode: en
-status: true
-dependencies: {  }
-name: 'Help Category'
-vid: help_category
-description: ''
-weight: 0

@@ -1,8 +1,0 @@
-uuid: beea6623-81f5-4fd3-9b6f-3c6baa4189c7
-langcode: en
-status: true
-dependencies: {  }
-name: 'Source Paket'
-vid: source_paket
-description: 'Paket Source from PEFITA'
-weight: -6
