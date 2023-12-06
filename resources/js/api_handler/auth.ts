@@ -1,6 +1,5 @@
 import { auth } from "../config";
-import { axiosInstanceUam, axiosInstanceProxy } from "../utils/axios";
-
+import { axiosInstanceUam, axiosInstanceProxy } from "@/utils/axios";
 
 export function preauthenticate(code:string){
     const data = {

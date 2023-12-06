@@ -7,7 +7,6 @@ use App\Helper\Result;
 use App\Models\Content;
 use App\Models\Content\Header;
 use App\Models\Content\Detail;
-use App\Models\Status;
 use Illuminate\Support\Facades\Storage;
 use AG\ElasticApmLaravel\Facades\ApmCollector;
 use Illuminate\Support\Facades\DB;
@@ -39,10 +38,14 @@ class ContentController extends Controller {
         $dir = !empty($post['order']['dir']) ? $post['order']['dir'] : 'asc';
         $length = !empty($post['length']) ? $post['length'] : 5;
 
-        $data = new Content();
+        $data = Content::select('content.*', 'content_status.status_name', 'content_category.category_name')
+        ->join('cms.content_status', 'content.status', '=', 'content_status.id')
+        ->join('cms.content_category', DB::raw('CAST(content.category_id AS INTEGER)'), '=', 'content_category.id');
 
         if (isset($search) && !empty($search)) {
-            $data = $data->where('name', 'ILIKE', '%'.$search.'%');
+            $data = $data->where('name', 'ILIKE', '%'.$search.'%')
+            ->orWhere('content_status.status_name', 'ILIKE', '%'.$search.'%')
+            ->orWhere('content_category.category_name', 'ILIKE', '%'.$search.'%');
         }
         
         $data = $data->orderBy($column, $dir)
@@ -75,9 +78,7 @@ class ContentController extends Controller {
             'data.module' => 'required',
             'data.format' => 'required',
             'data.start_date' => 'required',
-            'data.end_date' => 'required',
             'data.content_body' => 'required',
-            'data.content_body.value' => 'required',
         ]);
 
         $data = $request->data;
@@ -94,18 +95,18 @@ class ContentController extends Controller {
         try {
             DB::beginTransaction();
             $create = Content::create([
-                'name' => $data['name'],
-                'start_date' => $data['start_date'],
-                'end_date' => $data['end_date'],
-                'status' => $data['status'],
-                'language' => $data['language'],
-                'module' => $data['module'],
-                'summary' => $data['summary'],
-                'format' => $data['format'],
+                'name' => @$data['name'],
+                'start_date' => @$data['start_date'],
+                'end_date' => @$data['end_date'],
+                'status' => @$data['status'],
+                'language' => @$data['language'],
+                'module' => @$data['module'],
+                'summary' => "",
+                'format' => @$data['format'],
                 'create_dtm' => Carbon::now(),
-                'update_dtm' => Carbon::now(),
+                'update_dtm' => null,
                 'create_by' => $user['sub'],
-                'category_id' => $data['category_id'],
+                'category_id' => @$data['category_id'],
             ]);
 
             $create_id = $create->id;
@@ -114,13 +115,13 @@ class ContentController extends Controller {
                 $value = $data['content_body']['value'];
                 foreach ($value as $val) {
                     $img_banner = '';
-                    if ($val['image_banner'] != null) {
+                    if (isset($val['img_banner'])) {
                         $img_banner = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/header/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
-                        Storage::disk('minio')->put($img_banner, $val['image_banner']);
+                        Storage::disk('minio')->put($img_banner, $val['img_banner']);
                     }
 
                     $img = '';
-                    if ($val['header']['image'] != null) {
+                    if (isset($val['header']['image'])) {
                         $img = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/header/image/'.Carbon::now()->format('YmdHis').'.jpg';
                         Storage::disk('minio')->put($img, $val['header']['image']);
                     }
@@ -129,14 +130,14 @@ class ContentController extends Controller {
                         'content_id' => $create_id,
                         'image_banner' => $img_banner,
                         'image' => $img,
-                        'title' => $val['header']['title'],
-                        'subtitle' => $val['header']['title'],
-                        'desc' => $val['header']['desc'],
+                        'title' => @$val['header']['title'],
+                        'subtitle' => @$val['header']['subtitle'],
+                        'desc' => @$val['header']['desc'],
                         'create_dtm' => Carbon::now(),
                         'update_dtm' => null,
-                        'start_dtm' => $val['start_dtm'],
-                        'end_dtm' => $val['end_dtm'],
-                        'url' => $val['url'],
+                        'start_dtm' => @$val['start_dtm'],
+                        'end_dtm' => @$val['end_dtm'],
+                        'url' => @$val['url'],
                     ]);
 
                     if (!$create_header) {
@@ -154,16 +155,15 @@ class ContentController extends Controller {
                     $body = $val['body'];
                     if ($body) {
                         foreach ($body as $row) {
-
                             $img_banner_body = '';
-                            if ($row['image_banner'] != null) {
-                                $img_banner = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
-                                Storage::disk('minio')->put($img_banner_body, $row['image_banner']);
+                            if (isset($row['img_banner'])) {
+                                $img_banner_body = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
+                                Storage::disk('minio')->put($img_banner_body, $row['img_banner']);
                             }
         
                             $img_body = '';
-                            if ($row['image'] != null) {
-                                $img = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image/'.Carbon::now()->format('YmdHis').'.jpg';
+                            if (isset($row['image'])) {
+                                $img_body = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image/'.Carbon::now()->format('YmdHis').'.jpg';
                                 Storage::disk('minio')->put($img_body, $row['image']);
                             }
         
@@ -171,14 +171,14 @@ class ContentController extends Controller {
                                 'image_banner' => $img_banner_body,
                                 'image' => $img_body,
                                 'header_id' => $header_id,
-                                'title' => $row['title'],
-                                'subtitle' => $row['title'],
-                                'desc' => $row['desc'],
-                                'url' => $row['url'],
+                                'title' => @$row['title'],
+                                'subtitle' => @$row['subtitle'],
+                                'desc' => @$row['desc'],
+                                'url' => @$row['url'],
                                 'create_dtm' => Carbon::now(),
                                 'update_dtm' => null,
-                                'start_date' => $row['start_date'],
-                                'end_date' => $row['end_date'],
+                                'start_date' => @$row['start_date'],
+                                'end_date' => @$row['end_date'],
                             ]);
         
                             if (!$create_body) {
@@ -234,9 +234,7 @@ class ContentController extends Controller {
             'data.module' => 'required',
             'data.format' => 'required',
             'data.start_date' => 'required',
-            'data.end_date' => 'required',
             'data.content_body' => 'required',
-            'data.content_body.value' => 'required',
         ]);
 
         $data = $request->data;
@@ -261,97 +259,200 @@ class ContentController extends Controller {
         try {
             DB::beginTransaction();
             $create = Content::where('id', $data['content_id'])->update([
-                'name' => $data['name'],
-                'start_date' => $data['start_date'],
-                'end_date' => $data['end_date'],
-                'status' => $data['status'],
-                'language' => $data['language'],
-                'module' => $data['module'],
-                'summary' => $data['summary'],
-                'format' => $data['format'],
-                'create_dtm' => Carbon::now(),
+                'name' => isset($data['name']) ? $data['name'] : $content['name'],
+                'start_date' => isset($data['start_date']) ? $data['start_date'] : $content['start_date'],
+                'end_date' => isset($data['end_date']) ? $data['end_date'] : $content['end_date'],
+                'status' => isset($data['status']) ? $data['status'] : $content['status'],
+                'language' => isset($data['language']) ? $data['language'] : $content['language'],
+                'module' => isset($data['module']) ? $data['module'] : $content['module'],
+                'summary' => "",
+                'format' => isset($data['format']) ? $data['format'] : $content['format'],
                 'update_dtm' => Carbon::now(),
                 'create_by' => $user['sub'],
-                'category_id' => $data['category_id'],
+                'category_id' => isset($data['category_id']) ? $data['category_id'] : $content['category_id'],
             ]);
+
+            // end date header
+            $dbHeader = Header::where('content_id', $data['content_id']);
+            $endHeader = $dbHeader->update(['end_dtm' => Carbon::now(), 'update_dtm' => Carbon::now()]);
+            $HeaderId = $dbHeader->get()->toArray();
+
+            // end date detail
+            $arrHeaderId = [];
+            if (isset($HeaderId)) {
+                foreach ($HeaderId as $key) {
+                    $arrHeaderId[] = $key['id'];
+                }
+            }
+
+            $endDetail = Detail::whereIn('header_id', $arrHeaderId)->update(['end_date' => Carbon::now(), 'update_dtm' => Carbon::now()]);
 
             if ($data['content_body']) {
                 $value = $data['content_body']['value'];
                 foreach ($value as $val) {
-                    $img_banner = '';
-                    if ($val['image_banner'] != null) {
-                        $img_banner = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/header/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
-                        Storage::disk('minio')->put($img_banner, $val['image_banner']);
-                    }
-
-                    $img = '';
-                    if ($val['header']['image'] != null) {
-                        $img = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/header/image/'.Carbon::now()->format('YmdHis').'.jpg';
-                        Storage::disk('minio')->put($img, $val['header']['image']);
-                    }
-
-                    $create_header = Header::where('id', $val['header_id'])->update([
-                        'content_id' => $data['content_id'],
-                        'image_banner' => $img_banner,
-                        'image' => $img,
-                        'title' => $val['header']['title'],
-                        'subtitle' => $val['header']['title'],
-                        'desc' => $val['header']['desc'],
-                        'create_dtm' => Carbon::now(),
-                        'update_dtm' => null,
-                        'start_dtm' => $val['start_dtm'],
-                        'end_dtm' => $val['end_dtm'],
-                        'url' => $val['url'],
-                    ]);
-
-                    if (!$create_header) {
-                        DB::rollback();
-    
-                        $result->code = 4;
-                        $result->info = "Failed update header";
-                        $result->data = null;
-    
-                        return response()->json($result, $result->status);
-                    }
-
-                    $body = $val['body'];
-                    if ($body) {
-                        foreach ($body as $row) {
-
-                            $img_banner_body = '';
-                            if ($row['image_banner'] != null) {
-                                $img_banner = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
-                                Storage::disk('minio')->put($img_banner_body, $row['image_banner']);
+                    if (isset($val['id'])) {
+                        $dataHeader = Header::where('id', $val['id'])->first();
+                        $img_banner = '';
+                        if (isset($val['img_banner'])) {
+                            $img_banner = $val['img_banner'];
+                            if (!filter_var($val['img_banner'], FILTER_VALIDATE_URL)) {
+                                $img_banner = isset($dataHeader['image_banner']) && !empty($dataHeader['image_banner']) ? $dataHeader['image_banner'] : env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/header/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
+                                Storage::disk('minio')->put($img_banner, $val['img_banner']);
                             }
-        
-                            $img_body = '';
-                            if ($row['image'] != null) {
-                                $img = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image/'.Carbon::now()->format('YmdHis').'.jpg';
-                                Storage::disk('minio')->put($img_body, $row['image']);
+                        }
+    
+                        $img = '';
+                        if (isset($val['header']['image'])) {
+                            $img = $val['header']['image'];
+                            if (!filter_var($val['header']['image'], FILTER_VALIDATE_URL)) {
+                                $img = isset($dataHeader['image']) && !empty($dataHeader['image']) ? $dataHeader['image'] : env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/header/image/'.Carbon::now()->format('YmdHis').'.jpg';
+                                Storage::disk('minio')->put($img, $val['header']['image']);
                             }
+                        }
+    
+                        $create_header = Header::create([
+                            'content_id' => $data['content_id'],
+                            'image_banner' => $img_banner,
+                            'image' => $img,
+                            'title' => isset($val['header']['title']) ? $val['header']['title'] : $dataHeader['title'],
+                            'subtitle' => isset($val['header']['subtitle']) ? $val['header']['subtitle'] : $dataHeader['subtitle'],
+                            'desc' => isset($val['header']['desc']) ? $val['header']['desc'] : $dataHeader['desc'],
+                            'create_dtm' => Carbon::now(),
+                            'update_dtm' => null,
+                            'start_dtm' => isset($val['start_dtm']) ? $val['start_dtm'] : $dataHeader['start_dtm'],
+                            'end_dtm' => isset($val['end_dtm']) ? $val['end_dtm'] : $dataHeader['end_dtm'],
+                            'url' => isset($val['url']) ? $val['url'] : $dataHeader['url'],
+                        ]);
+    
+                        if (!$create_header) {
+                            DB::rollback();
         
-                            $create_body = Detail::where('id', $row['detail_id'])->update([
-                                'image_banner' => $img_banner_body,
-                                'image' => $img_body,
-                                'header_id' => $val['header_id'],
-                                'title' => $row['title'],
-                                'subtitle' => $row['title'],
-                                'desc' => $row['desc'],
-                                'url' => $row['url'],
-                                'create_dtm' => Carbon::now(),
-                                'update_dtm' => null,
-                                'start_date' => $row['start_date'],
-                                'end_date' => $row['end_date'],
-                            ]);
+                            $result->code = 4;
+                            $result->info = "Failed update header";
+                            $result->data = null;
         
-                            if (!$create_body) {
-                                DB::rollback();
+                            return response()->json($result, $result->status);
+                        }
+
+                        $body = $val['body'];
+                        if ($body) {
+                            foreach ($body as $row) {
+                                $dataDetail = Detail::where('id', $row['detail_id'])->first();
+
+                                $img_banner_body = '';
+                                if ($row['image_banner'] != null) {
+                                    $img_banner_body = isset($dataDetail['image_banner']) && !empty($dataDetail['image_banner']) ? $dataDetail['image_banner'] : env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
+                                    Storage::disk('minio')->put($img_banner_body, $row['image_banner']);
+                                }
             
-                                $result->code = 5;
-                                $result->info = "Failed update sub content";
-                                $result->data = null;
+                                $img_body = '';
+                                if ($row['image'] != null) {
+                                    $img_body = isset($dataDetail['image']) && !empty($dataDetail['image']) ? $dataDetail['image'] : env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image/'.Carbon::now()->format('YmdHis').'.jpg';
+                                    Storage::disk('minio')->put($img_body, $row['image']);
+                                }
             
-                                return response()->json($result, $result->status);
+                                $create_body = Detail::create([
+                                    'image_banner' => $img_banner_body,
+                                    'image' => $img_body,
+                                    'header_id' => $val['id'],
+                                    'title' => isset($row['title']) ? $row['title'] : $dataDetail['title'],
+                                    'subtitle' => isset($row['subtitle']) ? $row['subtitle'] : $dataDetail['subtitle'],
+                                    'desc' => isset($row['desc']) ? $row['desc'] : $dataDetail['desc'],
+                                    'url' => isset($row['url']) ? $row['url'] : $dataDetail['url'],
+                                    'create_dtm' => Carbon::now(),
+                                    'update_dtm' => null,
+                                    'start_date' => isset($row['start_date']) ? $row['start_date'] : $dataDetail['start_date'],
+                                    'end_date' => isset($row['end_date']) ? $row['end_date'] : $dataDetail['end_date'],
+                                ]);
+            
+                                if (!$create_body) {
+                                    DB::rollback();
+                
+                                    $result->code = 5;
+                                    $result->info = "Failed update sub content";
+                                    $result->data = null;
+                
+                                    return response()->json($result, $result->status);
+                                }
+                            }
+                        }
+                    } else {
+                        $img_banner = '';
+                        if (isset($val['img_banner'])) {
+                            $img_banner = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/header/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
+                            Storage::disk('minio')->put($img_banner, $val['img_banner']);
+                        }
+    
+                        $img = '';
+                        if (isset($val['header']['image'])) {
+                            $img = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/header/image/'.Carbon::now()->format('YmdHis').'.jpg';
+                            Storage::disk('minio')->put($img, $val['header']['image']);
+                        }
+    
+                        $create_header = Header::create([
+                            'content_id' => $data['content_id'],
+                            'image_banner' => $img_banner,
+                            'image' => $img,
+                            'title' => @$val['header']['title'],
+                            'subtitle' => @$val['header']['subtitle'],
+                            'desc' => @$val['header']['desc'],
+                            'create_dtm' => Carbon::now(),
+                            'update_dtm' => null,
+                            'start_dtm' => @$val['start_dtm'],
+                            'end_dtm' => @$val['end_dtm'],
+                            'url' => @$val['url'],
+                        ]);
+    
+                        if (!$create_header) {
+                            DB::rollback();
+        
+                            $result->code = 4;
+                            $result->info = "Failed save header";
+                            $result->data = null;
+        
+                            return response()->json($result, $result->status);
+                        }
+    
+                        $header_id = $create_header->id;
+    
+                        $body = $val['body'];
+                        if ($body) {
+                            foreach ($body as $row) {
+                                $img_banner_body = '';
+                                if (isset($row['img_banner'])) {
+                                    $img_banner_body = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
+                                    Storage::disk('minio')->put($img_banner_body, $row['img_banner']);
+                                }
+            
+                                $img_body = '';
+                                if (isset($row['image'])) {
+                                    $img_body = env('RETAIL_BASEPATH').'/api/retail/get-image?path=product/cms/body/image/'.Carbon::now()->format('YmdHis').'.jpg';
+                                    Storage::disk('minio')->put($img_body, $row['image']);
+                                }
+            
+                                $create_body = Detail::create([
+                                    'image_banner' => $img_banner_body,
+                                    'image' => $img_body,
+                                    'header_id' => $header_id,
+                                    'title' => @$row['title'],
+                                    'subtitle' => @$row['subtitle'],
+                                    'desc' => @$row['desc'],
+                                    'url' => @$row['url'],
+                                    'create_dtm' => Carbon::now(),
+                                    'update_dtm' => null,
+                                    'start_date' => @$row['start_date'],
+                                    'end_date' => @$row['end_date'],
+                                ]);
+            
+                                if (!$create_body) {
+                                    DB::rollback();
+                
+                                    $result->code = 5;
+                                    $result->info = "Failed save sub content";
+                                    $result->data = null;
+                
+                                    return response()->json($result, $result->status);
+                                }
                             }
                         }
                     }
@@ -499,12 +600,13 @@ class ContentController extends Controller {
                 $dataContent = [];
                 if ($header) {
                     foreach ($header as $head) {
+                        $dataHeader['id'] = $head['id'];
                         $dataHeader['image_banner'] = $head['image_banner'];
                         $dataHeader['start_dtm'] = $head['start_dtm'];
                         $dataHeader['end_dtm'] = $head['end_dtm'];
+                        $dataHeader['url'] = $head['url'];
                         $dataHeader['header'] = [
                             'image' => $head['image'],
-                            'url' => $head['url'],
                             'title' => $head['title'],
                             'subtitle' => $head['subtitle'],
                             'desc' => $head['desc'],
@@ -515,12 +617,15 @@ class ContentController extends Controller {
                         if ($details) {
                             foreach ($details as $body) {
                                 $dataDetails[] = [
+                                    'detail_id' => $body['id'],
                                     'image_banner' => $body['image_banner'],
                                     'image' => $body['image'],
                                     'url' => $body['url'],
                                     'title' => $body['title'],
                                     'subtitle' => $body['subtitle'],
                                     'desc' => $body['desc'],
+                                    'start_date' => $body['start_date'],
+                                    'end_date' => $body['end_date']
                                 ];
                             }
                         }
@@ -530,7 +635,10 @@ class ContentController extends Controller {
                     }
                 }
                 $item['content_body'] = [
-                    'value' => $dataContent];
+                    'value' => $dataContent,
+                    'summary' => '',
+                    'format' => 'json'
+                ];
             }
     
             $result->data = $content;
