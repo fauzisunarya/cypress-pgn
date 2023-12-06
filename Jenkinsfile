@@ -77,7 +77,7 @@ pipeline {
             steps {
                 unstash 'vendorArtifact'
                 sh '''
-                    npm install
+                    npm install --legacy-peer-deps
                     npm run build
                 '''
                 stash includes: "public/build/**", name: 'feArtifact'
