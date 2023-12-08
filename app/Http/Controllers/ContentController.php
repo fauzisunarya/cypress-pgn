@@ -324,7 +324,7 @@ class ContentController extends Controller {
                             'create_dtm' => Carbon::now(),
                             'update_dtm' => null,
                             'start_dtm' => isset($val['start_dtm']) ? $val['start_dtm'] : $dataHeader['start_dtm'],
-                            'end_dtm' => isset($val['end_dtm']) ? $val['end_dtm'] : $dataHeader['end_dtm'],
+                            'end_dtm' => $val['end_dtm'],
                             'url' => isset($val['url']) ? $val['url'] : $dataHeader['url'],
                         ]);
     
@@ -375,7 +375,7 @@ class ContentController extends Controller {
                                     'create_dtm' => Carbon::now(),
                                     'update_dtm' => null,
                                     'start_date' => isset($row['start_date']) ? $row['start_date'] : $dataDetail['start_date'],
-                                    'end_date' => isset($row['end_date']) ? $row['end_date'] : $dataDetail['end_date'],
+                                    'end_date' => $row['end_date'],
                                 ]);
             
                                 if (!$create_body) {
