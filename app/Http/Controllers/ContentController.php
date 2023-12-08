@@ -586,7 +586,6 @@ class ContentController extends Controller {
         try {
             $result = new Result();
             $post = $request->query();
-            $result->data = $post;
     
             $content = Content::select('content.*', 'content_status.status_name')
             ->join('cms.content_status', 'content.status', '=', 'content_status.id'); 
