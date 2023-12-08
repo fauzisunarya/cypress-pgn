@@ -210,6 +210,7 @@ class ContentController extends Controller {
             ApmCollector::stopMeasure('content-create-span');
             return response()->json($result, $result->status);
         }  catch (\Throwable $ex) {
+            echo "<pre>"; print_r('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage()); echo "</pre>"; die('');
             error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage()); 
 
             DB::rollback();
@@ -257,7 +258,6 @@ class ContentController extends Controller {
         }
 
         try {
-            DB::beginTransaction();
             $create = Content::where('id', $data['content_id'])->update([
                 'name' => isset($data['name']) ? $data['name'] : $content['name'],
                 'start_date' => isset($data['start_date']) ? $data['start_date'] : $content['start_date'],

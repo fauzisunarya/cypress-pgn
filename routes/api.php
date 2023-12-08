@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\BeforeRequest;
 use App\Http\Controllers\ContentController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,7 @@ Route::group(['prefix' => 'contents'], function() {
     Route::post('/create', [ContentController::class, 'create'])->middleware('auth');
     Route::post('/update', [ContentController::class, 'update'])->middleware('auth');
     Route::post('/delete-content', [ContentController::class, 'delete'])->middleware('auth');
+    Route::post('/category-list', [CategoryController::class, 'index'])->middleware('auth');
 });
 
 Route::get('/contents',[ContentController::class,'getContents']);
