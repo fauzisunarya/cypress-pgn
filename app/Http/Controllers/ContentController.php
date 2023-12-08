@@ -592,7 +592,7 @@ class ContentController extends Controller {
             ->join('cms.content_status', 'content.status', '=', 'content_status.id'); 
             
             if (isset($post['id']) && !empty($post['id'])) {
-                $content = $content->where('content.id', $post['id']);
+                $content = $content->where('content.id', $post['id'])->orderBy('content.id', 'asc');
             } else {
                 $content = $content->where('content.category_id', $post['category_id'])
                 ->where('content.language', $post['lang']);
@@ -609,7 +609,7 @@ class ContentController extends Controller {
             }
     
             foreach ($content as &$item) {
-                $header = Header::where('content_id', $item['id'])->orderBy('id', 'desc')->get()->toArray();
+                $header = Header::where('content_id', $item['id'])->orderBy('id', 'asc')->get()->toArray();
                 $dataContent = [];
                 if ($header) {
                     foreach ($header as $head) {
@@ -625,7 +625,7 @@ class ContentController extends Controller {
                             'desc' => $head['desc'],
                         ];
     
-                        $details = Detail::where('header_id', $head['id'])->orderBy('id', 'desc')->get()->toArray();
+                        $details = Detail::where('header_id', $head['id'])->orderBy('id', 'asc')->get()->toArray();
                         $dataDetails = [];
                         if ($details) {
                             foreach ($details as $body) {
