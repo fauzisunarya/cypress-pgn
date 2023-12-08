@@ -12,7 +12,8 @@ axiosInstance.interceptors.response.use(
 
 export const axiosContent = axios.create({ baseURL: service.cms.basepath });
 export const axiosInstanceProxy = axios.create({ baseURL: service.proxy.basepath });
-export const axiosInstanceUam = axios.create({ baseURL: api.basepath.uam });
+export const axiosInstanceCustomer = axios.create({ baseURL: service.customer.basepath });
+export const axiosInstanceUam = axios.create({ baseURL: service.uam.basepath });
 axiosContent.interceptors.response.use(
   (response) => response.data,
   (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
