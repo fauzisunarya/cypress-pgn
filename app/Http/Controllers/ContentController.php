@@ -609,7 +609,8 @@ class ContentController extends Controller {
             }
     
             foreach ($content as &$item) {
-                $header = Header::where('content_id', $item['id'])->orderBy('id', 'asc')->get()->toArray();
+                $header = Header::where('content_id', $item['id'])
+                    ->whereNull('end_dtm')->orderBy('id', 'asc')->get()->toArray();
                 $dataContent = [];
                 if ($header) {
                     foreach ($header as $head) {
@@ -625,7 +626,8 @@ class ContentController extends Controller {
                             'desc' => $head['desc'],
                         ];
     
-                        $details = Detail::where('header_id', $head['id'])->orderBy('id', 'asc')->get()->toArray();
+                        $details = Detail::where('header_id', $head['id'])
+                            ->whereNull('end_date')->orderBy('id', 'asc')->get()->toArray();
                         $dataDetails = [];
                         if ($details) {
                             foreach ($details as $body) {
