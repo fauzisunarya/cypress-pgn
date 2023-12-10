@@ -115,7 +115,7 @@ class ContentController extends Controller {
                 $value = $data['content_body']['value'];
                 foreach ($value as $key => $val) {
                     $img_banner = '';
-                    if (isset($val['img_banner'])) {
+                    if (isset($val['image_banner'])) {
                         $img_banner = 'product/cms/header/'.$create_id.'/'.$key.'/'.'image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
                         Storage::disk('minio')->put($img_banner, $val['img_banner']);
                     }
@@ -128,7 +128,7 @@ class ContentController extends Controller {
 
                     $create_header = Header::create([
                         'content_id' => $create_id,
-                        'image_banner' => isset($val['img_banner']) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_banner : '',
+                        'image_banner' => isset($val['image_banner']) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_banner : '',
                         'image' => isset($val['header']['image']) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img : '',
                         'title' => @$val['header']['title'],
                         'subtitle' => @$val['header']['subtitle'],
