@@ -117,7 +117,7 @@ class ContentController extends Controller {
                     $img_banner = '';
                     if (isset($val['image_banner'])) {
                         $img_banner = 'product/cms/header/'.$create_id.'/'.$key.'/'.'image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
-                        Storage::disk('minio')->put($img_banner, $val['img_banner']);
+                        Storage::disk('minio')->put($img_banner, $val['image_banner']);
                     }
 
                     $img = '';
@@ -293,11 +293,11 @@ class ContentController extends Controller {
                     if (isset($val['id'])) {
                         $dataHeader = Header::where('id', $val['id'])->first();
                         $img_banner = '';
-                        if (isset($val['img_banner'])) {
-                            $img_banner = $val['img_banner'];
-                            if (!filter_var($val['img_banner'], FILTER_VALIDATE_URL)) {
+                        if (isset($val['image_banner'])) {
+                            $img_banner = $val['image_banner'];
+                            if (!filter_var($val['image_banner'], FILTER_VALIDATE_URL)) {
                                 $img_banner = isset($dataHeader['image_banner']) && !empty($dataHeader['image_banner']) ? str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $dataHeader['image_banner']) : 'product/cms/header/'.$data['content_id'].'/'.$key.'/'.'image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
-                                Storage::disk('minio')->put($img_banner, $val['img_banner']);
+                                Storage::disk('minio')->put($img_banner, $val['image_banner']);
                             }
 
                             $img_banner = !filter_var($img_banner, FILTER_VALIDATE_URL) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_banner : $img_banner;
@@ -392,9 +392,9 @@ class ContentController extends Controller {
                         }
                     } else {
                         $img_banner = '';
-                        if (isset($val['img_banner'])) {
+                        if (isset($val['image_banner'])) {
                             $img_banner = 'product/cms/header/'.$data['content_id'].'/'.$key.'/'.'image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
-                            Storage::disk('minio')->put($img_banner, $val['img_banner']);
+                            Storage::disk('minio')->put($img_banner, $val['image_banner']);
                         }
 
                         $img = '';
@@ -405,7 +405,7 @@ class ContentController extends Controller {
 
                         $create_header = Header::create([
                             'content_id' => $data['content_id'],
-                            'image_banner' => isset($val['img_banner']) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_banner : '',
+                            'image_banner' => isset($val['image_banner']) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_banner : '',
                             'image' => isset($val['header']['image']) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img : '',
                             'title' => @$val['header']['title'],
                             'subtitle' => @$val['header']['subtitle'],
