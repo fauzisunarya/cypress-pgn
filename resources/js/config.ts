@@ -89,6 +89,12 @@ export const service = {
   },
   proxy : {
     basepath : 'https://proxy.doorv3-dev.neuron.id'
+  },
+  customer : {
+    basepath : import.meta.env.REACT_APP_CUSTOMER_BASEPATH || 'https://cp.doorv3-dev.neuron.id'
+  },
+  uam : {
+    basepath : import.meta.env.REACT_APP_UAM_BASEPATH || 'https://uam.doorv3-dev.neuron.id'
   }
 }
 

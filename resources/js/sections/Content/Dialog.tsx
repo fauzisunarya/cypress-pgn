@@ -123,7 +123,7 @@ export const CreatedDialog = (props: DialogProps) => {
         category_id: '0',
         contents : [{ 
             id: '', 
-            img_banner : '',
+            image_banner : '',
             url : '',
             start_dtm : '',
             end_dtm : '',
@@ -219,7 +219,7 @@ export const CreatedDialog = (props: DialogProps) => {
             setFilePreviews(newFilePreviews);
 
             if (type == 'img_banner') {
-                setValue(`contents.${index}.img_banner`, preview);
+                setValue(`contents.${index}.image_banner`, preview);
             } else {
                 setValue(`contents.${index}.header.image`, preview);
             }
@@ -242,7 +242,7 @@ export const CreatedDialog = (props: DialogProps) => {
 
         setFilePreviews(filteredData);
         if (type == 'img_banner') {
-            setValue(`contents.${index}.img_banner`, '');
+            setValue(`contents.${index}.image_banner`, '');
         } else {
             setValue(`contents.${index}.header.image`, '');
         }
@@ -488,7 +488,7 @@ export const CreatedDialog = (props: DialogProps) => {
                     <Stack mt={3}>
                         <Grid container>
                             <Grid item xs={3}>
-                                <Button variant={'outlined'} onClick={() => append({ id: '', img_banner : '', start_dtm : '', end_dtm : '', url : '', header: { title:'', subtitle: '', image:'', desc:'' }, body : [{ detail_id : '', title: '', desc: '', image : '', image_banner : '', url : '', start_date : '', end_date : '' }] })}>{ translate('Add Content') }</Button>
+                                <Button variant={'outlined'} onClick={() => append({ id: '', image_banner : '', start_dtm : '', end_dtm : '', url : '', header: { title:'', subtitle: '', image:'', desc:'' }, body : [{ detail_id : '', title: '', desc: '', image : '', image_banner : '', url : '', start_date : '', end_date : '' }] })}>{ translate('Add Content') }</Button>
                             </Grid>
                         </Grid>
                     </Stack>
@@ -596,7 +596,7 @@ export const CreatedDialog = (props: DialogProps) => {
                                                     id={`upload-button-banner-${index}`}
                                                     type="file"
                                                     style={{ display: 'none' }}
-                                                    {...register(`contents.${index}.img_banner`)}
+                                                    {...register(`contents.${index}.image_banner`)}
                                                     onChange={(e) => handleImageChange(e, index, 'img_banner')}
                                                 />
                                                 <label htmlFor={`upload-button-banner-${index}`}>
