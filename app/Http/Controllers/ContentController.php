@@ -318,7 +318,7 @@ class ContentController extends Controller {
                         $img_banner = '';
                         if (isset($val['image_banner'])) {
                             if(strlen($val['image_banner']) <=3){
-                                $img_banner = $row['image_banner'];
+                                $img_banner = $val['image_banner'];
                             }else{
                                 $img_banner = $val['image_banner'];
                                 if (!filter_var($val['image_banner'], FILTER_VALIDATE_URL)) {
