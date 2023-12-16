@@ -166,11 +166,14 @@ class ContentController extends Controller {
                                 $img_body = 'product/cms/body/'.$header_id.'/'.$keys.'/'.'image/'.Carbon::now()->format('YmdHis').'.jpg';
                                 Storage::disk('minio')->put($img_body, $row['image']);
                             }
+
+                            $imageBanner = isset($row['image_banner']) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_banner_body : '';
+                            $imageBody = isset($row['image']) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_body : '';
         
                             $create_body = Detail::create([
-                                'image_banner' => isset($row['image_banner']) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_banner_body : '',
-                                'image' => isset($row['image']) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_body : '',
+                                'image_banner' => $imageBanner,
                                 'header_id' => $header_id,
+                                'image' => $imageBody,
                                 'title' => @$row['title'],
                                 'subtitle' => @$row['subtitle'],
                                 'desc' => @$row['desc'],
@@ -210,7 +213,6 @@ class ContentController extends Controller {
             ApmCollector::stopMeasure('content-create-span');
             return response()->json($result, $result->status);
         }  catch (\Throwable $ex) {
-            echo "<pre>"; print_r('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage()); echo "</pre>"; die('');
             error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage()); 
 
             DB::rollback();
