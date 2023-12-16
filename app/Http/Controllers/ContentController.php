@@ -195,7 +195,6 @@ class ContentController extends Controller {
                                 'image_banner' => $img_banner_body,
                                 'image' => $img_body,
                                 'header_id' => $header_id,
-                                'image' => $imageBody,
                                 'title' => @$row['title'],
                                 'subtitle' => @$row['subtitle'],
                                 'desc' => @$row['desc'],
