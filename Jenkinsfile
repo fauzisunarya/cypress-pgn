@@ -78,7 +78,7 @@ pipeline {
                 unstash 'vendorArtifact'
                 sh '''
                     export $(xargs < variable-react)
-                    npm install
+                    npm install --legacy-peer-deps
                     npm run build
                 '''
                 stash includes: "public/build/**", name: 'feArtifact'
