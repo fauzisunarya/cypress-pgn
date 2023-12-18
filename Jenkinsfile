@@ -77,6 +77,7 @@ pipeline {
             steps {
                 unstash 'vendorArtifact'
                 sh '''
+                    export $(xargs < variable-react)
                     npm install --legacy-peer-deps
                     npm run build
                 '''
