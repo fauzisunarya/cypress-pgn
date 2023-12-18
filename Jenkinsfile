@@ -77,6 +77,7 @@ pipeline {
             steps {
                 unstash 'vendorArtifact'
                 sh '''
+                    export $(xargs < variable-react)
                     npm install
                     npm run build
                 '''
