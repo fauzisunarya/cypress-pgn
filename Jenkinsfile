@@ -12,7 +12,7 @@ pipeline {
         PROJECT_NAME = 'CMS SERVICES'
         def BUILD_DATE = sh(script: "echo `date +%Y.%m.%d`", returnStdout: true).trim()
         APP_VERSION = "${env.BUILD_DATE}-${env.BRANCH_NAME}_${env.GIT_COMMIT}"
-        REGISTRY_PGN = 'neuron/cms'
+        REGISTRY_PGN = 'neuron/cms/all'
         SONAR_TOKEN = credentials('sonar-auth')
     }
 
