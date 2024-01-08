@@ -17,12 +17,7 @@ use App\Http\Middleware\BeforeRequest;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect('contents/list');
 });
 
 Route::group(['middleware' => [BeforeRequest::class], 'prefix' => 'contents'], function()
