@@ -84,17 +84,17 @@ export const personalization = {
 export const service = {
   cms : {
     // basepath : import.meta.env.REACT_APP_LOYALTY_BASEPATH
-    basepath : 'http://content-management-service.test'
+    basepath : import.meta.env.REACT_APP_CMS_BASEPATH  || 'https://dev-cms-pgnmobile.pgn.co.id'
     // basepath : 'https://data-dev.neuron.id'
   },
   proxy : {
-    basepath : 'https://proxy.doorv3-dev.neuron.id'
+    basepath : import.meta.env.REACT_APP_PROXY_BASEPATH || 'https://dev-proxy-pgnmobile.pgn.co.id'
   },
   customer : {
-    basepath : import.meta.env.REACT_APP_CUSTOMER_BASEPATH || 'https://cp.doorv3-dev.neuron.id'
+    basepath : import.meta.env.REACT_APP_CUSTOMER_BASEPATH || 'https://dev-cp-pgnmobile.pgn.co.id'
   },
   uam : {
-    basepath : import.meta.env.REACT_APP_UAM_BASEPATH || 'https://uam.doorv3-dev.neuron.id'
+    basepath : import.meta.env.REACT_APP_UAM_BASEPATH || 'https://dev-uam-pgnmobile.pgn.co.id'
   }
 }
 
