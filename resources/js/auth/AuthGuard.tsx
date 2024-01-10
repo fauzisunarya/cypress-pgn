@@ -1,11 +1,6 @@
-import { useState, ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
-// components
-// import LoadingScreen from '../components/loading-screen';
-//
-// import Login from '../pages/LoginPage';
+import { ReactNode } from 'react';
 import { useAuthContext } from './useAuthContext';
-import LoadingScreen from '../Components/loading-screen';
+import LoadingScreen from '@/Components/loading-screen';
 
 // ----------------------------------------------------------------------
 
@@ -16,27 +11,10 @@ type AuthGuardProps = {
 export default function AuthGuard({ children }: AuthGuardProps) {
   const { isAuthenticated, isInitialized } = useAuthContext();
 
-  // const pathname = route().current();
-
-  const [requestedLocation, setRequestedLocation] = useState<string | null>(null);
-
-  if (!isInitialized) {
-    <Navigate to={'/404'} />
-    // return <LoadingScreen/>;
+  if (!isInitialized || !isAuthenticated ) {
+    return <LoadingScreen/>;
   }
-
-  if (!isAuthenticated) {
-    <Navigate to={'/404'} />
-    // if (pathname !== requestedLocation) {
-    //   setRequestedLocation(pathname ? pathname : null);
-    // }
-    // return <LoadingScreen/>;
-  }
-
-  // if (requestedLocation && pathname !== requestedLocation) {
-  //   setRequestedLocation(null);
-  //   return <Navigate to={requestedLocation} />;
-  // }
 
   return <>{children}</> ;
 }
+

@@ -265,121 +265,123 @@ export default function List() {
     });
 
     return (
-        <Page title={'Station List'} container={false}>
-            <Box sx={{ width: '100%', py: 2, backgroundColor: '#fff'}}>
-                <Grid container>
-                    <Grid item xs={6}>
-                        <Typography variant="h5" fontWeight={500}>{translate("Manage Content")}</Typography>
+        <AuthGuard>
+            <Page title={'Station List'} container={false}>
+                <Box sx={{ width: '100%', py: 2, backgroundColor: '#fff'}}>
+                    <Grid container>
+                        <Grid item xs={6}>
+                            <Typography variant="h5" fontWeight={500}>{translate("Manage Content")}</Typography>
+                        </Grid>
+                        <Grid item xs={6} sx={{ textAlign: 'right', mt:1 }}>
+                            <Typography variant={'body2'} sx={{ color: '#637381;' }}> {translate("Content")} / {translate("Manage")}</Typography>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6} sx={{ textAlign: 'right', mt:1 }}>
-                        <Typography variant={'body2'} sx={{ color: '#637381;' }}> {translate("Content")} / {translate("Manage")}</Typography>
-                    </Grid>
-                </Grid>
-            </Box>
-            <Box sx={{ width:'100%' }}>
-                <Datatable
-                    length={length}
-                    isLoading={loading}
-                    columns={columns} 
-                    rows={rows}
-                    page={page}
-                    rowTotal={rowTotal}
-                    selectable={false}
-                    onChangeLength={handleChangeLength}
-                    onRefresh={handleRefresh}
-                    onPageChange={handlePageChange}
-                    onSearch={handleSearch}
-                    onClickFilter={handleFilter}
-                    onClickAdd={handleCreate}
-                />
-            </Box>
-            <CreatedDialog 
-                openModal={openCreate} 
-                closeModal={() => setOpenCreate(false)}
-                stateBackdrop={true}
-                data={selectedRow}
-                onSubmit={onSubmit}
-            />
-            <DeleteDialog 
-                openModal={openDelete} 
-                closeModal={() => setOpenDelete(false)}
-                stateBackdrop={true}
-                data={selectedRow}
-                onSubmit={onSubmit}
-            />
-            <FormDialog
-                handleClose={handleClose}
-                open={open}
-                cancelButtonLabel={ translate ("DISMISS") }
-                submitButtonLabel={ translate ("FILTER") }
-                resetButtonLabel={ translate ("RESET") }
-                handleSubmit={handleSubmit(onSubmitFilter)}
-                reset={reset}
-                title={ translate("Filter data") }
-                maxWidth={'xs'}
-            >
-                <Box sx={{ width: '100%' }} component="form" noValidate autoComplete="off">
-                    <Stack>
-                        <Controller
-                            name="sort"
-                            control={control}
-                            defaultValue={defaultValues.sort}
-                            render={({ field }:any) => (
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label"></InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        {...field}
-                                        onChange={(event: SelectChangeEvent<string>, child: ReactNode) => {
-                                            field.onChange(event.target.value)
-                                        }}
-                                    >
-                                        <MenuItem value="0">{ translate ("Choose Sort") }</MenuItem>
-                                        <MenuItem value="1">{ translate ("Title A - Z") }</MenuItem>
-                                        <MenuItem value="2">{ translate ("Title Z - A") }</MenuItem>
-                                        <MenuItem value="3">{ translate ("Status A - Z") }</MenuItem>
-                                        <MenuItem value="4">{ translate ("Status Z - A") }</MenuItem>
-                                        <MenuItem value="5">{ translate ("Name A - Z") }</MenuItem>
-                                        <MenuItem value="6">{ translate ("Name Z - A") }</MenuItem>
-                                        <MenuItem value="7">{ translate ("Created Date A - Z") }</MenuItem>
-                                        <MenuItem value="8">{ translate ("Created Date Z - A") }</MenuItem>
-                                        <MenuItem value="9">{ translate ("Update Date A - Z") }</MenuItem>
-                                        <MenuItem value="10">{ translate ("Update Date Z - A") }</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            )}
-                        />
-                    </Stack>
-
-                    {/* <Stack mt={2}>
-                        <Controller
-                            name="status"
-                            control={control}
-                            defaultValue={defaultValues.status}
-                            render={({ field }) => (
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label-status"></InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label-status"
-                                        id="demo-simple-select-status"
-                                        {...field}
-                                        onChange={(event: SelectChangeEvent<string>, child: ReactNode) => {
-                                            field.onChange(event.target.value)
-                                        }}
-                                    >
-                                        {dataStatus.map((status:any) => (
-                                            <MenuItem key={status.id} value={status.id}>
-                                                {status.status_name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            )}
-                        />
-                    </Stack> */}
                 </Box>
-            </FormDialog>
-        </Page>
+                <Box sx={{ width:'100%' }}>
+                    <Datatable
+                        length={length}
+                        isLoading={loading}
+                        columns={columns} 
+                        rows={rows}
+                        page={page}
+                        rowTotal={rowTotal}
+                        selectable={false}
+                        onChangeLength={handleChangeLength}
+                        onRefresh={handleRefresh}
+                        onPageChange={handlePageChange}
+                        onSearch={handleSearch}
+                        onClickFilter={handleFilter}
+                        onClickAdd={handleCreate}
+                    />
+                </Box>
+                <CreatedDialog 
+                    openModal={openCreate} 
+                    closeModal={() => setOpenCreate(false)}
+                    stateBackdrop={true}
+                    data={selectedRow}
+                    onSubmit={onSubmit}
+                />
+                <DeleteDialog 
+                    openModal={openDelete} 
+                    closeModal={() => setOpenDelete(false)}
+                    stateBackdrop={true}
+                    data={selectedRow}
+                    onSubmit={onSubmit}
+                />
+                <FormDialog
+                    handleClose={handleClose}
+                    open={open}
+                    cancelButtonLabel={ translate ("DISMISS") }
+                    submitButtonLabel={ translate ("FILTER") }
+                    resetButtonLabel={ translate ("RESET") }
+                    handleSubmit={handleSubmit(onSubmitFilter)}
+                    reset={reset}
+                    title={ translate("Filter data") }
+                    maxWidth={'xs'}
+                >
+                    <Box sx={{ width: '100%' }} component="form" noValidate autoComplete="off">
+                        <Stack>
+                            <Controller
+                                name="sort"
+                                control={control}
+                                defaultValue={defaultValues.sort}
+                                render={({ field }:any) => (
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label"></InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            {...field}
+                                            onChange={(event: SelectChangeEvent<string>, child: ReactNode) => {
+                                                field.onChange(event.target.value)
+                                            }}
+                                        >
+                                            <MenuItem value="0">{ translate ("Choose Sort") }</MenuItem>
+                                            <MenuItem value="1">{ translate ("Title A - Z") }</MenuItem>
+                                            <MenuItem value="2">{ translate ("Title Z - A") }</MenuItem>
+                                            <MenuItem value="3">{ translate ("Status A - Z") }</MenuItem>
+                                            <MenuItem value="4">{ translate ("Status Z - A") }</MenuItem>
+                                            <MenuItem value="5">{ translate ("Name A - Z") }</MenuItem>
+                                            <MenuItem value="6">{ translate ("Name Z - A") }</MenuItem>
+                                            <MenuItem value="7">{ translate ("Created Date A - Z") }</MenuItem>
+                                            <MenuItem value="8">{ translate ("Created Date Z - A") }</MenuItem>
+                                            <MenuItem value="9">{ translate ("Update Date A - Z") }</MenuItem>
+                                            <MenuItem value="10">{ translate ("Update Date Z - A") }</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                )}
+                            />
+                        </Stack>
+
+                        {/* <Stack mt={2}>
+                            <Controller
+                                name="status"
+                                control={control}
+                                defaultValue={defaultValues.status}
+                                render={({ field }) => (
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label-status"></InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label-status"
+                                            id="demo-simple-select-status"
+                                            {...field}
+                                            onChange={(event: SelectChangeEvent<string>, child: ReactNode) => {
+                                                field.onChange(event.target.value)
+                                            }}
+                                        >
+                                            {dataStatus.map((status:any) => (
+                                                <MenuItem key={status.id} value={status.id}>
+                                                    {status.status_name}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                )}
+                            />
+                        </Stack> */}
+                    </Box>
+                </FormDialog>
+            </Page>
+        </AuthGuard>
     );
 }
