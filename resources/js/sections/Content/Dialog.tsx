@@ -60,23 +60,28 @@ interface ContentType {
 export const DeleteDialog = (props: DialogProps) => {
     const { translate } = useLocales();
 	const [isLoading, setLoading] = React.useState(false);
+    const { setLoadingShowBackdrop, showSnackbar } = useHelper();
     const [message, setMessage] = React.useState('');
 
     const onSubmitDelete = async () => {
         try {
-            setLoading(true);
+            setLoadingShowBackdrop(true);
             const res:any = await deleteContent(props.data);
 
             if (res.code == 0) {
-                setMessage(res.info);
+                showSnackbar({
+                    message: res.info
+                });
                 setTimeout(() => {
                     props.closeModal();
                     props.onSubmit();
-                    setLoading(false);
+                    setLoadingShowBackdrop(false);
                 }, 3000);
             } else {
-                setLoading(false);
-                setMessage(res.info);
+                setLoadingShowBackdrop(false);
+                showSnackbar({
+                    message: res.info
+                });
             }
             
         } catch (error) {
@@ -108,11 +113,12 @@ export const DeleteDialog = (props: DialogProps) => {
 export const CreatedDialog = (props: DialogProps) => {
     const { translate } = useLocales();
     const [titleDialog, setTitle] = React.useState(translate('Create Content'));
-	const [isLoading, setLoading] = React.useState(true);
+	const [isLoading, setLoading] = React.useState(false);
     const [message, setMessage] = React.useState('');
     const [filePreviews, setFilePreviews] = React.useState<FilePreviews[]>([]);
     const [fileSubPreviews, setFileSubPreviews] = React.useState([]);
     const [dataCategory, setCategory] = React.useState([]);
+    const { setLoadingShowBackdrop, showSnackbar } = useHelper();
 
     const defaultValues = {
         uuid:'',
@@ -140,26 +146,34 @@ export const CreatedDialog = (props: DialogProps) => {
         e.preventDefault();
         try {
             if (!value.title) {
-                setMessage('name is required');
+                showSnackbar({
+                    message: translate('name is required')
+                });
                 return false;
             }
 
-            if (!value.lang) {
-                setMessage('language is required');
+            if (value.lang == '0') {
+                showSnackbar({
+                    message: translate('language is required')
+                });
                 return false;
             }
 
             if (!value.start_date) {
-                setMessage('start date is required');
+                showSnackbar({
+                    message: translate('start date is required')
+                });
                 return false;
             }
 
-            if (!value.category_id) {
-                setMessage('category is required');
+            if (value.category_id == '0') {
+                showSnackbar({
+                    message: translate('category is required')
+                });
                 return false;
             }
 
-            setLoading(true);
+            setLoadingShowBackdrop(true);
 
             // Create or update content
             const response:any = await createContent({
@@ -179,8 +193,10 @@ export const CreatedDialog = (props: DialogProps) => {
                 type_create: props.data != '0' ? 'update' : 'create',
             });
 
-            setMessage(response.info);
-            setLoading(false);
+            showSnackbar({
+                message: response.info
+            });
+            setLoadingShowBackdrop(false);
 
             if (response.code == 0) {
                 setTimeout(() => {
@@ -189,8 +205,10 @@ export const CreatedDialog = (props: DialogProps) => {
                 }, 2000);
             }
         } catch (error) {
-            setLoading(false);
-            setMessage('failed');
+            setLoadingShowBackdrop(false);
+            showSnackbar({
+                message: translate('failed')
+            });
         }
     }
 
@@ -250,7 +268,7 @@ export const CreatedDialog = (props: DialogProps) => {
 
     const getContents = async () => {
         try {
-            setLoading(true);
+            setLoadingShowBackdrop(true);
             reset(defaultValues);
             setMessage('');
             setFilePreviews([]);
@@ -272,9 +290,9 @@ export const CreatedDialog = (props: DialogProps) => {
                 }
             }
 
-            setLoading(false);
+            setLoadingShowBackdrop(false);
         } catch (error) {
-            setLoading(false);
+            setLoadingShowBackdrop(false);
             // setMessage('failed');
         }
     }
@@ -289,7 +307,9 @@ export const CreatedDialog = (props: DialogProps) => {
             }
 
         } catch (error) {
-            setMessage('failed get category');
+            showSnackbar({
+                message: translate('failed get category')
+            });
         }
     }
 
@@ -358,8 +378,6 @@ export const CreatedDialog = (props: DialogProps) => {
         setTitle(translate('Create Content'));
         getContents();
     },[props.data]);
-
-    console.log(fileSubPreviews);
 
     return (
         <div>
@@ -609,7 +627,8 @@ export const CreatedDialog = (props: DialogProps) => {
                                                             cursor: 'pointer',
                                                             '&:hover': { border: '1px solid #000;' },
                                                         }}>
-                                                            <Grid container>
+                                                            <Typography variant={'body2'} color={'#919EAB;'} sx={{ fontSize:'1rem' }}>{ translate('Choose image banner') }</Typography>
+                                                            {/* <Grid container>
                                                                 <Grid item xs={6}>
                                                                     <Typography variant={'body2'} color={'#919EAB;'} sx={{ fontSize:'1rem' }}>{ translate('Choose image banner') }</Typography>
                                                                 </Grid>
@@ -618,7 +637,7 @@ export const CreatedDialog = (props: DialogProps) => {
                                                                         <Button variant={'soft'} size={'large'} sx={{ p:3.5 }}>{ translate('UPLOAD') }</Button>
                                                                     </Box>
                                                                 </Grid>
-                                                            </Grid>
+                                                            </Grid> */}
                                                         </Box>
                                                     </span>
                                                 </label>
@@ -657,16 +676,16 @@ export const CreatedDialog = (props: DialogProps) => {
                                                             cursor: 'pointer',
                                                             '&:hover': { border: '1px solid #000;' },
                                                         }}>
-                                                            <Grid container>
-                                                                <Grid item xs={6}>
+                                                            {/* <Grid container>
+                                                                <Grid item xs={6}> */}
                                                                     <Typography variant={'body2'} color={'#919EAB;'} sx={{ fontSize:'1rem' }}>{ translate('Choose image header') }</Typography>
-                                                                </Grid>
+                                                                {/* </Grid>
                                                                 <Grid item xs={6}>
                                                                     <Box display={'flex'} justifyContent={'right'} alignContent={'right'} sx={{ my:-2 }}>
                                                                         <Button variant={'soft'} size={'large'} sx={{ p:3.5 }}>{ translate('UPLOAD') }</Button>
                                                                     </Box>
                                                                 </Grid>
-                                                            </Grid>
+                                                            </Grid> */}
                                                         </Box>
                                                     </span>
                                                 </label>

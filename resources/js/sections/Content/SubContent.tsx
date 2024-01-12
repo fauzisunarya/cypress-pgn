@@ -189,16 +189,16 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
                                                 cursor: 'pointer',
                                                 '&:hover': { border: '1px solid #000;' },
                                             }}>
-                                                <Grid container>
-                                                    <Grid item xs={6}>
+                                                {/* <Grid container>
+                                                    <Grid item xs={6}> */}
                                                         <Typography variant={'body2'} color={'#919EAB;'} sx={{ fontSize:'1rem' }}>{ translate('Choose image header') }</Typography>
-                                                    </Grid>
+                                                    {/* </Grid>
                                                     <Grid item xs={6}>
                                                         <Box display={'flex'} justifyContent={'right'} alignContent={'right'} sx={{ my:-2 }}>
                                                             <Button variant={'soft'} size={'large'} sx={{ p:3.5 }}>{ translate('UPLOAD') }</Button>
                                                         </Box>
                                                     </Grid>
-                                                </Grid>
+                                                </Grid> */}
                                             </Box>
                                         </span>
                                     </label>
@@ -237,16 +237,16 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
                                                 cursor: 'pointer',
                                                 '&:hover': { border: '1px solid #000;' },
                                             }}>
-                                                <Grid container>
-                                                    <Grid item xs={6}>
+                                                {/* <Grid container>
+                                                    <Grid item xs={6}> */}
                                                         <Typography variant={'body2'} color={'#919EAB;'} sx={{ fontSize:'1rem' }}>{ translate('Choose image banner') }</Typography>
-                                                    </Grid>
+                                                    {/* </Grid>
                                                     <Grid item xs={6}>
                                                         <Box display={'flex'} justifyContent={'right'} alignContent={'right'} sx={{ my:-2 }}>
                                                             <Button variant={'soft'} size={'large'} sx={{ p:3.5 }}>{ translate('UPLOAD') }</Button>
                                                         </Box>
                                                     </Grid>
-                                                </Grid>
+                                                </Grid> */}
                                             </Box>
                                         </span>
                                     </label>

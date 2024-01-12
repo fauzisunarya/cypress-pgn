@@ -74,6 +74,7 @@ export default function List() {
     const [openCreate, setOpenCreate] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [selectedRow, setSelectedRow] = useState('');
+    const [keyword, setKeyword] = useState('');
 
     const columns: GridColDef[] = [
         {
@@ -81,7 +82,7 @@ export default function List() {
             headerName: translate('ID'), 
             filterable: false,
             sortable: false,
-            flex: 0.1,
+            flex: 0.05,
         },
         {
             field: 'name',
@@ -174,7 +175,7 @@ export default function List() {
                 "sortBy": sortBy ? sortBy : 'id',
                 "order": order ? order : "desc",
                 "setLimit": length,
-                "search": search,
+                "search": keyword,
                 "status": status,
                 "setOffset" : "",
                 "limit": "",
@@ -200,28 +201,8 @@ export default function List() {
         handleLoadData('', '', '', '');
     }
 
-    const handleSearch = (event:any) => {
-        event.preventDefault();
-        const key = event.key;
-        const value = event.target.value;
-        const valueFilter:any = getValues();
-        var fdata:any = filterData(valueFilter.sort);
-
-        const delayDebounceFn = setTimeout(() => {
-            if (value.length > 2) {
-                handleLoadData(fdata[0], fdata[1], value, '');
-            } else {
-                // if (key === 'Backspace' || key === 'Delete') {
-                    // if (value.length <= 2) {
-                        handleLoadData(fdata[0], fdata[1], '', '');
-                    // }
-                // }
-            }
-
-            setValue('search', value);
-        }, 1500);
-
-        return () => clearTimeout(delayDebounceFn);
+    const handleSearch = (value: string) => {
+        setKeyword(value)
     }
 
     const handleFilter = () => {
@@ -254,6 +235,18 @@ export default function List() {
         handleLoadData('', '', '', '');
     }, [page, length])
 
+    useEffect(() => {
+        const keyPressEvent = (e : any) => {
+          if (e.keyCode === 13) {
+            handleLoadData('', '', '', '');
+          }
+        };
+        window.addEventListener('keydown', keyPressEvent);
+        return () => {
+          window.removeEventListener('keydown', keyPressEvent);
+        };
+    }, [keyword]);
+
     const defaultValues = {
         sort: "0",
         search: "",
@@ -285,6 +278,7 @@ export default function List() {
                     page={page}
                     rowTotal={rowTotal}
                     selectable={false}
+                    keyword={keyword}
                     onChangeLength={handleChangeLength}
                     onRefresh={handleRefresh}
                     onPageChange={handlePageChange}
