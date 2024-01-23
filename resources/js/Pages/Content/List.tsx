@@ -162,6 +162,14 @@ export default function List() {
         setSelectedRow(e);
     };
 
+    const handleReset = () => {
+        reset();
+        const formValues:any = getValues();
+        var fdata:any = filterData(formValues.sort);
+        handleLoadData(fdata[0], fdata[1], formValues.search, '');
+        handleClose();
+    }
+
     const handleDeleteDialog = async (e:any) => {
         setOpenDelete(true)
         setSelectedRow(e);
@@ -308,7 +316,7 @@ export default function List() {
                     submitButtonLabel={ translate ("FILTER") }
                     resetButtonLabel={ translate ("RESET") }
                     handleSubmit={handleSubmit(onSubmitFilter)}
-                    reset={reset}
+                    reset={handleReset}
                     title={ translate("Filter data") }
                     maxWidth={'xs'}
                 >

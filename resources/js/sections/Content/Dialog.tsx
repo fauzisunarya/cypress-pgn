@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, Button, Link, DialogTitle, DialogContent, DialogActions, Box, Stack, TextField, FormControl, CircularProgress, Backdrop, Snackbar, InputAdornment, InputLabel, Select, MenuItem } from "@mui/material";
+import { Grid, Typography, Button, Link, FormHelperText, DialogContent, DialogActions, Box, Stack, TextField, FormControl, CircularProgress, Backdrop, Snackbar, InputAdornment, InputLabel, Select, MenuItem } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import { useLocales } from '@/locales';
 import FormDialog from '@/Components/dialog/FormDialog';
@@ -123,10 +123,10 @@ export const CreatedDialog = (props: DialogProps) => {
     const defaultValues = {
         uuid:'',
         title: '',
-        lang: '0',
+        lang: 'en',
         start_date: new Date(),
         end_date: null,
-        category_id: '0',
+        category_id: '1',
         contents : [{ 
             id: '', 
             image_banner : '',
@@ -145,33 +145,6 @@ export const CreatedDialog = (props: DialogProps) => {
     const handleSubmitCreate = async (value:any, e:any) => {
         e.preventDefault();
         try {
-            if (!value.title) {
-                showSnackbar({
-                    message: translate('name is required')
-                });
-                return false;
-            }
-
-            if (value.lang == '0') {
-                showSnackbar({
-                    message: translate('language is required')
-                });
-                return false;
-            }
-
-            if (!value.start_date) {
-                showSnackbar({
-                    message: translate('start date is required')
-                });
-                return false;
-            }
-
-            if (value.category_id == '0') {
-                showSnackbar({
-                    message: translate('category is required')
-                });
-                return false;
-            }
 
             setLoadingShowBackdrop(true);
 
@@ -212,7 +185,7 @@ export const CreatedDialog = (props: DialogProps) => {
         }
     }
 
-    const { register, handleSubmit, reset, control, getValues, setValue, watch } = useForm({
+    const { register, handleSubmit, reset, control, getValues, setValue, watch, formState: { errors } } = useForm({
         defaultValues
     });
 
@@ -379,6 +352,8 @@ export const CreatedDialog = (props: DialogProps) => {
         getContents();
     },[props.data]);
 
+    console.log(errors)
+
     return (
         <div>
             <FormDialog
@@ -413,58 +388,54 @@ export const CreatedDialog = (props: DialogProps) => {
                             label={ translate('Name') }
                             type="text"
                             InputLabelProps={{
-                                shrink: true
+                                shrink: watch('title') ? true : false
                             }}
-                            { ...register('title') }
+                            required
+                            error = {errors.title? true : false}
+                            helperText= {errors.title? errors.title.message : ''}
+                            {...register('title', { required: translate('Name cannot be empty') })}
                         />
 
-                        <Controller
-                            name="lang"
-                            control={control}
-                            defaultValue={defaultValues.lang}
-                            render={({ field }) => (
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label"></InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        {...field}
-                                        onChange={(event: SelectChangeEvent<string>, child: ReactNode) => {
-                                            field.onChange(event.target.value)
-                                        }}
-                                    >
-                                        <MenuItem value="0">{ translate ("Choose Language") }</MenuItem>
-                                        <MenuItem value="id">{ translate ("Bahasa") }</MenuItem>
-                                        <MenuItem value="en">{ translate ("English") }</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            )}
-                        />
+                        <FormControl fullWidth>
+                            <InputLabel htmlFor="select">{ translate('Language *') }</InputLabel>
+                            <Controller
+                                name="lang"
+                                control={control}
+                                defaultValue={defaultValues.lang}
+                                render={({ field, fieldState }) => (
+                                    <>
+                                        <Select {...field} required label={ translate('Language *') }>
+                                            <MenuItem value="id">{ translate ("Bahasa") }</MenuItem>
+                                            <MenuItem value="en">{ translate ("English") }</MenuItem>
+                                        </Select>
+                                        <FormHelperText>{fieldState?.error?.message}</FormHelperText>
+                                    </>
+                                )}
+                                rules={{ required: translate('Language cannot be empty') }}
+                            />
+                        </FormControl>
                     </Stack>
 
                     <Stack mt={2}>
-                        <Controller
-                            name="category_id"
-                            control={control}
-                            defaultValue={defaultValues.category_id}
-                            render={({ field }) => (
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-category"></InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-category"
-                                        {...field}
-                                        onChange={(event: SelectChangeEvent<string>, child: ReactNode) =>
-                                            field.onChange(event.target.value)
-                                        }
-                                    >
-                                        <MenuItem value="0">{ translate ("Choose Category") }</MenuItem>
-                                        {dataCategory.map((row:any) => (
-                                            <MenuItem key={row.id} value={row.id}>{ row.category_name }</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            )}
-                        />
+                        <FormControl fullWidth>
+                            <InputLabel htmlFor="select">{ translate('Category *') }</InputLabel>
+                            <Controller
+                                name="category_id"
+                                control={control}
+                                defaultValue={defaultValues.category_id}
+                                render={({ field, fieldState }) => (
+                                    <>
+                                        <Select {...field} required label={ translate('Category *') }>
+                                            {dataCategory.map((row:any) => (
+                                                <MenuItem key={row.id} value={row.id}>{ row.category_name }</MenuItem>
+                                            ))}
+                                        </Select>
+                                        <FormHelperText>{fieldState?.error?.message}</FormHelperText>
+                                    </>
+                                )}
+                                rules={{ required: translate('Category cannot be empty') }}
+                            />
+                        </FormControl>
                     </Stack>
 
                     <Stack mt={2} direction={'row'} spacing={2}>
@@ -476,7 +447,7 @@ export const CreatedDialog = (props: DialogProps) => {
                                     <div style={{ width: '100%' }}>
                                         <DatePicker
                                             sx={{ width: '100%' }}
-                                            label={ translate("Start Date")}
+                                            label={ translate("Start Date *")}
                                             value={dayjs(field.value)}
                                             onChange={(newValue: any) => setValue('start_date', newValue)}
                                         />
@@ -539,22 +510,29 @@ export const CreatedDialog = (props: DialogProps) => {
                                 </Stack>
 
                                 <Stack direction={'row'} spacing={2} mt={2}>
-                                    <TextField fullWidth
-                                        label={ translate('Title') }
+                                    <TextField
+                                        fullWidth
+                                        label={translate('Title')}
                                         type="text"
                                         InputLabelProps={{
-                                            shrink: true,
+                                            shrink: watch(`contents.${index}.header.title`) ? true : false,
                                         }}
-                                        {...register(`contents.${index}.header.title`)}
+                                        required
+                                        error={errors.contents?.[index]?.header?.title ? true : false}
+                                        helperText={errors.contents?.[index]?.header?.title ? errors.contents?.[index]?.header?.title?.message : ''}
+                                        {...register(`contents.${index}.header.title`, { required : translate('Title cannot be empty') })}
                                     />
 
                                     <TextField fullWidth
                                         label={ translate('Subtitle') }
                                         type="text"
                                         InputLabelProps={{
-                                            shrink: true
+                                            shrink: watch(`contents.${index}.header.subtitle`) ? true : false,
                                         }}
-                                        {...register(`contents.${index}.header.subtitle`)}
+                                        required
+                                        error={errors.contents?.[index]?.header?.subtitle ? true : false}
+                                        helperText={errors.contents?.[index]?.header?.subtitle ? errors.contents?.[index]?.header?.subtitle?.message : ''}
+                                        {...register(`contents.${index}.header.subtitle`, { required : translate('Subtitle cannot be empty') })}
                                     />
                                 </Stack>
 
@@ -563,9 +541,14 @@ export const CreatedDialog = (props: DialogProps) => {
                                         label={ translate('Url') }
                                         type="text"
                                         InputLabelProps={{
-                                            shrink: true
+                                            shrink: watch(`contents.${index}.url`) ? true : false,
                                         }}
-                                        {...register(`contents.${index}.url`)}
+                                        error={errors.contents?.[index]?.url ? true : false}
+                                        helperText={errors.contents?.[index]?.url ? errors.contents?.[index]?.url?.message : ''}
+                                        {...register(`contents.${index}.url`, { pattern: {
+                                            value: /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/,
+                                            message: translate('Please insert a valid link')
+                                        } })}
                                     />
                                 </Stack>
 
@@ -716,7 +699,7 @@ export const CreatedDialog = (props: DialogProps) => {
                                     />
                                 </Stack>
 
-                                <SubContent nestIndex={index} fileSubPreviews={fileSubPreviews} {...{ control, setValue, register, getValues }} />
+                                <SubContent nestIndex={index} fileSubPreviews={fileSubPreviews} {...{ control, setValue, register, getValues, watch, formState: { errors } }} />
                             </Box>
                         </Stack>
                     ))}
