@@ -85,7 +85,7 @@ export const service = {
   cms : {
     // basepath : import.meta.env.REACT_APP_LOYALTY_BASEPATH
     basepath : import.meta.env.REACT_APP_CMS_BASEPATH  || 'https://dev-cms-pgnmobile.pgn.co.id'
-    // basepath : 'https://data-dev.neuron.id'
+    // basepath : 'http://pgnmobile-contentmanagementservice.test'
   },
   proxy : {
     basepath : import.meta.env.REACT_APP_PROXY_BASEPATH || 'https://dev-proxy-pgnmobile.pgn.co.id'

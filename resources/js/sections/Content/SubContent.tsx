@@ -14,7 +14,7 @@ interface FilePreviews {
     image_banner?: string;
 }
 
-export default ({ nestIndex, fileSubPreviews, control, setValue, register, getValues }:any) => {
+export default ({ nestIndex, fileSubPreviews, control, setValue, register, getValues, watch, formState: { errors } }:any) => {
     const { translate } = useLocales();
     const [filePreviews, setFilePreviews] = React.useState<FilePreviews[][]>([]);
     const { fields, remove, append } = useFieldArray({
@@ -106,18 +106,24 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
                                 label={ translate('Title') }
                                 type="text"
                                 InputLabelProps={{
-                                    shrink: true
+                                    shrink: watch(`contents.${nestIndex}.body.${num}.title`) ? true : false
                                 }}
-                                {...register(`contents.${nestIndex}.body.${num}.title`)}
+                                required
+                                error = {errors.contents?.[nestIndex]?.body?.[num]?.title ? true : false}
+                                helperText= {errors.contents?.[nestIndex]?.body?.[num]?.title ? errors.contents?.[nestIndex]?.body?.[num]?.title?.message : ''}
+                                {...register(`contents.${nestIndex}.body.${num}.title`, { required : translate('Title cannot be empty') })}
                             />
 
                             <TextField fullWidth
                                 label={ translate('Subtitle') }
                                 type="text"
                                 InputLabelProps={{
-                                    shrink: true
+                                    shrink: watch(`contents.${nestIndex}.body.${num}.subtitle`) ? true : false,
                                 }}
-                                {...register(`contents.${nestIndex}.body.${num}.subtitle`)}
+                                required
+                                error={errors.contents?.[nestIndex]?.body?.[num]?.subtitle ? true : false}
+                                helperText={errors.contents?.[nestIndex]?.body?.[num]?.subtitle ? errors.contents?.[nestIndex]?.body?.[num]?.subtitle?.message : ''}
+                                {...register(`contents.${nestIndex}.body.${num}.subtitle`, { required : translate('Subtitle cannot be empty') })}
                             />
                         </Stack>
 
@@ -126,9 +132,14 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
                                 label={ translate('Url') }
                                 type="text"
                                 InputLabelProps={{
-                                    shrink: true
+                                    shrink: watch(`contents.${nestIndex}.body.${num}.url`)
                                 }}
-                                {...register(`contents.${nestIndex}.body.${num}.url`)}
+                                error={errors.contents?.[nestIndex]?.body?.[num]?.url ? true : false}
+                                helperText={errors.contents?.[nestIndex]?.body?.[num]?.url ? errors.contents?.[nestIndex]?.body?.[num]?.url?.message : ''}
+                                {...register(`contents.${nestIndex}.body.${num}.url`, { pattern: {
+                                    value: /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/,
+                                    message: translate('Please insert a valid link')
+                                } })}
                             />
                         </Stack>
 
@@ -189,16 +200,16 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
                                                 cursor: 'pointer',
                                                 '&:hover': { border: '1px solid #000;' },
                                             }}>
-                                                <Grid container>
-                                                    <Grid item xs={6}>
+                                                {/* <Grid container>
+                                                    <Grid item xs={6}> */}
                                                         <Typography variant={'body2'} color={'#919EAB;'} sx={{ fontSize:'1rem' }}>{ translate('Choose image header') }</Typography>
-                                                    </Grid>
+                                                    {/* </Grid>
                                                     <Grid item xs={6}>
                                                         <Box display={'flex'} justifyContent={'right'} alignContent={'right'} sx={{ my:-2 }}>
                                                             <Button variant={'soft'} size={'large'} sx={{ p:3.5 }}>{ translate('UPLOAD') }</Button>
                                                         </Box>
                                                     </Grid>
-                                                </Grid>
+                                                </Grid> */}
                                             </Box>
                                         </span>
                                     </label>
@@ -237,16 +248,16 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
                                                 cursor: 'pointer',
                                                 '&:hover': { border: '1px solid #000;' },
                                             }}>
-                                                <Grid container>
-                                                    <Grid item xs={6}>
+                                                {/* <Grid container>
+                                                    <Grid item xs={6}> */}
                                                         <Typography variant={'body2'} color={'#919EAB;'} sx={{ fontSize:'1rem' }}>{ translate('Choose image banner') }</Typography>
-                                                    </Grid>
+                                                    {/* </Grid>
                                                     <Grid item xs={6}>
                                                         <Box display={'flex'} justifyContent={'right'} alignContent={'right'} sx={{ my:-2 }}>
                                                             <Button variant={'soft'} size={'large'} sx={{ p:3.5 }}>{ translate('UPLOAD') }</Button>
                                                         </Box>
                                                     </Grid>
-                                                </Grid>
+                                                </Grid> */}
                                             </Box>
                                         </span>
                                     </label>

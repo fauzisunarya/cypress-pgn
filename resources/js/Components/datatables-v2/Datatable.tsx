@@ -28,9 +28,11 @@ export interface DatatableProps {
     rows: Object[];
     columns: GridColDef[];
     page: number;
-    handleRowSelection?: (val:any) => void;
     rowTotal: number;
     selectable ?: boolean;
+    actionAdd?:boolean;
+    actionFilter?:boolean;
+    keyword?:string;
     onChangeLength: (value: number) => void;
     onPageChange: (event: any, newPage: number) => void;
     onRefresh: () => void;
@@ -45,9 +47,11 @@ export default function Datatable({
     rows,
     columns,
     page,
-    handleRowSelection,
     rowTotal,
     selectable,
+    actionAdd,
+    actionFilter,
+    keyword,
     onChangeLength,
     onPageChange,
     onRefresh,
@@ -86,7 +90,6 @@ export default function Datatable({
             </Stack>
         );
     }
-
     return (
         <Box sx={{
             height: 400, width: '100%',
@@ -117,7 +120,7 @@ export default function Datatable({
                             <MenuItem key={3} value={50}>50</MenuItem>
                             <MenuItem key={4} value={100}>100</MenuItem>
                         </TextField>
-                        <TextField size="small" onChange={(e: any) => { onSearch(e); setValueSearch(e.target.value) }} value={valueSearch} placeholder={translate("Search item")} />
+                        <TextField size="small" defaultValue={keyword} onChange={(e: any) => onSearch(e.target.value)} placeholder={translate("Search item")} />
                     </Stack>
                     <Stack direction="row" sx={{ ml: 'auto' }} spacing={1}>
                         {onClickFilter && 
@@ -125,7 +128,7 @@ export default function Datatable({
                         }
 
                         {onClickAdd && 
-                            <Button variant='contained' onClick={onClickAdd} >{translate("Add New")}</Button>
+                            <Button variant='contained' color="primary" onClick={onClickAdd} >{translate("Add New")}</Button>
                         }
                     </Stack>
                 </Stack>
@@ -137,7 +140,7 @@ export default function Datatable({
                 initialState={{
                     pagination: {
                         paginationModel: {
-                            pageSize: length,
+                            pageSize: 100,
                         },
                     },
                 }}
@@ -145,7 +148,8 @@ export default function Datatable({
                 checkboxSelection={checkboxSelection}
                 disableColumnMenu 
                 // disableRowSelectionOnClick
-                onRowSelectionModelChange={handleRowSelection}
+                onRowSelectionModelChange={(newRowSelectionModel) => {
+                }}
                 components={{
                     NoRowsOverlay,
                     Pagination: () => <Pagination page={page} count={rowTotal} rowsPerPage={length} onPageChange={onPageChange} />

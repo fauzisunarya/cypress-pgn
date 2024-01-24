@@ -32,87 +32,6 @@ const typography = {
   fontWeightRegular: 400,
   fontWeightMedium: 600,
   fontWeightBold: 700,
-  displayLarge: {
-    fontWeight: 500,
-    lineHeight: 80 / 64,
-    fontSize: pxToRem(57)
-  },
-  displayMedium: {
-    fontWeight: 500,
-    lineHeight: 80 / 52,
-    fontSize: pxToRem(45)
-  },
-  displaySmall: {
-    fontWeight: 500,
-    lineHeight: 80 / 44,
-    fontSize: pxToRem(36)
-  },
-  headlineLarge: {
-    fontWeight: 500,
-    lineHeight: 80 / 26,
-    fontSize: pxToRem(32)
-  },
-  headlineMedium: {
-    fontWeight: 500,
-    lineHeight: 80 / 24,
-    fontSize: pxToRem(28)
-  },
-  headlineSmall: {
-    fontWeight: 500,
-    lineHeight: 80 / 20,
-    fontSize: pxToRem(24)
-  },
-  titleLarge: {
-    fontWeight: 500,
-    lineHeight: 26/20,
-    fontSize: pxToRem(20)
-  },
-  titleMedium: {
-    fontWeight: 500,
-    lineHeight: 24/16,
-    fontSize: pxToRem(16)
-  },
-  titleSmall: {
-    fontWeight: 500,
-    lineHeight: 20/14,
-    fontSize: pxToRem(14)
-  },
-  labelLarge: {
-    fontWeight: 500,
-    lineHeight: 20/14,
-    fontSize: pxToRem(14),
-    letterSpacing: 0.1
-  },
-  labelMedium: {
-    fontWeight: 500,
-    lineHeight: 16/12,
-    fontSize: pxToRem(12),
-    letterSpacing: 0.5
-  },
-  labelSmall: {
-    fontWeight: 500,
-    lineHeight: 16/11,
-    fontSize: pxToRem(11),
-    letterSpacing: 0.5
-  },
-  bodyLarge: {
-    fontWeight: 400,
-    lineHeight: 24/16,
-    fontSize: pxToRem(16),
-    letterSpacing: 0.5
-  },
-  bodyMedium: {
-    fontWeight: 400,
-    lineHeight: 20/14,
-    fontSize: pxToRem(14),
-    letterSpacing: 0.25
-  },
-  bodySmall: {
-    fontWeight: 400,
-    lineHeight: 16/12,
-    fontSize: pxToRem(12),
-    letterSpacing: 0.4
-  },
   h1: {
     fontWeight: 800,
     lineHeight: 80 / 64,
@@ -128,8 +47,8 @@ const typography = {
   h3: {
     fontWeight: 700,
     lineHeight: 1.5,
-    fontSize: pxToRem(24),
-    ...responsiveFontSizes({ sm: 26, md: 30, lg: 32 }),
+    fontSize: pxToRem(64),
+    ...responsiveFontSizes({ sm: 66, md: 60, lg: 21 }),
   },
   h4: {
     fontWeight: 700,
@@ -178,9 +97,8 @@ const typography = {
     textTransform: 'uppercase',
   },
   button: {
-    fontWeight: 500,
+    fontWeight: 700,
     lineHeight: 24 / 14,
-    letterSpacing: 0.25,
     fontSize: pxToRem(14),
     textTransform: 'capitalize',
   },

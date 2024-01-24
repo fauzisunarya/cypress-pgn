@@ -223,7 +223,7 @@ class ContentController extends Controller {
                 DB::commit();
 
                 $result->code = 0;
-                $result->info = __("Success create data");
+                $result->info = __("Success create data").' '.$data['name'];
                 $result->data = $create_id;
             } else {
                 $result->code = 1;
@@ -281,6 +281,7 @@ class ContentController extends Controller {
         }
 
         try {
+            DB::beginTransaction();
             $create = Content::where('id', $data['content_id'])->update([
                 'name' => isset($data['name']) ? $data['name'] : $content['name'],
                 'start_date' => isset($data['start_date']) ? $data['start_date'] : $content['start_date'],
@@ -337,27 +338,26 @@ class ContentController extends Controller {
                             }else{
                                 $img = $val['header']['image'];
                                 if (!filter_var($val['header']['image'], FILTER_VALIDATE_URL)) {
-                                    $img = isset($dataHeader['image']) && !empty($dataHeader['image']) ?  str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $dataHeader['image']) : 'product/cms/header/'.$data['content_id'].'/'.$key.'/'.'image/'.Carbon::now()->format('YmdHis').'.jpg';
+                                    $img = isset($dataHeader['image']) && !empty($dataHeader['image']) ? str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $dataHeader['image']) : 'product/cms/header/'.$data['content_id'].'/'.$key.'/'.'image/'.Carbon::now()->format('YmdHis').'.jpg';
                                     Storage::disk('minio')->put($img, $val['header']['image']);
                                 }
 
                                 $img = !filter_var($img, FILTER_VALIDATE_URL) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img : $img;
                             }
-                            
                         }
     
                         $create_header = Header::create([
                             'content_id' => $data['content_id'],
                             'image_banner' => $img_banner,
                             'image' => $img,
-                            'title' => isset($val['header']['title']) ? $val['header']['title'] : $dataHeader['title'],
-                            'subtitle' => isset($val['header']['subtitle']) ? $val['header']['subtitle'] : $dataHeader['subtitle'],
-                            'desc' => isset($val['header']['desc']) ? $val['header']['desc'] : $dataHeader['desc'],
+                            'title' => isset($val['header']['title']) ? $val['header']['title'] : (isset($dataHeader['title']) ? $dataHeader['title'] : null),
+                            'subtitle' => isset($val['header']['subtitle']) ? $val['header']['subtitle'] : (isset($dataHeader['subtitle']) ? $dataHeader['subtitle'] : null),
+                            'desc' => isset($val['header']['desc']) ? $val['header']['desc'] : (isset($dataHeader['desc']) ? $dataHeader['desc'] : null),
                             'create_dtm' => Carbon::now(),
                             'update_dtm' => null,
-                            'start_dtm' => isset($val['start_dtm']) ? $val['start_dtm'] : $dataHeader['start_dtm'],
+                            'start_dtm' => isset($val['start_dtm']) ? $val['start_dtm'] : (isset($dataHeader['start_dtm']) ? $dataHeader['start_dtm'] : null),
                             'end_dtm' => $val['end_dtm'],
-                            'url' => isset($val['url']) ? $val['url'] : $dataHeader['url'],
+                            'url' => isset($val['url']) ? $val['url'] : (isset($dataHeader['url']) ? $dataHeader['url'] : null),
                         ]);
     
                         if (!$create_header) {
@@ -369,6 +369,8 @@ class ContentController extends Controller {
         
                             return response()->json($result, $result->status);
                         }
+
+                        $header_id = $create_header->id;
 
                         $body = $val['body'];
                         if ($body) {
@@ -406,16 +408,16 @@ class ContentController extends Controller {
                                 }
             
                                 $create_body = Detail::create([
-                                    'header_id' => $val['id'],
+                                    'header_id' => $header_id,
                                     'image_banner' => $img_banner_body,
                                     'image' => $img_body,
-                                    'title' => isset($row['title']) ? $row['title'] : $dataDetail['title'],
-                                    'subtitle' => isset($row['subtitle']) ? $row['subtitle'] : $dataDetail['subtitle'],
-                                    'desc' => isset($row['desc']) ? $row['desc'] : $dataDetail['desc'],
-                                    'url' => isset($row['url']) ? $row['url'] : $dataDetail['url'],
+                                    'title' => isset($row['title']) ? $row['title'] : (isset($dataDetail['title']) ? $dataDetail['title'] : null),
+                                    'subtitle' => isset($row['subtitle']) ? $row['subtitle'] : (isset($dataDetail['subtitle']) ? $dataDetail['subtitle'] : null),
+                                    'desc' => isset($row['desc']) ? $row['desc'] : (isset($dataDetail['desc']) ? $dataDetail['desc'] : null),
+                                    'url' => isset($row['url']) ? $row['url'] : (isset($dataDetail['url']) ? $dataDetail['url'] : null),
                                     'create_dtm' => Carbon::now(),
                                     'update_dtm' => null,
-                                    'start_date' => isset($row['start_date']) ? $row['start_date'] : $dataDetail['start_date'],
+                                    'start_date' => isset($row['start_date']) ? $row['start_date'] : (isset($dataDetail['start_date']) ? $dataDetail['start_date'] : null),
                                     'end_date' => $row['end_date'],
                                 ]);
             
@@ -540,7 +542,7 @@ class ContentController extends Controller {
                 DB::commit();
 
                 $result->code = 0;
-                $result->info = __("Success update data");
+                $result->info = __("Success update data").' '.$data['name'];
                 $result->data = $data['content_id'];
             } else {
                 $result->code = 1;
@@ -551,6 +553,8 @@ class ContentController extends Controller {
             ApmCollector::stopMeasure('content-update-span');
             return response()->json($result, $result->status);
         }  catch (\Throwable $ex) {
+            echo "<pre>"; print_r('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage()); echo "</pre>"; die();
+            
             error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage()); 
 
             DB::rollback();
@@ -628,7 +632,7 @@ class ContentController extends Controller {
             
             DB::commit();
             $result->code = 0;
-            $result->info = __("Success delete data");
+            $result->info = __("Success delete data").' '.$post['id'];
             $result->data = $delete_content;
             
             ApmCollector::stopMeasure('content-delete-span');
