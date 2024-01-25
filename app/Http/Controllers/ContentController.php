@@ -133,9 +133,6 @@ class ContentController extends Controller {
                             Storage::disk('minio')->put($img, $val['header']['image']);
                         }
                     }
-                    
-                    $img_banner = strlen($img_banner) > 3 ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_banner : $img_banner;
-                    $img = strlen($img) > 3 ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img : $img;
 
                     $create_header = Header::create([
                         'content_id' => $create_id,
@@ -187,9 +184,6 @@ class ContentController extends Controller {
                                 }
                                 
                             }
-                            
-                            $img_banner_body = strlen($img_banner_body) > 3 ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_banner_body : $img_banner_body;
-                            $img_body = strlen($img_body) > 3 ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_body : $img_body;
                             
                             $create_body = Detail::create([
                                 'image_banner' => $img_banner_body,
