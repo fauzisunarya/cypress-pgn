@@ -342,8 +342,8 @@ class ContentController extends Controller {
     
                         $create_header = Header::create([
                             'content_id' => $data['content_id'],
-                            'image_banner' => $img_banner,
-                            'image' => $img,
+                            'image_banner' => str_replace(env('IMAGE_BASEPATH_URL','https://dev-retail-pgnmobile.pgn.co.id/api/retail/get-image?path='), '', $img_banner),
+                            'image' => str_replace(env('IMAGE_BASEPATH_URL','https://dev-retail-pgnmobile.pgn.co.id/api/retail/get-image?path='), '', $img),
                             'title' => isset($val['header']['title']) ? $val['header']['title'] : (isset($dataHeader['title']) ? $dataHeader['title'] : null),
                             'subtitle' => isset($val['header']['subtitle']) ? $val['header']['subtitle'] : (isset($dataHeader['subtitle']) ? $dataHeader['subtitle'] : null),
                             'desc' => isset($val['header']['desc']) ? $val['header']['desc'] : (isset($dataHeader['desc']) ? $dataHeader['desc'] : null),
@@ -403,8 +403,8 @@ class ContentController extends Controller {
             
                                 $create_body = Detail::create([
                                     'header_id' => $header_id,
-                                    'image_banner' => $img_banner_body,
-                                    'image' => $img_body,
+                                    'image_banner' => str_replace(env('IMAGE_BASEPATH_URL','https://dev-retail-pgnmobile.pgn.co.id/api/retail/get-image?path='), '', $img_banner_body),
+                                    'image' => str_replace(env('IMAGE_BASEPATH_URL','https://dev-retail-pgnmobile.pgn.co.id/api/retail/get-image?path='), '', $img_body),
                                     'title' => isset($row['title']) ? $row['title'] : (isset($dataDetail['title']) ? $dataDetail['title'] : null),
                                     'subtitle' => isset($row['subtitle']) ? $row['subtitle'] : (isset($dataDetail['subtitle']) ? $dataDetail['subtitle'] : null),
                                     'desc' => isset($row['desc']) ? $row['desc'] : (isset($dataDetail['desc']) ? $dataDetail['desc'] : null),
@@ -446,9 +446,6 @@ class ContentController extends Controller {
                                 Storage::disk('minio')->put($img, $val['header']['image']);
                             }
                         }
-                        
-                        $img_banner = strlen($img_banner) > 3 ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_banner : $img_banner;
-                        $img = strlen($img) > 3 ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img : $img;
                         
                         $create_header = Header::create([
                             'content_id' => $data['content_id'],
@@ -498,10 +495,6 @@ class ContentController extends Controller {
                                         Storage::disk('minio')->put($img_body, $row['image']);
                                     }
                                 }
-                                
-                                $img_banner_body = strlen($img_banner_body) > 3 ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_banner_body : $img_banner_body;
-                                $img_body = strlen($img_body) > 3 ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_body : $img_body;
-                        
             
                                 $create_body = Detail::create([
                                     'image_banner' => $img_banner_body,
@@ -547,8 +540,6 @@ class ContentController extends Controller {
             ApmCollector::stopMeasure('content-update-span');
             return response()->json($result, $result->status);
         }  catch (\Throwable $ex) {
-            echo "<pre>"; print_r('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage()); echo "</pre>"; die();
-            
             error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage()); 
 
             DB::rollback();
