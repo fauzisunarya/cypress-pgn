@@ -646,6 +646,7 @@ class ContentController extends Controller {
     public function getContents(Request $request) {
         ApmCollector::startMeasure('content-get-span', 'login', 'measure', 'content get');
         try {
+            $imageBasepath = env('IMAGE_BASEPATH_URL','https://dev-retail-pgnmobile.pgn.co.id/api/retail/get-image?path=');
             $result = new Result();
             $post = $request->query();
     
@@ -676,12 +677,12 @@ class ContentController extends Controller {
                 if ($header) {
                     foreach ($header as $head) {
                         $dataHeader['id'] = $head['id'];
-                        $dataHeader['image_banner'] = $head['image_banner'];
+                        $dataHeader['image_banner'] = strlen($head['image_banner']) < 10 ? $head['image_banner'] : $imageBasepath.$head['image_banner'];
                         $dataHeader['start_dtm'] = $head['start_dtm'];
                         $dataHeader['end_dtm'] = $head['end_dtm'];
                         $dataHeader['url'] = $head['url'];
                         $dataHeader['header'] = [
-                            'image' => $head['image'],
+                            'image' => strlen($head['image']) < 10 ? $head['image'] : $imageBasepath.$head['image'],
                             'title' => $head['title'],
                             'subtitle' => $head['subtitle'],
                             'desc' => $head['desc'],
@@ -694,8 +695,8 @@ class ContentController extends Controller {
                             foreach ($details as $body) {
                                 $dataDetails[] = [
                                     'detail_id' => $body['id'],
-                                    'image_banner' => $body['image_banner'],
-                                    'image' => $body['image'],
+                                    'image_banner' => strlen($body['image_banner']) < 10 ? $body['image_banner'] : $imageBasepath.$body['image_banner'],
+                                    'image' => strlen($body['image']) < 10 ? $body['image'] : $imageBasepath.$body['image'],
                                     'url' => $body['url'],
                                     'title' => $body['title'],
                                     'subtitle' => $body['subtitle'],
