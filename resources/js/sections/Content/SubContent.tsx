@@ -214,7 +214,7 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
                                         </span>
                                     </label>
 
-                                    {filePreviews[nestIndex] && filePreviews[nestIndex][num]['image'] && (
+                                    {filePreviews[nestIndex] && filePreviews[nestIndex][num] && filePreviews[nestIndex][num]['image'] && (
                                         <Stack mt={1} direction={'column'}>
                                             <Stack direction={'row'} spacing={5}>
                                                 <img
@@ -262,7 +262,7 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
                                         </span>
                                     </label>
 
-                                    {filePreviews[nestIndex] && filePreviews[nestIndex][num]['image_banner'] && (
+                                    {filePreviews[nestIndex] && filePreviews[nestIndex][num] && filePreviews[nestIndex][num]['image_banner'] && (
                                         <Stack mt={1} direction={'column'}>
                                             <Stack direction={'row'} spacing={5}>
                                                 <img
