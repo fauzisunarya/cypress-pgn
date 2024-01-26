@@ -320,8 +320,6 @@ class ContentController extends Controller {
                                     $img_banner = isset($dataHeader['image_banner']) && !empty($dataHeader['image_banner']) ? str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $dataHeader['image_banner']) : 'product/cms/header/'.$data['content_id'].'/'.$key.'/'.'image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
                                     Storage::disk('minio')->put($img_banner, $val['image_banner']);
                                 }
-
-                                $img_banner = !filter_var($img_banner, FILTER_VALIDATE_URL) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_banner : $img_banner;
                             }
                         }
     
@@ -335,15 +333,13 @@ class ContentController extends Controller {
                                     $img = isset($dataHeader['image']) && !empty($dataHeader['image']) ? str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $dataHeader['image']) : 'product/cms/header/'.$data['content_id'].'/'.$key.'/'.'image/'.Carbon::now()->format('YmdHis').'.jpg';
                                     Storage::disk('minio')->put($img, $val['header']['image']);
                                 }
-
-                                $img = !filter_var($img, FILTER_VALIDATE_URL) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img : $img;
                             }
                         }
     
                         $create_header = Header::create([
                             'content_id' => $data['content_id'],
-                            'image_banner' => str_replace(env('IMAGE_BASEPATH_URL','https://dev-retail-pgnmobile.pgn.co.id/api/retail/get-image?path='), '', $img_banner),
-                            'image' => str_replace(env('IMAGE_BASEPATH_URL','https://dev-retail-pgnmobile.pgn.co.id/api/retail/get-image?path='), '', $img),
+                            'image_banner' => str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $img_banner),
+                            'image' => str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $img),
                             'title' => isset($val['header']['title']) ? $val['header']['title'] : (isset($dataHeader['title']) ? $dataHeader['title'] : null),
                             'subtitle' => isset($val['header']['subtitle']) ? $val['header']['subtitle'] : (isset($dataHeader['subtitle']) ? $dataHeader['subtitle'] : null),
                             'desc' => isset($val['header']['desc']) ? $val['header']['desc'] : (isset($dataHeader['desc']) ? $dataHeader['desc'] : null),
@@ -381,8 +377,6 @@ class ContentController extends Controller {
                                             $img_banner_body = isset($dataDetail['image_banner']) && !empty($dataDetail['image_banner']) ? str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $dataDetail['image_banner']) : 'product/cms/body/'.$val['id'].'/'.$keys.'/'.'image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
                                             Storage::disk('minio')->put($img_banner_body, $row['image_banner']);
                                         }
-
-                                        $img_banner_body = !filter_var($img_banner_body, FILTER_VALIDATE_URL) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_banner_body : $img_banner_body;
                                     }
                                 }
             
@@ -396,15 +390,13 @@ class ContentController extends Controller {
                                             $img_body = isset($dataDetail['image']) && !empty($dataDetail['image']) ? str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $dataDetail['image']) : 'product/cms/body/'.$val['id'].'/'.$keys.'/'.'image/'.Carbon::now()->format('YmdHis').'.jpg';
                                             Storage::disk('minio')->put($img_body, $row['image']);
                                         }
-
-                                        $img_body = !filter_var($img_body, FILTER_VALIDATE_URL) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_body : $img_body;
                                     }
                                 }
             
                                 $create_body = Detail::create([
                                     'header_id' => $header_id,
-                                    'image_banner' => str_replace(env('IMAGE_BASEPATH_URL','https://dev-retail-pgnmobile.pgn.co.id/api/retail/get-image?path='), '', $img_banner_body),
-                                    'image' => str_replace(env('IMAGE_BASEPATH_URL','https://dev-retail-pgnmobile.pgn.co.id/api/retail/get-image?path='), '', $img_body),
+                                    'image_banner' => str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $img_banner_body),
+                                    'image' => str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $img_body),
                                     'title' => isset($row['title']) ? $row['title'] : (isset($dataDetail['title']) ? $dataDetail['title'] : null),
                                     'subtitle' => isset($row['subtitle']) ? $row['subtitle'] : (isset($dataDetail['subtitle']) ? $dataDetail['subtitle'] : null),
                                     'desc' => isset($row['desc']) ? $row['desc'] : (isset($dataDetail['desc']) ? $dataDetail['desc'] : null),
@@ -449,8 +441,8 @@ class ContentController extends Controller {
                         
                         $create_header = Header::create([
                             'content_id' => $data['content_id'],
-                            'image_banner' => isset($val['image_banner']) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img_banner : '',
-                            'image' => isset($val['header']['image']) ? env('RETAIL_BASEPATH').'/api/retail/get-image?path='.$img : '',
+                            'image_banner' => $img_banner,
+                            'image' => $img,
                             'title' => @$val['header']['title'],
                             'subtitle' => @$val['header']['subtitle'],
                             'desc' => @$val['header']['desc'],
