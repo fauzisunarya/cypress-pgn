@@ -290,8 +290,9 @@ export const CreatedDialog = (props: DialogProps) => {
         const contents = content.value;
         const newFilePreviews:any = [...filePreviews];
         const newFileSubPreviews:any = [...fileSubPreviews];
+        const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
         contents.forEach((value, index) => {
-            if (value.image_banner) {
+            if (value.image_banner && value.image_banner != '' && urlRegex.test(value.image_banner)) {
                 const type = 'img_banner';
         
                 if (!newFilePreviews[index]) {
@@ -301,7 +302,7 @@ export const CreatedDialog = (props: DialogProps) => {
                 newFilePreviews[index][type] = value.image_banner;
             }
 
-            if (value.header.image) {
+            if (value.header.image && value.header.image != '' && urlRegex.test(value.header.image)) {
                 const type = 'img_header';
         
                 if (!newFilePreviews[index]) {
@@ -317,7 +318,7 @@ export const CreatedDialog = (props: DialogProps) => {
                         newFileSubPreviews[index] = {};
                     }
 
-                    if (sub.image) {
+                    if (sub.image && sub.image != '' && urlRegex.test(sub.image)) {
                 
                         if (!newFileSubPreviews[index][idx]) {
                             newFileSubPreviews[index][idx] = {};
@@ -326,7 +327,7 @@ export const CreatedDialog = (props: DialogProps) => {
                         newFileSubPreviews[index][idx]['image'] = sub.image;
                     }
 
-                    if (sub.image_banner) {
+                    if (sub.image_banner && sub.image_banner != '' && urlRegex.test(sub.image_banner)) {
                 
                         if (!newFileSubPreviews[index][idx]) {
                             newFileSubPreviews[index][idx] = {};
@@ -351,8 +352,6 @@ export const CreatedDialog = (props: DialogProps) => {
         setTitle(translate('Create Content'));
         getContents();
     },[props.data]);
-
-    console.log(errors)
 
     return (
         <div>
