@@ -338,8 +338,8 @@ class ContentController extends Controller {
     
                         $create_header = Header::create([
                             'content_id' => $data['content_id'],
-                            'image_banner' => str_replace('/api/retail/get-image?path=', '', $img_banner),
-                            'image' => str_replace('/api/retail/get-image?path=', '', $img),
+                            'image_banner' => $img_banner,
+                            'image' => $img,
                             'title' => isset($val['header']['title']) ? $val['header']['title'] : (isset($dataHeader['title']) ? $dataHeader['title'] : null),
                             'subtitle' => isset($val['header']['subtitle']) ? $val['header']['subtitle'] : (isset($dataHeader['subtitle']) ? $dataHeader['subtitle'] : null),
                             'desc' => isset($val['header']['desc']) ? $val['header']['desc'] : (isset($dataHeader['desc']) ? $dataHeader['desc'] : null),
@@ -395,8 +395,8 @@ class ContentController extends Controller {
             
                                 $create_body = Detail::create([
                                     'header_id' => $header_id,
-                                    'image_banner' => str_replace('/api/retail/get-image?path=', '', $img_banner_body),
-                                    'image' => str_replace('/api/retail/get-image?path=', '', $img_body),
+                                    'image_banner' => $img_banner_body,
+                                    'image' => $img_body,
                                     'title' => isset($row['title']) ? $row['title'] : (isset($dataDetail['title']) ? $dataDetail['title'] : null),
                                     'subtitle' => isset($row['subtitle']) ? $row['subtitle'] : (isset($dataDetail['subtitle']) ? $dataDetail['subtitle'] : null),
                                     'desc' => isset($row['desc']) ? $row['desc'] : (isset($dataDetail['desc']) ? $dataDetail['desc'] : null),
