@@ -319,6 +319,8 @@ class ContentController extends Controller {
                                 if (!filter_var($val['image_banner'], FILTER_VALIDATE_URL)) {
                                     $img_banner = isset($dataHeader['image_banner']) && !empty($dataHeader['image_banner']) ? str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $dataHeader['image_banner']) : 'product/cms/header/'.$data['content_id'].'/'.$key.'/'.'image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
                                     Storage::disk('minio')->put($img_banner, $val['image_banner']);
+                                }else{
+                                    $img_banner = str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $val['image_banner']);
                                 }
                             }
                         }
@@ -332,6 +334,8 @@ class ContentController extends Controller {
                                 if (!filter_var($val['header']['image'], FILTER_VALIDATE_URL)) {
                                     $img = isset($dataHeader['image']) && !empty($dataHeader['image']) ? str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $dataHeader['image']) : 'product/cms/header/'.$data['content_id'].'/'.$key.'/'.'image/'.Carbon::now()->format('YmdHis').'.jpg';
                                     Storage::disk('minio')->put($img, $val['header']['image']);
+                                }else{
+                                    $img = str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $val['header']['image']);
                                 }
                             }
                         }
@@ -376,6 +380,8 @@ class ContentController extends Controller {
                                         if (!filter_var($row['image_banner'], FILTER_VALIDATE_URL)) {
                                             $img_banner_body = isset($dataDetail['image_banner']) && !empty($dataDetail['image_banner']) ? str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $dataDetail['image_banner']) : 'product/cms/body/'.$val['id'].'/'.$keys.'/'.'image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
                                             Storage::disk('minio')->put($img_banner_body, $row['image_banner']);
+                                        }else{
+                                            $img_banner_body =  str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $row['image_banner']);
                                         }
                                     }
                                 }
@@ -386,9 +392,11 @@ class ContentController extends Controller {
                                         $img_body = $row['image'];
                                     }else{
                                         $img_body = $row['image'];
-                                        if (!filter_var($row['image_banner'], FILTER_VALIDATE_URL)) {
+                                        if (!filter_var($row['image'], FILTER_VALIDATE_URL)) {//masuk ini jika bukan url image valid
                                             $img_body = isset($dataDetail['image']) && !empty($dataDetail['image']) ? str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $dataDetail['image']) : 'product/cms/body/'.$val['id'].'/'.$keys.'/'.'image/'.Carbon::now()->format('YmdHis').'.jpg';
                                             Storage::disk('minio')->put($img_body, $row['image']);
+                                        }else{
+                                            $img_body =  str_replace(env('RETAIL_BASEPATH').'/api/retail/get-image?path=', '', $row['image']);
                                         }
                                     }
                                 }
