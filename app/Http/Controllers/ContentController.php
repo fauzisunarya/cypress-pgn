@@ -722,4 +722,14 @@ class ContentController extends Controller {
             return response()->json($result, $result->status);
         }
     }
+    
+    public function check(Request $request) {
+        echo '<br>';
+        echo env('MINIO_ENDPOINT').'------<br>';
+        echo env('MINIO_ACCESS_KEY').'------<br>';
+        echo env('MINIO_SECRET_KEY').'------<br>';
+        echo env('MINIO_BUCKET').'------<br>';
+        echo env('MINIO_REGION').'------<br>';
+        exit;
+    }
 }
