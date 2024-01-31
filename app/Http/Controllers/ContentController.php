@@ -724,12 +724,73 @@ class ContentController extends Controller {
     }
     
     public function check(Request $request) {
-        echo '<br>';
-        echo env('MINIO_ENDPOINT').'------<br>';
-        echo env('MINIO_ACCESS_KEY').'------<br>';
-        echo env('MINIO_SECRET_KEY').'------<br>';
-        echo env('MINIO_BUCKET').'------<br>';
-        echo env('MINIO_REGION').'------<br>';
-        exit;
+        $username = "pgnjktpremium"; 
+
+        $password = "PGNscm2023"; 
+
+         
+
+        $url = "https://api.smsblast.id/v2/reg/sendsms.json"; 
+
+        $token = base64_encode($username . ":" . $password); 
+
+         
+
+        $headers = array( 
+
+            "authorization: Basic $token", 
+
+            "content-type: application/x-www-form-urlencoded" 
+
+        ); 
+
+         
+
+        $data = array('sender' => 'MD MEDIA', 'msisdn' => '6281297213156', 'message' => 'Hello Word PHP'); 
+        $curl = curl_init(); 
+
+     
+
+        curl_setopt_array($curl, array( 
+
+        CURLOPT_URL => $url, 
+
+            CURLOPT_RETURNTRANSFER => true, 
+
+            CURLOPT_TIMEOUT => 30, 
+
+            CURLOPT_CUSTOMREQUEST => "POST", 
+
+            CURLOPT_POSTFIELDS => http_build_query($data), 
+
+            CURLOPT_HTTPHEADER => $headers, 
+
+        )); 
+
+     
+
+        $response = curl_exec($curl); 
+
+        curl_close($curl); 
+
+     
+
+        $ret = [ 
+
+            'header' => $headers, 
+
+            'body' => $data, 
+
+            'response' => $response 
+
+        ]; 
+
+     
+
+        return $ret;
+
+        var_dump($exec); 
+
+        die(); 
     }
 }
