@@ -748,7 +748,7 @@ class ContentController extends Controller {
 
          
 
-        $data = array('sender' => 'MD MEDIA', 'msisdn' => '6281297213156', 'message' => 'Hello Word PHP'); 
+        $data = array('sender' => '', 'msisdn' => '6281297213156', 'message' => 'Hello Word PHP'); 
         $curl = curl_init(); 
 
      
