@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, Button, Link, FormHelperText, DialogContent, DialogActions, Box, Stack, TextField, FormControl, CircularProgress, Backdrop, Snackbar, InputAdornment, InputLabel, Select, MenuItem } from "@mui/material";
+import { Grid, Typography, Button, Link, FormHelperText, Autocomplete, DialogActions, Box, Stack, TextField, FormControl, CircularProgress, Backdrop, Snackbar, InputAdornment, InputLabel, Select, MenuItem } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import { useLocales } from '@/locales';
 import FormDialog from '@/Components/dialog/FormDialog';
@@ -119,6 +119,7 @@ export const CreatedDialog = (props: DialogProps) => {
     const [fileSubPreviews, setFileSubPreviews] = React.useState([]);
     const [dataCategory, setCategory] = React.useState([]);
     const { setLoadingShowBackdrop, showSnackbar } = useHelper();
+    const [inputValue, setInputValue] = React.useState('');
 
     const defaultValues = {
         uuid:'',
@@ -126,7 +127,8 @@ export const CreatedDialog = (props: DialogProps) => {
         lang: 'en',
         start_date: new Date(),
         end_date: null,
-        category_id: '1',
+        category_id: '',
+        category_name: '',
         contents : [{ 
             id: '', 
             image_banner : '',
@@ -145,6 +147,12 @@ export const CreatedDialog = (props: DialogProps) => {
     const handleSubmitCreate = async (value:any, e:any) => {
         e.preventDefault();
         try {
+            // if ((value.category_id).toString() != '' || (value.category_id).toString() != null) {
+            //     showSnackbar({
+            //         message: translate('Please insert a valid category')
+            //     });
+            //     return false;
+            // }
 
             setLoadingShowBackdrop(true);
 
@@ -175,6 +183,8 @@ export const CreatedDialog = (props: DialogProps) => {
                 setTimeout(() => {
                     props.closeModal();
                     props.onSubmit();
+                    reset(defaultValues);
+                    setInputValue('');
                 }, 2000);
             }
         } catch (error) {
@@ -239,6 +249,13 @@ export const CreatedDialog = (props: DialogProps) => {
         }
     };
 
+    const handleClose = () => {
+        props.closeModal();
+        props.onSubmit();
+        reset(defaultValues);
+        setInputValue('');
+    }
+
     const getContents = async () => {
         try {
             setLoadingShowBackdrop(true);
@@ -254,6 +271,7 @@ export const CreatedDialog = (props: DialogProps) => {
                     setValue('uuid', responseData.id);
                     setValue('title', responseData.name);
                     setValue('lang', responseData.language);
+                    setValue('category_name', responseData.category_name);
                     setValue('category_id', responseData.category_id);
                     setValue('start_date', responseData.start_date);
                     setValue('end_date', responseData.end_date);
@@ -270,21 +288,33 @@ export const CreatedDialog = (props: DialogProps) => {
         }
     }
 
-    const getCategory = async (key:any) => {
+    const getCategory = async () => {
         try {
-
-            const response: any = await list(key);
-            var responseData = response.data;
-            if (responseData) {
-                setCategory(responseData.data);
+            if (inputValue != '' && typeof inputValue !== 'undefined' ) {
+                const response: any = await list(inputValue);
+                var responseData = response.data;
+                if (responseData) {
+                    setCategory(responseData.data);
+                }
             }
-
         } catch (error) {
             showSnackbar({
                 message: translate('failed get category')
             });
         }
     }
+
+    React.useEffect(() => {
+        getCategory();
+    }, [inputValue]);
+
+    React.useEffect(() => {
+        dataCategory.map((rowOption : any, index: any) => {
+            if((rowOption.category_name) == inputValue){
+                setValue('category_id', rowOption.id)
+            }
+        });
+    }, [inputValue, dataCategory])
 
     const editContent = (content:ContentType) => {
         const contents = content.value;
@@ -344,19 +374,20 @@ export const CreatedDialog = (props: DialogProps) => {
     }
 
     React.useEffect(() => {
-        getCategory("");
-        reset(defaultValues);
-        setMessage('');
-        setFilePreviews([]);
-        setFileSubPreviews([]);
-        setTitle(translate('Create Content'));
-        getContents();
+        if (props.data) {
+            reset(defaultValues);
+            setMessage('');
+            setFilePreviews([]);
+            setFileSubPreviews([]);
+            setTitle(translate('Create Content'));
+            getContents();
+        }
     },[props.data]);
 
     return (
         <div>
             <FormDialog
-                handleClose={props.closeModal}
+                handleClose={handleClose}
                 open={props.openModal}
                 cancelButtonLabel={ translate ("DISMISS") }
                 submitButtonLabel={ translate ("SAVE CHANGE") }
@@ -416,7 +447,7 @@ export const CreatedDialog = (props: DialogProps) => {
                     </Stack>
 
                     <Stack mt={2}>
-                        <FormControl fullWidth>
+                        {/* <FormControl fullWidth>
                             <InputLabel htmlFor="select">{ translate('Category *') }</InputLabel>
                             <Controller
                                 name="category_id"
@@ -434,7 +465,46 @@ export const CreatedDialog = (props: DialogProps) => {
                                 )}
                                 rules={{ required: translate('Category cannot be empty') }}
                             />
-                        </FormControl>
+                        </FormControl> */}
+                        <Autocomplete
+                            getOptionLabel={(option) =>
+                                typeof option === 'string' ? option : (option.category_name)
+                            }
+                            filterOptions={(x) => x}
+                            options={dataCategory}
+                            autoComplete
+                            includeInputInList
+                            filterSelectedOptions
+                            value={watch('category_name')}
+                            noOptionsText="No data found"
+                            onChange={(event: any, newValue: any) => {
+                                if(newValue){
+                                    setValue('category_name', newValue);
+                                    setValue('category_id', '');
+                                }
+                            }}
+                            onInputChange={(event, newInputValue) => {
+                                setInputValue(newInputValue);
+                                setValue('category_id', '');
+                            }}
+                            renderInput={(params) =>{return (
+                                <TextField
+                                    {...params}
+                                    required
+                                    label="Search category"
+                                    placeholder='Search Category' 
+                                    variant='outlined'
+                                    error = {errors.category_name? true : false}
+                                    helperText= {errors.category_name? errors.category_name.message : ''}
+                                    {...register(
+                                        'category_name', 
+                                        { 
+                                            'required': translate('Category cannot be empty')
+                                        }
+                                    )}
+                                />
+                            )}}
+                        />
                     </Stack>
 
                     <Stack mt={2} direction={'row'} spacing={2}>
@@ -446,7 +516,7 @@ export const CreatedDialog = (props: DialogProps) => {
                                     <div style={{ width: '100%' }}>
                                         <DatePicker
                                             sx={{ width: '100%' }}
-                                            label={ translate("Start Date *")}
+                                            label={ translate("Start Date")}
                                             value={dayjs(field.value)}
                                             onChange={(newValue: any) => setValue('start_date', newValue)}
                                         />
@@ -516,10 +586,10 @@ export const CreatedDialog = (props: DialogProps) => {
                                         InputLabelProps={{
                                             shrink: watch(`contents.${index}.header.title`) ? true : false,
                                         }}
-                                        required
-                                        error={errors.contents?.[index]?.header?.title ? true : false}
-                                        helperText={errors.contents?.[index]?.header?.title ? errors.contents?.[index]?.header?.title?.message : ''}
-                                        {...register(`contents.${index}.header.title`, { required : translate('Title cannot be empty') })}
+                                        // required
+                                        // error={errors.contents?.[index]?.header?.title ? true : false}
+                                        // helperText={errors.contents?.[index]?.header?.title ? errors.contents?.[index]?.header?.title?.message : ''}
+                                        {...register(`contents.${index}.header.title` /*, { required : translate('Title cannot be empty') } */)}
                                     />
 
                                     <TextField fullWidth
@@ -528,10 +598,10 @@ export const CreatedDialog = (props: DialogProps) => {
                                         InputLabelProps={{
                                             shrink: watch(`contents.${index}.header.subtitle`) ? true : false,
                                         }}
-                                        required
-                                        error={errors.contents?.[index]?.header?.subtitle ? true : false}
-                                        helperText={errors.contents?.[index]?.header?.subtitle ? errors.contents?.[index]?.header?.subtitle?.message : ''}
-                                        {...register(`contents.${index}.header.subtitle`, { required : translate('Subtitle cannot be empty') })}
+                                        // required
+                                        // error={errors.contents?.[index]?.header?.subtitle ? true : false}
+                                        // helperText={errors.contents?.[index]?.header?.subtitle ? errors.contents?.[index]?.header?.subtitle?.message : ''}
+                                        {...register(`contents.${index}.header.subtitle`/*, { required : translate('Subtitle cannot be empty') }*/)}
                                     />
                                 </Stack>
 
@@ -542,12 +612,12 @@ export const CreatedDialog = (props: DialogProps) => {
                                         InputLabelProps={{
                                             shrink: watch(`contents.${index}.url`) ? true : false,
                                         }}
-                                        error={errors.contents?.[index]?.url ? true : false}
-                                        helperText={errors.contents?.[index]?.url ? errors.contents?.[index]?.url?.message : ''}
-                                        {...register(`contents.${index}.url`, { pattern: {
+                                        // error={errors.contents?.[index]?.url ? true : false}
+                                        // helperText={errors.contents?.[index]?.url ? errors.contents?.[index]?.url?.message : ''}
+                                        {...register(`contents.${index}.url`/*, { pattern: {
                                             value: /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/,
                                             message: translate('Please insert a valid link')
-                                        } })}
+                                        } }*/)}
                                     />
                                 </Stack>
 

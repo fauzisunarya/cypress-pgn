@@ -108,10 +108,10 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
                                 InputLabelProps={{
                                     shrink: watch(`contents.${nestIndex}.body.${num}.title`) ? true : false
                                 }}
-                                required
-                                error = {errors.contents?.[nestIndex]?.body?.[num]?.title ? true : false}
-                                helperText= {errors.contents?.[nestIndex]?.body?.[num]?.title ? errors.contents?.[nestIndex]?.body?.[num]?.title?.message : ''}
-                                {...register(`contents.${nestIndex}.body.${num}.title`, { required : translate('Title cannot be empty') })}
+                                // required
+                                // error = {errors.contents?.[nestIndex]?.body?.[num]?.title ? true : false}
+                                // helperText= {errors.contents?.[nestIndex]?.body?.[num]?.title ? errors.contents?.[nestIndex]?.body?.[num]?.title?.message : ''}
+                                {...register(`contents.${nestIndex}.body.${num}.title`/*, { required : translate('Title cannot be empty') }*/)}
                             />
 
                             <TextField fullWidth
@@ -120,10 +120,10 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
                                 InputLabelProps={{
                                     shrink: watch(`contents.${nestIndex}.body.${num}.subtitle`) ? true : false,
                                 }}
-                                required
-                                error={errors.contents?.[nestIndex]?.body?.[num]?.subtitle ? true : false}
-                                helperText={errors.contents?.[nestIndex]?.body?.[num]?.subtitle ? errors.contents?.[nestIndex]?.body?.[num]?.subtitle?.message : ''}
-                                {...register(`contents.${nestIndex}.body.${num}.subtitle`, { required : translate('Subtitle cannot be empty') })}
+                                // required
+                                // error={errors.contents?.[nestIndex]?.body?.[num]?.subtitle ? true : false}
+                                // helperText={errors.contents?.[nestIndex]?.body?.[num]?.subtitle ? errors.contents?.[nestIndex]?.body?.[num]?.subtitle?.message : ''}
+                                {...register(`contents.${nestIndex}.body.${num}.subtitle`/*, { required : translate('Subtitle cannot be empty') }*/)}
                             />
                         </Stack>
 
@@ -134,12 +134,12 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
                                 InputLabelProps={{
                                     shrink: watch(`contents.${nestIndex}.body.${num}.url`)
                                 }}
-                                error={errors.contents?.[nestIndex]?.body?.[num]?.url ? true : false}
-                                helperText={errors.contents?.[nestIndex]?.body?.[num]?.url ? errors.contents?.[nestIndex]?.body?.[num]?.url?.message : ''}
-                                {...register(`contents.${nestIndex}.body.${num}.url`, { pattern: {
+                                // error={errors.contents?.[nestIndex]?.body?.[num]?.url ? true : false}
+                                // helperText={errors.contents?.[nestIndex]?.body?.[num]?.url ? errors.contents?.[nestIndex]?.body?.[num]?.url?.message : ''}
+                                {...register(`contents.${nestIndex}.body.${num}.url`/*, { pattern: {
                                     value: /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/,
                                     message: translate('Please insert a valid link')
-                                } })}
+                                } }*/)}
                             />
                         </Stack>
 

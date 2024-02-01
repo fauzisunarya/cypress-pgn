@@ -7,6 +7,7 @@ use App\Helper\Result;
 use App\Models\Content;
 use App\Models\Content\Header;
 use App\Models\Content\Detail;
+use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 use AG\ElasticApmLaravel\Facades\ApmCollector;
 use Illuminate\Support\Facades\DB;
@@ -633,8 +634,9 @@ class ContentController extends Controller {
             $result = new Result();
             $post = $request->query();
     
-            $content = Content::select('content.*', 'content_status.status_name')
-            ->join('cms.content_status', 'content.status', '=', 'content_status.id'); 
+            $content = Content::select('content.*', 'content_status.status_name', 'content_category.category_name')
+            ->join('cms.content_status', 'content.status', '=', 'content_status.id')
+            ->join('cms.content_category', 'content.category_id', '=', 'content_category.id'); 
             
             if (isset($post['id']) && !empty($post['id'])) {
                 $content = $content->where('content.id', $post['id'])->orderBy('content.id', 'asc');
@@ -646,7 +648,7 @@ class ContentController extends Controller {
             }
 
             $content = $content->get()->toArray();
-    
+
             if (!$content) {
                 $result->code = 2;
                 $result->info = __('Data not found');
