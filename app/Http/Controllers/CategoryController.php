@@ -37,9 +37,9 @@ class CategoryController extends Controller {
 
         $length = empty($data['length'])?10:$data['length'];
         if($data['search']){
-            $model->where(function ($query) use ($data) {
-                $query->where('category_name', 'ilike', '%' . $data['search'] . '%')
-                    ->orWhere('category_description', 'ilike', '%' . $data['search'] . '%');
+            $model = $model->where(function ($query) use ($data) {
+                $query->where('category_name', 'like', '%' . $data['search'] . '%')
+                    ->orWhere('category_description', 'like', '%' . $data['search'] . '%');
             });
         }
 

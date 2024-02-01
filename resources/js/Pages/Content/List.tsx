@@ -96,7 +96,7 @@ export default function List() {
             headerName: translate('Status'), 
             filterable: false,
             sortable: false,
-            flex: 0.3,
+            flex: 0.15,
             renderCell : (params:any) => {
                 if (params.row.status == 1) {
                     return (
@@ -125,7 +125,7 @@ export default function List() {
             headerName: translate('Create Date'), 
             filterable: false,
             sortable: false,
-            flex: 0.3,
+            flex: 0.25,
             renderCell : (params:any) => {
                 return FormatDate(params.row.create_dtm);
             }
@@ -135,7 +135,7 @@ export default function List() {
             headerName: translate('Update Date'), 
             filterable: false,
             sortable: false,
-            flex: 0.3,
+            flex: 0.25,
             renderCell : (params:any) => {
                 return FormatDate(params.row.update_dtm);
             }
@@ -287,6 +287,7 @@ export default function List() {
                         page={page}
                         rowTotal={rowTotal}
                         selectable={false}
+                        keyword={keyword}
                         onChangeLength={handleChangeLength}
                         onRefresh={handleRefresh}
                         onPageChange={handlePageChange}
