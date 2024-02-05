@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\BeforeRequest;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Middleware\SetupRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +17,8 @@ use App\Http\Middleware\SetupRequest;
 |
 */
 
-
-Route::middleware([SetupRequest::class])->group(function () {
-    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-        return $request->user();
-    });
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });
 
 Route::group(['prefix' => 'contents'], function() {
@@ -31,7 +27,7 @@ Route::group(['prefix' => 'contents'], function() {
     Route::post('/update', [ContentController::class, 'update'])->middleware('auth');
     Route::post('/delete-content', [ContentController::class, 'delete'])->middleware('auth');
     Route::post('/category-list', [CategoryController::class, 'index'])->middleware('auth');
-    Route::get('/check', [ContentController::class, 'check']);
+    Route::get('/check', [ContentController::class, 'check'])->middleware('auth');
 });
 
 Route::get('/contents',[ContentController::class,'getContents']);
