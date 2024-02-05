@@ -84,7 +84,7 @@ export const personalization = {
 export const service = {
   cms : {
     // basepath : import.meta.env.REACT_APP_LOYALTY_BASEPATH
-    basepath : import.meta.env.REACT_APP_CMS_BASEPATH  || 'https://dev-cms-pgnmobile.pgn.co.id'
+    basepath : 'https://dev-cms-pgnmobile.pgn.co.id'
     // basepath : 'http://pgnmobile-contentmanagementservice.test'
   },
   proxy : {
