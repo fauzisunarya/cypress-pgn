@@ -48,8 +48,8 @@ class JWT {
     public function decode($jwt, $private = false){
 
         $result = new Result();
-        echo $key = $this->_public_key;echo '<br>';
-echo $this->_private_key;
+        $key = $this->_public_key;
+
         if($private) $key = $this->_private_key;
 
         if($key && $this->_algo){
