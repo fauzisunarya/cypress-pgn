@@ -724,4 +724,8 @@ class ContentController extends Controller {
             return response()->json($result, $result->status);
         }
     }
+    
+    public function check(Request $request) {
+        
+    }
 }
