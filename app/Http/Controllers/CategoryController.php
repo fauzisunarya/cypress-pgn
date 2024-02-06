@@ -37,10 +37,7 @@ class CategoryController extends Controller {
 
         $length = empty($data['length'])?10:$data['length'];
         if($data['search']){
-            $model = $model->where(function ($query) use ($data) {
-                $query->where('category_name', 'like', '%' . $data['search'] . '%')
-                    ->orWhere('category_description', 'like', '%' . $data['search'] . '%');
-            });
+            $model = $model->where('category_name', 'ilike', '%' . $data['search'] . '%');
         }
 
         $log = $model->orderBy($col, $data['order']['dir'])->paginate($length);
