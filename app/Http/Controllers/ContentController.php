@@ -618,7 +618,7 @@ class ContentController extends Controller {
             
             DB::commit();
             $result->code = 0;
-            $result->info = __("Success delete data").' '.$post['id'];
+            $result->info = __("Success delete data");
             $result->data = $delete_content;
             
             ApmCollector::stopMeasure('content-delete-span');
