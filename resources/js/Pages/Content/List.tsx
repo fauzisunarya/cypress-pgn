@@ -189,6 +189,7 @@ export default function List() {
                 "limit": "",
             });
 
+            setSelectedRow('');
             setLoading(false);
             setRows(response.data.data || []);
             setRowTotal(response.data.total || 0);

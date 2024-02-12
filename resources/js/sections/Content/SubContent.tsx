@@ -281,9 +281,18 @@ export default ({ nestIndex, fileSubPreviews, control, setValue, register, getVa
                         </Stack>
 
                         <Stack mt={2}>
-                            <TextEditor 
+                            {/* <TextEditor 
                                 label={ translate('Sub Content') } 
                                 control={control} 
+                                defaultValue={getValues(`contents.${nestIndex}.body.${num}.desc`)}
+                                {...register(`contents.${nestIndex}.body.${num}.desc`)}
+                            />
+                             */}
+                            <TextField
+                                fullWidth
+                                multiline
+                                rows={6}
+                                label={ translate('Main Content') } 
                                 defaultValue={getValues(`contents.${nestIndex}.body.${num}.desc`)}
                                 {...register(`contents.${nestIndex}.body.${num}.desc`)}
                             />
