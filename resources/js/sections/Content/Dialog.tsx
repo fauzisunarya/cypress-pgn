@@ -760,9 +760,17 @@ export const CreatedDialog = (props: DialogProps) => {
                                 </Stack>
 
                                 <Stack mt={2}>
-                                    <TextEditor 
+                                    {/* <TextEditor 
                                         label={ translate('Main Content') } 
                                         control={control} 
+                                        defaultValue={getValues(`contents.${index}.header.desc`)}
+                                        {...register(`contents.${index}.header.desc`)}
+                                    /> */}
+                                    <TextField
+                                        fullWidth
+                                        multiline
+                                        rows={6}
+                                        label={ translate('Main Content') } 
                                         defaultValue={getValues(`contents.${index}.header.desc`)}
                                         {...register(`contents.${index}.header.desc`)}
                                     />
