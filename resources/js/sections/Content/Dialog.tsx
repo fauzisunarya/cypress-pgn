@@ -309,9 +309,11 @@ export const CreatedDialog = (props: DialogProps) => {
     }, [inputValue]);
 
     React.useEffect(() => {
-        dataCategory.map((rowOption : any, index: any) => {
-            if((rowOption.category_name) == inputValue){
-                setValue('category_id', rowOption.id)
+        dataCategory && dataCategory.map((rowOption: any, index: any) => {
+            if (rowOption.category_name === inputValue) {
+                setValue('category_id', rowOption.id);
+                // Menghentikan loop setelah menemukan kategori yang sesuai
+                return;
             }
         });
     }, [inputValue, dataCategory])
@@ -468,7 +470,7 @@ export const CreatedDialog = (props: DialogProps) => {
                         </FormControl> */}
                         <Autocomplete
                             getOptionLabel={(option) =>
-                                typeof option === 'string' ? option : (option.category_name)
+                                typeof option === 'string' ? option : option.category_name
                             }
                             filterOptions={(x) => x}
                             options={dataCategory}
@@ -478,24 +480,24 @@ export const CreatedDialog = (props: DialogProps) => {
                             value={watch('category_name')}
                             noOptionsText="No data found"
                             onChange={(event: any, newValue: any) => {
-                                if(newValue){
+                                if (newValue) {
                                     setValue('category_name', newValue);
-                                    setValue('category_id', '');
+                                    setValue('category_id', newValue.id); // Mengatur category_id dengan id yang sesuai
                                 }
                             }}
                             onInputChange={(event, newInputValue) => {
                                 setInputValue(newInputValue);
-                                setValue('category_id', '');
+                                setValue('category_id', ''); // Mengosongkan category_id saat input berubah
                             }}
-                            renderInput={(params) =>{return (
+                            renderInput={(params) => {return (
                                 <TextField
                                     {...params}
                                     required
                                     label="Search category"
                                     placeholder='Search Category' 
                                     variant='outlined'
-                                    error = {errors.category_name? true : false}
-                                    helperText= {errors.category_name? errors.category_name.message : ''}
+                                    error={errors.category_name ? true : false}
+                                    helperText={errors.category_name ? errors.category_name.message : ''}
                                     {...register(
                                         'category_name', 
                                         { 
