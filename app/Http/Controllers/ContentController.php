@@ -665,7 +665,14 @@ class ContentController extends Controller {
     
             foreach ($content as &$item) {
                 $header = Header::where('content_id', $item['id'])
-                    ->whereNull('end_dtm')->orderBy('id', 'asc')->get()->toArray();
+                    ->where(function($query) {
+                        $query->whereNull('end_dtm')
+                            ->orWhere('end_dtm', '>=', now());
+                    })
+                    ->orderBy('id', 'asc')
+                    ->get()
+                    ->toArray();
+
                 $dataContent = [];
                 if ($header) {
                     foreach ($header as $head) {
@@ -682,7 +689,13 @@ class ContentController extends Controller {
                         ];
     
                         $details = Detail::where('header_id', $head['id'])
-                            ->whereNull('end_date')->orderBy('id', 'asc')->get()->toArray();
+                            ->where(function($query) {
+                                $query->whereNull('end_date')
+                                    ->orWhere('end_date', '>=', now());
+                            })
+                            ->orderBy('id', 'asc')
+                            ->get()
+                            ->toArray();
                         $dataDetails = [];
                         if ($details) {
                             foreach ($details as $body) {
