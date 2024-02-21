@@ -149,8 +149,8 @@ export default function List() {
             renderCell: (params: any) => {
                 return (
                     <Stack direction="row" spacing={1}>
-                        <Iconify icon="fa:pencil" sx={{ color: 'text.disabled', width:16 }} style={{ cursor:'pointer' }} onClick={()=>handleEditDialog(params.row.id)}/>
-                        <Iconify icon="fa:trash" sx={{ color: 'text.disabled', width:16 }} style={{ cursor:'pointer' }} onClick={()=>handleDeleteDialog(params.row.id)}/>
+                        <Iconify data-cy="Edit" icon="fa:pencil" sx={{ color: 'text.disabled', width:16 }} style={{ cursor:'pointer' }} onClick={()=>handleEditDialog(params.row.id)}/>
+                        <Iconify data-cy="Delete" icon="fa:trash" sx={{ color: 'text.disabled', width:16 }} style={{ cursor:'pointer' }} onClick={()=>handleDeleteDialog(params.row.id)}/>
                     </Stack>
                 );
             },
