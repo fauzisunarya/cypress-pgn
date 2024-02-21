@@ -128,7 +128,7 @@ export default function Datatable({
                         }
 
                         {onClickAdd && 
-                            <Button variant='contained' color="primary" onClick={onClickAdd} >{translate("Add New")}</Button>
+                            <Button data-cy="add_new" variant='contained' color="primary" onClick={onClickAdd} >{translate("Add New")}</Button>
                         }
                     </Stack>
                 </Stack>
