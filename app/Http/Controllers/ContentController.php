@@ -293,7 +293,7 @@ class ContentController extends Controller {
 
             // end date header
             $dbHeader = Header::where('content_id', $data['content_id']);
-            $endHeader = $dbHeader->update(['end_dtm' => Carbon::now(), 'update_dtm' => Carbon::now()]);
+            $endHeader = $dbHeader->update(['end_dtm' => Carbon::yesterday(), 'update_dtm' => Carbon::now()]);
             $HeaderId = $dbHeader->get()->toArray();
 
             // end date detail
@@ -304,7 +304,7 @@ class ContentController extends Controller {
                 }
             }
 
-            $endDetail = Detail::whereIn('header_id', $arrHeaderId)->update(['end_date' => Carbon::now(), 'update_dtm' => Carbon::now()]);
+            $endDetail = Detail::whereIn('header_id', $arrHeaderId)->update(['end_date' => Carbon::yesterday(), 'update_dtm' => Carbon::now()]);
 
             if ($data['content_body']) {
                 $value = $data['content_body']['value'];
@@ -667,7 +667,7 @@ class ContentController extends Controller {
                 $header = Header::where('content_id', $item['id'])
                     ->where(function($query) {
                         $query->whereNull('end_dtm')
-                            ->orWhere('end_dtm', '>', now());
+                            ->orWhere('end_dtm', '>=', now());
                     })
                     ->orderBy('id', 'asc')
                     ->get()
@@ -691,7 +691,7 @@ class ContentController extends Controller {
                         $details = Detail::where('header_id', $head['id'])
                             ->where(function($query) {
                                 $query->whereNull('end_date')
-                                    ->orWhere('end_date', '>', now());
+                                    ->orWhere('end_date', '>=', now());
                             })
                             ->orderBy('id', 'asc')
                             ->get()
