@@ -32,9 +32,9 @@ class ContentController extends Controller {
         //         return response()->json($result, $result->status);
         //     }
         // }
-        
+
         $search = strtolower($post['search']);
-        
+
         $column = !empty($post['order']['column']) ? $post['order']['column'] : 'id';
         $dir = !empty($post['order']['dir']) ? $post['order']['dir'] : 'asc';
         $length = !empty($post['length']) ? $post['length'] : 5;
@@ -48,7 +48,7 @@ class ContentController extends Controller {
             ->orWhere('content_status.status_name', 'ILIKE', '%'.$search.'%')
             ->orWhere('content_category.category_name', 'ILIKE', '%'.$search.'%');
         }
-        
+
         $data = $data->orderBy($column, $dir)
         ->paginate($length);
         $offset = ($data->currentPage()* $data->perPage()) - $data->perPage();
@@ -151,11 +151,11 @@ class ContentController extends Controller {
 
                     if (!$create_header) {
                         DB::rollback();
-    
+
                         $result->code = 4;
                         $result->info = "Failed save header";
                         $result->data = null;
-    
+
                         return response()->json($result, $result->status);
                     }
 
@@ -172,9 +172,9 @@ class ContentController extends Controller {
                                     $img_banner_body = 'product/cms/body/'.$header_id.'/'.$keys.'/'.'image-banner/'.Carbon::now()->format('YmdHis').'.jpg';
                                     Storage::disk('minio')->put($img_banner_body, $row['image_banner']);
                                 }
-                                
+
                             }
-        
+
                             $img_body = '';
                             if (isset($row['image'])) {
                                 if(strlen($row['image']) <=3){
@@ -183,9 +183,9 @@ class ContentController extends Controller {
                                     $img_body = 'product/cms/body/'.$header_id.'/'.$keys.'/'.'image/'.Carbon::now()->format('YmdHis').'.jpg';
                                     Storage::disk('minio')->put($img_body, $row['image']);
                                 }
-                                
+
                             }
-                            
+
                             $create_body = Detail::create([
                                 'image_banner' => $img_banner_body,
                                 'image' => $img_body,
@@ -199,14 +199,14 @@ class ContentController extends Controller {
                                 'start_date' => @$row['start_date'],
                                 'end_date' => @$row['end_date'],
                             ]);
-        
+
                             if (!$create_body) {
                                 DB::rollback();
-            
+
                                 $result->code = 5;
                                 $result->info = "Failed save sub content";
                                 $result->data = null;
-            
+
                                 return response()->json($result, $result->status);
                             }
                         }
@@ -225,11 +225,11 @@ class ContentController extends Controller {
                 $result->info = __("Failed create data");
                 $result->data = null;
             }
-        
+
             ApmCollector::stopMeasure('content-create-span');
             return response()->json($result, $result->status);
         }  catch (\Throwable $ex) {
-            error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage()); 
+            error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage());
 
             DB::rollback();
             $result->code = 6;
@@ -293,7 +293,7 @@ class ContentController extends Controller {
 
             // end date header
             $dbHeader = Header::where('content_id', $data['content_id']);
-            $endHeader = $dbHeader->update(['end_dtm' => Carbon::now(), 'update_dtm' => Carbon::now()]);
+            $endHeader = $dbHeader->update(['end_dtm' => Carbon::yesterday(), 'update_dtm' => Carbon::now()]);
             $HeaderId = $dbHeader->get()->toArray();
 
             // end date detail
@@ -304,7 +304,7 @@ class ContentController extends Controller {
                 }
             }
 
-            $endDetail = Detail::whereIn('header_id', $arrHeaderId)->update(['end_date' => Carbon::now(), 'update_dtm' => Carbon::now()]);
+            $endDetail = Detail::whereIn('header_id', $arrHeaderId)->update(['end_date' => Carbon::yesterday(), 'update_dtm' => Carbon::now()]);
 
             if ($data['content_body']) {
                 $value = $data['content_body']['value'];
@@ -325,7 +325,7 @@ class ContentController extends Controller {
                                 }
                             }
                         }
-    
+
                         $img = '';
                         if (isset($val['header']['image'])) {
                             if(strlen($val['header']['image']) <=3){
@@ -340,7 +340,7 @@ class ContentController extends Controller {
                                 }
                             }
                         }
-    
+
                         $create_header = Header::create([
                             'content_id' => $data['content_id'],
                             'image_banner' => $img_banner,
@@ -354,14 +354,14 @@ class ContentController extends Controller {
                             'end_dtm' => $val['end_dtm'],
                             'url' => isset($val['url']) ? $val['url'] : (isset($dataHeader['url']) ? $dataHeader['url'] : null),
                         ]);
-    
+
                         if (!$create_header) {
                             DB::rollback();
-        
+
                             $result->code = 4;
                             $result->info = "Failed update header";
                             $result->data = null;
-        
+
                             return response()->json($result, $result->status);
                         }
 
@@ -386,7 +386,7 @@ class ContentController extends Controller {
                                         }
                                     }
                                 }
-            
+
                                 $img_body = '';
                                 if (isset($row['image'])) {
                                     if(strlen($row['image']) <=3){
@@ -401,7 +401,7 @@ class ContentController extends Controller {
                                         }
                                     }
                                 }
-            
+
                                 $create_body = Detail::create([
                                     'header_id' => $header_id,
                                     'image_banner' => $img_banner_body,
@@ -415,14 +415,14 @@ class ContentController extends Controller {
                                     'start_date' => isset($row['start_date']) ? $row['start_date'] : (isset($dataDetail['start_date']) ? $dataDetail['start_date'] : null),
                                     'end_date' => $row['end_date'],
                                 ]);
-            
+
                                 if (!$create_body) {
                                     DB::rollback();
-                
+
                                     $result->code = 5;
                                     $result->info = "Failed update sub content";
                                     $result->data = null;
-                
+
                                     return response()->json($result, $result->status);
                                 }
                             }
@@ -447,7 +447,7 @@ class ContentController extends Controller {
                                 Storage::disk('minio')->put($img, $val['header']['image']);
                             }
                         }
-                        
+
                         $create_header = Header::create([
                             'content_id' => $data['content_id'],
                             'image_banner' => $img_banner,
@@ -464,11 +464,11 @@ class ContentController extends Controller {
 
                         if (!$create_header) {
                             DB::rollback();
-        
+
                             $result->code = 4;
                             $result->info = "Failed save header";
                             $result->data = null;
-        
+
                             return response()->json($result, $result->status);
                         }
 
@@ -486,7 +486,7 @@ class ContentController extends Controller {
                                         Storage::disk('minio')->put($img_banner_body, $row['image_banner']);
                                     }
                                 }
-            
+
                                 $img_body = '';
                                 if (isset($row['image'])) {
                                     if(strlen($row['image']) <=3){
@@ -496,7 +496,7 @@ class ContentController extends Controller {
                                         Storage::disk('minio')->put($img_body, $row['image']);
                                     }
                                 }
-            
+
                                 $create_body = Detail::create([
                                     'image_banner' => $img_banner_body,
                                     'image' => $img_body,
@@ -510,14 +510,14 @@ class ContentController extends Controller {
                                     'start_date' => @$row['start_date'],
                                     'end_date' => @$row['end_date'],
                                 ]);
-            
+
                                 if (!$create_body) {
                                     DB::rollback();
-                
+
                                     $result->code = 5;
                                     $result->info = "Failed save sub content";
                                     $result->data = null;
-                
+
                                     return response()->json($result, $result->status);
                                 }
                             }
@@ -537,11 +537,11 @@ class ContentController extends Controller {
                 $result->info = __("Failed update data");
                 $result->data = null;
             }
-        
+
             ApmCollector::stopMeasure('content-update-span');
             return response()->json($result, $result->status);
         }  catch (\Throwable $ex) {
-            error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage()); 
+            error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage());
 
             DB::rollback();
             $result->code = 6;
@@ -579,7 +579,7 @@ class ContentController extends Controller {
             $result->info = __("Data not found");
             return response()->json($result, $result->status);
         }
-        
+
         try {
             DB::beginTransaction();
 
@@ -596,7 +596,7 @@ class ContentController extends Controller {
             $delete_header = Header::where('content_id', $post['id'])->delete();
             if (!$delete_header) {
                 DB::rollback();
-            
+
                 $result->code = 3;
                 $result->info = "Failed delete header";
                 $result->data = null;
@@ -608,23 +608,23 @@ class ContentController extends Controller {
 
             if (!$delete_content) {
                 DB::rollback();
-            
+
                 $result->code = 3;
                 $result->info = "Failed delete content";
                 $result->data = null;
 
                 return response()->json($result, $result->status);
             }
-            
+
             DB::commit();
             $result->code = 0;
             $result->info = __("Success delete data");
             $result->data = $delete_content;
-            
+
             ApmCollector::stopMeasure('content-delete-span');
             return response()->json($result,$result->status);
         } catch(\Exception $ex) {
-            error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage()); 
+            error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage());
 
             DB::rollback();
             $result->code = 1111;
@@ -641,17 +641,17 @@ class ContentController extends Controller {
             $imageBasepath = env('IMAGE_BASEPATH_URL','https://dev-retail-pgnmobile.pgn.co.id/api/retail/get-image?path=');
             $result = new Result();
             $post = $request->query();
-    
+
             $content = Content::select('content.*', 'content_status.status_name', 'content_category.category_name')
             ->join('cms.content_status', 'content.status', '=', 'content_status.id')
-            ->join('cms.content_category', 'content.category_id', '=', 'content_category.id'); 
-            
+            ->join('cms.content_category', 'content.category_id', '=', 'content_category.id');
+
             if (isset($post['id']) && !empty($post['id'])) {
                 $content = $content->where('content.id', $post['id'])->orderBy('content.id', 'asc');
             } else {
                 $content = $content->where('content.category_id', $post['category_id'])
                 ->where('content.language', $post['lang']);
-        
+
                 if ($post['mode'] == 'last') $content = $content->limit(1)->orderBy('content.id', 'desc');
             }
 
@@ -662,7 +662,7 @@ class ContentController extends Controller {
                 $result->info = __('Data not found');
                 return response()->json($result, $result->status);
             }
-    
+
             foreach ($content as &$item) {
                 $header = Header::where('content_id', $item['id'])
                     ->where(function($query) {
@@ -687,7 +687,7 @@ class ContentController extends Controller {
                             'subtitle' => $head['subtitle'],
                             'desc' => $head['desc'],
                         ];
-    
+
                         $details = Detail::where('header_id', $head['id'])
                             ->where(function($query) {
                                 $query->whereNull('end_date')
@@ -712,7 +712,7 @@ class ContentController extends Controller {
                                 ];
                             }
                         }
-    
+
                         $dataHeader['body'] = $dataDetails;
                         $dataContent[] = $dataHeader;
                     }
@@ -723,9 +723,9 @@ class ContentController extends Controller {
                     'format' => 'json'
                 ];
             }
-    
+
             $result->data = $content;
-    
+
             ApmCollector::stopMeasure('content-get-span');
             return response()->json($result, $result->status);
         } catch (\Throwable $th) {
@@ -737,8 +737,8 @@ class ContentController extends Controller {
             return response()->json($result, $result->status);
         }
     }
-    
+
     public function check(Request $request) {
-        
+
     }
 }
