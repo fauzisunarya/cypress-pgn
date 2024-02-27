@@ -123,11 +123,11 @@ export default function Datatable({
                         <TextField size="small" defaultValue={keyword} onChange={(e: any) => onSearch(e.target.value)} placeholder={translate("Search item")} />
                     </Stack>
                     <Stack direction="row" sx={{ ml: 'auto' }} spacing={1}>
-                        {onClickFilter && 
+                        {onClickFilter &&
                             <Button variant='outlined' color="inherit" onClick={onClickFilter} >{translate("Filter")}</Button>
                         }
 
-                        {onClickAdd && 
+                        {onClickAdd &&
                             <Button variant='contained' color="primary" onClick={onClickAdd} >{translate("Add New")}</Button>
                         }
                     </Stack>
@@ -146,7 +146,7 @@ export default function Datatable({
                 }}
                 pageSizeOptions={[10, 25, 50, 100]}
                 checkboxSelection={checkboxSelection}
-                disableColumnMenu 
+                disableColumnMenu
                 // disableRowSelectionOnClick
                 onRowSelectionModelChange={(newRowSelectionModel) => {
                 }}

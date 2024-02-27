@@ -15,7 +15,7 @@ use Carbon\Carbon;
 
 class ContentController extends Controller {
     public function index(Request $request) {
-        ApmCollector::startMeasure('content-list-span', 'login', 'measure', 'content list');
+        // ApmCollector::startMeasure('content-list-span', 'login', 'measure', 'content list');
         $result = new Result();
         $post = $request->data;
 
@@ -65,12 +65,12 @@ class ContentController extends Controller {
 
         $result->data = $data;
 
-        ApmCollector::stopMeasure('content-list-span');
+        // ApmCollector::stopMeasure('content-list-span');
         return response()->json($result, $result->status);
     }
 
     function create(Request $request) {
-        ApmCollector::startMeasure('content-create-span', 'login', 'measure', 'content create');
+        // ApmCollector::startMeasure('content-create-span', 'login', 'measure', 'content create');
         $result = new Result();
         $request->validate([
             'data.name' => 'required',
@@ -226,7 +226,7 @@ class ContentController extends Controller {
                 $result->data = null;
             }
 
-            ApmCollector::stopMeasure('content-create-span');
+            // ApmCollector::stopMeasure('content-create-span');
             return response()->json($result, $result->status);
         }  catch (\Throwable $ex) {
             error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage());
@@ -237,13 +237,13 @@ class ContentController extends Controller {
             $result->data = $ex->getMessage();
             $result->status = 500;
 
-            ApmCollector::stopMeasure('content-create-span');
+            // ApmCollector::stopMeasure('content-create-span');
             return response()->json($result, $result->status);
         }
     }
 
     function update(Request $request) {
-        ApmCollector::startMeasure('content-update-span', 'login', 'measure', 'content update');
+        // ApmCollector::startMeasure('content-update-span', 'login', 'measure', 'content update');
         $result = new Result();
         $request->validate([
             'data.content_id' => 'required',
@@ -538,7 +538,7 @@ class ContentController extends Controller {
                 $result->data = null;
             }
 
-            ApmCollector::stopMeasure('content-update-span');
+            // ApmCollector::stopMeasure('content-update-span');
             return response()->json($result, $result->status);
         }  catch (\Throwable $ex) {
             error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage());
@@ -549,13 +549,13 @@ class ContentController extends Controller {
             $result->data = $ex->getMessage();
             $result->status = 500;
 
-            ApmCollector::stopMeasure('content-update-span');
+            // ApmCollector::stopMeasure('content-update-span');
             return response()->json($result, $result->status);
         }
     }
 
     function delete(Request $request) {
-        ApmCollector::startMeasure('content-delete-span', 'login', 'measure', 'content Delete');
+        // ApmCollector::startMeasure('content-delete-span', 'login', 'measure', 'content Delete');
         $request->validate([
             'data.id' => 'required',
         ]);
@@ -621,7 +621,7 @@ class ContentController extends Controller {
             $result->info = __("Success delete data");
             $result->data = $delete_content;
 
-            ApmCollector::stopMeasure('content-delete-span');
+            // ApmCollector::stopMeasure('content-delete-span');
             return response()->json($result,$result->status);
         } catch(\Exception $ex) {
             error_log('Error at ' . $ex->getFile() . ' line ' . $ex->getLine() . ': ' . $ex->getMessage());
@@ -630,13 +630,13 @@ class ContentController extends Controller {
             $result->code = 1111;
             $result->info = "Failed delete data";
             $result->data = null;
-            ApmCollector::stopMeasure('content-delete-span');
+            // ApmCollector::stopMeasure('content-delete-span');
             return response()->json($result,$result->status);
         }
     }
 
     public function getContents(Request $request) {
-        ApmCollector::startMeasure('content-get-span', 'login', 'measure', 'content get');
+        // ApmCollector::startMeasure('content-get-span', 'login', 'measure', 'content get');
         try {
             $imageBasepath = env('IMAGE_BASEPATH_URL','https://dev-retail-pgnmobile.pgn.co.id/api/retail/get-image?path=');
             $result = new Result();
@@ -726,14 +726,14 @@ class ContentController extends Controller {
 
             $result->data = $content;
 
-            ApmCollector::stopMeasure('content-get-span');
+            // ApmCollector::stopMeasure('content-get-span');
             return response()->json($result, $result->status);
         } catch (\Throwable $th) {
             error_log('Error at ' . $th->getFile() . ' line ' . $th->getLine() . ': ' . $th->getMessage());
             $result->code = 3;
             $result->info = __('Failed to get data');
 
-            ApmCollector::stopMeasure('content-get-span');
+            // ApmCollector::stopMeasure('content-get-span');
             return response()->json($result, $result->status);
         }
     }
