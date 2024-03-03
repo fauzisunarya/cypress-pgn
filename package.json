@@ -1,6 +1,6 @@
 {
     "private": true,
-    "type": "module",
+    "type": "commonjs",
     "scripts": {
         "dev": "tsc && vite",
         "build": "tsc && vite build",
