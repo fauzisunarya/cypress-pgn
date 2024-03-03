@@ -50,7 +50,7 @@ pipeline{
                     BUILD_USER = getBuildUser()
                     slackSend channel: '#rids',
                               color: COLOR_MAP[currentBuild.currentResult],
-                              message: "*${currentBuild.currentResult}:* ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n Test: Chrome executed at Chrome \n More informaton at: ${env.BUILD_URL}allure/"
+                              message: "*${currentBuild.currentResult}:* ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n Message: Generate Allure Report \n More informaton at: ${env.BUILD_URL}allure/"
                     allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
 
                 }
