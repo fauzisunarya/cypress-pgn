@@ -9,6 +9,7 @@
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
         "@inertiajs/react": "^1.0.0",
+        "@shelex/cypress-allure-plugin": "^2.40.1",
         "@tailwindcss/forms": "^0.5.3",
         "@types/lodash": "^4.14.186",
         "@types/minimist": "^1.2.4",

@@ -1,11 +1,24 @@
-export default {
-  e2e: {
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-    },
+const { defineConfig } = require("cypress"); 
+const allureWriter = require('@shelex/cypress-allure-plugin/writer');
+
+module.exports = defineConfig({ 
+  e2e: { 
+      setupNodeEvents(on, config) { 
+          allureWriter(on, config); 
+          return config; 
+      },
   },
-  "chromeWebSecurity": false
-};
+  "chromeWebSecurity": false 
+}); 
+
+// export default {
+//   e2e: {
+//     setupNodeEvents(on, config) {
+//       // implement node event listeners here
+//     },
+//   },
+//   "chromeWebSecurity": false
+// };
 
 
 // //Dev PGN
