@@ -29,19 +29,21 @@ pipeline{
     stages{
         stage('Build'){
             steps{
+                bat "npm config set legacy-peer-deps true"
+                bat "npm i"
                 script{
                     env.JAVA_HOME ='C:/sdk/jdk-11.0.17'
                 }
             }
         }
-        stage('Testing'){
-            steps{
-                bat "npm config set legacy-peer-deps true"
-                bat "npm i"
-                // bat "npx cypress run --browser chrome --spec cypress/e2e/2-advanced-examples/**.js --env allure=true"
-                // bat "npx cypress run --browser ${BROWSER} --spec ${SPEC} --env allure=true"
-            }
-        }
+        // stage('Testing'){
+        //     steps{
+        //         // bat "npm config set legacy-peer-deps true"
+        //         // bat "npm i"
+        //         // bat "npx cypress run --browser chrome --spec cypress/e2e/2-advanced-examples/**.js --env allure=true"
+        //         // bat "npx cypress run --browser ${BROWSER} --spec ${SPEC} --env allure=true"
+        //     }
+        // }
         stage('Generate Allure Report'){
             steps{
                 script{
