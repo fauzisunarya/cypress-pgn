@@ -36,6 +36,7 @@ pipeline{
         }
         stage('Testing'){
             steps{
+                bat "npm config set legacy-peer-deps true"
                 bat "npm i"
                 // bat "npx cypress run --browser chrome --spec cypress/e2e/2-advanced-examples/**.js --env allure=true"
                 bat "npx cypress run --browser ${BROWSER} --spec ${SPEC} --env allure=true"
