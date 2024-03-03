@@ -42,7 +42,7 @@ pipeline{
                       teamsSendNotification color: 'good', message: "Allure report: ${env.BUILD_URL}allure"
                     } else {
                       teamsSendNotification color: 'danger', message: "Allure report: ${env.BUILD_URL}allure"
-                   
+                   }
                 }
             }
         }
