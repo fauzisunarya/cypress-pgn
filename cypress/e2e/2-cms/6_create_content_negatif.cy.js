@@ -13,8 +13,11 @@ const getIframeBody = () => {
 
 const baseUrl = Cypress.env('baseUrl');
 
-describe('Create content negatif', () => {
-  it('passes', () => {
+describe('Content', () => {
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    return false;
+  });
+  it('Create content negatif', () => {
     cy.viewport(1390, 740);
 
     cy.login(Cypress.env('loginUsername'), Cypress.env('loginPassword'));

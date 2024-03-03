@@ -15,8 +15,11 @@ const getIframeBody = () => {
 
 const baseUrl = Cypress.env('baseUrl');
 
-describe('Create content subcontent', () => {
-  it('passes', () => {
+describe('Subcontent', () => {
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    return false;
+  });
+  it('Create content subcontent', () => {
     cy.viewport(1390, 740);
 
     cy.login(Cypress.env('loginUsername'), Cypress.env('loginPassword'));

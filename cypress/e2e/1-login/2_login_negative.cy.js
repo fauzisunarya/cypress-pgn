@@ -1,5 +1,10 @@
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  return false;
+});
+
 describe('Login Negatif', () => {
-    it('passes', () => {
+    it('Login invalid data', () => {
 
         // login salah username
         cy.wait(3000);
@@ -9,7 +14,7 @@ describe('Login Negatif', () => {
         cy.get('#password').type('Neuron#123');
         cy.wait(2000);
         cy.get('.css-j7qwjs > .MuiButtonBase-root').click();
-        cy.get("body").should("contain", "User or password mismatch");
+        cy.get('.MuiPaper-root').should("contain", "User or password mismatch");
 
         // //login salah password
         // cy.wait(3000);

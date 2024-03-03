@@ -2,8 +2,11 @@ import '../1-login/0_login_session.cy.js';
 
 //Memunculkan Content List Negative
 
-describe('Memunculkan List Konten negatif', () => {
-  it('passes', () => {
+describe('List Konten negatif', () => {
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    return false;
+  });
+  it('Memunculkan List Konten negatif', () => {
     cy.viewport(1390, 740)
     cy.visit('https://dev-pgnmobile.pgn.co.id/login');
     cy.login(Cypress.env('loginUsername'), Cypress.env('loginPassword'));

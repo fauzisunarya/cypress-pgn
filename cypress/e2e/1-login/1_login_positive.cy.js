@@ -14,7 +14,7 @@ const getIframeBody = () => {
 }
 
 describe('Login positif', () => {
-  it('passes', () => {
+  it('Login valid data', () => {
 
     Cypress.on('uncaught:exception', (err, runnable) => {
       return false

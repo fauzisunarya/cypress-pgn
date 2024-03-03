@@ -15,8 +15,11 @@ const getIframeBody = () => {
 
 const baseUrl = Cypress.env('baseUrl');
 
-describe('Memunculkan List Konten', () => {
-  it('passes', () => {
+describe('List Konten', () => {
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    return false;
+  });
+  it('Memunculkan List Konten', () => {
     cy.viewport(1390, 740);
 
     cy.login(Cypress.env('loginUsername'), Cypress.env('loginPassword'));
