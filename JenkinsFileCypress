@@ -1,15 +1,3 @@
-import groovy.json.JsonOutput
-
-
-def  COLOR_MAP =[
-    'SUCCESS' : 'good',
-    'FAILURE' : 'danger',
-]
-
-def getBuildUser(){
-    return currentBuild.rawBuild.getCause(Cause.UserIdCause).getUserId()
-}
-
 pipeline{
     agent any
 
@@ -47,12 +35,12 @@ pipeline{
         stage('Generate Allure Report'){
             steps{
                 script{
-                    BUILD_USER = getBuildUser()
-                    slackSend channel: '#rids',
-                              color: COLOR_MAP[currentBuild.currentResult],
-                              message: "*${currentBuild.currentResult}:* ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n Message: Generate Allure Report \n More informaton at: ${env.BUILD_URL}allure/"
-                    allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
-
+                     allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+                    if (currentBuild.result == 'SUCCESS') {
+                      teamsSendNotification color: 'good', message: "Allure report: ${env.BUILD_URL}allure"
+                    } else {
+                      teamsSendNotification color: 'danger', message: "Allure report: ${env.BUILD_URL}allure"
+                   
                 }
             }
         }
