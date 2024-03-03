@@ -13,7 +13,7 @@ const getIframeBody = () => {
     .then(cy.wrap)
 }
 
-describe('template spec', () => {
+describe('Login positif', () => {
   it('passes', () => {
 
     Cypress.on('uncaught:exception', (err, runnable) => {

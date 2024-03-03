@@ -15,7 +15,7 @@ const getIframeBody = () => {
 
 const baseUrl = Cypress.env('baseUrl');
 
-describe('Create cms', () => {
+describe('Update content', () => {
   it('passes', () => {
     cy.viewport(1390, 740);
 

@@ -2,7 +2,7 @@ import '../1-login/0_login_session.cy.js';
 
 //Memunculkan Content List Negative
 
-describe('template spec', () => {
+describe('Memunculkan List Konten negatif', () => {
   it('passes', () => {
     cy.viewport(1390, 740)
     cy.visit('https://dev-pgnmobile.pgn.co.id/login');
